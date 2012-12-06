@@ -276,7 +276,7 @@ function deploy_bosh()
   $bosh login admin admin
   ret=$(( $ret + $? ))
 
-,  $bosh deployment bosh/bosh.yml
+  $bosh deployment bosh/bosh.yml
   ret=$(( $ret + $? ))
 
   $bosh deploy
