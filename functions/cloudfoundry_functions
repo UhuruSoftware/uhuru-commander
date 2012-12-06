@@ -13,7 +13,7 @@ function deploy_cloudfoundry()
 
   echo "Targeting to ${conf_bosh_director_ip}:25555 ..."
   rm -f ~/.bosh_config 2>/dev/null
-  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>&1
+  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555
   ret=$(( $ret + $? ))
 
   echo "Logging in"
@@ -21,17 +21,28 @@ function deploy_cloudfoundry()
   ret=$(( $ret + $? ))
 
   echo "Uploading bosh stemcell"
-  $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz 2>&1
-  ret=$(( $ret + $? ))
+  $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
+#  ret=$(( $ret + $? ))
 
   echo "Uploading release"
-  [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && $bosh upload release appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
-  ret=$(( $ret + $? ))
+  [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && 
+    {
+    $bosh upload release appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
+    ret=$(( $ret + $? ))
+    }
 
   get_cloudfoundry_uuid
   set_cloudfoundry_uuid
 
   cd $pwd/.uhuru-deployments/$deployment/deployments/
+
+  rm -f ~/.bosh_config 2>/dev/null
+  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555
+  ret=$(( $ret + $? ))
+
+  echo "Logging in"
+  $bosh login admin admin
+  ret=$(( $ret + $? ))
 
   $bosh deployment cloudfoundry/cloudfoundry.yml
   ret=$(( $ret + $? ))

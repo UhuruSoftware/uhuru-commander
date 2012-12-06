@@ -124,7 +124,7 @@ function get_cloudfoundry_uuid()
 {
 #  local ret=0
   rm -f ~/.bosh_config 2>/dev/null
-  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>&1
+  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555
   ret=$(( $ret + $? ))
 
   uuid=`$bosh status|grep UUID|awk '{print $2}'`
