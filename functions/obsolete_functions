@@ -1,0 +1,157 @@
+function obsolete_vars()
+{
+conf_network="10.0.89.0"
+conf_network_netmask="255.255.0.0"
+conf_network_gateway="10.0.0.1"
+
+conf_network_micro_ip="10.0.0.131"
+conf_network_dns1="10.0.0.1"
+conf_network_dns2="8.8.8.8"
+conf_network_ntp1="ntp01.las01.emcatmos.com"
+conf_network_ntp2="ntp02.las01.emcatmos.com"
+
+conf_vcenter_host="192.168.1.114"
+conf_vcenter_user="administrator"
+#conf_vcenter_password=`random_string 10`
+conf_vcenter_password="password1234!"
+conf_vcenter_clustername="vladi"
+
+conf_cloud_name="VM Network"
+
+conf_datacenter_name="dev"
+conf_datacenter_vmfolder="mcalin2_bosh_vms"
+conf_datacenter_templatefolder="mcalin2_bosh_templates"
+conf_datacenter_diskpath="mcalin2_bosh_deployer"
+conf_datacenter_datastorepattern="vladi2"
+conf_datacenter_persistentpattern="vladi2"
+conf_datacenter_mixeddatastores="true"
+
+conf_resources_persistent="4096"
+conf_resources_ram="1024"
+conf_resources_disk="4096"
+conf_resources_cpu="2"
+
+bosh_pool_small_ram=2048
+bosh_pool_small_disk=8192
+bosh_pool_small_cpu=1
+bosh_pool_small_size=2
+
+bosh_pool_medium_ram=4096
+bosh_pool_medium_disk=16384
+bosh_pool_medium_cpu=2
+bosh_pool_medium_size=3
+
+bosh_pool_large_ram=8192
+bosh_pool_large_disk=32768
+bosh_pool_large_cpu=4
+bosh_pool_large_size=0
+
+bosh_pool_medim_extra_ram=4096
+bosh_pool_medim_extra_disk=16384
+bosh_pool_medim_extra_cpu=2
+bosh_pool_medim_extra_size=3
+}
+
+function obsolete_cloudfoundry_vars()
+{
+cloudfoundry_compilation_ram=2048
+cloudfoundry_compilation_disk=8096
+cloudfoundry_compilation_cpu=4
+
+cloudfoundry_pool_tiny_ram=300
+cloudfoundry_pool_tiny_disk=5000
+cloudfoundry_pool_tiny_cpu=1
+cloudfoundry_pool_tiny_size=6
+
+cloudfoundry_pool_small_ram=512
+cloudfoundry_pool_small_disk=5000
+cloudfoundry_pool_small_cpu=1
+cloudfoundry_pool_small_size=5
+
+cloudfoundry_pool_medium_ram=1024
+cloudfoundry_pool_medium_disk=5000
+cloudfoundry_pool_medium_cpu=2
+cloudfoundry_pool_medium_size=18
+
+cloudfoundry_pool_large_ram=2048
+cloudfoundry_pool_large_disk=10000
+cloudfoundry_pool_large_cpu=4
+cloudfoundry_pool_large_size=1
+
+cloudfoundry_pool_deas_ram=3072
+cloudfoundry_pool_deas_disk=30000
+cloudfoundry_pool_deas_cpu=4
+
+cloudfoundry_deas_count=3
+cloudfoundry_stager_count=2
+cloudfoundry_cloud_controller_count=2
+cloudfoundry_router_count=1
+
+cloudfoundry_mysqlnode_count=2
+cloudfoundry_mongodbnode_count=2
+cloudfoundry_redisnode_count=2
+cloudfoundry_rabbitnode_count=2
+cloudfoundry_postgresqlnode_count=2
+cloudfoundry_mssqlnode_count=2
+cloudfoundry_windea_count=2
+cloudfoundry_uhurufsnode_count=2
+
+cloudfoundry_domain="uhurucloud.net"
+
+cloudfoundry_vcap_redis_password=`random_string 16`
+cloudfoundry_vcap_redis_maxmemory="1000000000"
+
+cloudfoundry_router_username=`random_string 12`
+cloudfoundry_router_password=`random_string 12`
+
+cloudfoundry_dea_maxmemory=$(( $cloudfoundry_pool_deas_ram * 4 ))
+
+cloudfoundry_nats_username=`random_string 12`
+cloudfoundry_nats_password=`random_string 12`
+
+cloudfoundry_ccdb_password=`random_string 12`
+cloudfoundry_ccdb_dbname=`random_string 16`
+cloudfoundry_ccdb_ccname=`random_string 12`
+cloudfoundry_ccdb_roles_password=`random_string 12`
+
+cloudfoundry_srv_api_uri="api.$cloudfoundry_domain"
+
+cloudfoundry_cc_password=`random_string 16`
+cloudfoundry_cc_token=`random_string 16`
+cloudfoundry_cc_staging_upload_user=`random_string 8`
+cloudfoundry_cc_staging_upload_password=`random_string 8`
+cloudfoundry_cc_admin="`random_guid`@$cloudfoundry_domain"
+
+cloudfoundry_pool_tiny_password_clear=`random_string 8`
+cloudfoundry_pool_small_password_clear=`random_string 8`
+cloudfoundry_pool_medium_password_clear=`random_string 8`
+cloudfoundry_pool_large_password_clear=`random_string 8`
+cloudfoundry_pool_deas_password_clear=`random_string 8`
+
+cloudfoundry_pool_tiny_password=`mkpasswd -m sha-512 $cloudfoundry_pool_tiny_password_clear`
+cloudfoundry_pool_small_password=`mkpasswd -m sha-512 $cloudfoundry_pool_small_password_clear`
+cloudfoundry_pool_medium_password=`mkpasswd -m sha-512 $cloudfoundry_pool_medium_password_clear`
+cloudfoundry_pool_large_password=`mkpasswd -m sha-512 $cloudfoundry_pool_large_password_clear`
+cloudfoundry_pool_deas_password=`mkpasswd -m sha-512 $cloudfoundry_pool_deas_password_clear`
+
+cloudfoundry_mysql_gateway_token=`random_string 16`
+cloudfoundry_mssql_gateway_token=`random_string 16`
+cloudfoundry_uhurufs_gateway_token=`random_string 16`
+cloudfoundry_redis_gateway_token=`random_string 16`
+cloudfoundry_mongodb_gateway_token=`random_string 16`
+cloudfoundry_rabbit_gateway_token=`random_string 16`
+cloudfoundry_postgresql_gateway_token=`random_string 16`
+
+cloudfoundry_uaadb_password=`random_string 12`
+
+cloudfoundry_uaa_cc_token_secret=`random_string 12`
+cloudfoundry_uaa_cc_client_secret=`random_string 12`
+cloudfoundry_uaa_admin_client_secret=`random_string 12`
+cloudfoundry_uaa_login_client_secret=`random_string 12`
+cloudfoundry_uaa_dashboard_secret=`random_string 12`
+
+cloudfoundry_dash_username="admin"
+cloudfoundry_dash_password=`random_string 8`
+cloudfoundry_dash_email="${cloudfoundry_dash_username}@${cloudfoundry_domain}"
+}
+

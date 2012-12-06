@@ -1,0 +1,231 @@
+#!/bin/bash
+
+function delete_deployment()
+{
+#FIXME - delete it from vcenter also
+  yesno "DELETE" "Are you sure you want to delete deployment $1 ? This CAN NOT be undone !" && 
+    {
+    clear
+
+    cd $pwd
+    [ -d $pwd/.uhuru-deployments/$1 ] && rm -rf $pwd/.uhuru-deployments/$1
+    }
+}
+
+function tear_down_deployment()
+{
+  yesno "DELETE" "Are you sure you want to delete the VMs from deployment $1 ? This CAN NOT be undone !" && 
+    {
+    clear
+    echo "Tearing down VMs from the deployment ..."
+    rm -f ~/.bosh_config 2>/dev/null
+    $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555
+    $bosh --non-interactive delete deployment cloud-foundry --force
+
+    rm -f ~/.bosh_config 2>/dev/null
+    $bosh --user admin --password admin target ${conf_network_micro_ip}:25555
+    $bosh --non-interactive delete deployment bosh --force
+
+    cd $pwd/.uhuru-deployments/$deployment/deployments
+    $bosh --non-interactive micro delete
+
+    echo "Press ENTER to continue"
+    read
+
+    cd $pwd
+    }
+}
+
+function set_deployment()
+{
+  deployment=$1
+  init_plans
+
+  . .uhuru-deployments/$deployment/${deployment}.conf
+  
+  deployment_menu $deployment
+}
+
+function add_deployment()
+{
+  local ret=0 sel
+  inputbox "New deployment" "Enter the name of the new deployment" "deployment1"
+  ret=$?
+
+  sel=`cat $tmpdir/input.out|tr -d \ `
+  rm -f $tmpdir/input.out
+  
+  [ $ret -eq 0 ] &&
+    {
+
+    [ -d $pwd/.uhuru-deployments/$sel ] &&
+      {
+      msgbox "Error" "Plan $sel already exists"
+      return 1
+      }
+
+    deployment=$sel
+
+    mkdir -p $pwd/.uhuru-deployments/$sel
+    mkdir -p $pwd/.uhuru-deployments/$sel/plans
+    mkdir -p $pwd/.uhuru-deployments/$sel/{bosh,micro_bosh,cloudfoundry}
+    
+    cp -f $pwd/.uhuru-deployments/.default/default.conf $pwd/.uhuru-deployments/$sel/${sel}.conf
+    cp -f $pwd/.uhuru-deployments/.default/plans/* $pwd/.uhuru-deployments/$sel/plans/
+    
+
+    . .uhuru-deployments/$deployment/${deployment}.conf
+
+    init_plans
+    save_conf
+
+    set_deployment $sel
+    }
+}
+
+function bosh_ssh()
+{
+#$1 = "dea/0"
+clear
+$bosh ssh `echo $1|cut -f 1 -d \/` `echo $1|cut -f 2 -d \/`
+}
+
+function monitor_deployment()
+{
+  local machine state ip line ret=0 i color
+  
+  infobox "Getting virtual machines list..."
+
+  rm -f ~/.bosh_config 2>/dev/null
+  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 1>/dev/null 2>/dev/null
+  $bosh vms cloud-foundry | grep \| | grep -v "Resource Pool" 1>$pwd/bosh_vms 2>/dev/null
+
+  [ `cat $pwd/bosh_vms|wc -l` -eq 0 ] &&
+    {
+    rm -f $pwd/bosh_vms
+    msgbox "There are no VMs in this deployment."
+    return 1
+    }
+
+  until [ $ret -eq 1 ];
+  do
+    cat <<EOF>$tmpdir/monitor_deployment_menu.sh
+#!/bin/bash
+$dialog --backtitle "$bgtitle" \\
+	--colors \\
+	--cancel-label "Back" \\
+	--title "VMs for deployment $deployment" \\
+	\\--ok-label "SSH" \\
+	--menu "Select the machine you wish to ssh into" 0 70 20 \\
+EOF
+
+  infobox "Getting machines list"
+
+#FIXME scrie outputu de la bosh vms, si in functie de ala vezi daca afisezi sau nu meniul
+
+#      cat bosh_output | grep \| | grep -v "Resource Pool" | while read line;
+    cat $pwd/bosh_vms | while read line;
+      do
+      machine=`echo $line|awk '{print $2}'`
+      state=`echo $line|awk '{print $4}'`
+      [ "$state" == "running" ] && color="$color_bold$color_green" || color="$color_red$color_reverse"
+ 
+      ip=`echo $line|awk '{print $8}'`
+      echo \"$machine\" \"$color$state$color_normal   $ip\" \\ >>$tmpdir/monitor_deployment_menu.sh
+      done
+
+    cat <<EOF>>$tmpdir/monitor_deployment_menu.sh
+2>$tmpdir/monitor_deployment_menu.sel
+EOF
+
+    bash $tmpdir/monitor_deployment_menu.sh
+    ret=$?
+    sel=`cat $tmpdir/monitor_deployment_menu.sel`
+    rm -f $tmpdir/monitor_deployment_menu.sel
+
+    [ $ret -eq 0 ] && bosh_ssh $sel
+  done
+  
+  rm -f $pwd/bosh_vms
+}
+
+function deployment_menu()
+{
+# gives the user 2 options, to monitor or configure the deployment
+  local ret=0 sel="Monitor"
+
+  until [ $ret -eq 1 ];
+  do
+  $dialog --backtitle "$bgtitle" \
+	  --title " Deployment $1 " \
+	  --cancel-label "Back" \
+	  --default-item "$sel" \
+	  --menu "In the monitoring section you will be able to ssh into each vm.\nIf you want to change the deployment settings, choose 'Configure'" 10 0 0 \
+	  "Monitor" "Monitor and controll the deployment" \
+	  "Manage" "Manage the deployment" \
+	  "Tear down" "Remove the VMs from vCenter" \
+	  2>$tmpdir/deployment_menu.sel
+	  ret=$?
+	  
+    sel=`cat $tmpdir/deployment_menu.sel`
+    rm -f $tmp/deployment_menu.sel
+  
+    [ $ret -eq 0 ] &&
+      {
+      case "$sel" in
+      "Monitor") monitor_deployment ;;
+      "Manage") configure_main_menu ;;
+      "Tear down") tear_down_deployment ;;
+      esac
+      }
+  done
+}
+
+function select_deployment()
+{
+#$1=service
+local i sel ret=1 count=`ls $deployments/|wc -l`
+
+until [ $count -gt 0 ];
+do
+  [ $count -eq 0 ] && add_deployment
+  count=`ls $deployments/|wc -l`
+done
+
+until [ $ret -eq 2 ];
+do
+  cat <<EOF>$tmpdir/select_deployment.sh
+#!/bin/bash
+$dialog --backtitle "$bgtitle" \\
+       --title " Select deployment " \\
+       --extra-button \\
+       --extra-label "Delete" \\
+       --help-button \\
+       --help-label "Exit" \\
+       --ok-label "Set" \\
+       --cancel-label "Add" \\
+       --menu "\nHere are the current deployments. You can either edit an existing one, delete it, or add a new one." $(( 9 + $count )) 0 0 \\
+EOF
+
+  for i in `ls $deployments/`;
+  do
+  echo \"$i\" \"$i Deployment\" \\ >>$tmpdir/select_deployment.sh
+  done
+
+  cat <<EOF>>$tmpdir/select_deployment.sh
+2>$tmpdir/select_deployment.sel
+EOF
+
+  bash $tmpdir/select_deployment.sh
+  ret=$?
+  sel=`cat $tmpdir/select_deployment.sel`
+  rm -f $tmpdir/select_deployment.sel $tmpdir/select_deployment.sh
+
+  case $ret in
+    0) set_deployment $sel;;
+    1) add_deployment;;
+    3) delete_deployment $sel ;;
+  esac
+done
+}
+

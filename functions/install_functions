@@ -1,0 +1,378 @@
+#!/bin/bash
+
+function check_progress()
+{
+  progress_install_packages="not done yet"
+#  progress_install_micro_stemcell="not done yet"
+#  progress_download_bosh_stemcell="not done yet"
+  progress_deploy_micro_bosh="not done yet"
+  progress_upload_bosh_stemcell="not done yet"
+  progress_upload_bosh_release="not done yet"
+  progress_deploy_bosh="not done yet"
+  progress_deploy_cloudfoundry="NOT INSTALLED"
+
+#  infobox "Checking if packages are installed.\nPlease be patient, this wont take long..."
+#  [ ! -z "`cat /etc/environment|grep /usr/local/ruby/bin`" ] && progress_install_packages=$progress_success
+
+  infobox "Checking if cloudfoundry is deployed.\nPlease be patient, this wont take long..."
+
+  rm -f ~/.bosh_config 2>/dev/null
+  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>/dev/null 1>/dev/null && \
+  $bosh login admin admin 1>/dev/null 2>/dev/null &&
+    {
+    [ ! -z "`$bosh deployments 2>/dev/null | grep -i 'appcloud'`" ] && progress_deploy_cloudfoundry=$progress_success
+    }
+
+#  infobox "Checking if micro bosh is installed.\nPlease be patient, this wont take long..."
+#  $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 1>/dev/null 2>/dev/null && progress_deploy_micro_bosh=$progress_success
+#  $bosh login admin admin 1>/dev/null 2>/dev/null
+
+#  infobox "Checking if BOSH stemcell is uploaded.\nPlease be patient, this wont take long..."
+#  [ ! -z "`$bosh stemcells 2>/dev/null | grep '0.6.7'`" ] && progress_upload_bosh_stemcell=$progress_success
+
+#  infobox "Checking if BOSH release is uploaded.\nPlease be patient, this wont take long..."
+#  [ ! -z "`$bosh releases 2>/dev/null | grep -w 'bosh'`" ] && progress_upload_bosh_release=$progress_success
+
+#  infobox "Checking if BOSH is deployed.\nPlease be patient, this wont take long..."
+#  [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'`" ] && progress_deploy_bosh=$progress_success
+}
+
+function install_packages()
+{
+  local ret=0
+  touch $tmpdir/install_packages.lock
+  echo "Installing needed packages ..."
+
+  export DEBIAN_FRONTEND=noninteractive
+
+#FIXME: uncomment the first apt-get line, when using 10.04
+  apt-get -q -y install gcc g++ build-essential libssl-dev libreadline5-dev zlib1g-dev linux-headers-generic libsqlite3-dev libxslt-dev libxml2-dev imagemagick libmysqlclient-dev libmagick9-dev git-core mysql-server wkhtmltopdf git-core libsqlite3-dev genisoimage 2>&1
+#  apt-get -y install gcc g++ build-essential libssl-dev zlib1g-dev linux-headers-generic libsqlite3-dev libxslt-dev libxml2-dev imagemagick libmysqlclient-dev git-core mysql-server wkhtmltopdf git-core libsqlite3-dev genisoimage 2>&1
+  ret=$(( $ret + $? ))
+
+#  mysqladmin -u root password mysecretpasswordgoeshere
+
+  #FIXME its fine to erase the file. maybe it didnt transfer ok in the previous run
+#  [ -e ruby-1.9.2-p290.tar.gz ] && rm -f ruby-1.9.2-p290.tar.gz
+  [ ! -e ruby-1.9.2-p290.tar.gz ] && wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz 2>&1
+  ret=$(( $ret + $? ))
+
+  tar -xvzf ruby-1.9.2-p290.tar.gz 2>&1
+  ret=$(( $ret + $? ))
+
+  cd ruby-1.9.2-p290/
+  ./configure --prefix=/usr/local/ruby 2>&1 && make 2>&1 && make install 2>&1
+  ret=$(( $ret + $? ))
+  cd $pwd
+  
+  cur_path=$PATH
+  source /etc/environment
+
+  [ -z "`echo $PATH|grep /usr/local/ruby/bin`" ] && PATH="$PATH:/usr/local/ruby/bin"
+  echo "PATH=\"$PATH\"" >/etc/environment
+  source /etc/environment
+
+  gem install bundler 2>&1
+  ret=$(( $ret + $? ))
+  gem install rake -v 0.8.7 2>&1
+  ret=$(( $ret + $? ))
+  gem install aws-sdk -v 1.6.9
+  ret=$(( $ret + $? ))
+  gem install fog -v 1.6.0
+  ret=$(( $ret + $? ))
+  gem install bosh_cli -v 1.0.2 2>&1
+  ret=$(( $ret + $? ))
+  gem install bosh_deployer -v 1.1.0 2>&1
+  ret=$(( $ret + $? ))
+
+  gem update --system
+
+#  uninstall
+  echo
+  echo "Finished installing packages."
+  echo "Press ENTER to continue"
+  rm -f $tmpdir/install_packages.lock
+  echo "$ret" >$tmpdir/install_packages.ret
+}
+
+function uninstall()
+{
+  apt-get -y remove gcc g++ build-essential libssl-dev zlib1g-dev linux-headers-generic libsqlite3-dev libxslt-dev libxml2-dev imagemagick libmysqlclient-dev git-core mysql-server wkhtmltopdf git-core libsqlite3-dev genisoimage --purge
+  rm -f ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz
+}
+
+function install_packages_gui()
+{
+  install_packages 2>&1 1>$tmpdir/install_packages.log &
+  sleep 1
+  while [ -e $tmpdir/install_packages.lock ];
+  do
+    $dialog --title " Installing packages (step 1/7) " --tailbox $tmpdir/install_packages.log $(( $lines - 4 )) $(( $cols - 6 ))
+  done
+#  [ "`cat $tmpdir/install_packages.ret`" != "0" ] &&
+#    {
+#    msgbox "Something wrong happened during packages installation. Review the settings and try again. Press ENTER to see the log file."
+#    textbox $tmpdir/install_packages.log
+#    return 1
+#    }
+  progress_install_packages="$progress_success"
+
+  source /etc/environment
+}
+
+function deploy_micro_bosh_gui()
+{
+
+  clear
+#  deploy_micro_bosh 2>&1 1>$tmpdir/deploy_micro.log
+  deploy_micro_bosh
+  local ret=$?
+
+    echo "Press ENTER to continue"
+    read
+
+  
+#  sleep 1
+#  while [ -e $tmpdir/deploy_micro_bosh.lock ];
+#  do
+#    $dialog --title " Deploying micro BOSH (step 4/7) " --tailbox $tmpdir/deploy_micro.log $(( $lines - 4 )) $(( $cols - 6 ))
+#  done
+#  [ $ret -ne 0 ] &&
+#    {
+#    echo "An error occured. You can scroll up to see what went wrong."
+#    echo "Press ENTER to see the content of ~/.bosh_error..."
+#    read
+#    progress_deploy_micro_bosh="$progress_failure"
+#    msgbox "Something wrong happened during micro BOSH installation. Review the settings and try again. Press ENTER to see the log file."
+#    textbox $tmpdir/deploy_micro.log
+#    textbox ~/.bosh_error
+#    cat ~/.bosh_error
+#    echo "Press ENTER to continue"
+#    read
+#    return 1
+#    } || progress_deploy_micro_bosh="$progress_success"
+
+}
+
+function upload_bosh_stemcell_gui()
+{
+  clear
+  upload_bosh_stemcell
+  local ret=$?
+#  sleep 1
+#  while [ -e $tmpdir/upload_bosh_stemcell.lock ];
+#  do
+#    $dialog --title " Uploading BOSH stemcell (step 5/7) " --tailbox $tmpdir/upload_bosh_stemcell.log $(( $lines - 4 )) $(( $cols - 6 ))
+#  done
+  [ $ret -ne 0 ] &&
+    {
+    echo "An error occured. You can scroll up to see what went wrong."
+    echo "Press ENTER to continue..."
+    read
+    progress_upload_bosh_stemcell="$progress_failure"
+#    msgbox "Something wrong happened during BOSH stemcell upload. Review the settings and try again. Press ENTER to see the log file."
+#    textbox $tmpdir/upload_bosh_stemcell.log
+#    return 1
+    } || progress_upload_bosh_stemcell="$progress_success"
+}
+
+function upload_bosh_release_gui()
+{
+  clear
+  upload_bosh_release
+  local ret=$?
+#  sleep 1
+#  while [ -e $tmpdir/get_latest_bosh.lock ];
+#  do
+#    $dialog --title " Getting latest BOSH release (step 6/7) " --tailbox $tmpdir/get_latest_bosh.log $(( $lines - 4 )) $(( $cols - 6 ))
+#  done
+  [ $ret -ne 0 ] &&
+    {
+    echo "An error occured. You can scroll up to see what went wrong."
+    echo "Press ENTER to continue..."
+    read
+    progress_upload_bosh_release="$progress_failure"
+#    msgbox "Something wrong happened while fething the latest bosh release. Review the settings and try again. Press ENTER to see the log file."
+#    textbox $tmpdir/get_latest_bosh.log
+#    return 1
+    } || progress_upload_bosh_release="$progress_success"
+}
+
+function deploy_bosh_gui()
+{
+  local ret=0
+  clear
+  deploy_bosh
+  ret=$?
+
+#  sleep 1
+#  while [ -e $tmpdir/deploy_bosh.lock ];
+#  do
+#    $dialog --title " Deploying BOSH (step 7/7) " --tailbox $tmpdir/deploy_bosh.log $(( $lines - 4 )) $(( $cols - 6 ))
+#  done
+  [ $ret -ne 0 ] &&
+    {
+    echo "An error occured. You can scroll up to see what went wrong."
+    echo "Press ENTER to continue..."
+    read
+    progres_deploy_bosh="$progress_failure"
+#    msgbox "Something wrong happened while deploying BOSH. Review the settings and try again. Press ENTER to see the log file."
+#    textbox $tmpdir/deploy_bosh.log
+#    return 1
+    } || progress_deploy_bosh="$progress_success"
+}
+
+function deploy_cloudfoundry_gui()
+{
+  clear
+  deploy_cloudfoundry
+  local ret=$?
+
+    echo "Press ENTER to continue..."
+    read
+
+#  sleep 1
+#  while [ -e $tmpdir/deploy_bosh.lock ];
+#  do
+#    $dialog --title " Deploying BOSH (step 7/7) " --tailbox $tmpdir/deploy_bosh.log $(( $lines - 4 )) $(( $cols - 6 ))
+#  done
+#  [ $ret -ne 0 ] &&
+#    {
+#    echo "An error occured. You can scroll up to see what went wrong."
+#    echo "Press ENTER to see the content of ~/.bosh_error..."
+#    read
+
+#    cat ~/.bosh_error
+#    echo "Press ENTER to continue..."
+#    read
+    
+#    progres_deploy_cloudfoundry="$progress_failure"
+#    msgbox "Something wrong happened while deploying BOSH. Review the settings and try again. Press ENTER to see the log file."
+#    textbox $tmpdir/deploy_bosh.log
+#    return 1
+#    } || progress_deploy_cloudfoundry="$progress_success"
+}
+
+function install_steps()
+{
+local ret=0
+local sel="Setup environment"
+check_progress
+
+save_conf
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " Deployment steps " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --item-help \
+  --menu "\nSelect which installation step you want to run." 8 0 0 \
+  "Setup environment" "Setup the environment" "Setup the environment" \
+  "Deploy Cloudfoundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
+  2>$tmpdir/install_steps_menu.out
+  ret=$?
+
+  sel=`cat $tmpdir/install_steps_menu.out`
+  rm -f $tmpdir/install_steps_menu.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "Setup environment") install_everything ;;
+    "Deploy Cloudfoundry") deploy_cloudfoundry_gui ;;
+    esac
+    }
+done
+}
+
+function confirm_install()
+{
+local needed_ram=$(( $cloudfoundry_pool_small_ram * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_ram * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_ram * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_ram * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_ram * $cloudfoundry_deas_count))
+local needed_disk=$(( $cloudfoundry_pool_small_disk * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_disk * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_disk * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_disk * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_disk * $cloudfoundry_deas_count ))
+local needed_cpu=$(( $cloudfoundry_pool_small_cpu * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_cpu * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_cpu * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_cpu * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_cpu * $cloudfoundry_deas_count ))
+local needed_ram_gb=$(( $needed_ram / 1000 + 1 ))
+local needed_disk_gb=$(( $needed_disk / 1000 + 1))
+local mixed=""
+
+[ "$conf_datacenter_datastorepattern" != "$conf_datacenter_persistentpattern" ] && mixed="and <$color_underline$conf_datacenter_persistentpattern$color_no_underline>"
+
+  $dialog --backtitle "$bgtitle" \
+	  --title " Confirmation " \
+	  --yes-label "OK" \
+	  --no-label "Back" \
+	  --defaultno \
+	  --colors \
+	  --yesno "Before we continue please verify the following :\n
+  -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
+  -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
+  -          The folder <$color_underline$conf_datacenter_deployer_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
+  -          The folder <$color_underline$conf_datacenter_micro_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
+  -          The folder <$color_underline$conf_datacenter_bosh_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
+  -          The domain <$color_underline$cloudfoundry_domain$color_no_underline> points to the following IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
+
+Beside these, you will need :\n
+RAM : $needed_ram MB ($needed_ram_gb GB)\n
+DISK: $needed_disk MB ($needed_disk_gb GB)\n
+CPUs: $needed_cpu\n\n
+
+   Press OK to continue deploying." 0 0
+}
+
+function install_everything()
+{
+  deploy_micro_bosh ||
+    {
+    echo "Something wrong happened. Press ENTER to continue"
+    read
+    }
+
+  upload_bosh_stemcell ||
+    {
+    echo "Something wrong happened. Press ENTER to continue"
+    read
+    }
+
+  upload_bosh_release ||
+    {
+    echo "Something wrong happened. Press ENTER to continue"
+    read
+    }
+
+  deploy_bosh
+
+  echo "Press ENTER to continue"
+  read
+}
+
+function install_everything_obsolete()
+{
+msgbox " Datacenter configuration " "Please create the following items on the datacenter :\n\n
+Datacenter name: $conf_datacenter_name\n
+Datacenter virtual machines folder: $conf_datacenter_vmfolder\n
+Datacenter template folder: $conf_datacenter_templatefolder\n
+Datacenter micro disk path: $conf_datacenter_micro_diskpath\n
+Datacenter bosh disk path: $conf_datacenter_bosh_diskpath\n
+Datacenter datastore pattern: $conf_datacenter_datastorepattern\n
+Datacenter persistent pattern: $conf_datacenter_persistentpattern\n\n
+Press ENTER to proceed, only AFTER you configured the datacenter !"
+
+  save_conf
+
+  install_packages_gui
+  deploy_micro_bosh_gui
+  upload_bosh_stemcell_gui
+  upload_bosh_release_gui
+  deploy_bosh_gui
+  deploy_cloudfoundry_gui
+}
+
+function pre_install()
+{
+  echo "Checking for necessary packages..."
+  sudo apt-get -q -y install dialog ipcalc
+  sudo apt-get -q -y install whois
+  sudo apt-get -q -y install mkpasswd
+#  [ ! -z "`grep '10.' /etc/lsb-release.dpkg-dist`" ] && sudo apt-get -q -y install mkpasswd 2>&1 1>/dev/null
+}

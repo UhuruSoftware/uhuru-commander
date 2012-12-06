@@ -1,0 +1,998 @@
+#!/bin/bash
+
+function deploy_cloudfoundry()
+{
+  local ret=0
+
+  echo "Downloading BOSH stemcell"
+
+  [ -e bosh-stemcell-vsphere-0.6.7.tgz ] || $bosh download public stemcell bosh-stemcell-vsphere-0.6.7.tgz 2>&1
+  ret=$(( $ret + $? ))
+
+  echo "Finished downloading BOSH stemcell."
+
+  echo "Targeting to ${conf_bosh_director_ip}:25555 ..."
+  rm -f ~/.bosh_config 2>/dev/null
+  $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>&1
+  ret=$(( $ret + $? ))
+
+  echo "Logging in"
+  $bosh login admin admin
+  ret=$(( $ret + $? ))
+
+  echo "Uploading bosh stemcell"
+  $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz 2>&1
+  ret=$(( $ret + $? ))
+
+  echo "Uploading release"
+  [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && $bosh upload release appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
+  ret=$(( $ret + $? ))
+
+  get_cloudfoundry_uuid
+  set_cloudfoundry_uuid
+
+  cd $pwd/.uhuru-deployments/$deployment/deployments/
+
+  $bosh deployment cloudfoundry/cloudfoundry.yml
+  ret=$(( $ret + $? ))
+
+  $bosh deploy
+  ret=$(( $ret + $? ))
+
+  echo "$ret" >$tmpdir/upload_bosh_stemcell.ret
+
+  cd $pwd
+
+  return $ret
+}
+
+function configure_nats()
+{
+local ret=0
+local sel="Persistent"
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " BOSH IPs " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nConfigure nats." 9 0 0 \
+  "IP" "$cloudfoundry_ip_nats" \
+  "Username" "$cloudfoundry_nats_username" \
+  "Password" "$cloudfoundry_nats_password" \
+  2>$tmpdir/conf_nats.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_nats.out`
+  rm -f $tmpdir/conf_nats.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "IP") inputbox "Nats IP" "Please enter the IP for the nats server" "$cloudfoundry_ip_nats" && validate_ip `cat $tmpdir/input.out` && cloudfoundry_ip_nats=`cat $tmpdir/input.out` ;;
+    "Username") inputbox "NATS username" "Please enter the username for the nats server" "$cloudfoundry_nats_username" && cloudfoundry_nats_username=`cat $tmpdir/input.out` ;;
+    "Password") inputbox "NATS password" "Please enter the password for the nats server" "$cloudfoundry_nats_password" && cloudfoundry_nats_password=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+    }
+done
+
+}
+
+function cloudfoundry_vms_count()
+{
+local ret=0
+local sel="DEA"
+
+while [ $ret -eq 0 ];
+do
+
+  $dialog --backtitle "$bgtitle" \
+  --title " Cloudfoundry machines count " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nHere you can set up the number of machines for the cloudfoundry deployment.\nOn the right side you cna see how many are currently configured" 0 0 0 \
+  "DEA"     "Droplet execution agent machines ($cloudfoundry_deas_count)" \
+  "WinDEA"  "Windows DEAs                     ($cloudfoundry_windea_count)" \
+  "CC"      "Cloud controller machines        ($cloudfoundry_cloud_controller_count)" \
+  "Router"  "Routers                          ($cloudfoundry_router_count)" \
+  "Stager"  "Stagers                          ($cloudfoundry_stager_count)" \
+  "Mysql"   "Mysql nodes                      ($cloudfoundry_mysqlnode_count)" \
+  "Mongodb" "Mongodb nodes                    ($cloudfoundry_mongodbnode_count)" \
+  "Redis"   "Redis nodes                      ($cloudfoundry_redisnode_count)" \
+  "Rabbit"  "Rabbit nodes                     ($cloudfoundry_rabbitnode_count)" \
+  "Postgresql" "Postgresql nodes                 ($cloudfoundry_postgresqlnode_count)" \
+  "MsSQL"   "MS SQL nodes                     ($cloudfoundry_mssqlnode_count)" \
+  "UhuruFS" "Uhuru filesystem nodes           ($cloudfoundry_uhurufsnode_count)" \
+  2>$tmpdir/conf_cloudfoundry_vms_count.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_cloudfoundry_vms_count.out`
+  rm -f $tmpdir/conf_cloudfoundry_vms_count.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "DEA") inputbox "DEA" "How many DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
+    "CC") inputbox "CC" "How many cloud controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
+    "Mysql") inputbox "Mysql" "How many mysql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
+    "Router") inputbox "Router" "How many routers should be created ?" "$cloudfoundry_router_count" && cloudfoundry_router_count=`cat $tmpdir/input.out` ;;
+    "Stager") inputbox "Stager" "How many stagers should be created ?" "$cloudfoundry_stager_count" && cloudfoundry_stager_count=`cat $tmpdir/input.out` ;;
+    "Mongodb") inputbox "Mongodb" "How many mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
+    "Redis") inputbox "Redis" "How many redis nodes should be created ?" "$cloudfoundry_redisnode_count" && cloudfoundry_redisnode_count=`cat $tmpdir/input.out` ;;
+    "Rabbit") inputbox "Rabbit" "How many rabbit nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
+    "Postgresql") inputbox "Postgresql" "How many postgresql nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
+    "MsSQL") inputbox "MsSQL" "How many MSSQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
+    "WinDEA") inputbox "WinDEA" "How many windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
+    "UhuruFS") inputbox "UhuruFS" "How many UhuruFS nodes should be created ?" "$cloudfoundry_uhurufsnode_count" && cloudfoundry_uhurufsnode_count=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+  }
+done
+}
+
+function cloudfoundry_vms_count_simple()
+{
+local ret=0
+local sel="DEA"
+
+while [ $ret -eq 0 ];
+do
+
+  $dialog --backtitle "$bgtitle" \
+  --title " Cloudfoundry machines count " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nHere you can set up the number of machines for the cloudfoundry deployment.\nOn the right side you cna see how many are currently configured" 0 0 0 \
+  "DEA"     "Droplet execution agent machines ($cloudfoundry_deas_count)" \
+  "WinDEA"  "Windows DEAs                     ($cloudfoundry_windea_count)" \
+  "Mysql"   "Mysql nodes                      ($cloudfoundry_mysqlnode_count)" \
+  "Mongodb" "Mongodb nodes                    ($cloudfoundry_mongodbnode_count)" \
+  "Redis"   "Redis nodes                      ($cloudfoundry_redisnode_count)" \
+  "Rabbit"  "Rabbit nodes                     ($cloudfoundry_rabbitnode_count)" \
+  "Postgresql" "Postgresql nodes                 ($cloudfoundry_postgresqlnode_count)" \
+  "MsSQL"   "MS SQL nodes                     ($cloudfoundry_mssqlnode_count)" \
+  2>$tmpdir/conf_cloudfoundry_vms_count_simple.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_cloudfoundry_vms_count_simple.out`
+  rm -f $tmpdir/conf_cloudfoundry_vms_count_simple.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "DEA") inputbox "DEA" "How many DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
+    "CC") inputbox "CC" "How many cloud controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
+    "Mysql") inputbox "Mysql" "How many mysql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
+    "Router") inputbox "Router" "How many routers should be created ?" "$cloudfoundry_router_count" && cloudfoundry_router_count=`cat $tmpdir/input.out` ;;
+    "Stager") inputbox "Stager" "How many stagers should be created ?" "$cloudfoundry_stager_count" && cloudfoundry_stager_count=`cat $tmpdir/input.out` ;;
+    "Mongodb") inputbox "Mongodb" "How many mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
+    "Redis") inputbox "Redis" "How many redis nodes should be created ?" "$cloudfoundry_redisnode_count" && cloudfoundry_redisnode_count=`cat $tmpdir/input.out` ;;
+    "Rabbit") inputbox "Rabbit" "How many rabbit nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
+    "Postgresql") inputbox "Postgresql" "How many postgresql nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
+    "MsSQL") inputbox "MsSQL" "How many MSSQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
+    "WinDEA") inputbox "WinDEA" "How many windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
+    "UhuruFS") inputbox "UhuruFS" "How many UhuruFS nodes should be created ?" "$cloudfoundry_uhurufsnode_count" && cloudfoundry_uhurufsnode_count=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+  }
+done
+}
+
+function cloudfoundry_main_menu()
+{
+local ret=0 sel=""
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " Cloudfoundry main menu " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nSelect which item you want to configure." 8 0 0 \
+  "Pools" "Edit resource pools" \
+  "Plans" "Edit service plans" \
+  "Machines" "Edit the number of VM instances" \
+  "Review" "Review configuration file" \
+  2>$tmpdir/conf_main_menu.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_main_menu.out`
+  rm -f $tmpdir/conf_main_menu.out
+
+  case "$sel" in
+  "Pools") cloudfoundry_pools ;;
+  "Plans") services_menu ;;
+  "Machines") cloudfoundry_vms_count ;;
+  "Review") edit_file $pwd/.uhuru-deployments/$deployment/deployments/cloudfoundry/cloudfoundry.yml ;;
+  esac
+  rm -f $tmpdir/input.out
+done
+}
+
+
+function get_service_plans1()
+{
+# gets app's database services from yml file
+cat <<EOF | ruby 2>/dev/null
+require 'yaml'
+f = "plan"
+log = File.open( f )
+yp = YAML::load_documents( log ) { |doc|
+  doc['service_plans']['.']['postgresql'].each { |name, service|
+    puts service['type']
+  }
+}
+EOF
+}
+
+function get_service_plans()
+{
+# gets app's database services from yml file
+cat <<EOF | ruby 
+require 'yaml'
+f = "plan"
+log = File.open( f )
+yp = YAML::load_documents( log ) { |doc|
+  doc['service_plans'].each { |service|
+    #puts service
+    service.each { |k|  k.each_key {|r| puts r} }
+    #puts service.first
+  }
+}
+EOF
+}
+
+
+function cloudfoundry_pools()
+{
+local ret=0
+local sel="      Tiny   "
+local needed_ram needed_disk needed_cpu needed_ram_gb needed_disk_gb
+
+calc_cloudfoundry_vm_count
+
+while [ $ret -eq 0 ];
+do
+  needed_ram=$(( $cloudfoundry_pool_small_ram * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_ram * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_ram * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_ram * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_ram * $cloudfoundry_deas_count))
+  needed_disk=$(( $cloudfoundry_pool_small_disk * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_disk * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_disk * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_disk * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_disk * $cloudfoundry_deas_count ))
+  needed_cpu=$(( $cloudfoundry_pool_small_cpu * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_cpu * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_cpu * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_cpu * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_cpu * $cloudfoundry_deas_count ))
+
+  needed_ram_gb=$(( $needed_ram / 1000 + 1 ))
+  needed_disk_gb=$(( $needed_disk / 1000 + 1))
+
+  $dialog --backtitle "$bgtitle" \
+  --title " Cloudfoundry resource pools " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nBOSH uses different resource pool templates for each virtual machine. You can configure here, the size of these resource pools.\nWith the current configuration you need:\n\n
+  RAM : $needed_ram MB ($needed_ram_gb GB)\n
+  Disk: $needed_disk MB ($needed_disk_gb GB)\n
+  CPU : $needed_cpu\n" 14 0 0 \
+  "      Tiny   " "--- $cloudfoundry_pool_tiny_size machines ---" \
+  "RAM  (Tiny)  " "$cloudfoundry_pool_tiny_ram MB" \
+  "Disk (Tiny)  " "$cloudfoundry_pool_tiny_disk MB" \
+  "CPU  (Tiny)  " "$cloudfoundry_pool_tiny_cpu" \
+  "             " " " \
+  "      Small  " "--- $cloudfoundry_pool_small_size machines ---" \
+  "RAM  (Small) " "$cloudfoundry_pool_small_ram MB" \
+  "Disk (Small) " "$cloudfoundry_pool_small_disk MB" \
+  "CPU  (Small) " "$cloudfoundry_pool_small_cpu" \
+  "             " " " \
+  "      Medium " "--- $cloudfoundry_pool_medium_size machines ---" \
+  "RAM  (Medium)" "$cloudfoundry_pool_medium_ram MB" \
+  "Disk (Medium)" "$cloudfoundry_pool_medium_disk MB" \
+  "CPU  (Medium)" "$cloudfoundry_pool_medium_cpu" \
+  "             " " " \
+  "      Large  " "--- $cloudfoundry_pool_large_size machines ---" \
+  "RAM  (Large) " "$cloudfoundry_pool_large_ram MB" \
+  "Disk (Large) " "$cloudfoundry_pool_large_disk MB" \
+  "CPU  (Large) " "$cloudfoundry_pool_large_cpu" \
+  "             " " " \
+  "      DEAS   " "--- $cloudfoundry_deas_count machines ---" \
+  "RAM  (DEAs)  " "$cloudfoundry_pool_deas_ram MB" \
+  "Disk (DEAs)  " "$cloudfoundry_pool_deas_disk MB" \
+  "CPU  (DEAs)  " "$cloudfoundry_pool_deas_cpu" \
+  2>$tmpdir/conf_cloudfoundry_pools.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_cloudfoundry_pools.out`
+  rm -f $tmpdir/conf_cloudfoundry_pools.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "RAM  (Small) ") inputbox "RAM" "Enter the ammount of ram reserved for the small resource pool (MB)" "$cloudfoundry_pool_small_ram" && cloudfoundry_pool_small_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Small) ") inputbox "Disk" "Enter the ammount of disk reserved for the small resource pool (MB)" "$cloudfoundry_pool_small_disk" && cloudfoundry_pool_small_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Small) ") inputbox "CPU" "Enter the number of CPUs reserved for the small resource pool (integer)" "$cloudfoundry_pool_small_cpu" && cloudfoundry_pool_small_cpu=`cat $tmpdir/input.out` ;;
+    "RAM  (Medium)") inputbox "RAM" "Enter the ammount of ram reserved for the medium resource pool (MB)" "$cloudfoundry_pool_medium_ram" && cloudfoundry_pool_medium_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Medium)") inputbox "Disk" "Enter the ammount of disk reserved for the medium resource pool (MB)" "$cloudfoundry_pool_medium_disk" && cloudfoundry_pool_medium_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Medium)") inputbox "CPU" "Enter the number of CPUs reserved for the medium resource pool (integer)" "$cloudfoundry_pool_medium_cpu" && cloudfoundry_pool_medium_cpu=`cat $tmpdir/input.out` ;;
+    "RAM  (Large) ") inputbox "RAM" "Enter the ammount of ram reserved for the large resource pool (MB)" "$cloudfoundry_pool_large_ram" && cloudfoundry_pool_large_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Large) ") inputbox "Disk" "Enter the ammount of disk reserved for the large resource pool (MB)" "$cloudfoundry_pool_large_disk" && cloudfoundry_pool_large_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Large) ") inputbox "CPU" "Enter the number of CPUs reserved for the large resource pool (integer)" "$cloudfoundry_pool_large_cpu" && cloudfoundry_pool_large_cpu=`cat $tmpdir/input.out` ;;
+    "RAM  (Tiny)  ") inputbox "RAM" "Enter the ammount of ram reserved for the tiny resource pool (MB)" "$cloudfoundry_pool_tiny_ram" && cloudfoundry_pool_tiny_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Tiny)  ") inputbox "Disk" "Enter the ammount of disk reserved for the tiny resource pool (MB)" "$cloudfoundry_pool_tiny_disk" && cloudfoundry_pool_tiny_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Tiny)  ") inputbox "CPU" "Enter the number of CPUs reserved for the tiny resource pool (integer)" "$cloudfoundry_pool_tiny_cpu" && cloudfoundry_pool_tiny_cpu=`cat $tmpdir/input.out` ;;
+    "RAM  (DEAs)  ") inputbox "RAM" "Enter the ammount of ram reserved for the DEAs resource pool (MB)" "$cloudfoundry_pool_deas_ram" && cloudfoundry_pool_deas_ram=`cat $tmpdir/input.out` ;;
+    "Disk (DEAs)  ") inputbox "Disk" "Enter the ammount of disk reserved for the DEAs resource pool (MB)" "$cloudfoundry_pool_deas_disk" && cloudfoundry_pool_deas_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (DEAs)  ") inputbox "CPU" "Enter the number of CPUs reserved for the DEAs resource pool (integer)" "$cloudfoundry_pool_deas_cpu" && cloudfoundry_pool_deas_cpu=`cat $tmpdir/input.out` ;;
+#    "      Tiny   ") inputbox "Tiny pool" "Enter the number of machines in the tiny resource pool (integer)" "$cloudfoundry_pool_tiny_size" && cloudfoundry_pool_tiny_size=`cat $tmpdir/input.out` ;;
+#    "      Small  ") inputbox "Small pool" "Enter the number of machines in the small resource pool (integer)" "$cloudfoundry_pool_small_size" && cloudfoundry_pool_small_size=`cat $tmpdir/input.out` ;;
+#    "      Medium ") inputbox "Medium pool" "Enter the number of machines in the medium resource pool (integer)" "$cloudfoundry_pool_medium_size" && cloudfoundry_pool_medium_size=`cat $tmpdir/input.out` ;;
+#    "      Large  ") inputbox "Large pool" "Enter the number of machines in the large resource pool (integer)" "$cloudfoundry_pool_large_size" && cloudfoundry_pool_large_size=`cat $tmpdir/input.out` ;;
+#    "      DEAS   ") inputbox "DEAs pool" "Enter the number of machines in the DEAs resource pool (integer)" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+
+    calc_cloudfoundry_vm_count
+  }
+done
+}
+
+function write_cloudfoundry_conf()
+{
+  [ -z "$1" ] && return
+
+calc_cloudfoundry_vm_count
+
+cat <<EOF>$1
+---
+name: cloud-foundry
+director_uuid: "DO NOT CHANGE THIS STRING"
+
+release:
+  name: appcloud
+  version: $version_cloudfoundry
+
+compilation:
+  workers: 1
+  reuse_compilation_vms: true
+  network: default
+  cloud_properties:
+    ram: $cloudfoundry_compilation_ram
+    disk: $cloudfoundry_compilation_disk
+    cpu: $cloudfoundry_compilation_cpu
+
+update:
+  canaries: 1
+  canary_watch_time: 3000-90000
+  update_watch_time: 3000-90000
+  max_in_flight: 2
+
+networks:
+
+- name: default
+  subnets:
+  - reserved:
+    static:
+    - $conf_bosh_static_start - $conf_bosh_static_stop
+    range: $conf_bosh_range
+    gateway: $conf_network_gateway
+    dns:
+    - $conf_network_dns1
+    - $conf_network_dns2
+    cloud_properties:
+      name: "$conf_cloud_name"
+
+resource_pools:
+
+- name: tiny
+  network: default
+  size: $cloudfoundry_pool_tiny_size
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  cloud_properties:
+    ram: $cloudfoundry_pool_tiny_ram
+    disk: $cloudfoundry_pool_tiny_disk
+    cpu: $cloudfoundry_pool_tiny_cpu
+  env:
+    bosh:
+      password: $cloudfoundry_pool_tiny_password
+
+
+- name: small
+  network: default
+  size: $cloudfoundry_pool_small_size
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  cloud_properties:
+    ram: $cloudfoundry_pool_small_ram
+    disk: $cloudfoundry_pool_small_disk
+    cpu: $cloudfoundry_pool_small_cpu
+  env:
+    bosh:
+      password: $cloudfoundry_pool_small_password
+
+- name: medium
+  network: default
+  size: $cloudfoundry_pool_medium_size
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  cloud_properties:
+    ram: $cloudfoundry_pool_medium_ram
+    disk: $cloudfoundry_pool_medium_disk
+    cpu: $cloudfoundry_pool_medium_cpu
+  env:
+    bosh:
+      password: $cloudfoundry_pool_medium_password
+
+- name: large
+  network: default
+  size: $cloudfoundry_pool_large_size
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  cloud_properties:
+    ram: $cloudfoundry_pool_large_ram
+    disk: $cloudfoundry_pool_large_disk
+    cpu: $cloudfoundry_pool_large_cpu
+  env:
+    bosh:
+      password: $cloudfoundry_pool_large_password
+
+
+- name: deas
+  network: default
+  size: $cloudfoundry_deas_count
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  cloud_properties:
+    ram: $cloudfoundry_pool_deas_ram
+    disk: $cloudfoundry_pool_deas_disk
+    cpu: $cloudfoundry_pool_deas_cpu
+  env:
+    bosh:
+      password: $cloudfoundry_pool_deas_password
+
+jobs:
+
+- name: debian_nfs_server
+  template: debian_nfs_server
+  instances: 1
+  resource_pool: small
+  persistent_disk: 50000
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_debian_nfs_server
+
+- name: syslog_aggregator
+  template: syslog_aggregator
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 1000
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_syslog_aggregator
+
+- name: nats
+  template: nats
+  instances: 1
+  resource_pool: small
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_nats
+
+- name: hbase_master
+  template: hbase_master
+  instances: 0
+  resource_pool: medium
+  persistent_disk: 2048
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_hbase_master
+
+- name: hbase_slave
+  template: hbase_slave
+  instances: 0
+  resource_pool: medium
+  persistent_disk: 2048
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_hbase_slave
+
+- name: opentsdb
+  template: opentsdb
+  instances: 0
+  resource_pool: medium
+  persistent_disk: 16384
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_opentsdb
+
+- name: collector
+  template: collector
+  instances: 0
+  resource_pool: medium
+  networks:
+  - name: default
+
+- name: dashboard
+  template: dashboard
+  instances: 0
+  resource_pool: medium
+  networks:
+  - name: default
+
+- name: ccdb_postgres
+  template: postgres
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 10000
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_ccdb_postgres
+  properties:
+    db: ccdb
+
+- name: uaadb
+  template: postgres
+  instances: 1
+  resource_pool: small
+  persistent_disk: 1000
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_uaadb
+  properties:
+    db: uaadb
+
+- name: vcap_redis
+  template: vcap_redis
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_vcap_redis
+
+- name: uaa
+  template: uaa
+  instances: 1
+  resource_pool: small
+  networks:
+  - name: default
+
+- name: cloud_controller
+  template: cloud_controller
+  instances: $cloudfoundry_cloud_controller_count
+  resource_pool: medium
+  networks:
+  - name: default
+
+- name: stager
+  template: stager
+  instances: $cloudfoundry_stager_count
+  resource_pool: medium
+  networks:
+  - name: default
+
+- name: router
+  template: router
+  instances: $cloudfoundry_router_count
+  resource_pool: medium
+  networks:
+  - name: default
+    default: [dns, gateway]
+    static_ips:
+    - $cloudfoundry_ip_router
+
+- name: health_manager
+  template: health_manager
+  instances: 1
+  resource_pool: small
+  networks:
+  - name: default
+
+- name: dea
+  template: dea
+  instances: $cloudfoundry_deas_count
+  resource_pool: deas
+  networks:
+  - name: default
+
+- name: mysql_node
+  template: mysql_node
+  instances: $cloudfoundry_mysqlnode_count
+  resource_pool: medium
+  persistent_disk: 10000
+  networks:
+  - name: default
+
+- name: mysql_gateway
+  template: mysql_gateway
+  instances: `[ $cloudfoundry_mysqlnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: mongodb_node
+  template: mongodb_node
+  instances: $cloudfoundry_mongodbnode_count
+  resource_pool: medium
+  persistent_disk: 30000
+  networks:
+  - name: default
+
+- name: mongodb_gateway
+  template: mongodb_gateway
+  instances: `[ $cloudfoundry_mongodbnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: redis_node
+  template: redis_node
+  instances: $cloudfoundry_redisnode_count
+  resource_pool: large
+  persistent_disk: 10000
+  networks:
+  - name: default
+
+- name: redis_gateway
+  template: redis_gateway
+  instances: `[ $cloudfoundry_redisnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: rabbit_node
+  template: rabbit_node
+  instances: $cloudfoundry_rabbitnode_count
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+
+- name: rabbit_gateway
+  template: rabbit_gateway
+  instances: `[ $cloudfoundry_rabbitnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: postgresql_node
+  template: postgresql_node
+  instances: $cloudfoundry_postgresqlnode_count
+  resource_pool: medium
+  persistent_disk: 650
+  networks:
+  - name: default
+
+- name: postgresql_gateway
+  template: postgresql_gateway
+  instances: `[ $cloudfoundry_postgresqlnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+properties:
+  domain: $cloudfoundry_domain
+
+  env: {}
+
+  networks:
+    apps: default
+    management: default
+
+  nats:
+    user: $cloudfoundry_nats_username
+    password: $cloudfoundry_nats_password
+    address: $cloudfoundry_ip_nats
+    port: 4222
+
+  ccdb:
+    user: root
+    password: $cloudfoundry_ccdb_password
+# needs futher investigation: user and password
+    address: $cloudfoundry_ip_ccdb_postgres
+    port: 5432
+    pool_size: 10
+    dbname: $cloudfoundry_ccdb_dbname
+    databases:
+    - tag: cc
+      name: $cloudfoundry_ccdb_ccname
+    roles:
+    - tag: admin
+      name: root
+      password: $cloudfoundry_ccdb_roles_password
+
+  cc:
+    srv_api_uri: $cloudfoundry_srv_api_uri
+    password: "$cloudfoundry_cc_password"
+    token: "$cloudfoundry_cc_token"
+    use_nginx: true
+    new_stager_percent: 100
+#    new_stager_email_regexp: '.*@vmware.com'
+    staging_upload_user: $cloudfoundry_cc_staging_upload_user
+    staging_upload_password: $cloudfoundry_cc_staging_upload_password
+    allow_registration: true
+    allow_external_app_uris: true
+#    uaa:
+#      enabled: false
+#      resource_id: cloud_controller
+#      client_secret: aaaNxRJ4cxs678cpv
+    admins:
+    - $cloudfoundry_cc_admin
+
+  vcap_redis:
+    address: $cloudfoundry_ip_vcap_redis
+    port: 5454
+    password: $cloudfoundry_vcap_redis_password
+    maxmemory: $cloudfoundry_vcap_redis_maxmemory
+
+  router:
+    client_inactivity_timeout: 120
+    app_inactivity_timeout: 120
+    status:
+      port: 8080
+      user: $cloudfoundry_router_username
+      password: $cloudfoundry_router_password
+
+  dashboard:
+    uaa:
+      client_id: dashboard
+      client_secret: secret
+
+  dea:
+    max_memory: $cloudfoundry_dea_maxmemory
+
+  nfs_server:
+    address: $cloudfoundry_ip_debian_nfs_server
+    network: $conf_bosh_range
+
+  hbase_master:
+    address: $cloudfoundry_ip_hbase_master
+    hbase_master:
+      port: 60000
+      webui_port: 60010
+      heap_size: 768
+    hbase_zookeeper:
+      heap_size: 768
+    hadoop_namenode:
+      port: 9000
+
+  hbase_slave:
+    hbase_regionserver:
+      port: 60020
+      heap_size: 768
+    addresses:
+    - $cloudfoundry_ip_hbase_slave
+
+  opentsdb:
+    address: $cloudfoundry_ip_opentsdb
+    port: 4242
+
+  service_plans:
+EOF
+cat $tmpdir/cf_mysql_plan >>$1
+cat $tmpdir/cf_postgresql_plan >>$1
+cat $tmpdir/cf_mongodb_plan >>$1
+cat $tmpdir/cf_redis_plan >>$1
+cat $tmpdir/cf_rabbit_plan >>$1
+cat <<EOF>>$1
+  mysql_gateway:
+    supported_versions: ["5.1"]
+    version_aliases:
+      current: "5.1"
+    check_orphan_interval: 7200
+    token: $cloudfoundry_mysql_gateway_token
+    node_timeout: 60
+    service_timeout: 30
+  mysql_node:
+    supported_versions: ["5.1"]
+    default_versions: "5.1"
+    production: true
+    password: aaa13djkas
+    op_time_limit: 50
+
+  mssql_gateway:
+    supported_versions: ["2008"]
+    version_aliases:
+      current: "2008"
+    check_orphan_interval: 7200
+    token: $cloudfoundry_mssql_gateway_token
+
+  uhurufs_gateway:
+    supported_versions: ["0.9"]
+    version_aliases:
+      current: "0.9"
+    check_orphan_interval: 7200
+    token: $cloudfoundry_uhurufs_gateway_token
+    node_timeout: 60
+    service_timeout: 30
+
+  redis_gateway:
+    supported_versions: ["2.2"]
+    version_aliases:
+      current: "2.2"
+    token: $cloudfoundry_redis_gateway_token
+    check_orphan_interval: 7200
+    node_timeout: 60
+    service_timeout: 30
+  redis_node:
+    supported_versions: ["2.2"]
+    default_versions: "2.2"
+    op_time_limit: 50
+
+  mongodb_gateway:
+    supported_versions: ["1.8", "2.0"]
+    version_aliases:
+      current: "2.0"
+      deprecated: "1.8"
+    check_orphan_interval: 7200
+    token: $cloudfoundry_mongodb_gateway_token
+    node_timeout: 60
+    service_timeout: 30
+  mongodb_node:
+    supported_versions: ["1.8", "2.0"]
+    default_version: "1.8"
+    op_time_limit: 50
+
+  rabbit_gateway:
+    supported_versions: ["2.4"]
+    version_aliases:
+      current: "2.4"
+    check_orphan_interval: 7200
+    token: $cloudfoundry_rabbit_gateway_token
+    node_timeout: 60
+    service_timeout: 30
+
+  rabbit_node:
+    supported_versions: ["2.4"]
+    default_versions: "2.4"
+    op_time_limit: 50
+
+  postgresql_gateway:
+    check_orphan_interval: 7200
+    token: $cloudfoundry_postgresql_gateway_token
+    supported_versions: ["9.0"]
+    version_aliases:
+      current: "9.0"
+
+  postgresql_node:
+    production: true
+    supported_versions: ["9.0"]
+    default_version: "9.0"
+
+  syslog_aggregator:
+    address: $cloudfoundry_ip_syslog_aggregator
+    port: 54321
+
+  report_processor:
+    syslog_aggregator: 
+      address: $cloudfoundry_ip_syslog_aggregator
+      port: 54321
+
+  stager:
+    max_staging_duration: 600
+    max_active_tasks: 10
+    queues:
+    - staging
+
+  uaadb:
+    address: $cloudfoundry_ip_uaadb
+    port: 2544
+    roles:
+    - tag: admin
+      name: root
+      password: $cloudfoundry_uaadb_password
+    databases:
+    - tag: uaa
+      name: uaa
+
+  uaa:
+    cc:
+      token_secret: $cloudfoundry_uaa_cc_token_secret
+      client_secret: $cloudfoundry_uaa_cc_client_secret
+    admin:
+      client_secret: $cloudfoundry_uaa_admin_client_secret
+    login:
+      client_secret: $cloudfoundry_uaa_login_client_secret
+    clients:
+      dashboard:
+        id: dashboard
+        secret: $cloudfoundry_uaa_dashboard_secret
+        authorized-grant-types: authorization_code,refresh_token
+        scope: openid,dashboard.user
+        authorities: uaa.resource,tokens.read,tokens.write
+        access-token-validity: 5000
+      dashborad_admin:
+        id: dashboard_admin
+        secret: somesecret
+        authorized-grant-types: client_credentials
+        scope: uaa.none
+        authorities: scim.read,scim.write,tokens.read,tokens.write,clients.read,clients.write,uaa.admin
+        access-token-validity: 5000
+    scim:
+      users:
+        - ${cloudfoundry_dash_username}|${cloudfoundry_dash_password}|${cloudfoundry_dash_email}|Dash|Board|openid,dashboard.user
+EOF
+}
+
+function calc_cloudfoundry_vm_count()
+{
+local tiny_count=0
+
+[ $cloudfoundry_mysqlnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+[ $cloudfoundry_mongodbnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+[ $cloudfoundry_redisnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+[ $cloudfoundry_rabbitnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+[ $cloudfoundry_postgresqlnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+
+cloudfoundry_pool_tiny_size=$tiny_count
+cloudfoundry_pool_small_size=5
+cloudfoundry_pool_medium_size=$(( 3+$cloudfoundry_cloud_controller_count+$cloudfoundry_stager_count+$cloudfoundry_router_count+$cloudfoundry_mysqlnode_count+$cloudfoundry_mongodbnode_count+$cloudfoundry_rabbitnode_count+$cloudfoundry_postgresqlnode_count ))
+cloudfoundry_pool_large_size=$cloudfoundry_redisnode_count
+#cloudfoundry_deas_count=
+}
+
+function calc_cloudfoundry_ips()
+{
+  conf_cloudfoundry_reserved_start=`add_to_ip $conf_network 150`
+  conf_cloudfoundry_reserved_stop=`add_to_ip $conf_network 190`
+  conf_cloudfoundry_static_start=`add_to_ip $conf_bosh_static_start 150`
+#  conf_cloudfoundry_static_stop=`add_to_ip $conf_bosh_static_stop 250`
+
+  cloudfoundry_ip_debian_nfs_server=`add_to_ip $conf_cloudfoundry_static_start 0`
+  cloudfoundry_ip_syslog_aggregator=`add_to_ip $conf_cloudfoundry_static_start 1`
+  cloudfoundry_ip_nats=`add_to_ip $conf_cloudfoundry_static_start 2`
+  cloudfoundry_ip_hbase_master=`add_to_ip $conf_cloudfoundry_static_start 3`
+  cloudfoundry_ip_hbase_slave=`add_to_ip $conf_cloudfoundry_static_start 4`
+  cloudfoundry_ip_opentsdb=`add_to_ip $conf_cloudfoundry_static_start 5`
+  cloudfoundry_ip_ccdb_postgres=`add_to_ip $conf_cloudfoundry_static_start 6`
+  cloudfoundry_ip_uaadb=`add_to_ip $conf_cloudfoundry_static_start 7`
+  cloudfoundry_ip_vcap_redis=`add_to_ip $conf_cloudfoundry_static_start 8`
+  cloudfoundry_ip_uhuru_tunnel=`add_to_ip $conf_cloudfoundry_static_start 9`
+
+  cloudfoundry_ip_mssql_node=`add_to_ip $conf_cloudfoundry_static_start 10`
+  cloudfoundry_ip_router=`add_to_ip $conf_cloudfoundry_static_start 11`
+
+
+#  cloudfoundry_ip_collector=`add_to_ip $conf_cloudfoundry_static_start 6`
+#  cloudfoundry_ip_dashboard=`add_to_ip $conf_cloudfoundry_static_start 7`
+#  cloudfoundry_ip_health_manager=`add_to_ip $conf_cloudfoundry_static_start 12`
+#  cloudfoundry_ip_mysql_node=`add_to_ip $conf_cloudfoundry_static_start 13`
+#  cloudfoundry_ip_mysql_gateway=`add_to_ip $conf_cloudfoundry_static_start 14`
+#  cloudfoundry_ip_mongodb_node=`add_to_ip $conf_cloudfoundry_static_start 15`
+#  cloudfoundry_ip_mongodb_gateway=`add_to_ip $conf_cloudfoundry_static_start 16`
+#  cloudfoundry_ip_redis_node=`add_to_ip $conf_cloudfoundry_static_start 17`
+#  cloudfoundry_ip_redis_gateway=`add_to_ip $conf_cloudfoundry_static_start 18`
+#  cloudfoundry_ip_rabbit_node=`add_to_ip $conf_cloudfoundry_static_start 19`
+#  cloudfoundry_ip_rabbit_gateway=`add_to_ip $conf_cloudfoundry_static_start 20`
+#  cloudfoundry_ip_mssql_gateway=`add_to_ip $conf_cloudfoundry_static_start 21`
+#  cloudfoundry_ip_uhurufs_gateway=`add_to_ip $conf_cloudfoundry_static_start 22`
+
+#  cloudfoundry_ip_stager_start=`add_to_ip $conf_cloudfoundry_static_start 0`
+#  cloudfoundry_ip_stager_stop=`add_to_ip $conf_cloudfoundry_ip_stager_start $cloudfoundry_stager_count`
+
+#  cloudfoundry_ip_dea_start=`add_to_ip $conf_cloudfoundry_stager_stop 1`
+#  cloudfoundry_ip_dea_stop=`add_to_ip $conf_cloudfoundry_dea_start $cloudfoundry_dea_count`
+
+#  cloudfoundry_ip_cloud_controller_start=`add_to_ip $conf_cloudfoundry_dea_stop 1`
+#  cloudfoundry_ip_cloud_controller_stop=`add_to_ip $conf_cloudfoundry_cloud_controller_start $cloudfoundry_ip_`
+
+#  cloudfoundry_ip_mysqlnode_start=`add_to_ip $conf_cloudfoundry_static_start 0`
+#  cloudfoundry_ip_mysqlnode_stop=`add_to_ip $conf_cloudfoundry_static_start 0`
+
+#  cloudfoundry_ip_mongodbnode_start=`add_to_ip $conf_cloudfoundry_static_start 0`
+#  cloudfoundry_ip_mongodbnode_stop=`add_to_ip $conf_cloudfoundry_static_start 0`
+
+#  cloudfoundry_ip_redisnode_start=`add_to_ip $conf_cloudfoundry_static_start 0`
+#  cloudfoundry_ip_redisnode_stop=`add_to_ip $conf_cloudfoundry_static_start 0`
+
+#  cloudfoundry_ip_rabbitnode_start=`add_to_ip $conf_cloudfoundry_static_start 0`
+#  cloudfoundry_ip_rabbitnode_stop=`add_to_ip $conf_cloudfoundry_static_start 0`
+}

@@ -1,0 +1,562 @@
+#!/bin/bash
+
+function count_tildas()
+{
+  local cnt=0 i
+  for i in `seq 0 $(( ${#1} - 1 ))`;
+  do
+    [ "${1:$i:1}" == "~" ] && cnt=$(( $cnt + 1 )) ||
+      {
+      echo $cnt
+      return $cnt
+      }
+  done
+}
+
+function list_plans()
+{
+# $1 = service
+  local myself=0 count
+  cat $tmpdir/cf_${1}_plan | sed s/\ /\~/g | grep -A 100 ^"\~\~\~\~$1" | while read line;
+  do
+    count=`count_tildas $line`
+    [ "$count" -eq 4 -a $myself -eq 1 ] && return || myself=1
+    [ $count -eq 6 ] && echo $line | tr -d \~ | tr -d \:
+  done
+}
+
+function echo_plan()
+{
+# $1=service $2=plan
+  local myself=-1 count
+  echo "      $2:"
+  cat $tmpdir/cf_${1}_plan | sed s/\ /\~/g | grep -A 100 ^"\~\~\~\~$1" | grep -A 100 "\~\~\~\~\~\~$2" | while read line;
+  do
+    count=`count_tildas $line`
+    [ $count -ge 8 ] && echo $line | tr \~ \ 
+    [ "$count" -eq 6 -o "$count" -eq 4 ] && [ $myself -eq 1 ] && return || myself=1
+  done
+}
+
+
+function services_menu()
+{
+# main function
+local ret=0 sel
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  	--title " Services " \
+          --cancel-label "Back" \
+          --default-item "$sel" \
+          --menu "Select the service who's plans you want to edit" 0 0 0 \
+          "Mysql" "Edit mysql plans" \
+          "Postgresql" "Edit postgresql plans" \
+          "Mongodb" "Edit mongodb plans" \
+          "Redis" "Edit redis plans" \
+          "Rabbit" "Edit rabbit plans" \
+          2>$tmpdir/services_menu.sel
+  ret=$?
+  sel=`cat $tmpdir/services_menu.sel`
+  rm -f $tmpdir/services_menu.sel
+
+  [ $ret -eq 0 ] &&
+    case "$sel" in
+      "Mysql") plans_menu mysql ;;
+      "Postgresql") plans_menu postgresql ;;
+      "Mongodb") plans_menu mongodb ;;
+      "Redis") plans_menu redis ;;
+      "Rabbit") plans_menu rabbit ;;
+    esac
+done
+}
+
+
+function add_plan_mysql()
+{
+#$1=plan
+cat <<EOF>>$tmpdir/cf_mysql_plan
+      $1:
+        job_management:
+          high_water: $2
+          low_water: $3
+        configuration:
+          allow_over_provisioning: $4
+          capacity: $5
+          max_db_size: $6
+          max_long_query: $7
+          max_long_tx: $8
+          max_clients: $9
+EOF
+}
+
+function add_plan_postgresql()
+{
+#$1=plan
+cat <<EOF>>$tmpdir/cf_postgresql_plan
+      $1:
+        job_management:
+          high_water: $2
+          low_water: $3
+        configuration:
+          capacity: $4
+          max_db_size: $5
+          max_long_query: $6
+          max_long_tx: $7
+          max_clients: $8
+EOF
+}
+
+function add_plan_mongodb()
+{
+#$1=plan
+cat <<EOF>>$tmpdir/cf_mongodb_plan
+      $1:
+        job_management:
+          high_water: $2
+          low_water: $3
+        configuration:
+          allow_over_provisioning: $4
+          capacity: $5
+          quota_files: $6
+          max_clients: $7
+EOF
+}
+
+function add_plan_redis()
+{
+#$1=plan
+cat <<EOF>>$tmpdir/cf_redis_plan
+      $1:
+        job_management:
+          high_water: $2
+          low_water: $3
+        configuration:
+          capacity: $4
+          max_memory: $5
+          max_swap: $6
+          max_clients: $7
+EOF
+}
+
+function add_plan_rabbit()
+{
+#$1=plan
+cat <<EOF>>$tmpdir/cf_rabbit_plan
+      $1:
+        job_management:
+          high_water: $2
+          low_water: $3
+        configuration:
+          max_memory_factor: $4
+          max_clients: $5
+          capacity: $6
+EOF
+}
+
+function edit_plan_postgresql()
+{
+  local sel ret=0 newval
+  local high_water=`echo_plan postgresql $1 | grep high_water|cut -f 2 -d ":"`
+  local low_water=`echo_plan postgresql $1 | grep low_water|cut -f 2 -d ":"`
+  local capacity=`echo_plan postgresql $1 | grep capacity|cut -f 2 -d ":"`
+  local max_db_size=`echo_plan postgresql $1 | grep max_db_size|cut -f 2 -d ":"`
+  local max_long_query=`echo_plan postgresql $1 | grep max_long_query|cut -f 2 -d ":"`
+  local max_long_tx=`echo_plan postgresql $1 | grep max_long_tx|cut -f 2 -d ":"`
+  local max_clients=`echo_plan postgresql $1 | grep max_clients|cut -f 2 -d ":"`
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" --title " Edit postgresql plan '$1' " \
+	  --default-item "$sel" \
+	  --extra-button \
+	  --ok-label "Change" \
+	  --extra-label "Save" \
+	  --menu "Please select the configuration variable you want to edit.\nWhen you're done editing press 'Save'" 0 0 0 \
+	  "high_water" "`echo $high_water`" \
+	  "low_water" "`echo $low_water`" \
+	  "capacity" "`echo $capacity`" \
+	  "max_db_size" "`echo $max_db_size`" \
+	  "max_long_query" "`echo $max_long_query`" \
+	  "max_long_tx" "`echo $max_long_tx`" \
+	  "max_clients" "`echo $max_clients`" \
+  2>$tmpdir/edit_plan_postgresql.sel
+  ret=$?
+  sel=`cat $tmpdir/edit_plan_postgresql.sel`
+  rm -f $tmpdir/edit_plan_postgresql.sel
+  
+  case $ret in
+    0) inputbox " $sel value " "Enter the new value for $sel" "${!sel}"
+       [ $? -eq 0 ] &&
+         {
+         newval=`cat $tmpdir/input.out`
+         eval $sel=$newval
+         }
+    ;;
+    3)
+      delete_plan postgresql $1 >$tmpdir/cf_postgresql_plan.tmp
+      mv -f $tmpdir/cf_postgresql_plan.tmp $tmpdir/cf_postgresql_plan
+      add_plan_postgresql $1 $high_water $low_water $capacity $max_db_size $max_long_query $max_long_tx $max_clients
+    ;;
+  esac
+done
+}
+
+function edit_plan_mysql()
+{
+  local sel ret=0
+  local high_water=`echo_plan mysql $1 | grep high_water|awk '{print $2}'`
+  local low_water=`echo_plan mysql $1 | grep low_water|cut -f 2 -d ":"`
+  local allow_over_provisioning=`echo_plan mysql $1 | grep allow_over_provisioning|cut -f 2 -d ":"`
+  local capacity=`echo_plan mysql $1 | grep capacity|cut -f 2 -d ":"`
+  local max_db_size=`echo_plan mysql $1 | grep max_db_size|cut -f 2 -d ":"`
+  local max_long_query=`echo_plan mysql $1 | grep max_long_query|cut -f 2 -d ":"`
+  local max_long_tx=`echo_plan mysql $1 | grep max_long_tx|cut -f 2 -d ":"`
+  local max_clients=`echo_plan mysql $1 | grep max_clients|cut -f 2 -d ":"`
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" --title " Edit mysql plan '$1' " \
+	  --default-item "$sel" \
+	  --extra-button \
+	  --extra-label "Save" \
+	  --ok-label "Change" \
+	  --menu "Please select the configuration variable you want to edit.\nWhen you're done editing press 'Save'" 0 0 0 \
+	  "high_water" "`echo $high_water`" \
+	  "low_water" "`echo $low_water`" \
+	  "allow_over_provisioning" "`echo $allow_over_provisioning`" \
+	  "capacity" "`echo $capacity`" \
+	  "max_db_size" "`echo $max_db_size`" \
+	  "max_long_query" "`echo $max_long_query`" \
+	  "max_long_tx" "`echo $max_long_tx`" \
+	  "max_clients" "`echo $max_clients`" \
+  2>$tmpdir/edit_plan_mysql.sel
+  ret=$?
+  sel=`cat $tmpdir/edit_plan_mysql.sel`
+  rm -f $tmpdir/edit_plan_mysql.sel
+  
+  case $ret in
+    0) inputbox " $sel value " "Enter the new value for $sel" "${!sel}"
+       [ $? -eq 0 ] &&
+         {
+         newval=`cat $tmpdir/input.out`
+         eval $sel=$newval
+         }
+    ;;
+    3)
+      delete_plan mysql $1 >$tmpdir/cf_mysql_plan.tmp
+      mv -f $tmpdir/cf_mysql_plan.tmp $tmpdir/cf_mysql_plan
+      add_plan_mysql $1 $high_water $low_water $allow_over_provisioning $capacity $max_db_size $max_long_query $max_long_tx $max_clients
+    ;;
+  esac
+done
+}
+
+function edit_plan_mongodb()
+{
+  local sel ret=0 newval
+  local high_water=`echo_plan mongodb $1 | grep high_water|cut -f 2 -d ":"`
+  local low_water=`echo_plan mongodb $1 | grep low_water|cut -f 2 -d ":"`
+  local allow_over_provisioning=`echo_plan mongodb $1 | grep allow_over_provisioning|cut -f 2 -d ":"`
+  local capacity=`echo_plan mongodb $1 | grep capacity|cut -f 2 -d ":"`
+  local quota_files=`echo_plan mongodb $1 | grep quota_files|cut -f 2 -d ":"`
+  local max_clients=`echo_plan mongodb $1 | grep max_clients|cut -f 2 -d ":"`
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" --title " Edit mongodb plan '$1' " \
+	  --default-item "$sel" \
+	  --extra-button \
+	  --ok-label "Change" \
+	  --extra-label "Save" \
+	  --menu "Please select the configuration variable you want to edit.\nWhen you're done editing press 'Save'" 0 0 0 \
+	  "high_water" "`echo $high_water`" \
+	  "low_water" "`echo $low_water`" \
+	  "allow_over_provisioning" "`echo $allow_over_provisioning`" \
+	  "capacity" "`echo $capacity`" \
+	  "quota_files" "`echo $quota_files`" \
+	  "max_clients" "`echo $max_clients`" \
+  2>$tmpdir/edit_plan_mongodb.sel
+  ret=$?
+  sel=`cat $tmpdir/edit_plan_mongodb.sel`
+  rm -f $tmpdir/edit_plan_mongodb.sel
+  
+  case $ret in
+    0) inputbox " $sel value " "Enter the new value for $sel" "${!sel}"
+       [ $? -eq 0 ] &&
+         {
+         newval=`cat $tmpdir/input.out`
+         eval $sel=$newval
+         }
+    ;;
+    3)
+      delete_plan mongodb $1 >$tmpdir/cf_mongodb_plan.tmp
+      mv -f $tmpdir/cf_mongodb_plan.tmp $tmpdir/cf_mongodb_plan
+      add_plan_mongodb $1 $high_water $low_water $allow_over_provisioning $capacity $quota_files $max_clients
+    ;;
+  esac
+done
+}
+
+function edit_plan_redis()
+{
+  local sel ret=0 newval
+  local high_water=`echo_plan redis $1 | grep high_water|cut -f 2 -d ":"`
+  local low_water=`echo_plan redis $1 | grep low_water|cut -f 2 -d ":"`
+  local capacity=`echo_plan redis $1 | grep capacity|cut -f 2 -d ":"`
+  local max_memory=`echo_plan redis $1 | grep max_memory|cut -f 2 -d ":"`
+  local max_swap=`echo_plan redis $1 | grep max_swap|cut -f 2 -d ":"`
+  local max_clients=`echo_plan redis $1 | grep max_clients|cut -f 2 -d ":"`
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" --title " Edit mongodb plan '$1' " \
+	  --default-item "$sel" \
+	  --extra-button \
+	  --ok-label "Change" \
+	  --extra-label "Save" \
+	  --menu "Please select the configuration variable you want to edit.\nWhen you're done editing press 'Save'" 0 0 0 \
+	  "high_water" "`echo $high_water`" \
+	  "low_water" "`echo $low_water`" \
+	  "capacity" "`echo $capacity`" \
+	  "max_memory" "`echo $max_memory`" \
+	  "max_swap" "`echo $max_swap`" \
+	  "max_clients" "`echo $max_clients`" \
+  2>$tmpdir/edit_plan_redis.sel
+  ret=$?
+  sel=`cat $tmpdir/edit_plan_redis.sel`
+  rm -f $tmpdir/edit_plan_redis.sel
+  
+  case $ret in
+    0) inputbox " $sel value " "Enter the new value for $sel" "${!sel}"
+       [ $? -eq 0 ] &&
+         {
+         newval=`cat $tmpdir/input.out`
+         eval $sel=$newval
+         }
+    ;;
+    3)
+      delete_plan redis $1 >$tmpdir/cf_redis_plan.tmp
+      mv -f $tmpdir/cf_redis_plan.tmp $tmpdir/cf_redis_plan
+      add_plan_redis $1 $high_water $low_water $capacity $max_memory $max_swap $max_clients
+    ;;
+  esac
+done
+}
+
+function edit_plan_rabbit()
+{
+  local sel ret=0 newval
+  local high_water=`echo_plan rabbit $1 | grep high_water|cut -f 2 -d ":"`
+  local low_water=`echo_plan rabbit $1 | grep low_water|cut -f 2 -d ":"`
+  local capacity=`echo_plan rabbit $1 | grep capacity|cut -f 2 -d ":"`
+  local max_memory_factor=`echo_plan rabbit $1 | grep max_memory_factor|cut -f 2 -d ":"`
+  local max_clients=`echo_plan rabbit $1 | grep max_clients|cut -f 2 -d ":"`
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" --title " Edit mongodb plan '$1' " \
+	  --default-item "$sel" \
+	  --extra-button \
+	  --ok-label "Change" \
+	  --extra-label "Save" \
+	  --menu "Please select the configuration variable you want to edit.\nWhen you're done editing press 'Save'" 0 0 0 \
+	  "high_water" "`echo $high_water`" \
+	  "low_water" "`echo $low_water`" \
+	  "max_memory_factor" "`echo $max_memory_factor`" \
+	  "max_clients" "`echo $max_clients`" \
+	  "capacity" "`echo $capacity`" \
+  2>$tmpdir/edit_plan_rabbit.sel
+  ret=$?
+  sel=`cat $tmpdir/edit_plan_rabbit.sel`
+  rm -f $tmpdir/edit_plan_rabbit.sel
+  
+  case $ret in
+    0) inputbox " $sel value " "Enter the new value for $sel" "${!sel}"
+       [ $? -eq 0 ] &&
+         {
+         newval=`cat $tmpdir/input.out`
+         eval $sel=$newval
+         }
+    ;;
+    3)
+      delete_plan rabbit $1 >$tmpdir/cf_rabbit_plan.tmp
+      mv -f $tmpdir/cf_rabbit_plan.tmp $tmpdir/cf_rabbit_plan
+      add_plan_rabbit $1 $high_water $low_water $max_memory_factor $max_clients $capacity
+    ;;
+  esac
+done
+}
+
+function edit_plan()
+{
+# $1=serviciu $2=plan
+  case "$1" in
+    "mysql") edit_plan_mysql $2 ;;
+    "postgresql") edit_plan_postgresql $2 ;;
+    "mongodb") edit_plan_mongodb $2 ;;
+    "redis") edit_plan_redis $2 ;;
+    "rabbit") edit_plan_rabbit $2 ;;
+  esac
+
+#echo editez planul $2 pentru serviciul $1
+#read
+}
+
+function delete_plan()
+{
+# $1=serviciu $2=plan
+# outputs the ENTIRE service to stdout, without the $2 plan
+echo "    $1:"
+  for i in `list_plans $1|grep -vw $2`;
+  do
+    echo_plan $1 $i
+  done
+}
+
+
+function add_plan()
+{
+#echo adaug plan la serviciu $1
+  local newplan
+  
+  case "$1" in
+    "mysql") 
+      inputbox " Add plan " "Enter the name for the new $1 plan" && 
+        {
+        newplan=`cat $tmpdir/input.out`
+        [ ! -z "`list_plans $1 | grep -w $newplan`" ] &&
+          {
+          msgbox "Plan $newplan already exists for service $1"
+          rm -f $tmpdir/input.out
+          return
+          } ||
+          {
+          add_plan_mysql $newplan 1400 100 200 3 30 20 0 20
+          edit_plan $1 $newplan
+          }
+        }
+      rm -f $tmpdir/input.out
+    ;;
+    "postgresql")
+      inputbox " Add plan " "Enter the name for the new $1 plan" && 
+        {
+        newplan=`cat $tmpdir/input.out`
+        [ ! -z "`list_plans $1 | grep -w $newplan`" ] &&
+          {
+          msgbox "Plan $newplan already exists for service $1"
+          rm -f $tmpdir/input.out
+          return
+          } ||
+          {
+          add_plan_postgresql $newplan 1400 100 200 128 3 30 20
+          edit_plan $1 $newplan
+          }
+        }
+      rm -f $tmpdir/input.out
+    ;;
+    "mongodb")
+      inputbox " Add plan " "Enter the name for the new $1 plan" && 
+        {
+        newplan=`cat $tmpdir/input.out`
+        [ ! -z "`list_plans $1 | grep -w $newplan`" ] &&
+          {
+          msgbox "Plan $newplan already exists for service $1"
+          rm -f $tmpdir/input.out
+          return
+          } ||
+          {
+          add_plan_mongodb $newplan 3000 100 true 200 4 500
+          edit_plan $1 $newplan
+          }
+        }
+      rm -f $tmpdir/input.out
+    ;;
+    "redis")
+      inputbox " Add plan " "Enter the name for the new $1 plan" && 
+        {
+        newplan=`cat $tmpdir/input.out`
+        [ ! -z "`list_plans $1 | grep -w $newplan`" ] &&
+          {
+          msgbox "Plan $newplan already exists for service $1"
+          rm -f $tmpdir/input.out
+          return
+          } ||
+          {
+          add_plan_redis $newplan 1400 100 200 16 32 500
+          edit_plan $1 $newplan
+          }
+        }
+      rm -f $tmpdir/input.out
+    ;;
+    "rabbit")
+      inputbox " Add plan " "Enter the name for the new $1 plan" && 
+        {
+        newplan=`cat $tmpdir/input.out`
+        [ ! -z "`list_plans $1 | grep -w $newplan`" ] &&
+          {
+          msgbox "Plan $newplan already exists for service $1"
+          rm -f $tmpdir/input.out
+          return
+          } ||
+          {
+          add_plan_rabbit $newplan 100 1400 0.5 512 200
+          edit_plan $1 $newplan
+          }
+        }
+      rm -f $tmpdir/input.out
+    ;;
+  esac
+
+}
+
+function plans_menu()
+{
+#$1=service
+local i sel ret=1
+
+until [ $ret -eq 2 ];
+do
+  cat <<EOF>$tmpdir/plans_menu.sh
+#!/bin/bash
+$dialog --backtitle "$bgtitle" \\
+       --title " Edit $1 plans " \\
+       --extra-button \\
+       --extra-label "Delete" \\
+       --help-button \\
+       --help-label "Back" \\
+       --ok-label "Edit" \\
+       --cancel-label "Add" \\
+       --menu "\nSelect which plan you want to edit. Choose 'Add' if you want to add a plan for $1" 0 0 0 \\
+EOF
+
+  for i in `list_plans $1`;
+  do
+  echo \"$i\" \"Edit the $i plan\" \\ >>$tmpdir/plans_menu.sh
+  done
+
+  cat <<EOF>>$tmpdir/plans_menu.sh
+2>$tmpdir/plans_menu.sel
+EOF
+
+  bash $tmpdir/plans_menu.sh
+  ret=$?
+  sel=`cat $tmpdir/plans_menu.sel`
+  rm -f $tmpdir/plans_menu.sel $tmpdir/plans_menu.sh
+  
+  case $ret in
+    0) edit_plan $1 $sel ;;
+    1) add_plan $1 ;;
+    3) $dialog --backtitle "$bgtitle" --title " Delete plan " --yesno "\nAre you sure you want to delete plan '$sel' from service $1 ?\n" 8 0 &&
+      {
+      delete_plan $1 $sel >$tmpdir/cf_${1}_plan.tmp ; mv -f $tmpdir/cf_${1}_plan.tmp $tmpdir/cf_${1}_plan
+      }
+    ;;
+  esac
+done
+}
+
+function init_plans()
+{
+cp -f .uhuru-deployments/$deployment/plans/* $tmpdir/
+}
