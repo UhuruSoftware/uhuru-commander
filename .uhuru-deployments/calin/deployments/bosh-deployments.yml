@@ -1,0 +1,15 @@
+--- 
+instances: 
+- :id: 1
+  :name: micro_bosh
+  :uuid: bm-84e040f5-c192-4a41-a9f6-581116a22521
+  :stemcell_cid: sc-2fb524cb-af8f-4596-a017-60455a5f2e00
+  :stemcell_name: micro-bosh-stemcell-vsphere-0.6.4
+  :vm_cid: vm-b99a506c-6220-4ccb-8502-ab7f29e3359f
+  :disk_cid: "1"
+disks: 
+- :id: 1
+  :path: "[san6tb] m_bosh_deployer/1"
+  :datacenter: uhuru
+  :datastore: san6tb
+  :size: 4096

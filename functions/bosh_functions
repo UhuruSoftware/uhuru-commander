@@ -1,0 +1,441 @@
+#!/bin/bash
+
+function write_bosh_conf()
+{
+  [ -z "$1" ] && return
+
+  cat <<EOF>$1
+---
+name: bosh
+director_uuid: "DO NOT CHANGE THIS STRING"
+release:
+  name: bosh
+  version: $version_bosh
+
+networks:
+- name: default
+  subnets:
+  - reserved:
+    static:
+    - $conf_bosh_static_start - $conf_bosh_static_stop
+    range: $conf_bosh_range
+    gateway: $conf_network_gateway
+    dns:
+    - $conf_network_dns1
+    - $conf_network_dns2
+    cloud_properties:
+      name: $conf_cloud_name
+
+resource_pools:
+- name: small
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  network: default
+  size: $bosh_pool_small_size
+  cloud_properties:
+    ram: $bosh_pool_small_ram
+    disk: $bosh_pool_small_disk
+    cpu: $bosh_pool_small_cpu
+- name: medium
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  network: default
+  size: $bosh_pool_medium_size
+  cloud_properties:
+    ram: $bosh_pool_medium_ram
+    disk: $bosh_pool_medium_disk
+    cpu: $bosh_pool_medium_cpu
+- name: large
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  network: default
+  size: $bosh_pool_large_size
+  cloud_properties:
+    ram: $bosh_pool_large_ram
+    disk: $bosh_pool_large_disk
+    cpu: $bosh_pool_large_cpu
+
+compilation:
+  workers: 6
+  network: default
+  cloud_properties:
+    ram: 2048
+    disk: 4048
+    cpu: 4
+
+update:
+  canaries: 1
+  canary_watch_time: 60000
+  update_watch_time: 60000
+  max_in_flight: 1
+  max_errors: 1
+
+jobs:
+
+- name: nats
+  template: nats
+  instances: 1
+  resource_pool: small
+  networks:
+  - name: default
+    static_ips:
+    - $conf_bosh_nats_ip
+
+- name: postgres
+  template: postgres
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+    - $conf_bosh_postgres_ip
+
+- name: redis
+  template: redis
+  instances: 1
+  resource_pool: small
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+    - $conf_bosh_redis_ip
+
+- name: director
+  template: director
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+    - $conf_bosh_director_ip
+
+- name: blobstore
+  template: blobstore
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 100500
+  networks:
+  - name: default
+    default: [dns, gateway]
+    static_ips:
+    - $conf_bosh_blobstore_ip
+  -name: deployments
+
+properties:
+  env:
+    #http_proxy: "http://<proxy>"
+    #https_proxy: "http://<proxy>"
+    #no_proxy: ""
+
+  blobstore:
+    address: $conf_bosh_blobstore_ip
+    port: 25251
+    backend_port: 25552
+    agent:
+      user: agent
+      password: agent
+    director:
+      user: director
+      password: director
+
+  networks:
+    apps: default
+    management: default
+
+  nats:
+    user: $cloudfoundry_nats_username
+    password: $cloudfoundry_nats_password
+    address: $conf_bosh_nats_ip
+    port: 4222
+
+  postgres:
+    user: bosh
+    password: bosh
+    address:  $conf_bosh_postgres_ip
+    port: 5432
+    database: bosh
+
+  redis:
+    address: $conf_bosh_redis_ip
+    port: 25255
+    password: redis
+
+  director:
+    name: bosh_director
+    address: $conf_bosh_director_ip
+    port: 25555
+
+  vcenter:
+    address: $conf_vcenter_host
+    user: $conf_vcenter_user
+    password: $conf_vcenter_password
+    datacenters:
+      - name: $conf_datacenter_name
+        vm_folder: $conf_datacenter_vmfolder
+        template_folder: $conf_datacenter_templatefolder
+        disk_path: $conf_datacenter_bosh_diskpath
+        datastore_pattern: $conf_datacenter_datastorepattern
+        persistent_datastore_pattern: $conf_datacenter_persistentpattern
+        allow_mixed_datastores: $conf_bosh_mixeddatastores
+        clusters:
+        - $conf_vcenter_clustername
+EOF
+}
+
+function upload_bosh_stemcell()
+{
+  local ret=0
+
+  cd $pwd
+
+  touch $tmpdir/upload_bosh_stemcell.lock
+
+  echo "Downloading BOSH stemcell"
+
+  [ -e bosh-stemcell-vsphere-0.6.7.tgz ] ||
+    {
+    $bosh download public stemcell bosh-stemcell-vsphere-0.6.7.tgz
+    ret=$(( $ret + $? ))
+    }
+
+  echo "Targeting to ${conf_network_micro_ip}:25555 ..."
+
+  rm -f ~/.bosh_config 2>/dev/null
+  $bosh --user admin --password admin target ${conf_network_micro_ip}:25555
+  ret=$(( $ret + $? ))
+
+  echo "Logging in"
+  $bosh login admin admin
+  ret=$(( $ret + $? ))
+
+  echo "Uploading bosh stemcell"
+  $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
+#  ret=$(( $ret + $? ))
+
+  echo "$ret" >$tmpdir/upload_bosh_stemcell.ret
+
+  rm -f $tmpdir/upload_bosh_stemcell.lock
+
+  return $ret
+}
+
+function upload_bosh_release()
+{
+  local ret=0
+
+  touch $tmpdir/get_latest_bosh.lock
+  cd $pwd
+
+  echo "Logging in"
+  $bosh login admin admin
+  ret=$(( $ret + $? ))
+
+  mkdir -p $pwd/blobstore
+
+  echo "Uploading release bosh-${version_bosh}.tgz"
+  $bosh upload release bosh-${version_bosh}.tgz
+  ret=$(( $ret + $? ))
+
+  echo "$ret" >$tmpdir/get_latest_bosh.ret
+
+  cd $pwd
+
+  rm -f $tmpdir/get_latest_bosh.lock
+
+  return $ret
+}
+
+function deploy_bosh()
+{
+  local ret=0
+
+  cd $pwd/.uhuru-deployments/$deployment/deployments/
+
+  touch $tmpdir/deploy_bosh.lock
+
+  echo "Getting UUID"
+  get_bosh_uuid
+  ret=$(( $ret + $? ))
+
+  echo "Got uuid: $uuid"
+
+  echo "Saving uuid in bosh.yml"
+  set_bosh_uuid
+  ret=$(( $ret + $? ))
+
+  rm -f ~/.bosh_config 2>/dev/null
+
+  $bosh --user admin --password admin target ${conf_network_micro_ip}:25555
+  ret=$(( $ret + $? ))
+
+  $bosh login admin admin
+  ret=$(( $ret + $? ))
+
+,  $bosh deployment bosh/bosh.yml
+  ret=$(( $ret + $? ))
+
+  $bosh deploy
+  ret=$(( $ret + $? ))
+
+  cd $pwd
+
+  rm -f $tmpdir/deploy_bosh.lock
+
+  return $ret
+}
+
+function bosh_main_menu()
+{
+local ret=0
+local sel="Resources"
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " BOSH Configuration " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nSelect which item you want to configure." 8 0 0 \
+  "Resources" "Configure BOSH resource pools" \
+  "IPs" "Configure virtual machines IPs" \
+  "Review" "Review deployment manifest" \
+  2>$tmpdir/conf_bosh_main.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_bosh_main.out`
+  rm -f $tmpdir/conf_bosh_main.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "Resources") configure_bosh_resources ;;
+    "IPs") configure_bosh_ips ;;
+    "Review") edit_file $pwd/.uhuru-deployments/$deployment/deployments/bosh/bosh.yml
+      ;;
+    esac
+    }
+done
+}
+
+function calc_bosh_ips()
+{
+conf_bosh_reserved_start=`add_to_ip $conf_network 1`
+conf_bosh_reserved_stop=`add_to_ip $conf_network 29`
+conf_bosh_static_start=`add_to_ip $conf_network 2`
+conf_bosh_static_stop=`add_to_ip $conf_network 254`
+
+conf_network_micro_ip=`add_to_ip $conf_bosh_static_start 131`
+conf_bosh_nats_ip=`add_to_ip $conf_bosh_static_start 132`
+conf_bosh_postgres_ip=`add_to_ip $conf_bosh_static_start 133`
+conf_bosh_redis_ip=`add_to_ip $conf_bosh_static_start 134`
+conf_bosh_director_ip=`add_to_ip $conf_bosh_static_start 135`
+conf_bosh_blobstore_ip=`add_to_ip $conf_bosh_static_start 136`
+
+conf_bosh_range=`ipcalc $conf_network/$conf_network_netmask|grep Network|awk '{print $2}'`
+}
+
+function configure_bosh_resources()
+{
+local ret=0
+local sel="Subnet"
+local needed_ram needed_disk needed_cpu needed_ram_gb needed_disk_gb
+
+while [ $ret -eq 0 ];
+do
+  needed_ram=$(( $bosh_pool_small_ram * $bosh_pool_small_size + $bosh_pool_medium_ram * $bosh_pool_medium_size + $bosh_pool_large_ram * $bosh_pool_large_size ))
+  needed_disk=$(( $bosh_pool_small_disk * $bosh_pool_small_size + $bosh_pool_medium_disk * $bosh_pool_medium_size + $bosh_pool_large_disk * $bosh_pool_large_size ))
+  needed_cpu=$(( $bosh_pool_small_cpu * $bosh_pool_small_size + $bosh_pool_medium_cpu * $bosh_pool_medium_size + $bosh_pool_large_cpu * $bosh_pool_large_size ))
+
+  needed_ram_gb=$(( $needed_ram / 1000 + 1 ))
+  needed_disk_gb=$(( $needed_disk / 1000 + 1))
+
+  $dialog --backtitle "$bgtitle" \
+  --title " BOSH resource pools " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nBOSH uses different resource pool templates for each virtual machine. You can configure here, the size of these resource pools.\nWith the current configuration you need:\n\n
+  RAM : $needed_ram MB ($needed_ram_gb GB)\n
+  Disk: $needed_disk MB ($needed_disk_gb GB)\n
+  CPU : $needed_cpu\n" 14 0 0 \
+  "      Small  " "--- $bosh_pool_small_size machines ---" \
+  "RAM  (Small) " "$bosh_pool_small_ram MB" \
+  "Disk (Small) " "$bosh_pool_small_disk MB" \
+  "CPU  (Small) " "$bosh_pool_small_cpu" \
+  "             " " " \
+  "      Medium " "--- $bosh_pool_medium_size machines ---" \
+  "RAM  (Medium)" "$bosh_pool_medium_ram MB" \
+  "Disk (Medium)" "$bosh_pool_medium_disk MB" \
+  "CPU  (Medium)" "$bosh_pool_medium_cpu" \
+  "             " " " \
+  "      Large  " "--- $bosh_pool_large_size machines ---" \
+  "RAM  (Large) " "$bosh_pool_large_ram MB" \
+  "Disk (Large) " "$bosh_pool_large_disk MB" \
+  "CPU  (Large) " "$bosh_pool_large_cpu" \
+  2>$tmpdir/conf_bosh_pools.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_bosh_pools.out`
+  rm -f $tmpdir/conf_bosh_pools.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "RAM  (Small) ") inputbox "RAM" "Enter the ammount of ram reserved for the small resource pool (MB)" "$bosh_pool_small_ram" && bosh_pool_small_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Small) ") inputbox "Disk" "Enter the ammount of disk reserved for the small resource pool (MB)" "$bosh_pool_small_disk" && bosh_pool_small_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Small) ") inputbox "CPU" "Enter the number of CPUs reserved for the small resource pool (integer)" "$bosh_pool_small_cpu" && bosh_pool_small_cpu=`cat $tmpdir/input.out` ;;
+    "RAM  (Medium)") inputbox "RAM" "Enter the ammount of ram reserved for the medium resource pool (MB)" "$bosh_pool_medium_ram" && bosh_pool_medium_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Medium)") inputbox "Disk" "Enter the ammount of disk reserved for the medium resource pool (MB)" "$bosh_pool_medium_disk" && bosh_pool_medium_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Medium)") inputbox "CPU" "Enter the number of CPUs reserved for the medium resource pool (integer)" "$bosh_pool_medium_cpu" && bosh_pool_medium_cpu=`cat $tmpdir/input.out` ;;
+    "RAM  (Large) ") inputbox "RAM" "Enter the ammount of ram reserved for the large resource pool (MB)" "$bosh_pool_large_ram" && bosh_pool_large_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Large) ") inputbox "Disk" "Enter the ammount of disk reserved for the large resource pool (MB)" "$bosh_pool_large_disk" && bosh_pool_large_disk=`cat $tmpdir/input.out` ;;
+    "CPU  (Large) ") inputbox "CPU" "Enter the number of CPUs reserved for the large resource pool (integer)" "$bosh_pool_large_cpu" && bosh_pool_large_cpu=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+  }
+done
+}
+
+function configure_bosh_ips()
+{
+local ret=0
+local sel="Persistent"
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " BOSH IPs " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "\nFine tune the IPs that BOSH uses." 9 0 0 \
+  "Micro" "$conf_network_micro_ip" \
+  "Postgres" "$conf_bosh_postgres_ip" \
+  "Redis" "$conf_bosh_redis_ip" \
+  "Blobstore" "$conf_bosh_blobstore_ip" \
+  "Director" "$conf_bosh_director_ip" \
+  "Router" "$cloudfoundry_ip_router" \
+  2>$tmpdir/conf_bosh_ips.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_bosh_ips.out`
+  rm -f $tmpdir/conf_bosh_ips.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "Micro") inputbox "Micro BOSH IP" "Please enter the IP for the Micro-BOSH virtual machine" "$conf_network_micro_ip" && validate_ip `cat $tmpdir/input.out` && conf_network_micro_ip=`cat $tmpdir/input.out` ;;
+    "Postgres") inputbox "Postgres IP" "Please enter the IP for the Postgres virtual machine" "$conf_bosh_postgres_ip" && validate_ip `cat $tmpdir/input.out` && conf_bosh_postgres_ip=`cat $tmpdir/input.out` ;;
+    "Redis") inputbox "Redis IP" "Please enter the IP for the Redis virtual machine" "$conf_bosh_redis_ip" && validate_ip `cat $tmpdir/input.out` && conf_bosh_redis_ip=`cat $tmpdir/input.out` ;;
+    "Blobstore") inputbox "Blobstore IP" "Please enter the IP for the Blobstore virtual machine" "$conf_bosh_blobstore_ip" && validate_ip `cat $tmpdir/input.out` && conf_bosh_blobstore_ip=`cat $tmpdir/input.out` ;;
+    "Director") inputbox "Director IP" "Please enter the IP for the Director virtual machine" "$conf_bosh_director_ip" && validate_ip `cat $tmpdir/input.out` && conf_bosh_director_ip=`cat $tmpdir/input.out` ;;
+    "Router") inputbox "Router IP" "Please enter the IP for the router" "$cloudfoundry_ip_router" && validate_ip `cat $tmpdir/input.out` && cloudfoundry_ip_router=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+    }
+done
+}
+

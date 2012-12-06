@@ -1,0 +1,59 @@
+---
+name: micro_bosh
+
+network:
+  ip: 10.0.98.131
+  netmask: 255.255.0.0
+  gateway: 10.0.0.1
+  dns:
+  - 10.0.0.1
+  - 8.8.8.8
+  cloud_properties:
+    name: VM Network
+
+resources:
+  persistent_disk: 4096
+  cloud_properties:
+    ram: 1024
+    disk: 4096
+    cpu: 2
+
+cloud:
+  plugin: vsphere
+  properties:
+    agent:
+      ntp:
+       - ntp01.las01.emcatmos.com
+       - ntp02.las01.emcatmos.com
+    vcenters:
+      - host: 192.168.1.114
+        user: administrator
+        password: password1234!
+        datacenters:
+          - name: dev
+            vm_folder: m_bosh_vms
+            template_folder: m_bosh_templates
+            disk_path: m_bosh_deployer_deployer
+            datastore_pattern: mihaib-datastore
+            persistent_datastore_pattern: mihaib-datastore
+            allow_mixed_datastores: true
+            clusters:
+              - mihaib
+
+apply_spec:
+  properties:
+    vcenter:
+      host: 192.168.1.114
+      user: administrator
+      password: password1234!
+      datacenters:
+        - name: dev
+          vm_folder: m_bosh_vms
+          template_folder: m_bosh_templates
+          disk_path: m_bosh_micro_deployer
+          datastore_pattern: mihaib-datastore
+          persistent_datastore_pattern: mihaib-datastore
+          allow_mixed_datastores: true
+          clusters:
+            - mihaib
+
