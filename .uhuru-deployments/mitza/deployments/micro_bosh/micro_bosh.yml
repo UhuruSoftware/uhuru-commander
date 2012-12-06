@@ -1,0 +1,59 @@
+---
+name: micro_bosh
+
+network:
+  ip: 10.134.0.133
+  netmask: 255.255.0.0
+  gateway: 10.134.0.1
+  dns:
+  - 192.168.1.130
+  - 8.8.8.8
+  cloud_properties:
+    name: VM Network
+
+resources:
+  persistent_disk: 4096
+  cloud_properties:
+    ram: 1024
+    disk: 4096
+    cpu: 2
+
+cloud:
+  plugin: vsphere
+  properties:
+    agent:
+      ntp:
+       - ntp01.las01.emcatmos.com
+       - ntp02.las01.emcatmos.com
+    vcenters:
+      - host: 192.168.1.114
+        user: administrator
+        password: password1234!
+        datacenters:
+          - name: uhuru
+            vm_folder: m_bosh_vms
+            template_folder: m_bosh_templates
+            disk_path: m_bosh_deployer
+            datastore_pattern: san6tb
+            persistent_datastore_pattern: san6tb
+            allow_mixed_datastores: true
+            clusters:
+              - Staging
+
+apply_spec:
+  properties:
+    vcenter:
+      host: 192.168.1.114
+      user: administrator
+      password: password1234!
+      datacenters:
+        - name: uhuru
+          vm_folder: m_bosh_vms
+          template_folder: m_bosh_templates
+          disk_path: m_bosh_micro
+          datastore_pattern: san6tb
+          persistent_datastore_pattern: san6tb
+          allow_mixed_datastores: true
+          clusters:
+            - Staging
+
