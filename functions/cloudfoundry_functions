@@ -498,8 +498,8 @@ jobs:
   persistent_disk: 2048
   networks:
   - name: default
-    static_ips:
-    - $cloudfoundry_ip_hbase_master
+#    static_ips:
+#    - $cloudfoundry_ip_hbase_master
 
 - name: hbase_slave
   template: hbase_slave
@@ -508,8 +508,8 @@ jobs:
   persistent_disk: 2048
   networks:
   - name: default
-    static_ips:
-    - $cloudfoundry_ip_hbase_slave
+#    static_ips:
+#    - $cloudfoundry_ip_hbase_slave
 
 - name: opentsdb
   template: opentsdb
@@ -518,8 +518,8 @@ jobs:
   persistent_disk: 16384
   networks:
   - name: default
-    static_ips:
-    - $cloudfoundry_ip_opentsdb
+#    static_ips:
+#    - $cloudfoundry_ip_opentsdb
 
 - name: collector
   template: collector
