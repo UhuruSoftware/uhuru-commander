@@ -357,7 +357,7 @@ release:
   version: $version_cloudfoundry
 
 compilation:
-  workers: 1
+  workers: 6
   reuse_compilation_vms: true
   network: default
   cloud_properties:
