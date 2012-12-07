@@ -143,7 +143,7 @@ function textbox()
   lines=`tput lines`
   cols=`tput cols`
 
-  $dialog --backtitle "$bgtitle" --title " `basename $1` " --textbox $1 $(( $lines - 4 )) $(( $cols - 6 ))
+  $dialog --backtitle "$bgtitle" --title " $1 " --textbox $2 $(( $lines - 4 )) $(( $cols - 6 ))
 }
 
 function inputbox()

@@ -1,3 +1,8 @@
+
+In order to deploy cloudfoundry, you will need the following permissions in vSphere.
+Please make sure the account you're using has the all the rights described below.
+
+
       Object                                   Permission
 ------------------------------------------------------------------------------------------
    Datastore

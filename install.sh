@@ -220,7 +220,7 @@ local ret=0
 local sel="Host"
 
 #msgbox "this is the vsphere help\nit will describe something\nquite important"
-textbox $pwd/resources/permissions.txt
+textbox "Necessary permissions" $pwd/resources/permissions.txt
 
 while [ $ret -eq 0 ];
 do
