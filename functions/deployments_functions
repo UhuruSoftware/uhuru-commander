@@ -22,7 +22,7 @@ function tear_down_deployment()
     $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 && \
     $bosh login admin admin && \
     $bosh --non-interactive delete deployment cloud-foundry --force
-    rm -f ~/.bosh_config 2>/dev/null && \
+    rm -f ~/.bosh_config 2>/dev/null
     $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 && \
     $bosh login admin admin && \
     $bosh --non-interactive delete deployment bosh --force && \
