@@ -530,6 +530,11 @@ echo "conf_uhuru_contact_email=$conf_uhuru_contact_email" >>$conffile
 echo "conf_uhuru_admin_email=$conf_uhuru_admin_email" >>$conffile
 echo "conf_uhuru_admin_password=$conf_uhuru_admin_password" >>$conffile
 echo "conf_uhuru_default_random_password=$conf_uhuru_default_random_password" >>$conffile
+
+echo "cloudfoundry_mssqlnode_count=$cloudfoundry_mssqlnode_count" >>$conffile
+echo "cloudfoundry_uhurufsnode_count=$cloudfoundry_uhurufsnode_count" >>$conffile
+echo "cloudfoundry_windea_count=$cloudfoundry_windea_count" >>$conffile
+echo "cloudfoundry_uhuru_tunnel_count=$cloudfoundry_uhuru_tunnel_count" >>$conffile
 }
 
 
