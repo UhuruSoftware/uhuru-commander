@@ -389,6 +389,7 @@ echo "bosh_pool_small_cpu=$bosh_pool_small_cpu" >>$conffile
 echo "bosh_pool_medium_size=$bosh_pool_medium_size" >>$conffile
 echo "bosh_pool_medium_ram=$bosh_pool_medium_ram" >>$conffile
 echo "bosh_pool_medium_disk=$bosh_pool_medium_disk" >>$conffile
+echo "bosh_pool_medium_extra_disk=$bosh_pool_medium_extra_disk" >>$conffile
 echo "bosh_pool_medium_cpu=$bosh_pool_medium_cpu" >>$conffile
 echo "bosh_pool_large_size=$bosh_pool_large_size" >>$conffile
 echo "bosh_pool_large_ram=$bosh_pool_large_ram" >>$conffile
