@@ -1,0 +1,87 @@
+#!/bin/bash
+
+function uhuru_vars()
+{
+conf_uhuru_port=9191
+conf_uhuru_cloud_name="Uhuru Cloud"
+conf_uhuru_domain="cf.me"
+conf_uhuru_recaptcha_public_key="6Lfqe9kSAAAAAITuzJDfgLX41pMhyj2UEDp72NiM"
+conf_uhuru_recaptcha_private_key="6Lfqe9kSAAAAAMKol6bOmzfghgan53CIG9ftzYi-"
+conf_uhuru_activation_link_secret="casnuugycasuygc12tddbhcb7"
+conf_uhuru_email_from="uhurusoftw@gmail.com"
+conf_uhuru_email_from_alias="Uhuru Cloud"
+conf_uhuru_contact_email="uhuru@uhurusoftware.com"
+conf_uhuru_admin_email="dev@uhurusoftware.com"
+conf_uhuru_admin_password="password1234!"
+conf_uhuru_default_random_password="01234567890123456789"
+}
+
+function uhuru_vars_list()
+{
+conf_uhuru_port
+conf_uhuru_cloud_name
+conf_uhuru_domain
+conf_uhuru_recaptcha_public_key
+conf_uhuru_recaptcha_private_key
+conf_uhuru_activation_link_secret
+conf_uhuru_email_from
+conf_uhuru_email_from_alias
+conf_uhuru_contact_email
+conf_uhuru_admin_email
+conf_uhuru_admin_password
+conf_uhuru_default_random_password
+}
+
+
+
+function configure_uhuru()
+{
+local ret=0
+local sel="Port"
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " Uhuru configuration " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "Configure Uhuru settings" 7 0 0 \
+  "Port" "$conf_uhuru_port" \
+  "Cloud name" "$conf_uhuru_cloud_name" \
+  "Domain" "$conf_uhuru_domain" \
+  "Recaptcha public key" "$conf_uhuru_recaptcha_public_key" \
+  "Recaptcha private key" "$conf_uhuru_recaptcha_private_key" \
+  "Activation link secret" "$conf_uhuru_activation_link_secret" \
+  "Email" "$conf_uhuru_email_from" \
+  "Email alias" "$conf_uhuru_email_from_alias" \
+  "Contact email" "$conf_uhuru_contact_email" \
+  "Admin email" "$conf_uhuru_admin_email" \
+  "Admin password" "$conf_uhuru_admin_password" \
+  2>$tmpdir/conf_uhuru.out
+  ret=$?
+
+  sel=`cat $tmpdir/conf_uhuru.out`
+  rm -f $tmpdir/conf_uhuru.out
+
+  [ $ret -eq 0 ] &&
+    {
+    echo $sel
+    case "$sel" in
+    "Port") inputbox "Port" "Enter port" "$conf_uhuru_port" && conf_uhuru_port=`cat $tmpdir/input.out` ;;
+    "Cloud name") inputbox "Cloud name" "Enter cloud name" "asd $conf_uhuru_cloud_name" && conf_uhuru_cloud_name=`cat $tmpdir/input.out` ;;
+    "Domain") inputbox "Domain" "Enter domain name" "$conf_uhuru_domain" && conf_uhuru_domain=`cat $tmpdir/input.out` ;;
+    "Recaptcha public key") inputbox "Recaptcha public key" "Enter recaptcha public key" "$conf_uhuru_recaptcha_public_key" && conf_uhuru_recaptcha_public_key=`cat $tmpdir/input.out` ;;
+    "Recaptcha private key") inputbox "Recaptcha private key" "Enter recaptcha private key" "$conf_uhuru_recaptcha_private_key" && conf_uhuru_recaptcha_private_key=`cat $tmpdir/input.out` ;;
+    "Activation link secret") inputbox "Activation link secret" "Enter activation link secret" "$conf_uhuru_activation_link_secret" && conf_uhuru_activation_link_secret=`cat $tmpdir/input.out` ;;
+    "Email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
+    "Email alias") inputbox "Email alias" "Enter email alias" "$conf_uhuru_email_from_alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
+    "Contact email") inputbox "Contact email" "Enter contact email" "$conf_uhuru_contact_email" && conf_uhuru_contact_email=`cat $tmpdir/input.out` ;;
+    "Admin email") inputbox "Admin email" "Enter admin email" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;
+    "Admin password") inputbox "Admin password" "Enter admin password" "$conf_uhuru_admin_password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+    }
+done
+}
+
+uhuru_vars

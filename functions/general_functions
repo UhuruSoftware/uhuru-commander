@@ -518,6 +518,18 @@ echo "version_bosh_cli=$version_bosh_cli" >>$conffile
 echo "version_bosh=$version_bosh" >>$conffile
 echo "version_cloudfoundry=$version_cloudfoundry" >>$conffile
 
+echo "conf_uhuru_port=$conf_uhuru_port" >>$conffile
+echo "conf_uhuru_cloud_name=$conf_uhuru_cloud_name" >>$conffile
+echo "conf_uhuru_domain=$conf_uhuru_domain" >>$conffile
+echo "conf_uhuru_recaptcha_public_key=$conf_uhuru_recaptcha_public_key" >>$conffile
+echo "conf_uhuru_recaptcha_private_key=$conf_uhuru_recaptcha_private_key" >>$conffile
+echo "conf_uhuru_activation_link_secret=$conf_uhuru_activation_link_secret" >>$conffile
+echo "conf_uhuru_email_from=$conf_uhuru_email_from" >>$conffile
+echo "conf_uhuru_email_from_alias=$conf_uhuru_email_from_alias" >>$conffile
+echo "conf_uhuru_contact_email=$conf_uhuru_contact_email" >>$conffile
+echo "conf_uhuru_admin_email=$conf_uhuru_admin_email" >>$conffile
+echo "conf_uhuru_admin_password=$conf_uhuru_admin_password" >>$conffile
+echo "conf_uhuru_default_random_password=$conf_uhuru_default_random_password" >>$conffile
 }
 
 

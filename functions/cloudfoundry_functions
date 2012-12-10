@@ -698,6 +698,65 @@ properties:
     apps: default
     management: default
 
+  uhuru:
+    simple_webui:
+      port: $conf_uhuru_port
+      cloud_name: "$conf_uhuru_cloud_name"
+      domain: "$conf_uhuru_domain"
+      recaptcha_public_key: "$conf_uhuru_recaptcha_public_key"
+      recaptcha_private_key: "$conf_uhuru_recaptcha_private_key"
+      activation_link_secret: "$conf_uhuru_activation_link_secret"
+      email:
+        from: "$conf_uhuru_email_from"
+        from_alias: "$conf_uhuru_email_from_alias"
+      contact:
+        email: "$conf_uhuru_contact_email"
+      admin_email: "$conf_uhuru_admin_email"
+      admin_password: "$conf_uhuru_admin_password"
+      default_random_password: 01234567890123456789
+
+  win_dea:
+    filerport: 12346
+    statusport: 12345
+    max_memory: 4096
+
+  uhurufs_gateway:
+    check_orphan_interval: 7200
+    token: "0xfeedface"
+    service_timeout: 60
+    node_timeout: 30
+    supported_versions:
+    - "0.9"
+    version_aliases:
+      current: "0.9"
+
+  uhurufs_node:
+    capacity: 200
+    statusport: 12345
+    default_version: 0.9
+
+  mssql_gateway:
+    check_orphan_interval: 7200
+    token: "0xfeedface"
+    service_timeout: 60
+    node_timeout: 30
+    supported_versions:
+    - "2008"
+    version_aliases:
+      current: "2008"
+
+  mssql_node:
+    capacity: 200
+    admin_user: sa
+    admin_password: changem3!
+    port: 1433
+    max_db_size: 20
+    max_long_query: 3
+    max_long_tx: 30
+    max_user_conns: 20
+    default_version: 2008
+    statusport: 12345
+
   nats:
     user: $cloudfoundry_nats_username
     password: $cloudfoundry_nats_password
@@ -793,6 +852,8 @@ cat $tmpdir/cf_postgresql_plan >>$1
 cat $tmpdir/cf_mongodb_plan >>$1
 cat $tmpdir/cf_redis_plan >>$1
 cat $tmpdir/cf_rabbit_plan >>$1
+cat $tmpdir/cf_mssql_plan >>$1
+cat $tmpdir/cf_uhurufs_plan >>$1
 cat <<EOF>>$1
   mysql_gateway:
     supported_versions: ["5.1"]
