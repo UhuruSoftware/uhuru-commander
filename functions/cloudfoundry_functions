@@ -1119,8 +1119,9 @@ local tiny_count=0
 
 cloudfoundry_pool_tiny_size=$(( $tiny_count + 1 )
 cloudfoundry_pool_small_size=5
-cloudfoundry_pool_medium_size=$(( 3+$cloudfoundry_cloud_controller_count+$cloudfoundry_stager_count+$cloudfoundry_router_count+$cloudfoundry_mysqlnode_count+$cloudfoundry_mongodbnode_count+$cloudfoundry_rabbitnode_count+$cloudfoundry_postgresqlnode_count ))
+cloudfoundry_pool_medium_size=$(( 2+$cloudfoundry_cloud_controller_count+$cloudfoundry_stager_count+$cloudfoundry_router_count+$cloudfoundry_mysqlnode_count+$cloudfoundry_mongodbnode_count+$cloudfoundry_rabbitnode_count+$cloudfoundry_postgresqlnode_count ))
 cloudfoundry_pool_large_size=$cloudfoundry_redisnode_count
+cloudfoundry_pool_medium_extra_size=1
 
 cloudfoundry_pool_nagios_size=1
 cloudfoundry_pool_sqlserver_size=$cloudfoundry_mssqlnode_count

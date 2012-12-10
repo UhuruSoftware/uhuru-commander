@@ -116,8 +116,8 @@ jobs:
 
 - name: director
   template: director
-  instances: 1
-  resource_pool: medium
+  instances: $cloudfoundry_pool_medium_extra_size
+  resource_pool: medium_extra
   persistent_disk: 5000
   networks:
   - name: default
