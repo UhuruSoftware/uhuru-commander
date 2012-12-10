@@ -511,6 +511,65 @@ resource_pools:
 
 jobs:
 
+- name: simple_webui
+  template: simple_webui
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: nagios
+  template: nagios
+  instances: 1
+  resource_pool: nagios
+  persistent_disk: 5000
+  networks:
+  - name: default
+
+- name: mssql_gateway
+  template: mssql_gateway
+  instances: `[ $cloudfoundry_mssqlnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: uhurufs_gateway
+  template: uhurufs_gateway
+  instances: `[ $cloudfoundry_uhurufsnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: win_dea
+  template: win_dea
+  instances: $cloudfoundry_windea_count
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhuru_tunnel
+  template: uhuru_tunnel
+  instances: $cloudfoundry_uhuru_tunnel_count
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhurufs_node
+  template: uhurufs_node
+  instances: $cloudfoundry_uhurufsnode_count
+  persistent_disk: 5000
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: mssql_node
+  template: mssql_node
+  instances: $cloudfoundry_mssqlnode_count
+  persistent_disk: 5000
+  resource_pool: sqlserver
+  networks:
+  - name: default
+
 - name: debian_nfs_server
   template: debian_nfs_server
   instances: 1
@@ -1053,10 +1112,19 @@ local tiny_count=0
 [ $cloudfoundry_rabbitnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
 [ $cloudfoundry_postgresqlnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
 
-cloudfoundry_pool_tiny_size=$tiny_count
+[ $cloudfoundry_mssqlnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+[ $cloudfoundry_uhurufsnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
+
+
+cloudfoundry_pool_tiny_size=$(( $tiny_count + 1 )
 cloudfoundry_pool_small_size=5
 cloudfoundry_pool_medium_size=$(( 3+$cloudfoundry_cloud_controller_count+$cloudfoundry_stager_count+$cloudfoundry_router_count+$cloudfoundry_mysqlnode_count+$cloudfoundry_mongodbnode_count+$cloudfoundry_rabbitnode_count+$cloudfoundry_postgresqlnode_count ))
 cloudfoundry_pool_large_size=$cloudfoundry_redisnode_count
+
+cloudfoundry_pool_nagios_size=1
+cloudfoundry_pool_sqlserver_size=$cloudfoundry_mssqlnode_count
+cloudfoundry_pool_windows_size=$(( $cloudfoundry_windea_count + $cloudfoundry_uhurufsnode_count + $cloudfoundry_uhuru_tunnel_count ))
+
 #cloudfoundry_deas_count=
 }
 
