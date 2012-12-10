@@ -6,8 +6,17 @@ function deploy_cloudfoundry()
 
   echo "Downloading BOSH stemcell"
 
-  [ -e bosh-stemcell-vsphere-0.6.7.tgz ] || $bosh download public stemcell bosh-stemcell-vsphere-0.6.7.tgz 2>&1
+  [ -e bosh-stemcell-vsphere-0.6.7.tgz ] || $bosh download public stemcell bosh-stemcell-vsphere-0.6.7.tgz
   ret=$(( $ret + $? ))
+
+#  [ -e bosh-stemcell-php-vsphere-0.6.4.3.tgz ] || $bosh download public stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
+#  ret=$(( $ret + $? ))
+
+#  [ -e uhuru-windows-2008R2-0.9.2.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-0.9.2.tgz
+#  ret=$(( $ret + $? ))
+
+#  [ -e uhuru-windows-2008R2-sqlserver-0.9.2.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-sqlserver-0.9.2.tgz
+#  ret=$(( $ret + $? ))
 
   echo "Finished downloading BOSH stemcell."
 
@@ -24,10 +33,19 @@ function deploy_cloudfoundry()
   $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
 #  ret=$(( $ret + $? ))
 
+  echo "Uploading bosh php vsphere stemcell"
+  $bosh upload stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
+
+  echo "Uploading uhuru windows 2008R2 stemcell"
+  $bosh upload stemcell uhuru-windows-2008R2-0.9.2.tgz
+
+  echo "Uploading uhuru windows 2008R2 SQL server stemcell"
+  $bosh upload stemcell uhuru-windows-2008R2-sqlserver-0.9.2.tgz
+
   echo "Uploading release"
   [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && 
     {
-    $bosh upload release appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
+    $bosh upload release uhuru-appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
     ret=$(( $ret + $? ))
     }
 
@@ -353,7 +371,7 @@ name: cloud-foundry
 director_uuid: "DO NOT CHANGE THIS STRING"
 
 release:
-  name: appcloud
+  name: uhuru-appcloud
   version: $version_cloudfoundry
 
 compilation:
@@ -388,6 +406,39 @@ networks:
 
 resource_pools:
 
+- name: nagios
+  network: default
+  size: 2
+  stemcell:
+    name: bosh-stemcell-php
+    version: 0.6.4.3
+  cloud_properties:
+    ram: 1024
+    disk: 5000
+    cpu: 2
+
+- name: windows
+  network: default
+  size: 3
+  stemcell:
+    name: uhuru-windows-2008R2
+    version: 0.9.2
+  cloud_properties:
+    ram: 900
+    disk: 5000
+    cpu: 2
+
+- name: sqlserver
+  network: default
+  size: 1
+  stemcell:
+    name: uhuru-windows-2008R2-sqlserver
+    version: 0.9.2
+  cloud_properties:
+    ram: 800
+    disk: 5000
+    cpu: 2
+
 - name: tiny
   network: default
   size: $cloudfoundry_pool_tiny_size
@@ -401,7 +452,6 @@ resource_pools:
   env:
     bosh:
       password: $cloudfoundry_pool_tiny_password
-
 
 - name: small
   network: default
@@ -444,7 +494,6 @@ resource_pools:
   env:
     bosh:
       password: $cloudfoundry_pool_large_password
-
 
 - name: deas
   network: default
