@@ -55,7 +55,7 @@ resource_pools:
   size: $bosh_pool_medium_size
   cloud_properties:
     ram: $bosh_pool_medium_ram
-    disk: $bosh_pool_medium_disk
+    disk: $bosh_pool_medium_extra_disk
     cpu: $bosh_pool_medium_cpu
 - name: large
   stemcell:
