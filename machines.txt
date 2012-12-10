@@ -27,11 +27,11 @@ postgresql_node medium $cloudfoundry_postgresqlnode_count
 postgresql_gateway tiny 1
 
 
-simple_webui tiny 1
-nagios nagios 1
-mssql_gateway tiny 1
-uhurufs_gateway tiny 1
-win_dea windows 1
+/simple_webui tiny 1
+/nagios nagios 1
+/mssql_gateway tiny 1
+/uhurufs_gateway tiny 1
+/win_dea windows 1
 uhuru_tunnel windows 1
 uhurufs_node windows 1
 mssql_node sqlserver 1

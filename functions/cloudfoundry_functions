@@ -176,12 +176,13 @@ do
   --menu "\nHere you can set up the number of machines for the cloudfoundry deployment.\nOn the right side you cna see how many are currently configured" 0 0 0 \
   "DEA"     "Droplet execution agent machines ($cloudfoundry_deas_count)" \
   "WinDEA"  "Windows DEAs                     ($cloudfoundry_windea_count)" \
-  "Mysql"   "Mysql nodes                      ($cloudfoundry_mysqlnode_count)" \
+  "MySQL"   "MySQL nodes                      ($cloudfoundry_mysqlnode_count)" \
+  "MsSQL"   "MSSQL nodes                      ($cloudfoundry_mssqlnode_count)" \
   "Mongodb" "Mongodb nodes                    ($cloudfoundry_mongodbnode_count)" \
   "Redis"   "Redis nodes                      ($cloudfoundry_redisnode_count)" \
   "Rabbit"  "Rabbit nodes                     ($cloudfoundry_rabbitnode_count)" \
   "Postgresql" "Postgresql nodes                 ($cloudfoundry_postgresqlnode_count)" \
-  "MsSQL"   "MS SQL nodes                     ($cloudfoundry_mssqlnode_count)" \
+  "UhuruFS" "UhuruFS nodes                    ($cloudfoundry_uhurufsnode_count)" \
   2>$tmpdir/conf_cloudfoundry_vms_count_simple.out
   ret=$?
 
@@ -193,7 +194,7 @@ do
     case "$sel" in
     "DEA") inputbox "DEA" "How many DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
     "CC") inputbox "CC" "How many cloud controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
-    "Mysql") inputbox "Mysql" "How many mysql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
+    "MySQL") inputbox "Mysql" "How many mysql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
     "Router") inputbox "Router" "How many routers should be created ?" "$cloudfoundry_router_count" && cloudfoundry_router_count=`cat $tmpdir/input.out` ;;
     "Stager") inputbox "Stager" "How many stagers should be created ?" "$cloudfoundry_stager_count" && cloudfoundry_stager_count=`cat $tmpdir/input.out` ;;
     "Mongodb") inputbox "Mongodb" "How many mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
