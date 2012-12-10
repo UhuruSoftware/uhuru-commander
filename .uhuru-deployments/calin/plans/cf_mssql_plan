@@ -1,0 +1,17 @@
+    mssql:
+      free:
+        job_management:
+          high_water: 1400
+          low_water: 100
+        configuration:
+          allow_over_provisioning: true
+          capacity: 200
+          max_db_size: 128
+          max_long_query: 3
+          max_long_tx: 0
+          max_clients: 20
+          lifecycle:
+            enable: true
+            worker_count: 1
+            snapshot:
+              quota: 10
