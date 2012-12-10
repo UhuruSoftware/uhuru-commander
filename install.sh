@@ -484,11 +484,12 @@ do
   --extra-label "Save&Deploy" \
   --help-button \
   --help-label "Back" \
-  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 9 0 0 \
+  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 10 0 0 \
   "Network" "Configure basic network settings" \
   "Domain" "Set up the domain name" \
   "vSphere" "Configure vSphere settings" \
   "Cloud Foundry components" "Configure the number of VMs" \
+  "Uhuru" "Configure Uhuru cloud settings" \
   2>$tmpdir/conf_main_menu.out
   ret=$?
 
@@ -504,6 +505,7 @@ do
       "Cloud Foundry components") cloudfoundry_vms_count_simple ;;
       "Advanced") advanced_main_menu ;;
       "Domain") inputbox "Domain" "Enter a valid domain used for Cloud Foundry" "$cloudfoundry_domain" && cloudfoundry_domain=`cat $tmpdir/input.out` ;;
+      "Uhuru") configure_uhuru ;;
     esac ;;
     3) confirm_install && install_steps ;;
     1) save_conf
@@ -524,7 +526,7 @@ vars
 . functions/plans_functions
 . functions/deployments_functions
 . functions/install_functions
-
+. functions/uhuru_functions
 
 [ "$1" == "-x" ] && mode="advanced" || mode="basic"
 
