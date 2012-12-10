@@ -52,7 +52,7 @@ resource_pools:
     name: bosh-stemcell
     version: 0.6.7
   network: default
-  size: $bosh_pool_medium_size
+  size: 1
   cloud_properties:
     ram: $bosh_pool_medium_ram
     disk: $bosh_pool_medium_extra_disk
