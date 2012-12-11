@@ -35,10 +35,20 @@ resource_pools:
     name: bosh-stemcell
     version: 0.6.7
   network: default
-  size: 3
+  size: 2
   cloud_properties:
     ram: 4096
     disk: 16384
+    cpu: 2
+- name: medium_extra
+  stemcell:
+    name: bosh-stemcell
+    version: 0.6.7
+  network: default
+  size: 0
+  cloud_properties:
+    ram: 4096
+    disk: 50000
     cpu: 2
 - name: large
   stemcell:
@@ -100,7 +110,7 @@ jobs:
 - name: director
   template: director
   instances: 1
-  resource_pool: medium
+  resource_pool: medium_extra
   persistent_disk: 5000
   networks:
   - name: default

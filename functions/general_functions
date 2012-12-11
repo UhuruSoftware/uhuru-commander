@@ -382,6 +382,7 @@ echo "version_cloudfoundry=$version_cloudfoundry" >>$conffile
 function write_vars()
 {
 local conffile=$1
+cat /dev/null >$conffile
 echo "bosh_pool_small_size=$bosh_pool_small_size" >>$conffile
 echo "bosh_pool_small_ram=$bosh_pool_small_ram" >>$conffile
 echo "bosh_pool_small_disk=$bosh_pool_small_disk" >>$conffile
