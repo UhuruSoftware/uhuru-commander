@@ -972,28 +972,13 @@ cat <<EOF>>$1
     token: $cloudfoundry_mysql_gateway_token
     node_timeout: 60
     service_timeout: 30
+
   mysql_node:
     supported_versions: ["5.1"]
     default_versions: "5.1"
     production: true
     password: aaa13djkas
     op_time_limit: 50
-
-  mssql_gateway:
-    supported_versions: ["2008"]
-    version_aliases:
-      current: "2008"
-    check_orphan_interval: 7200
-    token: $cloudfoundry_mssql_gateway_token
-
-  uhurufs_gateway:
-    supported_versions: ["0.9"]
-    version_aliases:
-      current: "0.9"
-    check_orphan_interval: 7200
-    token: $cloudfoundry_uhurufs_gateway_token
-    node_timeout: 60
-    service_timeout: 30
 
   redis_gateway:
     supported_versions: ["2.2"]
@@ -1115,7 +1100,6 @@ local tiny_count=0
 
 [ $cloudfoundry_mssqlnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
 [ $cloudfoundry_uhurufsnode_count -gt 0 ] && tiny_count=$(( $tiny_count + 1 ))
-
 
 cloudfoundry_pool_tiny_size=$(( $tiny_count + 1 )
 cloudfoundry_pool_small_size=5
