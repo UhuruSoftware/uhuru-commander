@@ -3730,3 +3730,17 @@ I, [2012-12-06T06:18:58.592781 #25829] [attach_disk(vm-4ed51dc7-4516-455d-be77-6
 I, [2012-12-06T06:19:04.776458 #25829] [attach_disk(vm-4ed51dc7-4516-455d-be77-6e2093b051fb, 1)]  INFO -- : Attaching disk
 I, [2012-12-06T06:19:06.845668 #25829] [attach_disk(vm-4ed51dc7-4516-455d-be77-6e2093b051fb, 1)]  INFO -- : Finished attaching disk
 I, [2012-12-06T06:19:44.986846 #25829] [0x5c3ac8]  INFO -- : Director is ready: {"name"=>"micro_bosh", "uuid"=>"367fc16b-e6bb-48b8-a6c2-27f5390b68c5", "version"=>"0.5.2 (release:ffed4d4a bosh:21e0b0bc)", "user"=>nil, "cpi"=>"vsphere"}
+I, [2012-12-11T00:41:01.957738 #1478] [detach_disk(vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f, 1)]  INFO -- : Detaching disk
+I, [2012-12-11T00:41:04.252077 #1478] [detach_disk(vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f, 1)]  INFO -- : Finished detaching disk
+I, [2012-12-11T00:41:04.252967 #1478] [delete_disk(1)]  INFO -- : Deleting disk: 1
+I, [2012-12-11T00:41:06.311330 #1478] [delete_disk(1)]  INFO -- : Finished deleting disk
+I, [2012-12-11T00:41:06.316895 #1478] [delete_vm(vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f)]  INFO -- : Deleting vm: vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f
+I, [2012-12-11T00:41:06.373850 #1478] [delete_vm(vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f)]  INFO -- : Powering off vm: vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f
+I, [2012-12-11T00:41:13.665818 #1478] [delete_vm(vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f)]  INFO -- : Deleted vm: vm-c4d5f5b8-a3a6-4486-a1c9-cfb4f010e91f
+I, [2012-12-11T00:41:14.766867 #1478] [delete_stemcell(sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb)]  INFO -- : Looking for stemcell replicas in: uhuru
+I, [2012-12-11T00:41:15.004950 #1478] [delete_stemcell(sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb)]  INFO -- : Found: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb
+I, [2012-12-11T00:41:15.005286 #1478] [delete_stemcell(sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb)]  INFO -- : Found: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb / datastore-6051
+I, [2012-12-11T00:41:15.005738 #1478] [0x2b5b268]  INFO -- : Deleting: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb
+I, [2012-12-11T00:41:15.007254 #1478] [0x2b57528]  INFO -- : Deleting: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb / datastore-6051
+I, [2012-12-11T00:41:16.041267 #1478] [0x2b5b268]  INFO -- : Deleted: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb
+I, [2012-12-11T00:41:27.071940 #1478] [0x2b57528]  INFO -- : Deleted: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb / datastore-6051
