@@ -1,13 +1,13 @@
 ---
 name: cloud-foundry
-director_uuid: "a73e7990-08dc-410d-8433-4c20f039e218"
+director_uuid: "DO NOT CHANGE THIS STRING"
 
 release:
-  name: appcloud
-  version: 120
+  name: uhuru-appcloud
+  version: 122.1-dev
 
 compilation:
-  workers: 1
+  workers: 6
   reuse_compilation_vms: true
   network: default
   cloud_properties:
@@ -38,9 +38,42 @@ networks:
 
 resource_pools:
 
-- name: tiny
+#- name: nagios
+#  network: default
+#  size: 2
+#  stemcell:
+#    name: bosh-stemcell-php
+#    version: 0.6.4.3
+#  cloud_properties:
+#    ram: 1024
+#    disk: 5000
+#    cpu: 2
+
+- name: windows
   network: default
   size: 3
+  stemcell:
+    name: uhuru-windows-2008R2
+    version: 0.9.2
+  cloud_properties:
+    ram: 900
+    disk: 5000
+    cpu: 2
+
+- name: sqlserver
+  network: default
+  size: 1
+  stemcell:
+    name: uhuru-windows-2008R2-sqlserver
+    version: 0.9.2
+  cloud_properties:
+    ram: 800
+    disk: 5000
+    cpu: 2
+
+- name: tiny
+  network: default
+  size: 6
   stemcell:
     name: bosh-stemcell
     version: 0.6.7
@@ -51,7 +84,6 @@ resource_pools:
   env:
     bosh:
       password: $.0TYqjnLUr.EydKaxj8.QC.NGk4EjoqFnEUp8Ye6CCZMnyyNOE2C8OfDtH6GbUQ6cluzLuVK5tfWsv/Dy0
-
 
 - name: small
   network: default
@@ -69,7 +101,7 @@ resource_pools:
 
 - name: medium
   network: default
-  size: 15
+  size: 10
   stemcell:
     name: bosh-stemcell
     version: 0.6.7
@@ -94,7 +126,6 @@ resource_pools:
   env:
     bosh:
       password: /D29TTtF8BFNYV7RB5l0Dclh7fqySl2un6.wBVfe9mQoV10Piz96gBhQH9KusFeO.8ic.oKzZ.
-
 
 - name: deas
   network: default
@@ -143,44 +174,44 @@ jobs:
 
 - name: hbase_master
   template: hbase_master
-  instances: 1
+  instances: 0
   resource_pool: medium
   persistent_disk: 2048
   networks:
   - name: default
-    static_ips:
-    - 10.134.0.155
+#    static_ips:
+#    - 10.134.0.155
 
 - name: hbase_slave
   template: hbase_slave
-  instances: 1
+  instances: 0
   resource_pool: medium
   persistent_disk: 2048
   networks:
   - name: default
-    static_ips:
-    - 10.134.0.156
+#    static_ips:
+#    - 10.134.0.156
 
 - name: opentsdb
   template: opentsdb
-  instances: 1
+  instances: 0
   resource_pool: medium
   persistent_disk: 16384
   networks:
   - name: default
-    static_ips:
-    - 10.134.0.157
+#    static_ips:
+#    - 10.134.0.157
 
 - name: collector
   template: collector
-  instances: 1
+  instances: 0
   resource_pool: medium
   networks:
   - name: default
 
 - name: dashboard
   template: dashboard
-  instances: 1
+  instances: 0
   resource_pool: medium
   networks:
   - name: default
@@ -339,6 +370,67 @@ jobs:
   networks:
   - name: default
 
+- name: simple_webui
+  template: simple_webui
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+    static_ips:
+    - 
+
+#- name: nagios
+#  template: nagios
+#  instances: 1
+#  resource_pool: nagios
+#  persistent_disk: 5000
+#  networks:
+#  - name: default
+
+- name: mssql_gateway
+  template: mssql_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: uhurufs_gateway
+  template: uhurufs_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: win_dea
+  template: win_dea
+  instances: 1
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhuru_tunnel
+  template: uhuru_tunnel
+  instances: 1
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhurufs_node
+  template: uhurufs_node
+  instances: 1
+  persistent_disk: 5000
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: mssql_node
+  template: mssql_node
+  instances: 1
+  persistent_disk: 5000
+  resource_pool: sqlserver
+  networks:
+  - name: default
+
 properties:
   domain: testcfm.com
 
@@ -347,6 +439,65 @@ properties:
   networks:
     apps: default
     management: default
+
+  uhuru:
+    simple_webui:
+      port: 9191
+      cloud_name: "Uhuru Cloud"
+      domain: "cf.me"
+      recaptcha_public_key: "6Lfqe9kSAAAAAITuzJDfgLX41pMhyj2UEDp72NiM"
+      recaptcha_private_key: "6Lfqe9kSAAAAAMKol6bOmzfghgan53CIG9ftzYi-"
+      activation_link_secret: "casnuugycasuygc12tddbhcb7"
+      email:
+        from: "uhurusoftw@gmail.com"
+        from_alias: "Uhuru Cloud"
+      contact:
+        email: "uhuru@uhurusoftware.com"
+      admin_email: "dev@uhurusoftware.com"
+      admin_password: "password1234!"
+      default_random_password: 01234567890123456789
+
+  win_dea:
+    filerport: 12346
+    statusport: 12345
+    max_memory: 4096
+
+  uhurufs_gateway:
+    check_orphan_interval: 7200
+    token: "0xfeedface"
+    service_timeout: 60
+    node_timeout: 30
+    supported_versions:
+    - "0.9"
+    version_aliases:
+      current: "0.9"
+
+  uhurufs_node:
+    capacity: 200
+    statusport: 12345
+    default_version: 0.9
+
+  mssql_gateway:
+    check_orphan_interval: 7200
+    token: "0xfeedface"
+    service_timeout: 60
+    node_timeout: 30
+    supported_versions:
+    - "2008"
+    version_aliases:
+      current: "2008"
+
+  mssql_node:
+    capacity: 200
+    admin_user: sa
+    admin_password: changem3!
+    port: 1433
+    max_db_size: 20
+    max_long_query: 3
+    max_long_tx: 30
+    max_user_conns: 20
+    default_version: 2008
+    statusport: 12345
 
   nats:
     user: olCiM3B83fOB
@@ -531,6 +682,33 @@ properties:
           max_memory_factor: 0.5
           max_clients: 512
           capacity: 200
+    mssql:
+      free:
+        job_management:
+          high_water: 1400
+          low_water: 100
+        configuration:
+          allow_over_provisioning: true
+          capacity: 200
+          max_db_size: 128
+          max_long_query: 3
+          max_long_tx: 0
+          max_clients: 20
+          lifecycle:
+            enable: true
+            worker_count: 1
+            snapshot:
+              quota: 10
+    uhurufs:
+      free:
+        job_management:
+          high_water: 1400
+          low_water: 100
+        configuration:
+          capacity: 200
+          max_memory: 16
+          max_swap: 32
+          max_clients: 500
   mysql_gateway:
     supported_versions: ["5.1"]
     version_aliases:
@@ -539,28 +717,13 @@ properties:
     token: Alg82gD2mXjtyq5B
     node_timeout: 60
     service_timeout: 30
+
   mysql_node:
     supported_versions: ["5.1"]
     default_versions: "5.1"
     production: true
     password: aaa13djkas
     op_time_limit: 50
-
-  mssql_gateway:
-    supported_versions: ["2008"]
-    version_aliases:
-      current: "2008"
-    check_orphan_interval: 7200
-    token: CMxrEI3Hgegmqap7
-
-  uhurufs_gateway:
-    supported_versions: ["0.9"]
-    version_aliases:
-      current: "0.9"
-    check_orphan_interval: 7200
-    token: vIR95zCFl9xwlTsa
-    node_timeout: 60
-    service_timeout: 30
 
   redis_gateway:
     supported_versions: ["2.2"]

@@ -30,22 +30,22 @@ function deploy_cloudfoundry()
   ret=$(( $ret + $? ))
 
   echo "Uploading bosh stemcell"
-  $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
+  $bosh_nonint upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
 #  ret=$(( $ret + $? ))
 
   echo "Uploading bosh php vsphere stemcell"
-  $bosh upload stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
+  $bosh_nonint upload stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
 
   echo "Uploading uhuru windows 2008R2 stemcell"
-  $bosh upload stemcell uhuru-windows-2008R2-0.9.2.tgz
+  $bosh_nonint upload stemcell uhuru-windows-2008R2-0.9.2.tgz
 
   echo "Uploading uhuru windows 2008R2 SQL server stemcell"
-  $bosh upload stemcell uhuru-windows-2008R2-sqlserver-0.9.2.tgz
+  $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.2.tgz
 
   echo "Uploading release"
   [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && 
     {
-    $bosh upload release uhuru-appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
+    $bosh_nonint upload release uhuru-appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
     ret=$(( $ret + $? ))
     }
 
@@ -65,7 +65,7 @@ function deploy_cloudfoundry()
   $bosh deployment cloudfoundry/cloudfoundry.yml
   ret=$(( $ret + $? ))
 
-  $bosh deploy
+  $bosh_nonint deploy
   ret=$(( $ret + $? ))
 
   echo "$ret" >$tmpdir/upload_bosh_stemcell.ret
@@ -407,20 +407,20 @@ networks:
 
 resource_pools:
 
-- name: nagios
-  network: default
-  size: 2
-  stemcell:
-    name: bosh-stemcell-php
-    version: 0.6.4.3
-  cloud_properties:
-    ram: 1024
-    disk: 5000
-    cpu: 2
+#- name: nagios
+#  network: default
+#  size: 2
+#  stemcell:
+#    name: bosh-stemcell-php
+#    version: 0.6.4.3
+#  cloud_properties:
+#    ram: 1024
+#    disk: 5000
+#    cpu: 2
 
 - name: windows
   network: default
-  size: 3
+  size: $cloudfoundry_pool_windows_size
   stemcell:
     name: uhuru-windows-2008R2
     version: 0.9.2
@@ -431,7 +431,7 @@ resource_pools:
 
 - name: sqlserver
   network: default
-  size: 1
+  size: $cloudfoundry_pool_sqlserver_size
   stemcell:
     name: uhuru-windows-2008R2-sqlserver
     version: 0.9.2
@@ -748,13 +748,13 @@ jobs:
     static_ips:
     - $cloudfoundry_ip_simple_webui
 
-- name: nagios
-  template: nagios
-  instances: 1
-  resource_pool: nagios
-  persistent_disk: 5000
-  networks:
-  - name: default
+#- name: nagios
+#  template: nagios
+#  instances: 1
+#  resource_pool: nagios
+#  persistent_disk: 5000
+#  networks:
+#  - name: default
 
 - name: mssql_gateway
   template: mssql_gateway
@@ -1108,7 +1108,7 @@ cloudfoundry_pool_small_size=5
 cloudfoundry_pool_medium_size=$(( 3+$cloudfoundry_cloud_controller_count+$cloudfoundry_stager_count+$cloudfoundry_router_count+$cloudfoundry_mysqlnode_count+$cloudfoundry_mongodbnode_count+$cloudfoundry_rabbitnode_count+$cloudfoundry_postgresqlnode_count ))
 cloudfoundry_pool_large_size=$cloudfoundry_redisnode_count
 
-cloudfoundry_pool_nagios_size=1
+#cloudfoundry_pool_nagios_size=1
 cloudfoundry_pool_sqlserver_size=$cloudfoundry_mssqlnode_count
 cloudfoundry_pool_windows_size=$(( $cloudfoundry_windea_count + $cloudfoundry_uhurufsnode_count + $cloudfoundry_uhuru_tunnel_count ))
 
