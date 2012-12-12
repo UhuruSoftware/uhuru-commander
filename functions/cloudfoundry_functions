@@ -512,65 +512,6 @@ resource_pools:
 
 jobs:
 
-- name: simple_webui
-  template: simple_webui
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-
-- name: nagios
-  template: nagios
-  instances: 1
-  resource_pool: nagios
-  persistent_disk: 5000
-  networks:
-  - name: default
-
-- name: mssql_gateway
-  template: mssql_gateway
-  instances: `[ $cloudfoundry_mssqlnode_count -gt 0 ] && echo 1 || echo 0`
-  resource_pool: tiny
-  networks:
-  - name: default
-
-- name: uhurufs_gateway
-  template: uhurufs_gateway
-  instances: `[ $cloudfoundry_uhurufsnode_count -gt 0 ] && echo 1 || echo 0`
-  resource_pool: tiny
-  networks:
-  - name: default
-
-- name: win_dea
-  template: win_dea
-  instances: $cloudfoundry_windea_count
-  resource_pool: windows
-  networks:
-  - name: default
-
-- name: uhuru_tunnel
-  template: uhuru_tunnel
-  instances: $cloudfoundry_uhuru_tunnel_count
-  resource_pool: windows
-  networks:
-  - name: default
-
-- name: uhurufs_node
-  template: uhurufs_node
-  instances: $cloudfoundry_uhurufsnode_count
-  persistent_disk: 5000
-  resource_pool: windows
-  networks:
-  - name: default
-
-- name: mssql_node
-  template: mssql_node
-  instances: $cloudfoundry_mssqlnode_count
-  persistent_disk: 5000
-  resource_pool: sqlserver
-  networks:
-  - name: default
-
 - name: debian_nfs_server
   template: debian_nfs_server
   instances: 1
@@ -795,6 +736,67 @@ jobs:
   template: postgresql_gateway
   instances: `[ $cloudfoundry_postgresqlnode_count -gt 0 ] && echo 1 || echo 0`
   resource_pool: tiny
+  networks:
+  - name: default
+
+- name: simple_webui
+  template: simple_webui
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+    static_ips:
+    - $cloudfoundry_ip_simple_webui
+
+- name: nagios
+  template: nagios
+  instances: 1
+  resource_pool: nagios
+  persistent_disk: 5000
+  networks:
+  - name: default
+
+- name: mssql_gateway
+  template: mssql_gateway
+  instances: `[ $cloudfoundry_mssqlnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: uhurufs_gateway
+  template: uhurufs_gateway
+  instances: `[ $cloudfoundry_uhurufsnode_count -gt 0 ] && echo 1 || echo 0`
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: win_dea
+  template: win_dea
+  instances: $cloudfoundry_windea_count
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhuru_tunnel
+  template: uhuru_tunnel
+  instances: $cloudfoundry_uhuru_tunnel_count
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhurufs_node
+  template: uhurufs_node
+  instances: $cloudfoundry_uhurufsnode_count
+  persistent_disk: 5000
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: mssql_node
+  template: mssql_node
+  instances: $cloudfoundry_mssqlnode_count
+  persistent_disk: 5000
+  resource_pool: sqlserver
   networks:
   - name: default
 
@@ -1133,6 +1135,7 @@ function calc_cloudfoundry_ips()
 
   cloudfoundry_ip_mssql_node=`add_to_ip $conf_cloudfoundry_static_start 10`
   cloudfoundry_ip_router=`add_to_ip $conf_cloudfoundry_static_start 11`
+  cloudfoundry_ip_simple_webui=`add_to_ip $conf_cloudfoundry_static_start 12`
 
 
 #  cloudfoundry_ip_collector=`add_to_ip $conf_cloudfoundry_static_start 6`

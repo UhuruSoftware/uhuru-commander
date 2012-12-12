@@ -490,6 +490,7 @@ echo "cloudfoundry_rabbit_gateway_token=$cloudfoundry_rabbit_gateway_token" >>$c
 echo "cloudfoundry_postgresql_gateway_token=$cloudfoundry_postgresql_gateway_token" >>$conffile
 echo "cloudfoundry_ip_syslog_aggregator=$cloudfoundry_ip_syslog_aggregator" >>$conffile
 echo "cloudfoundry_ip_uaadb=$cloudfoundry_ip_uaadb" >>$conffile
+echo "cloudfoundry_ip_simple_webui=$cloudfoundry_ip_simple_webui" >>$conffile
 echo "cloudfoundry_uaadb_password=$cloudfoundry_uaadb_password" >>$conffile
 echo "cloudfoundry_uaa_cc_token_secret=$cloudfoundry_uaa_cc_token_secret" >>$conffile
 echo "cloudfoundry_uaa_cc_client_secret=$cloudfoundry_uaa_cc_client_secret" >>$conffile

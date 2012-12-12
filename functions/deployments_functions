@@ -88,7 +88,12 @@ function bosh_ssh()
 {
 #$1 = "dea/0"
 clear
+cd $pwd/.uhuru-deployments/$deployment
+$bosh deployment cloudfoundry/cloudfoundry.yml
+
 $bosh ssh `echo $1|cut -f 1 -d \/` `echo $1|cut -f 2 -d \/`
+
+cd $pwd
 }
 
 function monitor_deployment()
@@ -99,6 +104,8 @@ function monitor_deployment()
 
   rm -f ~/.bosh_config 2>/dev/null
   $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 1>/dev/null 2>/dev/null
+  $bosh login admin admin 1>/dev/null 2>/dev/null
+
   $bosh vms cloud-foundry | grep \| | grep -v "Resource Pool" 1>$pwd/bosh_vms 2>/dev/null
 
   [ `cat $pwd/bosh_vms|wc -l` -eq 0 ] &&
@@ -122,9 +129,6 @@ EOF
 
   infobox "Getting machines list"
 
-#FIXME scrie outputu de la bosh vms, si in functie de ala vezi daca afisezi sau nu meniul
-
-#      cat bosh_output | grep \| | grep -v "Resource Pool" | while read line;
     cat $pwd/bosh_vms | while read line;
       do
       machine=`echo $line|awk '{print $2}'`
