@@ -224,7 +224,7 @@ function upload_bosh_stemcell()
   ret=$(( $ret + $? ))
 
   echo "Uploading bosh stemcell"
-  $bosh upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
+  $bosh_nonint upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
 #  ret=$(( $ret + $? ))
 
   echo "$ret" >$tmpdir/upload_bosh_stemcell.ret
@@ -248,7 +248,7 @@ function upload_bosh_release()
   mkdir -p $pwd/blobstore
 
   echo "Uploading release bosh-${version_bosh}.tgz"
-  $bosh upload release bosh-${version_bosh}.tgz
+  $bosh_nonint upload release bosh-${version_bosh}.tgz
   ret=$(( $ret + $? ))
 
   echo "$ret" >$tmpdir/get_latest_bosh.ret
@@ -289,7 +289,7 @@ function deploy_bosh()
   $bosh deployment bosh/bosh.yml
   ret=$(( $ret + $? ))
 
-  $bosh deploy
+  $bosh_nonint deploy
   ret=$(( $ret + $? ))
 
   cd $pwd

@@ -90,10 +90,10 @@ function deploy_micro_bosh()
   ret=$(( $ret + $? ))
 
   echo "Running: bosh micro deploy $pwd/micro-bosh-stemcell-vsphere-0.6.4.tgz"
-  $bosh micro deploy $pwd/micro-bosh-stemcell-vsphere-0.6.4.tgz ||
+  $bosh_nonint micro deploy $pwd/micro-bosh-stemcell-vsphere-0.6.4.tgz ||
     {
     echo "Running: bosh micro deploy $pwd/micro-bosh-stemcell-vsphere-0.6.4.tgz --update"
-    $bosh micro deploy $pwd/micro-bosh-stemcell-vsphere-0.6.4.tgz --update
+    $bosh_nonint micro deploy $pwd/micro-bosh-stemcell-vsphere-0.6.4.tgz --update
     ret=$(( $ret + $? ))
     }
 

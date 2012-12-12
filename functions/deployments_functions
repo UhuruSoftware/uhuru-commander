@@ -2,7 +2,6 @@
 
 function delete_deployment()
 {
-#FIXME - delete it from vcenter also
   yesno "DELETE" "Are you sure you want to delete deployment $1 ? This CAN NOT be undone !" && 
     {
     clear
@@ -18,17 +17,18 @@ function tear_down_deployment()
     {
     clear
     echo "Tearing down VMs from the deployment ..."
+
     rm -f ~/.bosh_config 2>/dev/null
     $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 && \
     $bosh login admin admin && \
-    $bosh --non-interactive delete deployment cloud-foundry --force
+    $bosh_nonint delete deployment cloud-foundry --force
+
     rm -f ~/.bosh_config 2>/dev/null && \
     $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 && \
     $bosh login admin admin && \
-    $bosh --non-interactive delete deployment bosh --force && \
-
+    $bosh_nonint delete deployment bosh --force && \
     cd $pwd/.uhuru-deployments/$deployment/deployments && \
-    $bosh --non-interactive micro delete
+    $bosh_nonint micro delete
 
     echo "Press ENTER to continue"
     read
@@ -88,8 +88,12 @@ function bosh_ssh()
 {
 #$1 = "dea/0"
 clear
+get_cloudfoundry_uuid
+set_cloudfoundry_uuid
+
 cd $pwd/.uhuru-deployments/$deployment
 $bosh deployment cloudfoundry/cloudfoundry.yml
+$bosh login admin admin
 
 $bosh ssh `echo $1|cut -f 1 -d \/` `echo $1|cut -f 2 -d \/`
 

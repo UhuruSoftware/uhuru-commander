@@ -23,7 +23,8 @@ dpkg -s ipcalc 1>/dev/null 2>/dev/null || sudo apt-get install ipcalc
   }
 
 bgtitle="Uhuru Software"
-bosh="/usr/local/ruby/bin/bosh --non-interactive"
+bosh="/usr/local/ruby/bin/bosh"
+bosh_nonint="/usr/local/ruby/bin/bosh --non-interactive"
 pid=$$
 pwd=`pwd`
 tmpdir="`mktemp -d`"
@@ -158,7 +159,7 @@ function deploy_bosh()
   $bosh deployment $pwd/.uhuru-deployments/$deployment/deployments/bosh/bosh.yml
   ret=$(( $ret + $? ))
 
-  $bosh deploy 2>&1
+  $bosh_nonint deploy 2>&1
   ret=$(( $ret + $? ))
 
   rm -f $tmpdir/deploy_bosh.lock
