@@ -65,7 +65,13 @@ function deploy_cloudfoundry()
   $bosh deployment cloudfoundry/cloudfoundry.yml
   ret=$(( $ret + $? ))
 
-  $bosh_nonint deploy
+  $bosh_nonint deploy ||
+    {
+    $bosh_nonint deploy ||
+      {
+      $bosh_nonint deploy
+      }
+    }
   ret=$(( $ret + $? ))
 
   echo "$ret" >$tmpdir/upload_bosh_stemcell.ret
@@ -428,6 +434,9 @@ resource_pools:
     ram: 900
     disk: 5000
     cpu: 2
+    env:
+      windows: 
+        product_key: $cloudfoundry_windows_product_key
 
 - name: sqlserver
   network: default
@@ -439,6 +448,9 @@ resource_pools:
     ram: 800
     disk: 5000
     cpu: 2
+    env:
+      windows: 
+        product_key: $cloudfoundry_windows_product_key
 
 - name: tiny
   network: default
@@ -813,7 +825,7 @@ properties:
     simple_webui:
       port: $conf_uhuru_port
       cloud_name: "$conf_uhuru_cloud_name"
-      domain: "$conf_uhuru_domain"
+      domain: "$cloudfoundry_domain"
       recaptcha_public_key: "$conf_uhuru_recaptcha_public_key"
       recaptcha_private_key: "$conf_uhuru_recaptcha_private_key"
       activation_link_secret: "$conf_uhuru_activation_link_secret"
