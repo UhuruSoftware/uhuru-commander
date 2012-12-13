@@ -69,11 +69,11 @@ function add_deployment()
 
     mkdir -p $pwd/.uhuru-deployments/$sel
     mkdir -p $pwd/.uhuru-deployments/$sel/plans
-    mkdir -p $pwd/.uhuru-deployments/$sel/{bosh,micro_bosh,cloudfoundry}
-    
+    mkdir -p $pwd/.uhuru-deployments/$sel/deployments/{bosh,micro_bosh,cloudfoundry}
+
     cp -f $pwd/.uhuru-deployments/.default/default.conf $pwd/.uhuru-deployments/$sel/${sel}.conf
     cp -f $pwd/.uhuru-deployments/.default/plans/* $pwd/.uhuru-deployments/$sel/plans/
-    
+
 
     . .uhuru-deployments/$deployment/${deployment}.conf
 
