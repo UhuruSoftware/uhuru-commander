@@ -37,7 +37,7 @@ do
   "Contact email" "$conf_uhuru_contact_email" \
   "Admin email" "$conf_uhuru_admin_email" \
   "Admin password" "$conf_uhuru_admin_password" \
-  "Windows key" "$cloufdoundry_windows_product_key" \
+  "Windows key" "$cloudfoundry_windows_product_key" \
   2>$tmpdir/conf_uhuru.out
   ret=$?
 
@@ -48,16 +48,16 @@ do
     {
     case "$sel" in
     "Port") inputbox "Port" "Enter port" "$conf_uhuru_port" && conf_uhuru_port=`cat $tmpdir/input.out` ;;
-    "Cloud name") inputbox "Cloud name" "Enter cloud name" && conf_uhuru_cloud_name=`cat $tmpdir/input.out` ;;
+    "Cloud name") inputbox "Cloud name" "Enter cloud name" "$conf_uhuru_cloud_name" && conf_uhuru_cloud_name=`cat $tmpdir/input.out` ;;
     "Recaptcha public key") inputbox "Recaptcha public key" "Enter recaptcha public key" "$conf_uhuru_recaptcha_public_key" && conf_uhuru_recaptcha_public_key=`cat $tmpdir/input.out` ;;
     "Recaptcha private key") inputbox "Recaptcha private key" "Enter recaptcha private key" "$conf_uhuru_recaptcha_private_key" && conf_uhuru_recaptcha_private_key=`cat $tmpdir/input.out` ;;
     "Activation link secret") inputbox "Activation link secret" "Enter activation link secret" "$conf_uhuru_activation_link_secret" && conf_uhuru_activation_link_secret=`cat $tmpdir/input.out` ;;
-    "Email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
-    "Email alias") inputbox "Email alias" "Enter email alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
+    "Email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
+    "Email alias") inputbox "Email alias" "Enter email alias" "$conf_uhuru_email_from_alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
     "Contact email") inputbox "Contact email" "Enter contact email" "$conf_uhuru_contact_email" && conf_uhuru_contact_email=`cat $tmpdir/input.out` ;;
     "Admin email") inputbox "Admin email" "Enter admin email" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;
     "Admin password") inputbox "Admin password" "Enter admin password" "$conf_uhuru_admin_password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
-    "Windows key") inputbox "Windows key" "Enter windows activation key" "$cloufdoundry_windows_product_key" && cloufdoundry_windows_product_key=`cat $tmpdir/input.out` ;;
+    "Windows key") inputbox "Windows key" "Enter windows activation key" "$cloudfoundry_windows_product_key" && cloudfoundry_windows_product_key=`cat $tmpdir/input.out` ;;
     esac
     rm -f $tmpdir/input.out
     }

@@ -38,16 +38,16 @@ networks:
 
 resource_pools:
 
-- name: nagios
-  network: default
-  size: 2
-  stemcell:
-    name: bosh-stemcell-php
-    version: 0.6.4.3
-  cloud_properties:
-    ram: 1024
-    disk: 5000
-    cpu: 2
+#- name: nagios
+#  network: default
+#  size: 2
+#  stemcell:
+#    name: bosh-stemcell-php
+#    version: 0.6.4.3
+#  cloud_properties:
+#    ram: 1024
+#    disk: 5000
+#    cpu: 2
 
 - name: windows
   network: default
@@ -59,6 +59,9 @@ resource_pools:
     ram: 900
     disk: 5000
     cpu: 2
+    env:
+      windows: 
+        product_key: 
 
 - name: sqlserver
   network: default
@@ -70,6 +73,9 @@ resource_pools:
     ram: 800
     disk: 5000
     cpu: 2
+    env:
+      windows: 
+        product_key: 
 
 - name: tiny
   network: default
@@ -142,65 +148,6 @@ resource_pools:
       password: .rD5GntpUt9Bewb4325v5pt/IHMXfvXZVPNZU7XmCZNfV8L0NNs4gyZ9gjRVRJms/S1
 
 jobs:
-
-- name: simple_webui
-  template: simple_webui
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-
-- name: nagios
-  template: nagios
-  instances: 1
-  resource_pool: nagios
-  persistent_disk: 5000
-  networks:
-  - name: default
-
-- name: mssql_gateway
-  template: mssql_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-
-- name: uhurufs_gateway
-  template: uhurufs_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-
-- name: win_dea
-  template: win_dea
-  instances: 1
-  resource_pool: windows
-  networks:
-  - name: default
-
-- name: uhuru_tunnel
-  template: uhuru_tunnel
-  instances: 1
-  resource_pool: windows
-  networks:
-  - name: default
-
-- name: uhurufs_node
-  template: uhurufs_node
-  instances: 1
-  persistent_disk: 5000
-  resource_pool: windows
-  networks:
-  - name: default
-
-- name: mssql_node
-  template: mssql_node
-  instances: 1
-  persistent_disk: 5000
-  resource_pool: sqlserver
-  networks:
-  - name: default
 
 - name: debian_nfs_server
   template: debian_nfs_server
@@ -429,6 +376,67 @@ jobs:
   networks:
   - name: default
 
+- name: simple_webui
+  template: simple_webui
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+    static_ips:
+    - 
+
+#- name: nagios
+#  template: nagios
+#  instances: 1
+#  resource_pool: nagios
+#  persistent_disk: 5000
+#  networks:
+#  - name: default
+
+- name: mssql_gateway
+  template: mssql_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: uhurufs_gateway
+  template: uhurufs_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+
+- name: win_dea
+  template: win_dea
+  instances: 1
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhuru_tunnel
+  template: uhuru_tunnel
+  instances: 1
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: uhurufs_node
+  template: uhurufs_node
+  instances: 1
+  persistent_disk: 5000
+  resource_pool: windows
+  networks:
+  - name: default
+
+- name: mssql_node
+  template: mssql_node
+  instances: 1
+  persistent_disk: 5000
+  resource_pool: sqlserver
+  networks:
+  - name: default
+
 properties:
   domain: uhurucloud.net
 
@@ -442,7 +450,7 @@ properties:
     simple_webui:
       port: 9191
       cloud_name: "Uhuru Cloud"
-      domain: "cf.me"
+      domain: "uhurucloud.net"
       recaptcha_public_key: "6Lfqe9kSAAAAAITuzJDfgLX41pMhyj2UEDp72NiM"
       recaptcha_private_key: "6Lfqe9kSAAAAAMKol6bOmzfghgan53CIG9ftzYi-"
       activation_link_secret: "casnuugycasuygc12tddbhcb7"

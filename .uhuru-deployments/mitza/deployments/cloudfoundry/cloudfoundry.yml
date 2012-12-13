@@ -61,7 +61,7 @@ resource_pools:
     cpu: 2
     env:
       windows: 
-        product_key: 
+        product_key: enter_windows_activation_key
 
 - name: sqlserver
   network: default
@@ -75,7 +75,7 @@ resource_pools:
     cpu: 2
     env:
       windows: 
-        product_key: 
+        product_key: enter_windows_activation_key
 
 - name: tiny
   network: default
@@ -450,7 +450,7 @@ properties:
     simple_webui:
       port: 9191
       cloud_name: "Uhuru Cloud"
-      domain: "cf.me"
+      domain: "testcfm.com"
       recaptcha_public_key: "6Lfqe9kSAAAAAITuzJDfgLX41pMhyj2UEDp72NiM"
       recaptcha_private_key: "6Lfqe9kSAAAAAMKol6bOmzfghgan53CIG9ftzYi-"
       activation_link_secret: "casnuugycasuygc12tddbhcb7"
