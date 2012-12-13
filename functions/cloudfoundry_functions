@@ -12,10 +12,10 @@ function deploy_cloudfoundry()
 #  [ -e bosh-stemcell-php-vsphere-0.6.4.3.tgz ] || $bosh download public stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
 #  ret=$(( $ret + $? ))
 
-#  [ -e uhuru-windows-2008R2-0.9.2.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-0.9.2.tgz
+#  [ -e uhuru-windows-2008R2-0.9.3.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-0.9.3.tgz
 #  ret=$(( $ret + $? ))
 
-#  [ -e uhuru-windows-2008R2-sqlserver-0.9.2.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-sqlserver-0.9.2.tgz
+#  [ -e uhuru-windows-2008R2-sqlserver-0.9.3.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-sqlserver-0.9.3.tgz
 #  ret=$(( $ret + $? ))
 
   echo "Finished downloading BOSH stemcell."
@@ -37,10 +37,10 @@ function deploy_cloudfoundry()
   $bosh_nonint upload stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
 
   echo "Uploading uhuru windows 2008R2 stemcell"
-  $bosh_nonint upload stemcell uhuru-windows-2008R2-0.9.2.tgz
+  $bosh_nonint upload stemcell uhuru-windows-2008R2-0.9.3.tgz
 
   echo "Uploading uhuru windows 2008R2 SQL server stemcell"
-  $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.2.tgz
+  $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.3.tgz
 
   echo "Uploading release"
   [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && 
@@ -429,7 +429,7 @@ resource_pools:
   size: $cloudfoundry_pool_windows_size
   stemcell:
     name: uhuru-windows-2008R2
-    version: 0.9.2
+    version: 0.9.3
   cloud_properties:
     ram: 900
     disk: 5000
@@ -443,7 +443,7 @@ resource_pools:
   size: $cloudfoundry_pool_sqlserver_size
   stemcell:
     name: uhuru-windows-2008R2-sqlserver
-    version: 0.9.2
+    version: 0.9.3
   cloud_properties:
     ram: 800
     disk: 5000

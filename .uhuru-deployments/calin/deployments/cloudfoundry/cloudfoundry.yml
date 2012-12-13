@@ -54,7 +54,7 @@ resource_pools:
   size: 3
   stemcell:
     name: uhuru-windows-2008R2
-    version: 0.9.2
+    version: 0.9.3
   cloud_properties:
     ram: 900
     disk: 5000
@@ -65,7 +65,7 @@ resource_pools:
   size: 1
   stemcell:
     name: uhuru-windows-2008R2-sqlserver
-    version: 0.9.2
+    version: 0.9.3
   cloud_properties:
     ram: 800
     disk: 5000
