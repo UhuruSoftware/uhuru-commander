@@ -59,6 +59,9 @@ resource_pools:
     ram: 900
     disk: 5000
     cpu: 2
+    env:
+      windows: 
+        product_key: 
 
 - name: sqlserver
   network: default
@@ -70,6 +73,9 @@ resource_pools:
     ram: 800
     disk: 5000
     cpu: 2
+    env:
+      windows: 
+        product_key: 
 
 - name: tiny
   network: default

@@ -524,7 +524,6 @@ echo "version_cloudfoundry=$version_cloudfoundry" >>$conffile
 
 echo "conf_uhuru_port=$conf_uhuru_port" >>$conffile
 echo "conf_uhuru_cloud_name=$conf_uhuru_cloud_name" >>$conffile
-echo "conf_uhuru_domain=$conf_uhuru_domain" >>$conffile
 echo "conf_uhuru_recaptcha_public_key=$conf_uhuru_recaptcha_public_key" >>$conffile
 echo "conf_uhuru_recaptcha_private_key=$conf_uhuru_recaptcha_private_key" >>$conffile
 echo "conf_uhuru_activation_link_secret=$conf_uhuru_activation_link_secret" >>$conffile
@@ -538,6 +537,7 @@ echo "conf_uhuru_default_random_password=$conf_uhuru_default_random_password" >>
 echo "cloudfoundry_mssqlnode_count=$cloudfoundry_mssqlnode_count" >>$conffile
 echo "cloudfoundry_windea_count=$cloudfoundry_windea_count" >>$conffile
 echo "cloudfoundry_uhuru_tunnel_count=$cloudfoundry_uhuru_tunnel_count" >>$conffile
+echo "cloudfoundry_windows_product_key=\"$cloudfoundry_windows_product_key\"" >>$conffile
 }
 
 
