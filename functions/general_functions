@@ -198,6 +198,7 @@ function edit_file()
 function cleanup()
 {
   rm -rf $tmpdir
+  reset
 }
 
 function write_vars()

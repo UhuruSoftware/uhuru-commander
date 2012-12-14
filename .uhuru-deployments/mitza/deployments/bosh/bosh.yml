@@ -2,7 +2,7 @@
 name: bosh
 director_uuid: "DO NOT CHANGE THIS STRING"
 release:
-  name: bosh
+  name: uhuru-bosh
   version: 10.1-dev
 
 networks:
@@ -182,8 +182,8 @@ properties:
         vm_folder: m_bosh_vms
         template_folder: m_bosh_templates
         disk_path: m_bosh_full
-        datastore_pattern: san6tb
-        persistent_datastore_pattern: san6tb
+        datastore_pattern: san6tb1
+        persistent_datastore_pattern: san6tb1
         allow_mixed_datastores: true
         clusters:
         - Staging

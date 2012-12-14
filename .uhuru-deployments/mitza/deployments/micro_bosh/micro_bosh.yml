@@ -34,8 +34,8 @@ cloud:
             vm_folder: m_bosh_vms
             template_folder: m_bosh_templates
             disk_path: m_bosh_deployer
-            datastore_pattern: san6tb
-            persistent_datastore_pattern: san6tb
+            datastore_pattern: san6tb1
+            persistent_datastore_pattern: san6tb1
             allow_mixed_datastores: true
             clusters:
               - Staging
@@ -51,8 +51,8 @@ apply_spec:
           vm_folder: m_bosh_vms
           template_folder: m_bosh_templates
           disk_path: m_bosh_micro
-          datastore_pattern: san6tb
-          persistent_datastore_pattern: san6tb
+          datastore_pattern: san6tb1
+          persistent_datastore_pattern: san6tb1
           allow_mixed_datastores: true
           clusters:
             - Staging

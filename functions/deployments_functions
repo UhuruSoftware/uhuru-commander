@@ -43,7 +43,7 @@ function set_deployment()
   init_plans
 
   . .uhuru-deployments/$deployment/${deployment}.conf
-  
+
   deployment_menu $deployment
 }
 
@@ -55,7 +55,7 @@ function add_deployment()
 
   sel=`cat $tmpdir/input.out|tr -d \ `
   rm -f $tmpdir/input.out
-  
+
   [ $ret -eq 0 ] &&
     {
 
@@ -74,8 +74,17 @@ function add_deployment()
     cp -f $pwd/.uhuru-deployments/.default/default.conf $pwd/.uhuru-deployments/$sel/${sel}.conf
     cp -f $pwd/.uhuru-deployments/.default/plans/* $pwd/.uhuru-deployments/$sel/plans/
 
-
     . .uhuru-deployments/$deployment/${deployment}.conf
+
+    conf_datacenter_vmfolder="${sel}_vms"
+    conf_datacenter_micro_diskpath="${sel}_micro"
+    conf_datacenter_deployer_diskpath="${sel}_deployer"
+    conf_datacenter_bosh_diskpath="${sel}_full"
+    conf_datacenter_templatefolder="${sel}_templates"
+    conf_datacenter_name=datacenter
+    conf_datacenter_datastorepattern=datastore
+    conf_datacenter_persistentpattern=datastore
+    conf_datacenter_mixeddatastores=true
 
     init_plans
     save_conf
@@ -169,24 +178,26 @@ function deployment_menu()
 	  --title " Deployment $1 " \
 	  --cancel-label "Back" \
 	  --default-item "$sel" \
+	  --extra-button \
+	  --extra-label "Tear down" \
 	  --menu "In the monitoring section you will be able to ssh into each vm.\nIf you want to change the deployment settings, choose 'Configure'" 10 0 0 \
 	  "Monitor" "Monitor and controll the deployment" \
 	  "Manage" "Manage the deployment" \
-	  "Tear down" "Remove the VMs from vCenter" \
 	  2>$tmpdir/deployment_menu.sel
 	  ret=$?
 	  
     sel=`cat $tmpdir/deployment_menu.sel`
     rm -f $tmp/deployment_menu.sel
   
-    [ $ret -eq 0 ] &&
-      {
+    case $ret in
+    0)
       case "$sel" in
       "Monitor") monitor_deployment ;;
       "Manage") configure_main_menu ;;
       "Tear down") tear_down_deployment ;;
-      esac
-      }
+      esac ;;
+    3) tear_down_deployment ;;
+    esac
   done
 }
 

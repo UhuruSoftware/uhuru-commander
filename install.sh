@@ -8,7 +8,6 @@
 
 trap abusive_interruption SIGINT
 
-echo "Checking for necessary packages..."
 dpkg -s dialog 1>/dev/null 2>/dev/null || sudo apt-get install dialog
 dpkg -s ipcalc 1>/dev/null 2>/dev/null || sudo apt-get install ipcalc
 
@@ -237,9 +236,10 @@ do
   "Micro Disk Path" "$conf_datacenter_micro_diskpath" "$help_datacenter_micro_diskpath" \
   "Bosh Disk Path" "$conf_datacenter_bosh_diskpath" "$help_datacenter_bosh_diskpath" \
   "Datastore Pattern" "$conf_datacenter_datastorepattern" "$help_datacenter_datastorepattern" \
-  "Persistent Datastore Pattern" "$conf_datacenter_persistentpattern" "$help_datacenter_persistentpattern" \
   2>$tmpdir/conf_vcenter_menu.out
   ret=$?
+
+#  "Persistent Datastore Pattern" "$conf_datacenter_persistentpattern" "$help_datacenter_persistentpattern" \
 
   sel=`cat $tmpdir/conf_vcenter_menu.out`
   rm -f $tmpdir/conf_vcenter_menu.out
@@ -259,7 +259,11 @@ do
     "Deployer Disk Path") inputbox "Disk path" "$help_datacenter_deployer_diskpath" "$conf_datacenter_deployer_diskpath" && conf_datacenter_deployer_diskpath=`cat $tmpdir/input.out` ;;
     "Micro Disk Path") inputbox "Disk path" "$help_datacenter_micro_diskpath" "$conf_datacenter_micro_diskpath" && conf_datacenter_micro_diskpath=`cat $tmpdir/input.out` ;;
     "Bosh Disk Path") inputbox "Disk path" "$help_datacenter_bosh_diskpath" "$conf_datacenter_bosh_diskpath" && conf_datacenter_bosh_diskpath=`cat $tmpdir/input.out` ;;
-    "Datastore Pattern") inputbox "Datastore pattern" "$help_datacenter_datastorepattern" "$conf_datacenter_datastorepattern" && conf_datacenter_datastorepattern=`cat $tmpdir/input.out` ;;
+    "Datastore Pattern") inputbox "Datastore pattern" "$help_datacenter_datastorepattern" "$conf_datacenter_datastorepattern" &&
+      {
+      conf_datacenter_datastorepattern=`cat $tmpdir/input.out`
+      conf_datacenter_persistentpattern=`cat $tmpdir/input.out`
+      } ;;
     "Persistent Datastore Pattern") inputbox "Persistent pattern" "$help_datacenter_persistentpattern" "$conf_datacenter_persistentpattern" && conf_datacenter_persistentpattern=`cat $tmpdir/input.out` ;;
     "Mixed Datastores") $dialog --backtitle "$bgtitle" --title " Mixed datastores " --yesno "\n$help_datacenter_mixeddatastores\n" 8 0 && conf_datacenter_mixeddatastores="true" || conf_datacenter_mixeddatastores="false" ;;
     esac
@@ -396,11 +400,11 @@ do
   --extra-label "Save&Deploy" \
   --help-button \
   --help-label "Back" \
-  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 9 0 0 \
+  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 8 0 0 \
   "Network" "Configure basic network settings" \
   "Domain" "Set up the domain name" \
   "vSphere" "Configure vSphere settings" \
-  "Cloud Foundry components" "Configure the number of VMs" \
+  "Cloud Foundry components" "Configure cloudfoundry features" \
   "Advanced" "In depth settings" \
   2>$tmpdir/conf_main_menu.out
   ret=$?
@@ -414,11 +418,11 @@ do
   --extra-label "Save&Deploy" \
   --help-button \
   --help-label "Back" \
-  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 10 0 0 \
+  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 9 0 0 \
   "Network" "Configure basic network settings" \
   "Domain" "Set up the domain name" \
   "vSphere" "Configure vSphere settings" \
-  "Cloud Foundry components" "Configure the number of VMs" \
+  "Cloud Foundry components" "Configure cloudfoundry features" \
   "Uhuru" "Configure Uhuru cloud settings" \
   2>$tmpdir/conf_main_menu.out
   ret=$?
