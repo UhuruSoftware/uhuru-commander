@@ -50,10 +50,6 @@ function install_packages()
 #  apt-get -y install gcc g++ build-essential libssl-dev zlib1g-dev linux-headers-generic libsqlite3-dev libxslt-dev libxml2-dev imagemagick libmysqlclient-dev git-core mysql-server wkhtmltopdf git-core libsqlite3-dev genisoimage 2>&1
   ret=$(( $ret + $? ))
 
-#  mysqladmin -u root password mysecretpasswordgoeshere
-
-  #FIXME its fine to erase the file. maybe it didnt transfer ok in the previous run
-#  [ -e ruby-1.9.2-p290.tar.gz ] && rm -f ruby-1.9.2-p290.tar.gz
   [ ! -e ruby-1.9.2-p290.tar.gz ] && wget ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz 2>&1
   ret=$(( $ret + $? ))
 
@@ -101,156 +97,13 @@ function uninstall()
   rm -f ftp://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz
 }
 
-function install_packages_gui()
-{
-  install_packages 2>&1 1>$tmpdir/install_packages.log &
-  sleep 1
-  while [ -e $tmpdir/install_packages.lock ];
-  do
-    $dialog --title " Installing packages (step 1/7) " --tailbox $tmpdir/install_packages.log $(( $lines - 4 )) $(( $cols - 6 ))
-  done
-#  [ "`cat $tmpdir/install_packages.ret`" != "0" ] &&
-#    {
-#    msgbox "Something wrong happened during packages installation. Review the settings and try again. Press ENTER to see the log file."
-#    textbox $tmpdir/install_packages.log
-#    return 1
-#    }
-  progress_install_packages="$progress_success"
-
-  source /etc/environment
-}
-
-function deploy_micro_bosh_gui()
-{
-
-  clear
-#  deploy_micro_bosh 2>&1 1>$tmpdir/deploy_micro.log
-  deploy_micro_bosh
-  local ret=$?
-
-    echo "Press ENTER to continue"
-    read
-
-  
-#  sleep 1
-#  while [ -e $tmpdir/deploy_micro_bosh.lock ];
-#  do
-#    $dialog --title " Deploying micro BOSH (step 4/7) " --tailbox $tmpdir/deploy_micro.log $(( $lines - 4 )) $(( $cols - 6 ))
-#  done
-#  [ $ret -ne 0 ] &&
-#    {
-#    echo "An error occured. You can scroll up to see what went wrong."
-#    echo "Press ENTER to see the content of ~/.bosh_error..."
-#    read
-#    progress_deploy_micro_bosh="$progress_failure"
-#    msgbox "Something wrong happened during micro BOSH installation. Review the settings and try again. Press ENTER to see the log file."
-#    textbox $tmpdir/deploy_micro.log
-#    textbox ~/.bosh_error
-#    cat ~/.bosh_error
-#    echo "Press ENTER to continue"
-#    read
-#    return 1
-#    } || progress_deploy_micro_bosh="$progress_success"
-
-}
-
-function upload_bosh_stemcell_gui()
-{
-  clear
-  upload_bosh_stemcell
-  local ret=$?
-#  sleep 1
-#  while [ -e $tmpdir/upload_bosh_stemcell.lock ];
-#  do
-#    $dialog --title " Uploading BOSH stemcell (step 5/7) " --tailbox $tmpdir/upload_bosh_stemcell.log $(( $lines - 4 )) $(( $cols - 6 ))
-#  done
-  [ $ret -ne 0 ] &&
-    {
-    echo "An error occured. You can scroll up to see what went wrong."
-    echo "Press ENTER to continue..."
-    read
-    progress_upload_bosh_stemcell="$progress_failure"
-#    msgbox "Something wrong happened during BOSH stemcell upload. Review the settings and try again. Press ENTER to see the log file."
-#    textbox $tmpdir/upload_bosh_stemcell.log
-#    return 1
-    } || progress_upload_bosh_stemcell="$progress_success"
-}
-
-function upload_bosh_release_gui()
-{
-  clear
-  upload_bosh_release
-  local ret=$?
-#  sleep 1
-#  while [ -e $tmpdir/get_latest_bosh.lock ];
-#  do
-#    $dialog --title " Getting latest BOSH release (step 6/7) " --tailbox $tmpdir/get_latest_bosh.log $(( $lines - 4 )) $(( $cols - 6 ))
-#  done
-  [ $ret -ne 0 ] &&
-    {
-    echo "An error occured. You can scroll up to see what went wrong."
-    echo "Press ENTER to continue..."
-    read
-    progress_upload_bosh_release="$progress_failure"
-#    msgbox "Something wrong happened while fething the latest bosh release. Review the settings and try again. Press ENTER to see the log file."
-#    textbox $tmpdir/get_latest_bosh.log
-#    return 1
-    } || progress_upload_bosh_release="$progress_success"
-}
-
-function deploy_bosh_gui()
-{
-  local ret=0
-  clear
-  deploy_bosh
-  ret=$?
-
-#  sleep 1
-#  while [ -e $tmpdir/deploy_bosh.lock ];
-#  do
-#    $dialog --title " Deploying BOSH (step 7/7) " --tailbox $tmpdir/deploy_bosh.log $(( $lines - 4 )) $(( $cols - 6 ))
-#  done
-  [ $ret -ne 0 ] &&
-    {
-    echo "An error occured. You can scroll up to see what went wrong."
-    echo "Press ENTER to continue..."
-    read
-    progres_deploy_bosh="$progress_failure"
-#    msgbox "Something wrong happened while deploying BOSH. Review the settings and try again. Press ENTER to see the log file."
-#    textbox $tmpdir/deploy_bosh.log
-#    return 1
-    } || progress_deploy_bosh="$progress_success"
-}
-
 function deploy_cloudfoundry_gui()
 {
   clear
   deploy_cloudfoundry
-  local ret=$?
 
-    echo "Press ENTER to continue..."
-    read
-
-#  sleep 1
-#  while [ -e $tmpdir/deploy_bosh.lock ];
-#  do
-#    $dialog --title " Deploying BOSH (step 7/7) " --tailbox $tmpdir/deploy_bosh.log $(( $lines - 4 )) $(( $cols - 6 ))
-#  done
-#  [ $ret -ne 0 ] &&
-#    {
-#    echo "An error occured. You can scroll up to see what went wrong."
-#    echo "Press ENTER to see the content of ~/.bosh_error..."
-#    read
-
-#    cat ~/.bosh_error
-#    echo "Press ENTER to continue..."
-#    read
-    
-#    progres_deploy_cloudfoundry="$progress_failure"
-#    msgbox "Something wrong happened while deploying BOSH. Review the settings and try again. Press ENTER to see the log file."
-#    textbox $tmpdir/deploy_bosh.log
-#    return 1
-#    } || progress_deploy_cloudfoundry="$progress_success"
+  echo "Press ENTER to continue..."
+  read
 }
 
 function install_steps()
@@ -344,35 +197,4 @@ function install_everything()
 
   echo "Press ENTER to continue"
   read
-}
-
-function install_everything_obsolete()
-{
-msgbox " Datacenter configuration " "Please create the following items on the datacenter :\n\n
-Datacenter name: $conf_datacenter_name\n
-Datacenter virtual machines folder: $conf_datacenter_vmfolder\n
-Datacenter template folder: $conf_datacenter_templatefolder\n
-Datacenter micro disk path: $conf_datacenter_micro_diskpath\n
-Datacenter bosh disk path: $conf_datacenter_bosh_diskpath\n
-Datacenter datastore pattern: $conf_datacenter_datastorepattern\n
-Datacenter persistent pattern: $conf_datacenter_persistentpattern\n\n
-Press ENTER to proceed, only AFTER you configured the datacenter !"
-
-  save_conf
-
-  install_packages_gui
-  deploy_micro_bosh_gui
-  upload_bosh_stemcell_gui
-  upload_bosh_release_gui
-  deploy_bosh_gui
-  deploy_cloudfoundry_gui
-}
-
-function pre_install()
-{
-  echo "Checking for necessary packages..."
-  sudo apt-get -q -y install dialog ipcalc
-  sudo apt-get -q -y install whois
-  sudo apt-get -q -y install mkpasswd
-#  [ ! -z "`grep '10.' /etc/lsb-release.dpkg-dist`" ] && sudo apt-get -q -y install mkpasswd 2>&1 1>/dev/null
 }

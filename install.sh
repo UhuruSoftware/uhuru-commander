@@ -6,8 +6,6 @@
 #  exit 1
   }
 
-
-
 trap abusive_interruption SIGINT
 
 echo "Checking for necessary packages..."
@@ -406,48 +404,6 @@ do
   "Machines") cloudfoundry_vms_count ;;
   esac
 done
-}
-
-function deploy_main_menu()
-{
-local ret=0
-local sel="Everything"
-
-while [ $ret -eq 0 ];
-do
-  $dialog --backtitle "$bgtitle" \
-  --title " Deploy $deployment " \
-  --default-item "$sel" \
-  --cancel-label "Back" \
-  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 9 0 0 \
-  "Everything" "Deploy everything" \
-  "Packages" "Install system packages" \
-  "Micro-Stemcell" "Install micro stemcell" \
-  "Bosh-Stemcell" "Download BOSH stemcell" \
-  "Deploy-Micro" "Deploy micro bosh" \
-  "Upload-BOSH" "Upload BOSH stemcell" \
-  "Get-BOSH" "Get latest BOSH" \
-  "Deploy-BOSH" "Deploy BOSH" \
-  2>$tmpdir/deploy_main_menu.out
-  ret=$?
-
-  sel=`cat $tmpdir/deploy_main_menu.out`
-  rm -f $tmpdir/deploy_main_menu.out
-
-  [ $ret -eq 0 ] &&
-    {
-    case "$sel" in
-    "Packages") install_packages_gui ;;
-    "Micro-Stemcell") install_micro_stemcell_gui ;;
-    "Bosh-Stemcell") download_bosh_stemcell_gui ;;
-    "Deploy-Micro") deploy_micro_bosh_gui ;;
-    "Upload-BOSH") upload_bosh_stemcell_gui ;;
-    "Get-BOSH") get_latest_bosh_gui ;;
-    "Deploy-BOSH") deploy_bosh_gui ;;
-    esac
-    }
-done
-
 }
 
 function configure_main_menu()
