@@ -42,45 +42,44 @@ if dc == nil
   exit_code ||= 2
 else
   puts "Datacenter '#{datacenter}' found.".green
+
+  cl = dc.hostFolder.children.find { |clus| clus.name == cluster }
+
+  if cl == nil
+    $stderr.puts "Cluster '#{cluster}' not found.".red
+    exit_code ||= 3
+  else
+    puts "Cluster '#{cluster}' found.".green
+
+    datastores = cl.datastore.find_all { |ds| !!(ds.name =~ Regexp.new(datastore)) }
+
+    if datastores == nil || datastores.size == 0
+      $stderr.puts "Could not find any datastores matching '#{ datastore }'.".red
+      exit_code ||= 4
+    else
+      puts "Found the following datastores: #{ datastores.map {|ds| "'#{ds.name}'"}.join(", ") }.".green
+    end
+  end
+
+  dc_tf = dc.vmFolder.children.find{ |x| x.name ==  template_folder}
+
+  if dc_tf == nil
+    $stderr.puts "Could not find a folder for templates named '#{ template_folder }' in datacenter '#{ datacenter }'.".red
+    exit_code ||= 5
+  else
+    puts "Template folder '#{ template_folder }' found.".green
+  end
+
+  dc_vmf = dc.vmFolder.children.find{ |x| x.name ==  vm_folder}
+
+  if dc_vmf == nil
+    $stderr.puts "Could not find a folder for VMs named '#{ vm_folder }' in datacenter '#{ datacenter }'.".red
+    exit_code ||= 6
+  else
+    puts "VM folder '#{ vm_folder }' found.".green
+  end
 end
 
 
-cl = dc.hostFolder.children.find { |clus| clus.name == cluster }
-
-if cl == nil
-  $stderr.puts "Cluster '#{cluster}' not found.".red
-  exit_code ||= 3
-else
-  puts "Cluster '#{cluster}' found.".green
-end
-
-
-datastores = cl.datastore.find_all { |ds| !!(ds.name =~ Regexp.new(datastore)) }
-
-if datastores == nil || datastores.size == 0
-  $stderr.puts "Could not find any datastores matching '#{ datastore }'.".red
-  exit_code ||= 4
-else
-  puts "Found the following datastores: #{ datastores.map {|ds| "'#{ds.name}'"}.join(", ") }.".green
-end
-
-
-dc_tf = dc.vmFolder.children.find{ |x| x.name ==  template_folder}
-
-if dc_tf == nil
-  $stderr.puts "Could not find a folder for templates named '#{ template_folder }' in datacenter '#{ datacenter }'.".red
-  exit_code ||= 5
-else
-  puts "Template folder '#{ template_folder }' found.".green
-end
-
-dc_vmf = dc.vmFolder.children.find{ |x| x.name ==  vm_folder}
-
-if dc_vmf == nil
-  $stderr.puts "Could not find a folder for VMs named '#{ vm_folder }' in datacenter '#{ datacenter }'.".red
-  exit_code ||= 6
-else
-  puts "VM folder '#{ vm_folder }' found.".green
-end
 
 exit! exit_code == nil ? 0 : exit_code
