@@ -9,7 +9,7 @@ function write_bosh_conf()
 name: bosh
 director_uuid: "DO NOT CHANGE THIS STRING"
 release:
-  name: bosh
+  name: uhuru-bosh
   version: $version_bosh
 
 networks:

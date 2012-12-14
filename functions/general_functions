@@ -203,16 +203,22 @@ function cleanup()
 function write_vars()
 {
 cat <<EOFghj >$1
+conf_cloud_name="$conf_cloud_name"
+cloudfoundry_domain="$cloudfoundry_domain"
+conf_network=$conf_network
+
 bosh_pool_small_size=$bosh_pool_small_size
 bosh_pool_small_ram=$bosh_pool_small_ram
 bosh_pool_small_disk=$bosh_pool_small_disk
 bosh_pool_small_cpu=$bosh_pool_small_cpu
+
 bosh_pool_medium_size=$bosh_pool_medium_size
 bosh_pool_medium_extra_size=$bosh_pool_medium_extra_size
 bosh_pool_medium_ram=$bosh_pool_medium_ram
 bosh_pool_medium_disk=$bosh_pool_medium_disk
 bosh_pool_medium_extra_disk=$bosh_pool_medium_extra_disk
 bosh_pool_medium_cpu=$bosh_pool_medium_cpu
+
 bosh_pool_large_size=$bosh_pool_large_size
 bosh_pool_large_ram=$bosh_pool_large_ram
 bosh_pool_large_disk=$bosh_pool_large_disk
@@ -228,6 +234,11 @@ conf_datacenter_vmfolder="$conf_datacenter_vmfolder"
 conf_datacenter_micro_diskpath="$conf_datacenter_micro_diskpath"
 conf_datacenter_deployer_diskpath="$conf_datacenter_deployer_diskpath"
 conf_datacenter_bosh_diskpath="$conf_datacenter_bosh_diskpath"
+conf_datacenter_name=$conf_datacenter_name
+conf_datacenter_templatefolder=$conf_datacenter_templatefolder
+conf_datacenter_datastorepattern=$conf_datacenter_datastorepattern
+conf_datacenter_persistentpattern=$conf_datacenter_persistentpattern
+conf_datacenter_mixeddatastores=$conf_datacenter_mixeddatastores
 
 cloudfoundry_compilation_ram=$cloudfoundry_compilation_ram
 cloudfoundry_compilation_disk=$cloudfoundry_compilation_disk
@@ -242,8 +253,6 @@ conf_bosh_range=$conf_bosh_range
 conf_network_gateway=$conf_network_gateway
 conf_network_dns1=$conf_network_dns1
 conf_network_dns2=$conf_network_dns2
-
-conf_cloud_name="$conf_cloud_name"
 
 cloudfoundry_pool_tiny_size=$cloudfoundry_pool_tiny_size
 cloudfoundry_pool_tiny_ram=$cloudfoundry_pool_tiny_ram
@@ -275,6 +284,7 @@ cloudfoundry_pool_deas_cpu=$cloudfoundry_pool_deas_cpu
 cloudfoundry_pool_deas_password=$cloudfoundry_pool_deas_password
 
 cloudfoundry_ip_router=$cloudfoundry_ip_router
+cloudfoundry_ip_nats=$cloudfoundry_ip_nats
 
 cloudfoundry_cloud_controller_count=$cloudfoundry_cloud_controller_count
 cloudfoundry_stager_count=$cloudfoundry_stager_count
@@ -288,13 +298,12 @@ cloudfoundry_uhurufsnode_count=$cloudfoundry_uhurufsnode_count
 cloudfoundry_postgresqlnode_count=$cloudfoundry_postgresqlnode_count
 cloudfoundry_mssqlnode_count=$cloudfoundry_mssqlnode_count
 cloudfoundry_windea_count=$cloudfoundry_windea_count
-
-cloudfoundry_domain="$cloudfoundry_domain"
+cloudfoundry_mssqlnode_count=$cloudfoundry_mssqlnode_count
+cloudfoundry_windea_count=$cloudfoundry_windea_count
+cloudfoundry_uhuru_tunnel_count=$cloudfoundry_uhuru_tunnel_count
 
 cloudfoundry_nats_username="$cloudfoundry_nats_username"
 cloudfoundry_nats_password="$cloudfoundry_nats_password"
-
-cloudfoundry_ip_nats=$cloudfoundry_ip_nats
 
 cloudfoundry_ccdb_password="$cloudfoundry_ccdb_password"
 cloudfoundry_ip_ccdb_postgres=$cloudfoundry_ip_ccdb_postgres
@@ -361,16 +370,7 @@ conf_network_ntp2=$conf_network_ntp2
 conf_vcenter_host=$conf_vcenter_host
 conf_vcenter_user=$conf_vcenter_user
 conf_vcenter_password=$conf_vcenter_password
-
-conf_datacenter_name=$conf_datacenter_name
-conf_datacenter_templatefolder=$conf_datacenter_templatefolder
-conf_datacenter_datastorepattern=$conf_datacenter_datastorepattern
-conf_datacenter_persistentpattern=$conf_datacenter_persistentpattern
-conf_datacenter_mixeddatastores=$conf_datacenter_mixeddatastores
-
 conf_vcenter_clustername="$conf_vcenter_clustername"
-
-conf_network=$conf_network
 
 version_bosh_cli=$version_bosh_cli
 version_bosh=$version_bosh
@@ -387,10 +387,6 @@ conf_uhuru_contact_email="$conf_uhuru_contact_email"
 conf_uhuru_admin_email="$conf_uhuru_admin_email"
 conf_uhuru_admin_password="$conf_uhuru_admin_password"
 conf_uhuru_default_random_password=$conf_uhuru_default_random_password
-
-cloudfoundry_mssqlnode_count=$cloudfoundry_mssqlnode_count
-cloudfoundry_windea_count=$cloudfoundry_windea_count
-cloudfoundry_uhuru_tunnel_count=$cloudfoundry_uhuru_tunnel_count
 
 cloudfoundry_windows_product_key="$cloudfoundry_windows_product_key"
 EOFghj

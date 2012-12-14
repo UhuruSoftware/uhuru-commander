@@ -32,10 +32,6 @@ deployments=".uhuru-deployments"
 
 function vars()
 {
-version_bosh_cli=1.0.2
-version_cloudfoundry=119
-version_bosh=10.1-dev
-
 dialog=`which dialog`
 color_black="\Z0"
 color_red="\Z1"
@@ -317,29 +313,6 @@ do
 done
 }
 
-function print_ips()
-{
-msgbox " Information " "Please keep this information :\n
-\n
-VCenter username : $conf_vcenter_user\n
-VCenter password : $conf_vcenter_password\n
-VCenter host     : $conf_vcenter_host\n
-\n
-MicroBOSH IP     : $conf_bosh_micro_ip\n
-NATS      IP     : $conf_bosh_nats_ip\n
-Postgres  IP     : $conf_bosh_postgres_ip\n
-Redis     IP     : $conf_bosh_redis_ip\n
-Director  IP     : $conf_bosh_director_ip\n
-Blobstore IP     : $conf_bosh_blobstore_ip\n
-\n
-Network          : $conf_network\n
-Netmask          : $conf_network_netmask\n
-Gateway          : $conf_network_gateway\n
-\n
-You can always review bosh.yml and micro_bosh.yml
-"
-}
-
 function review_main_menu()
 {
 local ret=0 sel="Micro"
@@ -472,7 +445,6 @@ done
 
 }
 
-echo "Loading program functions..."
 vars
 
 . /etc/environment

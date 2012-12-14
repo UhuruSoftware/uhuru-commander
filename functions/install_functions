@@ -80,6 +80,12 @@ function install_packages()
   ret=$(( $ret + $? ))
   gem install bosh_deployer -v 1.1.0 2>&1
   ret=$(( $ret + $? ))
+  gem install rbvmomi 2>&1
+  ret=$(( $ret + $? ))
+  gem install colorize 2>&1
+  ret=$(( $ret + $? ))
+  gem install trollop 2>&1
+  ret=$(( $ret + $? ))
 
   gem update --system
 
@@ -140,6 +146,28 @@ do
 done
 }
 
+function check_vsphere_prerequistes()
+{
+  infobox "Prerequisites" "Checking vSphere prerequisites"
+  ruby $pwd/bosh_checker/verify_deployment.rb \
+  --address "$conf_vcenter_host" \
+  --user "$conf_vcenter_user" \
+  --password "$conf_vcenter_password" \
+  --datacenter "$conf_datacenter_name" \
+  --cluster "$conf_vcenter_clustername" \
+  --datastore "$conf_datacenter_datastorepattern" \
+  --template-folder "$conf_datacenter_templatefolder" \
+  --vm-folder "$conf_datacenter_vmfolder" \
+  1>/dev/null 2>$tmpdir/vsphere_prerequisites.err ||
+    {
+    msgbox "Error" "It seems that some of the vSphere prerequisites are not met. Here is the error log :\n\n`cat $tmpdir/vsphere_prerequisites.err`"
+    rm -f $tmpdir/vsphere_prerequisites.err
+    return 1
+    }
+  rm -f $tmpdir/vsphere_prerequisites.err
+  return 0
+}
+
 function confirm_install()
 {
 local needed_ram=$(( $cloudfoundry_pool_small_ram * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_ram * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_ram * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_ram * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_ram * $cloudfoundry_deas_count))
@@ -170,7 +198,9 @@ RAM : $needed_ram MB ($needed_ram_gb GB)\n
 DISK: $needed_disk MB ($needed_disk_gb GB)\n
 CPUs: $needed_cpu\n\n
 
-   Press OK to continue deploying." 0 0
+   Press OK when these conditions are met." 0 0
+
+check_vsphere_prerequistes
 }
 
 

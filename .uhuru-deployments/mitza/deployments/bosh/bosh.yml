@@ -3,7 +3,7 @@ name: bosh
 director_uuid: "DO NOT CHANGE THIS STRING"
 release:
   name: bosh
-  version: 10
+  version: 10.1-dev
 
 networks:
 - name: default
