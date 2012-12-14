@@ -247,8 +247,8 @@ function upload_bosh_release()
 
   mkdir -p $pwd/blobstore
 
-  echo "Uploading release bosh-${version_bosh}.tgz"
-  $bosh_nonint upload release bosh-${version_bosh}.tgz
+  echo "Uploading release uhuru-bosh-${version_bosh}.tgz"
+  $bosh_nonint upload release uhuru-bosh-${version_bosh}.tgz
   ret=$(( $ret + $? ))
 
   echo "$ret" >$tmpdir/get_latest_bosh.ret

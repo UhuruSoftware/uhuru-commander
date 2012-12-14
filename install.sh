@@ -34,7 +34,7 @@ function vars()
 {
 version_bosh_cli=1.0.2
 version_cloudfoundry=119
-version_bosh=10
+version_bosh=10.1-dev
 
 dialog=`which dialog`
 color_black="\Z0"

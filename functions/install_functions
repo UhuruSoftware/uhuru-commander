@@ -31,7 +31,7 @@ function check_progress()
 #  [ ! -z "`$bosh stemcells 2>/dev/null | grep '0.6.7'`" ] && progress_upload_bosh_stemcell=$progress_success
 
 #  infobox "Checking if BOSH release is uploaded.\nPlease be patient, this wont take long..."
-#  [ ! -z "`$bosh releases 2>/dev/null | grep -w 'bosh'`" ] && progress_upload_bosh_release=$progress_success
+#  [ ! -z "`$bosh releases 2>/dev/null | grep -w 'uhuru-bosh'`" ] && progress_upload_bosh_release=$progress_success
 
 #  infobox "Checking if BOSH is deployed.\nPlease be patient, this wont take long..."
 #  [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'`" ] && progress_deploy_bosh=$progress_success
@@ -172,6 +172,7 @@ CPUs: $needed_cpu\n\n
 
    Press OK to continue deploying." 0 0
 }
+
 
 function install_everything()
 {
