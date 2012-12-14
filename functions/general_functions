@@ -200,7 +200,7 @@ function cleanup()
   rm -rf $tmpdir
 }
 
-write_vars()
+function write_vars()
 {
 cat <<EOFghj >$1
 bosh_pool_small_size=$bosh_pool_small_size
@@ -228,8 +228,6 @@ conf_datacenter_vmfolder="$conf_datacenter_vmfolder"
 conf_datacenter_micro_diskpath="$conf_datacenter_micro_diskpath"
 conf_datacenter_deployer_diskpath="$conf_datacenter_deployer_diskpath"
 conf_datacenter_bosh_diskpath="$conf_datacenter_bosh_diskpath"
-
-conf_bosh_mixeddatastores=$conf_bosh_mixeddatastores
 
 cloudfoundry_compilation_ram=$cloudfoundry_compilation_ram
 cloudfoundry_compilation_disk=$cloudfoundry_compilation_disk

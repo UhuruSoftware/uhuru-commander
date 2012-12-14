@@ -191,7 +191,7 @@ properties:
         disk_path: $conf_datacenter_bosh_diskpath
         datastore_pattern: $conf_datacenter_datastorepattern
         persistent_datastore_pattern: $conf_datacenter_persistentpattern
-        allow_mixed_datastores: $conf_bosh_mixeddatastores
+        allow_mixed_datastores: $conf_datacenter_mixeddatastores
         clusters:
         - $conf_vcenter_clustername
 EOF

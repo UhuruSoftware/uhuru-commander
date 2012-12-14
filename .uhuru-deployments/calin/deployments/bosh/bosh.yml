@@ -184,6 +184,6 @@ properties:
         disk_path: m_bosh_deployer
         datastore_pattern: mihaib-datastore
         persistent_datastore_pattern: mihaib-datastore
-        allow_mixed_datastores: 
+        allow_mixed_datastores: true
         clusters:
         - mihaib

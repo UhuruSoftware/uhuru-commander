@@ -52,7 +52,7 @@ do
     "Recaptcha public key") inputbox "Recaptcha public key" "Enter recaptcha public key" "$conf_uhuru_recaptcha_public_key" && conf_uhuru_recaptcha_public_key=`cat $tmpdir/input.out` ;;
     "Recaptcha private key") inputbox "Recaptcha private key" "Enter recaptcha private key" "$conf_uhuru_recaptcha_private_key" && conf_uhuru_recaptcha_private_key=`cat $tmpdir/input.out` ;;
     "Activation link secret") inputbox "Activation link secret" "Enter activation link secret" "$conf_uhuru_activation_link_secret" && conf_uhuru_activation_link_secret=`cat $tmpdir/input.out` ;;
-    "Email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
+    "Email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
     "Email alias") inputbox "Email alias" "Enter email alias" "$conf_uhuru_email_from_alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
     "Contact email") inputbox "Contact email" "Enter contact email" "$conf_uhuru_contact_email" && conf_uhuru_contact_email=`cat $tmpdir/input.out` ;;
     "Admin email") inputbox "Admin email" "Enter admin email" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;

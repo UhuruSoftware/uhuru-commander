@@ -537,16 +537,6 @@ case "$1" in
   "-s"|"--setup") install_packages ;;
 esac
 
-#obsolete_vars
-#obsolete_cloudfoundry_vars
-#calc_bosh_ips
-#calc_cloudfoundry_ips
-#write_vars default.conf
-#exit
-
-#. .uhuru-deployments/mitza/mitza.conf
-#write_cloudfoundry_conf test.yml
-
 select_deployment
 
 cleanup

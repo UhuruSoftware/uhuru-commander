@@ -61,7 +61,7 @@ resource_pools:
     cpu: 2
     env:
       windows: 
-        product_key: 
+        product_key: 123
 
 - name: sqlserver
   network: default
@@ -75,7 +75,7 @@ resource_pools:
     cpu: 2
     env:
       windows: 
-        product_key: 
+        product_key: 123
 
 - name: tiny
   network: default
