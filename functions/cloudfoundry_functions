@@ -43,7 +43,7 @@ function deploy_cloudfoundry()
   $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.3.tgz
 
   echo "Uploading release"
-  [ "$progress_deploy_cloudfoundry" != "$progress_success" ] && 
+  [ -z "`$bosh releases 2>/dev/null | grep -iw 'uhuru-appcloud' | grep -w $version_cloudfoundry`" ] &&
     {
     $bosh_nonint upload release uhuru-appcloud-${version_cloudfoundry}.tgz || echo "...already uploaded"
     ret=$(( $ret + $? ))

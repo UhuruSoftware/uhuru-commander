@@ -1,20 +1,5 @@
 #!/bin/bash
 
-function uhuru_vars()
-{
-conf_uhuru_port=9191
-conf_uhuru_cloud_name="Uhuru Cloud"
-conf_uhuru_recaptcha_public_key="6Lfqe9kSAAAAAITuzJDfgLX41pMhyj2UEDp72NiM"
-conf_uhuru_recaptcha_private_key="6Lfqe9kSAAAAAMKol6bOmzfghgan53CIG9ftzYi-"
-conf_uhuru_activation_link_secret="casnuugycasuygc12tddbhcb7"
-conf_uhuru_email_from="uhurusoftw@gmail.com"
-conf_uhuru_email_from_alias="Uhuru Cloud"
-conf_uhuru_contact_email="uhuru@uhurusoftware.com"
-conf_uhuru_admin_email="dev@uhurusoftware.com"
-conf_uhuru_admin_password="password1234!"
-conf_uhuru_default_random_password="01234567890123456789"
-}
-
 function configure_uhuru()
 {
 local ret=0
@@ -65,5 +50,3 @@ do
     }
 done
 }
-
-uhuru_vars

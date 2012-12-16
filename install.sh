@@ -461,9 +461,8 @@ vars
 . functions/install_functions
 . functions/uhuru_functions
 
-[ "$1" == "-x" ] && mode="advanced" || mode="basic"
-
 mode="basic"
+
 case "$1" in
   "-x"|"--advanced") mode=advanced ;;
   "-s"|"--setup") install_packages ;;

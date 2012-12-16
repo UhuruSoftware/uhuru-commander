@@ -32,7 +32,7 @@ function check_progress()
   $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>/dev/null 1>/dev/null && \
   $bosh login admin admin 1>/dev/null 2>/dev/null &&
     {
-    [ ! -z "`$bosh releases 2>/dev/null | grep -iw 'uhuru-appcloud'`" ] && progress_deploy_cloudfoundry=$progress_success
+    [ ! -z "`$bosh deployments 2>/dev/null | grep -iw 'cloud-foundry'`" ] && progress_deploy_cloudfoundry=$progress_success
     }
 
 #  infobox "Checking if micro bosh is installed.\nPlease be patient, this wont take long..."
