@@ -12,18 +12,25 @@ do
   --default-item "$sel" \
   --cancel-label "Back" \
   --menu "Configure Uhuru settings" 8 0 0 \
-  "Port" "$conf_uhuru_port" \
+  "Activation keys" "->Windows and SQLServer activation keys" \
+  "" "" \
   "Cloud name" "$conf_uhuru_cloud_name" \
   "Recaptcha public key" "$conf_uhuru_recaptcha_public_key" \
   "Recaptcha private key" "$conf_uhuru_recaptcha_private_key" \
-  "Activation link secret" "$conf_uhuru_activation_link_secret" \
-  "Email" "$conf_uhuru_email_from" \
-  "Email alias" "$conf_uhuru_email_from_alias" \
-  "Contact email" "$conf_uhuru_contact_email" \
   "Admin email" "$conf_uhuru_admin_email" \
   "Admin password" "$conf_uhuru_admin_password" \
-  "Windows key" "$cloudfoundry_windows_product_key" \
-  "SQLServer key" "$cloudfoundry_sqlserver_product_key" \
+  "" "" \
+  "SMTP server" "$conf_uhuru_smtp_server" \
+  "SMTP port" "$conf_uhuru_smtp_port" \
+  "SMTP user" "$conf_uhuru_smtp_user" \
+  "SMTP password" "$conf_uhuru_smtp_password" \
+  "SMTP TLS" "$conf_uhuru_smtp_tls" \
+  "" "" \
+  "Company" "$conf_uhuru_company_name" \
+  "Address" "$conf_uhuru_company_address" \
+  "Phone" "$conf_uhuru_company_phone" \
+  "Email" "$conf_uhuru_email_from" \
+  "Email alias" "$conf_uhuru_email_from_alias" \
   2>$tmpdir/conf_uhuru.out
   ret=$?
 
@@ -33,20 +40,56 @@ do
   [ $ret -eq 0 ] &&
     {
     case "$sel" in
-    "Port") inputbox "Port" "Enter port" "$conf_uhuru_port" && conf_uhuru_port=`cat $tmpdir/input.out` ;;
+
     "Cloud name") inputbox "Cloud name" "Enter cloud name" "$conf_uhuru_cloud_name" && conf_uhuru_cloud_name=`cat $tmpdir/input.out` ;;
     "Recaptcha public key") inputbox "Recaptcha public key" "Enter recaptcha public key" "$conf_uhuru_recaptcha_public_key" && conf_uhuru_recaptcha_public_key=`cat $tmpdir/input.out` ;;
     "Recaptcha private key") inputbox "Recaptcha private key" "Enter recaptcha private key" "$conf_uhuru_recaptcha_private_key" && conf_uhuru_recaptcha_private_key=`cat $tmpdir/input.out` ;;
-    "Activation link secret") inputbox "Activation link secret" "Enter activation link secret" "$conf_uhuru_activation_link_secret" && conf_uhuru_activation_link_secret=`cat $tmpdir/input.out` ;;
     "Email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
     "Email alias") inputbox "Email alias" "Enter email alias" "$conf_uhuru_email_from_alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
-    "Contact email") inputbox "Contact email" "Enter contact email" "$conf_uhuru_contact_email" && conf_uhuru_contact_email=`cat $tmpdir/input.out` ;;
     "Admin email") inputbox "Admin email" "Enter admin email" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;
     "Admin password") inputbox "Admin password" "Enter admin password" "$conf_uhuru_admin_password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
-    "Windows key") inputbox "Windows key" "Enter windows activation key" "$cloudfoundry_windows_product_key" && cloudfoundry_windows_product_key=`cat $tmpdir/input.out` ;;
-    "SQLServer key") inputbox "SQLServer key" "Enter SQL Server activation key" "$cloudfoundry_sqlserver_product_key" && cloudfoundry_sqlserver_product_key=`cat $tmpdir/input.out` ;;
+    "Company") inputbox "Company name" "Enter company name" "$conf_uhuru_company_name" && conf_uhuru_company_name=`cat $tmpdir/input.out` ;;
+    "Address") inputbox "Company address" "Enter company address" "$conf_uhuru_company_address" && conf_uhuru_company_address=`cat $tmpdir/input.out` ;;
+    "Phone") inputbox "Company phone" "Enter company phone" "$conf_uhuru_company_phone" && conf_uhuru_company_phone=`cat $tmpdir/input.out` ;;
+    "SMTP server") inputbox "SMTP server" "Enter the SMTP server address" "$conf_uhuru_smtp_server" && conf_uhuru_smtp_server=`cat $tmpdir/input.out` ;;
+    "SMTP user") inputbox "SMTP user" "Enter the SMTP username" "$conf_uhuru_smtp_user" && conf_uhuru_smtp_user=`cat $tmpdir/input.out` ;;
+    "SMTP port") inputbox "SMTP port" "Enter the SMTP port" "$conf_uhuru_smtp_port" && conf_uhuru_smtp_port=`cat $tmpdir/input.out` ;;
+    "SMTP password") inputbox "SMTP password" "Enter the SMTP user password" "$conf_uhuru_smtp_password" && conf_uhuru_smtp_password=`cat $tmpdir/input.out` ;;
+    "SMTP TLS") yesno "SMTP TLS" "Do you want to use TLS for SMTP ?" && conf_uhuru_smtp_tls="true" || conf_uhuru_smtp_tls="false" ;;
+    "Activation keys") windows_licenses ;;
     esac
     rm -f $tmpdir/input.out
     }
 done
+}
+
+function windows_licenses()
+{
+  local ret=0 sel=""
+
+while [ $ret -eq 0 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " Windows license keys " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --menu "Enter here your Windows and SQLServer activation keys" 7 0 0 \
+  "Windows key" "$cloudfoundry_windows_product_key" \
+  "SQL Server key" "$cloudfoundry_sqlserver_product_key" \
+  2>$tmpdir/windows_keys.out
+  ret=$?
+
+  sel=`cat $tmpdir/windows_keys.out`
+  rm -f $tmpdir/windows_keys.out
+
+  [ $ret -eq 0 ] &&
+    {
+    case "$sel" in
+    "Windows key") inputbox "Windows activation key" "Please enter your Windows activation key.\nYou can use SHIFT+(right/middle) click to paste" "$cloudfoundry_windows_product_key" && cloudfoundry_windows_product_key=`cat $tmpdir/input.out` ;;
+    "SQL Server key") inputbox "SQL Server activation key" "Please enter your SQL Server activation key.\nYou can use SHIFT+(right/middle) click to paste" "$cloudfoundry_sqlserver_product_key" && cloudfoundry_sqlserver_product_key=`cat $tmpdir/input.out` ;;
+    esac
+    rm -f $tmpdir/input.out
+    }
+done
+
 }

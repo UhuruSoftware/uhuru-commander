@@ -825,18 +825,36 @@ properties:
     simple_webui:
       port: $conf_uhuru_port
       cloud_name: "$conf_uhuru_cloud_name"
+      cloud_admin_download_url: http://www.uhurucloud.com/tools/cloudadmin
+      visual_studio_plugin_download_url: http://www.uhurucloud.com/tools/visualstudio
+      vmc_url: http://docs.cloudfoundry.com/tools/vmc/installing-vmc.html
+      eclipse_url: http://docs.cloudfoundry.com/tools/STS/configuring-STS.html
+      signup_message: "Host your web applications in minutes. We support apps written in PHP, Node.js, Ruby, Java and .NET."
+      copyright_message: "Copyright Uhuru Software 2012"
+      welcome_message: "Welcome to your PAAS cloud"
+      color_theme: simple_white
       domain: "$cloudfoundry_domain"
       recaptcha_public_key: "$conf_uhuru_recaptcha_public_key"
       recaptcha_private_key: "$conf_uhuru_recaptcha_private_key"
       activation_link_secret: "$conf_uhuru_activation_link_secret"
+      admin_email: "$conf_uhuru_admin_email"
+      admin_password: "$conf_uhuru_admin_password"
+      default_random_password: $conf_uhuru_default_random_password
+      logging_level: debug
       email:
         from: "$conf_uhuru_email_from"
         from_alias: "$conf_uhuru_email_from_alias"
+        server: $conf_uhuru_smtp_server
+        port: $conf_uhuru_smtp_port
+        user: $conf_uhuru_smtp_user
+        secret: $conf_uhuru_smtp_password
+        auth_method: ":plain"
+        enable_tls: $conf_uhuru_smtp_tls
       contact:
-        email: "$conf_uhuru_contact_email"
-      admin_email: "$conf_uhuru_admin_email"
-      admin_password: "$conf_uhuru_admin_password"
-      default_random_password: 01234567890123456789
+        company: "$conf_uhuru_company_name"
+        address: "$conf_uhuru_company_address"
+        phone: "$conf_uhuru_company_phone"
+        email: "$conf_uhuru_email_from"
 
   win_dea:
     filerport: 12346
@@ -911,12 +929,17 @@ properties:
 #    new_stager_email_regexp: '.*@vmware.com'
     staging_upload_user: $cloudfoundry_cc_staging_upload_user
     staging_upload_password: $cloudfoundry_cc_staging_upload_password
-    allow_registration: true
+    allow_registration: false
     allow_external_app_uris: true
 #    uaa:
 #      enabled: false
 #      resource_id: cloud_controller
 #      client_secret: aaaNxRJ4cxs678cpv
+    bootstrap_users:
+    - email:"$conf_uhuru_admin_email"
+      password:$conf_uhuru_admin_password
+      is_admin: true
+      is_hashed_password: false
     admins:
     - $cloudfoundry_cc_admin
 

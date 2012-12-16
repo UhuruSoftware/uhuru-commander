@@ -389,6 +389,16 @@ conf_uhuru_admin_email="$conf_uhuru_admin_email"
 conf_uhuru_admin_password="$conf_uhuru_admin_password"
 conf_uhuru_default_random_password=$conf_uhuru_default_random_password
 
+conf_uhuru_smtp_server=$conf_uhuru_smtp_server
+conf_uhuru_smtp_port=$conf_uhuru_smtp_port
+conf_uhuru_smtp_user=$conf_uhuru_smtp_user
+conf_uhuru_smtp_password=$conf_uhuru_smtp_password
+conf_uhuru_smtp_tls=$conf_uhuru_smtp_tls
+
+conf_uhuru_company_name="$conf_uhuru_company_name"
+conf_uhuru_company_address="$conf_uhuru_company_address"
+conf_uhuru_company_phone="$conf_uhuru_company_phone"
+
 cloudfoundry_windows_product_key="$cloudfoundry_windows_product_key"
 cloudfoundry_sqlserver_product_key="$cloudfoundry_sqlserver_product_key"
 EOFghj

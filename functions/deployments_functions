@@ -85,8 +85,12 @@ function add_deployment()
     conf_datacenter_datastorepattern=datastore
     conf_datacenter_persistentpattern=datastore
     conf_datacenter_mixeddatastores=true
+    conf_uhuru_activation_link_secret=`random_string 12`
+    conf_uhuru_default_random_password=`random_string 12`
 
     cloudfoundry_domain="${sel}.me"
+    cloudfoundry_srv_api_uri="api.$cloudfoundry_domain"
+
     init_plans
     save_conf
 
