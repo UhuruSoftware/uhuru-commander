@@ -59,9 +59,9 @@ resource_pools:
     ram: 900
     disk: 5000
     cpu: 2
-    env:
-      windows: 
-        product_key: enter_windows_activation_key
+  env:
+    windows: 
+      product_key: enter_windows_activation_key
 
 - name: sqlserver
   network: default
@@ -73,9 +73,9 @@ resource_pools:
     ram: 800
     disk: 5000
     cpu: 2
-    env:
-      windows: 
-        product_key: enter_windows_activation_key
+  env:
+    windows:
+      product_key: enter_windows_activation_key
 
 - name: tiny
   network: default
@@ -504,7 +504,7 @@ properties:
     max_user_conns: 20
     default_version: 2008
     statusport: 12345
-
+    product_key: enter_sqlserver_activation_key
   nats:
     user: olCiM3B83fOB
     password: IaSmu0AeI2ky

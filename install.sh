@@ -19,7 +19,7 @@ dpkg -s ipcalc 1>/dev/null 2>/dev/null || sudo apt-get install ipcalc
   dpkg -s whois 1>/dev/null 2>/dev/null || sudo apt-get install whois
   }
 
-bgtitle="Uhuru Software"
+bgtitle="Uhuru Software Cloud Commander"
 bosh="/usr/local/ruby/bin/bosh"
 bosh_nonint="/usr/local/ruby/bin/bosh --non-interactive"
 pid=$$

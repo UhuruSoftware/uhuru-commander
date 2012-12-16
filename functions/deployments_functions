@@ -205,16 +205,20 @@ function deployment_menu()
 function select_deployment()
 {
 #$1=service
-local i sel ret=1 count=`ls $deployments/|wc -l`
+local i sel ret=1 
+local count
 
-until [ $count -gt 0 ];
-do
-  [ $count -eq 0 ] && add_deployment
-  count=`ls $deployments/|wc -l`
-done
 
 until [ $ret -eq 2 ];
 do
+
+  count=`ls $deployments/|wc -l`
+  until [ $count -gt 0 ];
+  do
+    [ $count -eq 0 ] && add_deployment
+    count=`ls $deployments/|wc -l`
+  done
+
   cat <<EOF>$tmpdir/select_deployment.sh
 #!/bin/bash
 $dialog --backtitle "$bgtitle" \\
