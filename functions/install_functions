@@ -116,9 +116,11 @@ function install_steps()
 {
 local ret=0
 local sel="Setup environment"
+save_conf
+
 check_progress
 
-save_conf
+
 
 while [ $ret -eq 0 ];
 do
