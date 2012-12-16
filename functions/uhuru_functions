@@ -26,7 +26,7 @@ do
   --title " Uhuru configuration " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --menu "Configure Uhuru settings" 7 0 0 \
+  --menu "Configure Uhuru settings" 8 0 0 \
   "Port" "$conf_uhuru_port" \
   "Cloud name" "$conf_uhuru_cloud_name" \
   "Recaptcha public key" "$conf_uhuru_recaptcha_public_key" \
@@ -38,6 +38,7 @@ do
   "Admin email" "$conf_uhuru_admin_email" \
   "Admin password" "$conf_uhuru_admin_password" \
   "Windows key" "$cloudfoundry_windows_product_key" \
+  "SQLServer key" "$cloudfoundry_sqlserver_product_key" \
   2>$tmpdir/conf_uhuru.out
   ret=$?
 
@@ -58,6 +59,7 @@ do
     "Admin email") inputbox "Admin email" "Enter admin email" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;
     "Admin password") inputbox "Admin password" "Enter admin password" "$conf_uhuru_admin_password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
     "Windows key") inputbox "Windows key" "Enter windows activation key" "$cloudfoundry_windows_product_key" && cloudfoundry_windows_product_key=`cat $tmpdir/input.out` ;;
+    "SQLServer key") inputbox "SQLServer key" "Enter SQL Server activation key" "$cloudfoundry_sqlserver_product_key" && cloudfoundry_sqlserver_product_key=`cat $tmpdir/input.out` ;;
     esac
     rm -f $tmpdir/input.out
     }

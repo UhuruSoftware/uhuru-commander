@@ -449,7 +449,7 @@ resource_pools:
     disk: 5000
     cpu: 2
     env:
-      windows: 
+      windows:
         product_key: $cloudfoundry_windows_product_key
 
 - name: tiny
@@ -879,7 +879,7 @@ properties:
     max_user_conns: 20
     default_version: 2008
     statusport: 12345
-
+    product_key: $cloudfoundry_sqlserver_product_key
   nats:
     user: $cloudfoundry_nats_username
     password: $cloudfoundry_nats_password

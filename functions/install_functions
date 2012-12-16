@@ -1,8 +1,21 @@
 #!/bin/bash
 
-function check_progress()
+function check_system_packages()
 {
   progress_install_packages="not done yet"
+  infobox "Checking if packages are installed.\nPlease be patient, this wont take long..."
+  [ ! -z "`cat /etc/environment|grep /usr/local/ruby/bin`" ] && progress_install_packages=$progress_success
+
+  [ "$progress_install_packages" != "$progress_success" ] &&
+    {
+    yesno "The system doesent seem to be set up. Do you want to install the needed packages ?" && install_packages || return 1
+    }
+  return 0
+}
+
+function check_progress()
+{
+#  progress_install_packages="not done yet"
 #  progress_install_micro_stemcell="not done yet"
 #  progress_download_bosh_stemcell="not done yet"
   progress_deploy_micro_bosh="not done yet"
@@ -11,8 +24,7 @@ function check_progress()
   progress_deploy_bosh="not done yet"
   progress_deploy_cloudfoundry="NOT INSTALLED"
 
-#  infobox "Checking if packages are installed.\nPlease be patient, this wont take long..."
-#  [ ! -z "`cat /etc/environment|grep /usr/local/ruby/bin`" ] && progress_install_packages=$progress_success
+  check_system_packages || return 1
 
   infobox "Checking if cloudfoundry is deployed.\nPlease be patient, this wont take long..."
 
@@ -105,6 +117,7 @@ function uninstall()
 
 function deploy_cloudfoundry_gui()
 {
+
   clear
   deploy_cloudfoundry
 
@@ -120,8 +133,6 @@ save_conf
 
 check_progress
 
-
-
 while [ $ret -eq 0 ];
 do
   $dialog --backtitle "$bgtitle" \
@@ -130,7 +141,7 @@ do
   --cancel-label "Back" \
   --item-help \
   --menu "\nSelect which installation step you want to run." 8 0 0 \
-  "Setup environment" "Setup the environment" "Setup the environment" \
+  "Setup environment" "Current status: $progress_install_packages" "Setup the environment" \
   "Deploy Cloudfoundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
   2>$tmpdir/install_steps_menu.out
   ret=$?
@@ -160,13 +171,14 @@ function check_vsphere_prerequistes()
   --datastore "$conf_datacenter_datastorepattern" \
   --template-folder "$conf_datacenter_templatefolder" \
   --vm-folder "$conf_datacenter_vmfolder" \
-  1>/dev/null 2>$tmpdir/vsphere_prerequisites.err ||
+  1>$tmpdir/vsphere_prerequisites.out 2>$tmpdir/vsphere_prerequisites.err ||
     {
     msgbox "Error" "It seems that some of the vSphere prerequisites are not met. Here is the error log :\n\n`cat $tmpdir/vsphere_prerequisites.err`"
-    rm -f $tmpdir/vsphere_prerequisites.err
+    rm -f $tmpdir/vsphere_prerequisites.*
     return 1
-    }
-  rm -f $tmpdir/vsphere_prerequisites.err
+    } && msgbox "Success" "It seems that all vSphere prerequisites are met. Here is the output log :\n\n`cat $tmpdir/vsphere_prerequisites.out`"
+
+  rm -f $tmpdir/vsphere_prerequisites.*
   return 0
 }
 
@@ -202,7 +214,7 @@ CPUs: $needed_cpu\n\n
 
    Press OK when these conditions are met." 0 0
 
-check_vsphere_prerequistes
+check_system_packages && check_vsphere_prerequistes
 }
 
 

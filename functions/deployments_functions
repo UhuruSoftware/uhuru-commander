@@ -86,6 +86,7 @@ function add_deployment()
     conf_datacenter_persistentpattern=datastore
     conf_datacenter_mixeddatastores=true
 
+    cloudfoundry_domain="${sel}.me"
     init_plans
     save_conf
 

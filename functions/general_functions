@@ -76,9 +76,9 @@ function validate_subnet()
   local IFS=.
   set -- $*
 
-  [ $# -eq 4 ] && [ ${1:-300} -le 255 ] && [ ${2:-300} -le 255 ] && [ ${3:-300} -le 255 ] && [ ${4:-300} -eq 0 ] && ret=0
+  [ $# -eq 4 ] && [ ${1:-300} -le 255 ] && [ ${2:-300} -le 255 ] && [ ${3:-300} -eq 0 ] && [ ${4:-300} -eq 0 ] && ret=0
 
-  [ $ret -ne 0 ] && msgbox "Invalid subnet" "Please enter a subnet which ends with '.0'"
+  [ $ret -ne 0 ] && msgbox "Invalid subnet" "Please enter a subnet which ends with '.0.0'"
 
   return $ret
 }
@@ -390,6 +390,7 @@ conf_uhuru_admin_password="$conf_uhuru_admin_password"
 conf_uhuru_default_random_password=$conf_uhuru_default_random_password
 
 cloudfoundry_windows_product_key="$cloudfoundry_windows_product_key"
+cloudfoundry_sqlserver_product_key="$cloudfoundry_sqlserver_product_key"
 EOFghj
 }
 

@@ -182,8 +182,8 @@ properties:
         vm_folder: m_bosh_vms
         template_folder: m_bosh_templates
         disk_path: m_bosh_full
-        datastore_pattern: san6tb1
-        persistent_datastore_pattern: san6tb1
+        datastore_pattern: san6tb
+        persistent_datastore_pattern: san6tb
         allow_mixed_datastores: true
         clusters:
         - Staging

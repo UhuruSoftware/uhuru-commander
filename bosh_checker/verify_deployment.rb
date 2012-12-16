@@ -28,7 +28,7 @@ exit_code = nil
 
 begin
   vim = RbVmomi::VIM.connect host: address, user: user, password: password, insecure: true
-  puts "Login successful to '#{address}'".green
+  $stdout.puts "Login successful to '#{address}'".green
 rescue Exception => e
   $stderr.puts "Could not login to '#{address}' using the provided credentials".red
   exit_code ||= 1
@@ -41,7 +41,7 @@ if dc == nil
   $stderr.puts "Datacenter '#{datacenter}' not found.".red
   exit_code ||= 2
 else
-  puts "Datacenter '#{datacenter}' found.".green
+  $stdout.puts "Datacenter '#{datacenter}' found.".green
 
   cl = dc.hostFolder.children.find { |clus| clus.name == cluster }
 
@@ -49,7 +49,7 @@ else
     $stderr.puts "Cluster '#{cluster}' not found.".red
     exit_code ||= 3
   else
-    puts "Cluster '#{cluster}' found.".green
+    $stdout.puts "Cluster '#{cluster}' found.".green
 
     datastores = cl.datastore.find_all { |ds| !!(ds.name =~ Regexp.new(datastore)) }
 
@@ -57,7 +57,7 @@ else
       $stderr.puts "Could not find any datastores matching '#{ datastore }'.".red
       exit_code ||= 4
     else
-      puts "Found the following datastores: #{ datastores.map {|ds| "'#{ds.name}'"}.join(", ") }.".green
+      $stdout.puts "Found the following datastores: #{ datastores.map {|ds| "'#{ds.name}'"}.join(", ") }.".green
     end
   end
 
@@ -67,7 +67,7 @@ else
     $stderr.puts "Could not find a folder for templates named '#{ template_folder }' in datacenter '#{ datacenter }'.".red
     exit_code ||= 5
   else
-    puts "Template folder '#{ template_folder }' found.".green
+    $stdout.puts "Template folder '#{ template_folder }' found.".green
   end
 
   dc_vmf = dc.vmFolder.children.find{ |x| x.name ==  vm_folder}
@@ -76,7 +76,7 @@ else
     $stderr.puts "Could not find a folder for VMs named '#{ vm_folder }' in datacenter '#{ datacenter }'.".red
     exit_code ||= 6
   else
-    puts "VM folder '#{ vm_folder }' found.".green
+    $stdout.puts "VM folder '#{ vm_folder }' found.".green
   end
 end
 
