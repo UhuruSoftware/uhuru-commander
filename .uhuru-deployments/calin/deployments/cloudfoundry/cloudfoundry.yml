@@ -56,12 +56,12 @@ resource_pools:
     name: uhuru-windows-2008R2
     version: 0.9.3
   cloud_properties:
-    ram: 900
+    ram: 2048
     disk: 5000
     cpu: 2
-    env:
-      windows: 
-        product_key: 123
+  env:
+    windows: 
+      product_key: 123
 
 - name: sqlserver
   network: default
@@ -70,12 +70,12 @@ resource_pools:
     name: uhuru-windows-2008R2-sqlserver
     version: 0.9.3
   cloud_properties:
-    ram: 800
+    ram: 2048
     disk: 5000
     cpu: 2
-    env:
-      windows: 
-        product_key: 123
+  env:
+    windows:
+      product_key: 123
 
 - name: tiny
   network: default
@@ -305,7 +305,7 @@ jobs:
   template: mysql_node
   instances: 0
   resource_pool: medium
-  persistent_disk: 10000
+  persistent_disk: 204800
   networks:
   - name: default
 
@@ -320,7 +320,7 @@ jobs:
   template: mongodb_node
   instances: 0
   resource_pool: medium
-  persistent_disk: 30000
+  persistent_disk: 204800
   networks:
   - name: default
 
@@ -335,7 +335,7 @@ jobs:
   template: redis_node
   instances: 4
   resource_pool: large
-  persistent_disk: 10000
+  persistent_disk: 10240
   networks:
   - name: default
 
@@ -350,7 +350,7 @@ jobs:
   template: rabbit_node
   instances: 0
   resource_pool: medium
-  persistent_disk: 5000
+  persistent_disk: 10240
   networks:
   - name: default
 
@@ -365,7 +365,7 @@ jobs:
   template: postgresql_node
   instances: 2
   resource_pool: medium
-  persistent_disk: 650
+  persistent_disk: 204800
   networks:
   - name: default
 
@@ -424,7 +424,7 @@ jobs:
 - name: uhurufs_node
   template: uhurufs_node
   instances: 1
-  persistent_disk: 5000
+  persistent_disk: 204800
   resource_pool: windows
   networks:
   - name: default
@@ -432,13 +432,15 @@ jobs:
 - name: mssql_node
   template: mssql_node
   instances: 1
-  persistent_disk: 5000
+  persistent_disk: 204800
   resource_pool: sqlserver
   networks:
   - name: default
 
 properties:
   domain: uhurucloud.net
+  description: ""
+  support_address: ""
 
   env: {}
 
@@ -450,23 +452,41 @@ properties:
     simple_webui:
       port: 9191
       cloud_name: "Uhuru Cloud"
+      cloud_admin_download_url: http://www.uhurucloud.com/tools/cloudadmin
+      visual_studio_plugin_download_url: http://www.uhurucloud.com/tools/visualstudio
+      vmc_url: http://docs.cloudfoundry.com/tools/vmc/installing-vmc.html
+      eclipse_url: http://docs.cloudfoundry.com/tools/STS/configuring-STS.html
+      signup_message: "Host your web applications in minutes. We support apps written in PHP, Node.js, Ruby, Java and .NET."
+      copyright_message: "Copyright Uhuru Software 2012"
+      welcome_message: "Welcome to your PAAS cloud"
+      color_theme: simple_white
       domain: "uhurucloud.net"
       recaptcha_public_key: "6Lfqe9kSAAAAAITuzJDfgLX41pMhyj2UEDp72NiM"
       recaptcha_private_key: "6Lfqe9kSAAAAAMKol6bOmzfghgan53CIG9ftzYi-"
       activation_link_secret: "casnuugycasuygc12tddbhcb7"
-      email:
-        from: "uhurusoftw@gmail.com"
-        from_alias: "Uhuru Cloud"
-      contact:
-        email: "uhuru@uhurusoftware.com"
       admin_email: "dev@uhurusoftware.com"
       admin_password: "password1234!"
       default_random_password: 01234567890123456789
+      logging_level: debug
+      email:
+        from: "uhurusoftw@gmail.com"
+        from_alias: "Uhuru Cloud"
+        server: 
+        port: 
+        user: 
+        secret: 
+        auth_method: ":plain"
+        enable_tls: 
+      contact:
+        company: ""
+        address: ""
+        phone: ""
+        email: "uhurusoftw@gmail.com"
 
   win_dea:
     filerport: 12346
     statusport: 12345
-    max_memory: 4096
+    max_memory: 6144
 
   uhurufs_gateway:
     check_orphan_interval: 7200
@@ -504,7 +524,7 @@ properties:
     max_user_conns: 20
     default_version: 2008
     statusport: 12345
-
+    product_key: enter_sqlserver_activation_key
   nats:
     user: olCiM3B83fOB
     password: IaSmu0AeI2ky
@@ -536,12 +556,17 @@ properties:
 #    new_stager_email_regexp: '.*@vmware.com'
     staging_upload_user: kFs4lM95
     staging_upload_password: 8XIseKVt
-    allow_registration: true
+    allow_registration: false
     allow_external_app_uris: true
 #    uaa:
 #      enabled: false
 #      resource_id: cloud_controller
 #      client_secret: aaaNxRJ4cxs678cpv
+    bootstrap_users:
+    - email: "dev@uhurusoftware.com"
+      password: password1234!
+      is_admin: true
+      is_hashed_password: false
     admins:
     - b976ef56-27f2-44a7-98d7-96706883f0b4@uhurucloud.net
 

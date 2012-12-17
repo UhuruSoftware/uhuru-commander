@@ -3,12 +3,12 @@
 function check_system_packages()
 {
   progress_install_packages="$progress_failure"
-  infobox "Checking if packages are installed.\nPlease be patient, this wont take long..."
+  infobox "Checking if the necessary packages are installed.\nPlease be patient, this wont take long..."
   [ ! -z "`cat /etc/environment|grep /usr/local/ruby/bin`" ] && progress_install_packages=$progress_success
 
   [ "$progress_install_packages" != "$progress_success" ] &&
     {
-    yesno "The system doesent seem to be set up. Do you want to install the needed packages ?" && install_packages || return 1
+    yesno "The system doesent seem to be set up. Do you want to install the necessary packages ?" && install_packages || return 1
     }
   return 0
 }
@@ -18,13 +18,13 @@ function check_if_bosh_is_deployed()
   progress_deploy_bosh=$progress_failure
   progress_deploy_micro_bosh=$progress_failure
 
-  infobox "Checking if Micro BOSH is deployed.\nPlease be patient, this wont take long..."
+  infobox "Checking if micro bosh is deployed.\nPlease be patient, this wont take long..."
   $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 1>/dev/null 2>/dev/null &&
     {
     progress_deploy_micro_bosh=$progress_success
     $bosh_nonint login admin admin 1>/dev/null 2>/dev/null &&
       {
-      infobox "Checking if BOSH is deployed.\nPlease be patient, this wont take long..."
+      infobox "Checking if bosh is deployed.\nPlease be patient, this wont take long..."
       [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'` | grep -w $version_bosh" ] && progress_deploy_bosh=$progress_success
       }
     }
@@ -43,7 +43,7 @@ function check_progress()
 
   check_system_packages || return 1
 
-  infobox "Checking if cloudfoundry is deployed.\nPlease be patient, this wont take long..."
+  infobox "Checking if Cloud Foundry is deployed.\nPlease be patient, this wont take long..."
 
   rm -f ~/.bosh_config 2>/dev/null
   $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>/dev/null 1>/dev/null && \
@@ -157,9 +157,9 @@ do
   --default-item "$sel" \
   --cancel-label "Back" \
   --item-help \
-  --menu "\nSelect which installation step you want to run." 8 0 0 \
+  --menu "\nSelect the installation step you need to run.\nThe environment must be installed in order to deploy CloudFoundry.\nIf you already have a Cloud Foundry deployment, clicking 'Deploy cloudfoundry will update the current deployment." 8 0 0 \
   "Setup environment" "Current status: $progress_deploy_bosh" "Setup the environment" \
-  "Deploy Cloudfoundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
+  "Deploy CloudFoundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
   2>$tmpdir/install_steps_menu.out
   ret=$?
 
@@ -219,20 +219,19 @@ local mixed=""
 	  --no-label "Back" \
 	  --defaultno \
 	  --colors \
-	  --yesno "Before we continue please verify the following :\n
+	  --yesno "Before we continue please make sure the follow conditions are met :\n
   -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
   -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
   -          The folder <$color_underline$conf_datacenter_deployer_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
   -          The folder <$color_underline$conf_datacenter_micro_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
   -          The folder <$color_underline$conf_datacenter_bosh_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
   -          The domain <$color_underline$cloudfoundry_domain$color_no_underline> points to the following IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
-
 Beside these, you will need :\n
 RAM : $needed_ram MB ($needed_ram_gb GB)\n
 DISK: $needed_disk MB ($needed_disk_gb GB)\n
 CPUs: $needed_cpu\n\n
 
-   Press OK when these conditions are met." 0 0 &&
+   Press OK to continue" 0 0 &&
    {
    check_if_bosh_is_deployed && check_vsphere_prerequistes
    }

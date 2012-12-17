@@ -176,10 +176,10 @@ while [ $ret -eq 0 ];
 do
 
   $dialog --backtitle "$bgtitle" \
-  --title " Cloudfoundry machines count " \
+  --title " Cloud Foundry machines count " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --menu "\nHere you can set up the number of machines for the cloudfoundry deployment.\nOn the right side you cna see how many are currently configured" 0 0 0 \
+  --menu "\nHere you can set up the number of machines for the Cloud Foundry deployment.\nOn the right side you can see how many VMs are currently configured" 0 0 0 \
   "DEA"     "Droplet execution agent machines ($cloudfoundry_deas_count)" \
   "WinDEA"  "Windows DEAs                     ($cloudfoundry_windea_count)" \
   "MySQL"   "MySQL nodes                      ($cloudfoundry_mysqlnode_count)" \
@@ -200,7 +200,7 @@ do
     case "$sel" in
     "DEA") inputbox "DEA" "How many DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
     "CC") inputbox "CC" "How many cloud controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
-    "MySQL") inputbox "Mysql" "How many mysql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
+    "MySQL") inputbox "Mysql" "How many MySQL nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
     "Router") inputbox "Router" "How many routers should be created ?" "$cloudfoundry_router_count" && cloudfoundry_router_count=`cat $tmpdir/input.out` ;;
     "Stager") inputbox "Stager" "How many stagers should be created ?" "$cloudfoundry_stager_count" && cloudfoundry_stager_count=`cat $tmpdir/input.out` ;;
     "Mongodb") inputbox "Mongodb" "How many mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
@@ -208,7 +208,7 @@ do
     "Rabbit") inputbox "Rabbit" "How many rabbit nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
     "Postgresql") inputbox "Postgresql" "How many postgresql nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
     "MsSQL") inputbox "MsSQL" "How many MSSQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
-    "WinDEA") inputbox "WinDEA" "How many windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
+    "WinDEA") inputbox "WinDEA" "How many Windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
     "UhuruFS") inputbox "UhuruFS" "How many UhuruFS nodes should be created ?" "$cloudfoundry_uhurufsnode_count" && cloudfoundry_uhurufsnode_count=`cat $tmpdir/input.out` ;;
     esac
     rm -f $tmpdir/input.out

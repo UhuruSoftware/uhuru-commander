@@ -188,9 +188,9 @@ function deployment_menu()
 	  --extra-label "Tear down" \
 	  --help-button \
 	  --help-label "Back" \
-	  --menu "In the monitoring section you will be able to ssh into each vm.\nIf you want to change deployment settings, choose 'Manage'" 10 0 0 \
+	  --menu "In the monitoring section you will be able to ssh into each VM.\nIf you want to change deployment settings, choose 'Manage'" 10 0 0 \
 	  "Monitor" "Monitor and controll the deployment" \
-	  "Manage" "Manage the deployment" \
+	  "Manage" "Manage the deployments" \
 	  2>$tmpdir/deployment_menu.sel
 	  ret=$?
 	  
