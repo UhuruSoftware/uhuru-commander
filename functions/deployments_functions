@@ -178,15 +178,17 @@ function deployment_menu()
 # gives the user 2 options, to monitor or configure the deployment
   local ret=0 sel="Monitor"
 
-  until [ $ret -eq 1 ];
+  until [ $ret -eq 2 -o $ret -eq 1 -o $ret -eq 3 ];
   do
   $dialog --backtitle "$bgtitle" \
 	  --title " Deployment $1 " \
-	  --cancel-label "Back" \
+	  --cancel-label "Delete" \
 	  --default-item "$sel" \
 	  --extra-button \
 	  --extra-label "Tear down" \
-	  --menu "In the monitoring section you will be able to ssh into each vm.\nIf you want to change the deployment settings, choose 'Configure'" 10 0 0 \
+	  --help-button \
+	  --help-label "Back" \
+	  --menu "In the monitoring section you will be able to ssh into each vm.\nIf you want to change deployment settings, choose 'Manage'" 10 0 0 \
 	  "Monitor" "Monitor and controll the deployment" \
 	  "Manage" "Manage the deployment" \
 	  2>$tmpdir/deployment_menu.sel
@@ -203,6 +205,7 @@ function deployment_menu()
       "Tear down") tear_down_deployment ;;
       esac ;;
     3) tear_down_deployment ;;
+    1) delete_deployment $1 ;;
     esac
   done
 }
@@ -228,8 +231,6 @@ do
 #!/bin/bash
 $dialog --backtitle "$bgtitle" \\
        --title " Select deployment " \\
-       --extra-button \\
-       --extra-label "Delete" \\
        --help-button \\
        --help-label "Exit" \\
        --ok-label "Set" \\
@@ -254,7 +255,6 @@ EOF
   case $ret in
     0) set_deployment $sel;;
     1) add_deployment;;
-    3) delete_deployment $sel ;;
   esac
 done
 }

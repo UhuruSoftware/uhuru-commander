@@ -59,17 +59,17 @@ help_micro_cpu="This represents the number of CPUs to be alocated for Micro BOSH
 help_datacenter_name="The name of the vCenter datacenter used for Cloud Foundry"
 help_datacenter_vmfolder="The vCenter folder that is going to hold the deployment VMs. This folder must exist and be accessible."
 help_datacenter_templatefolder="The vCenter folder that is going to hold the templates used for deploying. This folder must exist and be accessible."
-help_datacenter_bosh_diskpath="The Datastore folder that is going to contain the necessary  files used by bosh. This folder must exist in the appropriate datastores"
-help_datacenter_micro_diskpath="The Datastore folder that is going to contain the necessary  files used by micro bosh. This folder must exist in the appropriate datastores"
+help_datacenter_bosh_diskpath="The Datastore folder that is going to contain the necessary  files used by bosh. This folder must exist in the appropriate datastore"
+help_datacenter_micro_diskpath="The Datastore folder that is going to contain the necessary  files used by micro bosh. This folder must exist in the appropriate datastore"
 help_datacenter_datastorepattern="The pattern for the datastore that is going to contain the non-persistent disks."
 help_datacenter_persistentpattern="The pattern for the datastore that is going to contain the persistent disks."
 help_datacenter_mixeddatastores="Are mixed datastores allowed ?"
-help_datacenter_deployer_diskpath="The Datastore folder that is going to contain the necessary  files used by the deployer. This folder must exist in the appropriate datastores"
+help_datacenter_deployer_diskpath="The Datastore folder that is going to contain the necessary  files used by the deployer. This folder must exist in the appropriate datastore"
 
 help_datacenter_host="vCenter IP address"
 help_datacenter_user="The vCenter user"
-help_datacenter_password="The password tor the vCenter user"
-help_datacenter_cluster_name="The vCenter Cluster name on witch cloud foundry is going to be deployed to"
+help_datacenter_password="The password for the vCenter user"
+help_datacenter_cluster_name="The vCenter Cluster name on which cloud foundry is going to be deployed to"
 
 progress_success="INSTALLED"
 progress_failure="NOT INSTALLED"
@@ -174,7 +174,7 @@ do
   --title " Network configuration " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --menu "\nPlease input the network subnet, the network mask and the gateway.\nThe netmask must be at least a /24 (255.255.255.0),\nbut we recomend using a /16 (255.255.0.0).\nThe network must end in '.0'" 12 0 0 \
+  --menu "\nPlease input the network subnet, the network mask and the gateway.\nThe netmask must be at least a /16 (255.255.0.0),\nThe subnet must end in '.0.0'" 12 0 0 \
   "Subnet" "$conf_network" \
   "Netmask" "$conf_network_netmask" \
   "Gateway" "$conf_network_gateway" \
@@ -224,20 +224,16 @@ do
   --title " VCenter configuration " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --item-help \
   --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 10 0 0 \
-  "vCenter IP" "$conf_vcenter_host" "$help_datacenter_host" \
-  "vCenter user" "$conf_vcenter_user" "$help_datacenter_user" \
-  "Password" "<hidden>" "$help_datacenter_password" \
-  "Cluster Name" "$conf_vcenter_clustername" "$help_datacenter_cluster_name" \
-  "Datacenter name" "$conf_datacenter_name" "$help_datacenter_name" \
-  "VM Folder" "$conf_datacenter_vmfolder" "$help_datacenter_vmfolder" \
-  "Template Folder" "$conf_datacenter_templatefolder" "$help_datacenter_templatefolder" \
+  "vCenter IP" "$conf_vcenter_host" \
+  "vCenter user" "$conf_vcenter_user" \
+  "Password" "<hidden>" \
+  "Cluster Name" "$conf_vcenter_clustername" \
+  "Datacenter name" "$conf_datacenter_name" \
+  "VM Folder" "$conf_datacenter_vmfolder" \
+  "Template Folder" "$conf_datacenter_templatefolder" \
   " " " " " " \
-  "Deployer Disk Path" "$conf_datacenter_deployer_diskpath" "$help_datacenter_deployer_diskpath" \
-  "Micro Disk Path" "$conf_datacenter_micro_diskpath" "$help_datacenter_micro_diskpath" \
-  "Bosh Disk Path" "$conf_datacenter_bosh_diskpath" "$help_datacenter_bosh_diskpath" \
-  "Datastore Pattern" "$conf_datacenter_datastorepattern" "$help_datacenter_datastorepattern" \
+  "Datastore Pattern" "$conf_datacenter_datastorepattern" \
   2>$tmpdir/conf_vcenter_menu.out
   ret=$?
 
@@ -258,9 +254,6 @@ do
     "Datacenter name") inputbox "Datacenter name" "$help_datacenter_name" "$conf_datacenter_name" && conf_datacenter_name=`cat $tmpdir/input.out` ;;
     "VM Folder") inputbox "VM Folder" "$help_datacenter_vmfolder" "$conf_datacenter_vmfolder" && conf_datacenter_vmfolder=`cat $tmpdir/input.out` ;;
     "Template Folder") inputbox "Templates folder" "$help_datacenter_templatefolder" "$conf_datacenter_templatefolder" && conf_datacenter_templatefolder=`cat $tmpdir/input.out` ;;
-    "Deployer Disk Path") inputbox "Disk path" "$help_datacenter_deployer_diskpath" "$conf_datacenter_deployer_diskpath" && conf_datacenter_deployer_diskpath=`cat $tmpdir/input.out` ;;
-    "Micro Disk Path") inputbox "Disk path" "$help_datacenter_micro_diskpath" "$conf_datacenter_micro_diskpath" && conf_datacenter_micro_diskpath=`cat $tmpdir/input.out` ;;
-    "Bosh Disk Path") inputbox "Disk path" "$help_datacenter_bosh_diskpath" "$conf_datacenter_bosh_diskpath" && conf_datacenter_bosh_diskpath=`cat $tmpdir/input.out` ;;
     "Datastore Pattern") inputbox "Datastore pattern" "$help_datacenter_datastorepattern" "$conf_datacenter_datastorepattern" &&
       {
       conf_datacenter_datastorepattern=`cat $tmpdir/input.out`
@@ -286,16 +279,15 @@ do
   --title " Datacenter configuration " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --item-help \
   --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 9 0 0 \
-  "Name" "$conf_datacenter_name" "$help_datacenter_name" \
-  "VM-Folder" "$conf_datacenter_vmfolder" "$help_datacenter_vmfolder" \
-  "Template-Folder" "$conf_datacenter_templatefolder" "$help_datacenter_templatefolder" \
-  "Micro-Disk-Path" "$conf_datacenter_micro_diskpath" "$help_datacenter_diskpath" \
-  "Bosh-Disk-Path" "$conf_datacenter_bosh_diskpath" "$help_datacenter_diskpath" \
-  "Datastore-Pattern" "$conf_datacenter_datastorepattern" "$help_datacenter_datastorepattern" \
-  "Persistent-Pattern" "$conf_datacenter_persistentpattern" "$help_datacenter_persistentpattern" \
-  "Mixed-Datastores" "$conf_datacenter_mixeddatastores" "$help_datacenter_mixeddatastores" \
+  "Name" "$conf_datacenter_name" \
+  "VM-Folder" "$conf_datacenter_vmfolder" \
+  "Template-Folder" "$conf_datacenter_templatefolder" \
+  "Micro-Disk-Path" "$conf_datacenter_micro_diskpath" \
+  "Bosh-Disk-Path" "$conf_datacenter_bosh_diskpath" \
+  "Datastore-Pattern" "$conf_datacenter_datastorepattern" \
+  "Persistent-Pattern" "$conf_datacenter_persistentpattern" \
+  "Mixed-Datastores" "$conf_datacenter_mixeddatastores" \
   2>$tmpdir/conf_datacenter_menu.out
   ret=$?
 
@@ -399,14 +391,14 @@ do
   --default-item "$sel" \
   --cancel-label "Save" \
   --extra-button \
-  --extra-label "Save&Deploy" \
+  --extra-label "Save and Deploy" \
   --help-button \
   --help-label "Back" \
-  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 8 0 0 \
+  --menu "\nSelect which section you want to configure." 8 75 0 \
   "Network" "Configure basic network settings" \
   "Domain" "Set up the domain name" \
   "vSphere" "Configure vSphere settings" \
-  "Cloud Foundry components" "Configure cloudfoundry features" \
+  "Cloud Foundry components" "Configure Cloud Foundry features" \
   "Advanced" "In depth settings" \
   2>$tmpdir/conf_main_menu.out
   ret=$?
@@ -417,14 +409,14 @@ do
   --default-item "$sel" \
   --cancel-label "Save" \
   --extra-button \
-  --extra-label "Save&Deploy" \
+  --extra-label "Save and Deploy" \
   --help-button \
   --help-label "Back" \
-  --menu "\nSelect which item you want to configure.\nIn the right column you see the current value." 9 0 0 \
+  --menu "\nSelect which section you want to configure." 9 75 0 \
   "Network" "Configure basic network settings" \
   "Domain" "Set up the domain name" \
   "vSphere" "Configure vSphere settings" \
-  "Cloud Foundry components" "Configure cloudfoundry features" \
+  "Cloud Foundry components" "Configure Cloud Foundry features" \
   "Uhuru cloud settings" "Configure Uhuru cloud settings" \
   2>$tmpdir/conf_main_menu.out
   ret=$?
@@ -440,7 +432,7 @@ do
       "vSphere") configure_vcenter ;;
       "Cloud Foundry components") cloudfoundry_vms_count_simple ;;
       "Advanced") advanced_main_menu ;;
-      "Domain") inputbox "Domain" "Enter a valid domain used for Cloud Foundry" "$cloudfoundry_domain" && cloudfoundry_domain=`cat $tmpdir/input.out` ;;
+      "Domain") inputbox "Domain" "Enter a valid domain used for your cloud" "$cloudfoundry_domain" && cloudfoundry_domain=`cat $tmpdir/input.out` ;;
       "Uhuru cloud settings") configure_uhuru ;;
     esac ;;
     3) save_conf
