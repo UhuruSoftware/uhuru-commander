@@ -6,7 +6,7 @@
   exit 1
   }
 
-TERM=linux
+#TERM=linux
 
 trap abusive_interruption SIGINT
 
@@ -425,7 +425,7 @@ do
   "Domain" "Set up the domain name" \
   "vSphere" "Configure vSphere settings" \
   "Cloud Foundry components" "Configure cloudfoundry features" \
-  "Uhuru" "Configure Uhuru cloud settings" \
+  "Uhuru cloud settings" "Configure Uhuru cloud settings" \
   2>$tmpdir/conf_main_menu.out
   ret=$?
 
@@ -441,9 +441,10 @@ do
       "Cloud Foundry components") cloudfoundry_vms_count_simple ;;
       "Advanced") advanced_main_menu ;;
       "Domain") inputbox "Domain" "Enter a valid domain used for Cloud Foundry" "$cloudfoundry_domain" && cloudfoundry_domain=`cat $tmpdir/input.out` ;;
-      "Uhuru") configure_uhuru ;;
+      "Uhuru cloud settings") configure_uhuru ;;
     esac ;;
-    3) confirm_install && install_steps ;;
+    3) save_conf
+       confirm_install && install_steps ;;
     1) save_conf
        msgbox "Settings saved" ;;
   esac
