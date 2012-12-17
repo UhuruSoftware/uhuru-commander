@@ -70,7 +70,7 @@ help_datacenter_password="The password tor the vCenter user"
 help_datacenter_cluster_name="The vCenter Cluster name on witch cloud foundry is going to be deployed to"
 
 progress_success="INSTALLED"
-progress_failure="FAILURE"
+progress_failure="NOT INSTALLED"
 progress_install_packages="not done yet"
 progress_install_micro_stemcell="not done yet"
 progress_download_bosh_stemcell="not done yet"
