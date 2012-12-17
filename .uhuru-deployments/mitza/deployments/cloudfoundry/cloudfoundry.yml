@@ -439,6 +439,8 @@ jobs:
 
 properties:
   domain: testcfm.com
+  description: "Cloud application platform"
+  support_address: "http://support.testcfm.com"
 
   env: {}
 
