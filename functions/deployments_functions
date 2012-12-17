@@ -20,12 +20,12 @@ function tear_down_deployment()
 
     rm -f ~/.bosh_config 2>/dev/null
     $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 && \
-    $bosh login admin admin && \
+    $bosh_nonint login admin admin && \
     $bosh_nonint delete deployment cloud-foundry --force
 
     rm -f ~/.bosh_config 2>/dev/null && \
     $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 && \
-    $bosh login admin admin && \
+    $bosh_nonint login admin admin && \
     $bosh_nonint delete deployment bosh --force && \
     cd $pwd/.uhuru-deployments/$deployment/deployments && \
     $bosh_nonint micro delete
@@ -108,7 +108,7 @@ set_cloudfoundry_uuid
 
 cd $pwd/.uhuru-deployments/$deployment
 $bosh deployment cloudfoundry/cloudfoundry.yml
-$bosh login admin admin
+$bosh_nonint login admin admin
 
 $bosh ssh `echo $1|cut -f 1 -d \/` `echo $1|cut -f 2 -d \/`
 
@@ -123,7 +123,7 @@ function monitor_deployment()
 
   rm -f ~/.bosh_config 2>/dev/null
   $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 1>/dev/null 2>/dev/null
-  $bosh login admin admin 1>/dev/null 2>/dev/null
+  $bosh_nonint login admin admin 1>/dev/null 2>/dev/null
 
   $bosh vms cloud-foundry | grep \| | grep -v "Resource Pool" 1>$pwd/bosh_vms 2>/dev/null
 

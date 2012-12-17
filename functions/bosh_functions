@@ -220,7 +220,7 @@ function upload_bosh_stemcell()
   ret=$(( $ret + $? ))
 
   echo "Logging in"
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   echo "Uploading bosh stemcell"
@@ -242,7 +242,7 @@ function upload_bosh_release()
   cd $pwd
 
   echo "Logging in"
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   mkdir -p $pwd/blobstore
@@ -283,7 +283,7 @@ function deploy_bosh()
   $bosh --user admin --password admin target ${conf_network_micro_ip}:25555
   ret=$(( $ret + $? ))
 
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   $bosh deployment bosh/bosh.yml

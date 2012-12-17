@@ -3,8 +3,10 @@
 [ `id -u` -ne 0 ] &&
   {
   echo "You are not root"
-#  exit 1
+  exit 1
   }
+
+TERM=linux
 
 trap abusive_interruption SIGINT
 
@@ -70,7 +72,7 @@ help_datacenter_password="The password tor the vCenter user"
 help_datacenter_cluster_name="The vCenter Cluster name on witch cloud foundry is going to be deployed to"
 
 progress_success="INSTALLED"
-progress_failure="FAILURE"
+progress_failure="NOT INSTALLED"
 progress_install_packages="not done yet"
 progress_install_micro_stemcell="not done yet"
 progress_download_bosh_stemcell="not done yet"
@@ -146,7 +148,7 @@ function deploy_bosh()
   
   echo "Deploying bosh"
 
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   $bosh deployment $pwd/.uhuru-deployments/$deployment/deployments/bosh/bosh.yml
