@@ -90,6 +90,7 @@ function add_deployment()
 
     cloudfoundry_domain="${sel}.me"
     cloudfoundry_srv_api_uri="api.$cloudfoundry_domain"
+    conf_uhuru_support_address="http://support.$cloudfoundry_domain"
 
     init_plans
     save_conf
