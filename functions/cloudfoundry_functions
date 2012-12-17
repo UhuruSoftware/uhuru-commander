@@ -938,8 +938,8 @@ properties:
 #      resource_id: cloud_controller
 #      client_secret: aaaNxRJ4cxs678cpv
     bootstrap_users:
-    - email:"$conf_uhuru_admin_email"
-      password:$conf_uhuru_admin_password
+    - email: "$conf_uhuru_admin_email"
+      password: $conf_uhuru_admin_password
       is_admin: true
       is_hashed_password: false
     admins:

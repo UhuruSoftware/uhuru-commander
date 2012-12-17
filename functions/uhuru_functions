@@ -17,7 +17,7 @@ do
   "Cloud name" "$conf_uhuru_cloud_name" \
   "Cloud description" "$conf_uhuru_description" \
   "Admin email" "$conf_uhuru_admin_email" \
-  "Admin password" "$conf_uhuru_admin_password" \
+  "Admin password" "<hidded>" \
   " " "" \
   "Recaptcha public key" "$conf_uhuru_recaptcha_public_key" \
   "Recaptcha private key" "$conf_uhuru_recaptcha_private_key" \
@@ -50,7 +50,7 @@ do
     "SMTP sender email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
     "SMTP sender alias") inputbox "Email alias" "Enter email alias" "$conf_uhuru_email_from_alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
     "Admin email") inputbox "Admin email" "Enter admin email" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;
-    "Admin password") inputbox "Admin password" "Enter admin password" "$conf_uhuru_admin_password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
+    "Admin password") inputbox "Admin password" "Enter admin password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
     "Company") inputbox "Company name" "Enter company name" "$conf_uhuru_company_name" && conf_uhuru_company_name=`cat $tmpdir/input.out` ;;
     "Address") inputbox "Company address" "Enter company address" "$conf_uhuru_company_address" && conf_uhuru_company_address=`cat $tmpdir/input.out` ;;
     "Phone") inputbox "Company phone" "Enter company phone" "$conf_uhuru_company_phone" && conf_uhuru_company_phone=`cat $tmpdir/input.out` ;;
