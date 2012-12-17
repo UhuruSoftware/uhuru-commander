@@ -230,6 +230,7 @@ do
   "Cluster Name" "$conf_vcenter_clustername" \
   "Datacenter name" "$conf_datacenter_name" \
   "VM Folder" "$conf_datacenter_vmfolder" \
+  "Template Folder" "$conf_datacenter_templatefolder" \
   " " " " \
   "Datastore Pattern" "$conf_datacenter_datastorepattern" \
   2>$tmpdir/conf_vcenter_menu.out
