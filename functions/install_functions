@@ -232,9 +232,10 @@ RAM : $needed_ram MB ($needed_ram_gb GB)\n
 DISK: $needed_disk MB ($needed_disk_gb GB)\n
 CPUs: $needed_cpu\n\n
 
-   Press OK when these conditions are met." 0 0
-
-check_if_bosh_is_deployed && check_vsphere_prerequistes
+   Press OK when these conditions are met." 0 0 &&
+   {
+   check_if_bosh_is_deployed && check_vsphere_prerequistes
+   }
 }
 
 
