@@ -215,7 +215,6 @@ function configure_vcenter()
 local ret=0
 local sel="Host"
 
-#msgbox "this is the vsphere help\nit will describe something\nquite important"
 textbox "Necessary permissions" $pwd/resources/permissions.txt
 
 while [ $ret -eq 0 ];
@@ -231,13 +230,10 @@ do
   "Cluster Name" "$conf_vcenter_clustername" \
   "Datacenter name" "$conf_datacenter_name" \
   "VM Folder" "$conf_datacenter_vmfolder" \
-  "Template Folder" "$conf_datacenter_templatefolder" \
-  " " " " " " \
+  " " " " \
   "Datastore Pattern" "$conf_datacenter_datastorepattern" \
   2>$tmpdir/conf_vcenter_menu.out
   ret=$?
-
-#  "Persistent Datastore Pattern" "$conf_datacenter_persistentpattern" "$help_datacenter_persistentpattern" \
 
   sel=`cat $tmpdir/conf_vcenter_menu.out`
   rm -f $tmpdir/conf_vcenter_menu.out
