@@ -814,6 +814,8 @@ jobs:
 
 properties:
   domain: $cloudfoundry_domain
+  description: "$conf_uhuru_description"
+  support_address: "$conf_uhuru_support_address"
 
   env: {}
 

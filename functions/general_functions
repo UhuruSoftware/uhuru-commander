@@ -398,6 +398,8 @@ conf_uhuru_smtp_tls=$conf_uhuru_smtp_tls
 conf_uhuru_company_name="$conf_uhuru_company_name"
 conf_uhuru_company_address="$conf_uhuru_company_address"
 conf_uhuru_company_phone="$conf_uhuru_company_phone"
+conf_uhuru_support_address="$conf_uhuru_support_address"
+conf_uhuru_description="$conf_uhuru_description"
 
 cloudfoundry_windows_product_key="$cloudfoundry_windows_product_key"
 cloudfoundry_sqlserver_product_key="$cloudfoundry_sqlserver_product_key"
