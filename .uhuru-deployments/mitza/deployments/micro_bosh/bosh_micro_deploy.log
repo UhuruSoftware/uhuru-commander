@@ -3744,3 +3744,98 @@ I, [2012-12-11T00:41:15.005738 #1478] [0x2b5b268]  INFO -- : Deleting: sc-4d4bf8
 I, [2012-12-11T00:41:15.007254 #1478] [0x2b57528]  INFO -- : Deleting: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb / datastore-6051
 I, [2012-12-11T00:41:16.041267 #1478] [0x2b5b268]  INFO -- : Deleted: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb
 I, [2012-12-11T00:41:27.071940 #1478] [0x2b57528]  INFO -- : Deleted: sc-4d4bf864-8c6e-4150-af34-d84cb57df2fb / datastore-6051
+I, [2012-12-17T00:50:52.727545 #19903] [0x11242dc]  INFO -- : Loading existing deployment data from: /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml
+I, [2012-12-17T00:50:55.263542 #19905] [0x7b127c]  INFO -- : Loading existing deployment data from: /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml
+I, [2012-12-17T00:50:57.616524 #19908] [0x1187ad0]  INFO -- : Loading existing deployment data from: /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml
+I, [2012-12-17T00:53:06.016599 #20006] [0x8612d0]  INFO -- : Loading existing deployment data from: /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml
+I, [2012-12-17T00:53:08.091799 #20008] [0x7b52dc]  INFO -- : Loading existing deployment data from: /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml
+I, [2012-12-17T00:53:09.894341 #20010] [0x560a7c]  INFO -- : Loading existing deployment data from: /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml
+I, [2012-12-17T00:53:57.479233 #20104] [0xeff27c]  INFO -- : No existing deployments found (will save to /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml)
+I, [2012-12-17T00:53:59.967969 #20106] [0xe6f2d0]  INFO -- : No existing deployments found (will save to /home/uhuru/bosh/.uhuru-deployments/mitza/deployments/bosh-deployments.yml)
+I, [2012-12-17T00:54:15.500013 #20106] [0xe6f2d0]  INFO -- : Loading yaml from /tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/apply_spec.yml
+I, [2012-12-17T00:54:15.525551 #20106] [0xe6f2d0]  INFO -- : Loading yaml from /tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/stemcell.MF
+I, [2012-12-17T00:54:15.946049 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Extracting stemcell to: /tmp/d20121217-20106-16lln0e/d20121217-20106-1n7tdsv
+I, [2012-12-17T00:54:30.133518 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Generated name: sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d
+I, [2012-12-17T00:54:30.443213 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Deploying to: <[Vim.ClusterComputeResource] domain-c1237> / <[Vim.Datastore] datastore-6051>
+I, [2012-12-17T00:54:30.506299 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Waiting for NFC lease
+I, [2012-12-17T00:54:34.557487 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Uploading
+I, [2012-12-17T00:54:34.563971 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Uploading disk to: https://192.168.1.203/nfc/524ebd47-3372-4991-d836-0d93aa2f4061/disk-0.vmdk
+I, [2012-12-17T00:55:32.268840 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Removing NICs
+I, [2012-12-17T00:55:33.320249 #20106] [create_stemcell(/tmp/d20121217-20106-16lln0e/sc-20121217-20106-4dejox/image, _)]  INFO -- : Taking initial snapshot
+I, [2012-12-17T00:55:35.639927 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Creating vm: vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6 on <[Vim.ClusterComputeResource] domain-c1237> stored in <[Vim.Datastore] datastore-6051>
+I, [2012-12-17T00:55:35.651764 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Stemcell lives on a different datastore, looking for a local copy of: sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d.
+I, [2012-12-17T00:55:35.698840 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Cluster doesn't have stemcell sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d, replicating
+I, [2012-12-17T00:55:35.704879 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Replicating sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d (<[Vim.VirtualMachine] vm-8057>) to sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d / datastore-6051
+I, [2012-12-17T00:56:13.044512 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Replicated sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d (<[Vim.VirtualMachine] vm-8057>) to sc-156ffb5e-37a3-4e9a-8899-1bb250efa70d / datastore-6051 (<[Vim.VirtualMachine] vm-8059>)
+I, [2012-12-17T00:56:13.044707 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Creating initial snapshot for linked clones on <[Vim.VirtualMachine] vm-8059>
+I, [2012-12-17T00:56:16.147510 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Created initial snapshot for linked clones on <[Vim.VirtualMachine] vm-8059>
+I, [2012-12-17T00:56:16.147655 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Using stemcell VM: <[Vim.VirtualMachine] vm-8059>
+I, [2012-12-17T00:56:16.180717 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Cloning vm: <[Vim.VirtualMachine] vm-8059> to vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6
+I, [2012-12-17T00:56:25.908728 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Setting VM env: {"vm"=>{"name"=>"vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6", "id"=>"vm-8061"},
+ "agent_id"=>"bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59",
+ "networks"=>
+  {"bosh"=>
+    {"cloud_properties"=>{"name"=>"VM Network"},
+     "netmask"=>"255.255.0.0",
+     "gateway"=>"10.134.0.1",
+     "ip"=>"10.134.0.133",
+     "dns"=>["192.168.1.130", "8.8.8.8"],
+     "type"=>nil,
+     "default"=>["dns", "gateway"],
+     "mac"=>"00:50:56:ab:13:7e"}},
+ "disks"=>{"system"=>0, "ephemeral"=>1, "persistent"=>{}},
+ "ntp"=>["ntp01.las01.emcatmos.com", "ntp02.las01.emcatmos.com"],
+ "blobstore"=>
+  {"plugin"=>"local",
+   "properties"=>{"blobstore_path"=>"/var/vcap/micro_bosh/data/cache"}},
+ "mbus"=>"http://vcap:b00tstrap@0.0.0.0:6868",
+ "env"=>{"bosh"=>{"password"=>nil}}}
+
+I, [2012-12-17T00:56:32.093722 #20106] [create_vm(bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59, ...)]  INFO -- : Powering on VM: <[Vim.VirtualMachine] vm-8061> (vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6)
+I, [2012-12-17T00:56:58.191724 #20106] [create_disk(4096, _)]  INFO -- : Creating disk with size: 4096
+I, [2012-12-17T00:56:58.193131 #20106] [create_disk(4096, _)]  INFO -- : Created disk: #<VSphereCloud::Models::Disk @values={:id=>1, :path=>nil, :datacenter=>nil, :datastore=>nil, :size=>4096}>
+I, [2012-12-17T00:56:58.195136 #20106] [attach_disk(vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6, 1)]  INFO -- : Attaching disk: 1 on vm: vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6
+I, [2012-12-17T00:56:58.986226 #20106] [attach_disk(vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6, 1)]  INFO -- : Need to create disk
+I, [2012-12-17T00:56:59.544243 #20106] [attach_disk(vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6, 1)]  INFO -- : Reading current agent env: {"vm"=>{"name"=>"vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6", "id"=>"vm-8061"},
+ "agent_id"=>"bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59",
+ "networks"=>
+  {"bosh"=>
+    {"cloud_properties"=>{"name"=>"VM Network"},
+     "netmask"=>"255.255.0.0",
+     "gateway"=>"10.134.0.1",
+     "ip"=>"10.134.0.133",
+     "dns"=>["192.168.1.130", "8.8.8.8"],
+     "type"=>nil,
+     "default"=>["dns", "gateway"],
+     "mac"=>"00:50:56:ab:13:7e"}},
+ "disks"=>{"system"=>0, "ephemeral"=>1, "persistent"=>{}},
+ "ntp"=>["ntp01.las01.emcatmos.com", "ntp02.las01.emcatmos.com"],
+ "blobstore"=>
+  {"plugin"=>"local",
+   "properties"=>{"blobstore_path"=>"/var/vcap/micro_bosh/data/cache"}},
+ "mbus"=>"http://vcap:b00tstrap@0.0.0.0:6868",
+ "env"=>{"bosh"=>{"password"=>nil}}}
+
+I, [2012-12-17T00:56:59.546468 #20106] [attach_disk(vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6, 1)]  INFO -- : Updating agent env to: {"vm"=>{"name"=>"vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6", "id"=>"vm-8061"},
+ "agent_id"=>"bm-2722eaa3-1c9a-4cd9-97cb-aaad5d061f59",
+ "networks"=>
+  {"bosh"=>
+    {"cloud_properties"=>{"name"=>"VM Network"},
+     "netmask"=>"255.255.0.0",
+     "gateway"=>"10.134.0.1",
+     "ip"=>"10.134.0.133",
+     "dns"=>["192.168.1.130", "8.8.8.8"],
+     "type"=>nil,
+     "default"=>["dns", "gateway"],
+     "mac"=>"00:50:56:ab:13:7e"}},
+ "disks"=>{"system"=>0, "ephemeral"=>1, "persistent"=>{"1"=>2}},
+ "ntp"=>["ntp01.las01.emcatmos.com", "ntp02.las01.emcatmos.com"],
+ "blobstore"=>
+  {"plugin"=>"local",
+   "properties"=>{"blobstore_path"=>"/var/vcap/micro_bosh/data/cache"}},
+ "mbus"=>"http://vcap:b00tstrap@0.0.0.0:6868",
+ "env"=>{"bosh"=>{"password"=>nil}}}
+
+I, [2012-12-17T00:57:05.901204 #20106] [attach_disk(vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6, 1)]  INFO -- : Attaching disk
+I, [2012-12-17T00:57:07.941186 #20106] [attach_disk(vm-2eb81703-302a-4eb5-b426-cbe2e038b7d6, 1)]  INFO -- : Finished attaching disk
+I, [2012-12-17T00:57:47.165934 #20106] [0xe6f2d0]  INFO -- : Director is ready: {"name"=>"micro_bosh", "uuid"=>"93cfd39b-7fa3-4e13-a62c-dcd887c25098", "version"=>"0.5.2 (release:ffed4d4a bosh:21e0b0bc)", "user"=>nil, "cpi"=>"vsphere"}

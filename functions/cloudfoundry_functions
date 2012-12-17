@@ -431,7 +431,7 @@ resource_pools:
     name: uhuru-windows-2008R2
     version: 0.9.3
   cloud_properties:
-    ram: 900
+    ram: 2048
     disk: 5000
     cpu: 2
   env:
@@ -445,7 +445,7 @@ resource_pools:
     name: uhuru-windows-2008R2-sqlserver
     version: 0.9.3
   cloud_properties:
-    ram: 800
+    ram: 2048
     disk: 5000
     cpu: 2
   env:
@@ -680,7 +680,7 @@ jobs:
   template: mysql_node
   instances: $cloudfoundry_mysqlnode_count
   resource_pool: medium
-  persistent_disk: 10000
+  persistent_disk: 204800
   networks:
   - name: default
 
@@ -695,7 +695,7 @@ jobs:
   template: mongodb_node
   instances: $cloudfoundry_mongodbnode_count
   resource_pool: medium
-  persistent_disk: 30000
+  persistent_disk: 204800
   networks:
   - name: default
 
@@ -710,7 +710,7 @@ jobs:
   template: redis_node
   instances: $cloudfoundry_redisnode_count
   resource_pool: large
-  persistent_disk: 10000
+  persistent_disk: 10240
   networks:
   - name: default
 
@@ -725,7 +725,7 @@ jobs:
   template: rabbit_node
   instances: $cloudfoundry_rabbitnode_count
   resource_pool: medium
-  persistent_disk: 5000
+  persistent_disk: 10240
   networks:
   - name: default
 
@@ -740,7 +740,7 @@ jobs:
   template: postgresql_node
   instances: $cloudfoundry_postgresqlnode_count
   resource_pool: medium
-  persistent_disk: 650
+  persistent_disk: 204800
   networks:
   - name: default
 
@@ -799,7 +799,7 @@ jobs:
 - name: uhurufs_node
   template: uhurufs_node
   instances: $cloudfoundry_uhurufsnode_count
-  persistent_disk: 5000
+  persistent_disk: 204800
   resource_pool: windows
   networks:
   - name: default
@@ -807,7 +807,7 @@ jobs:
 - name: mssql_node
   template: mssql_node
   instances: $cloudfoundry_mssqlnode_count
-  persistent_disk: 5000
+  persistent_disk: 204800
   resource_pool: sqlserver
   networks:
   - name: default
@@ -861,7 +861,7 @@ properties:
   win_dea:
     filerport: 12346
     statusport: 12345
-    max_memory: 4096
+    max_memory: 6144
 
   uhurufs_gateway:
     check_orphan_interval: 7200
