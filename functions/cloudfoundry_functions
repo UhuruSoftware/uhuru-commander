@@ -26,7 +26,7 @@ function deploy_cloudfoundry()
   ret=$(( $ret + $? ))
 
   echo "Logging in"
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   echo "Uploading bosh stemcell"
@@ -59,7 +59,7 @@ function deploy_cloudfoundry()
   ret=$(( $ret + $? ))
 
   echo "Logging in"
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   $bosh deployment cloudfoundry/cloudfoundry.yml

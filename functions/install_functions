@@ -18,12 +18,16 @@ function check_if_bosh_is_deployed()
   progress_deploy_bosh=$progress_failure
   progress_deploy_micro_bosh=$progress_failure
 
-  infobox "Checking if micro bosh is deployed.\nPlease be patient, this wont take long..."
-  $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 1>/dev/null 2>/dev/null && progress_deploy_micro_bosh=$progress_success
-  $bosh login admin admin 1>/dev/null 2>/dev/null
-
-  infobox "Checking if BOSH is deployed.\nPlease be patient, this wont take long..."
-  [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'` | grep -w $version_bosh" ] && progress_deploy_bosh=$progress_success
+  infobox "Checking if Micro BOSH is deployed.\nPlease be patient, this wont take long..."
+  $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 1>/dev/null 2>/dev/null &&
+    {
+    progress_deploy_micro_bosh=$progress_success
+    $bosh_nonint login admin admin 1>/dev/null 2>/dev/null &&
+      {
+      infobox "Checking if BOSH is deployed.\nPlease be patient, this wont take long..."
+      [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'` | grep -w $version_bosh" ] && progress_deploy_bosh=$progress_success
+      }
+    }
 }
 
 function check_progress()
@@ -43,14 +47,14 @@ function check_progress()
 
   rm -f ~/.bosh_config 2>/dev/null
   $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>/dev/null 1>/dev/null && \
-  $bosh login admin admin 1>/dev/null 2>/dev/null &&
+  $bosh_nonint login admin admin 1>/dev/null 2>/dev/null &&
     {
     [ ! -z "`$bosh deployments 2>/dev/null | grep -iw 'cloud-foundry'`" ] && progress_deploy_cloudfoundry=$progress_success
     }
 
 #  infobox "Checking if micro bosh is installed.\nPlease be patient, this wont take long..."
 #  $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 1>/dev/null 2>/dev/null && progress_deploy_micro_bosh=$progress_success
-#  $bosh login admin admin 1>/dev/null 2>/dev/null
+#  $bosh_nonint login admin admin 1>/dev/null 2>/dev/null
 
 #  infobox "Checking if BOSH stemcell is uploaded.\nPlease be patient, this wont take long..."
 #  [ ! -z "`$bosh stemcells 2>/dev/null | grep '0.6.7'`" ] && progress_upload_bosh_stemcell=$progress_success

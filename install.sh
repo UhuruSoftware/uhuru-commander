@@ -3,8 +3,10 @@
 [ `id -u` -ne 0 ] &&
   {
   echo "You are not root"
-#  exit 1
+  exit 1
   }
+
+TERM=linux
 
 trap abusive_interruption SIGINT
 
@@ -146,7 +148,7 @@ function deploy_bosh()
   
   echo "Deploying bosh"
 
-  $bosh login admin admin
+  $bosh_nonint login admin admin
   ret=$(( $ret + $? ))
 
   $bosh deployment $pwd/.uhuru-deployments/$deployment/deployments/bosh/bosh.yml
