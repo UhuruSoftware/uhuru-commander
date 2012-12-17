@@ -25,8 +25,20 @@ function check_if_bosh_is_deployed()
     $bosh_nonint login admin admin 1>/dev/null 2>/dev/null &&
       {
       infobox "Checking if bosh is deployed.\nPlease be patient, this wont take long..."
-      [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'` | grep -w $version_bosh" ] && progress_deploy_bosh=$progress_success
+      [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'` | grep -w $version_bosh" ] && 
+        {
+        progress_deploy_bosh=$progress_success
+        return 0
+        } ||
+        {
+        #msgbox "Error" "It seems bosh is not deployed. Could not find a deployment of bosh with version $version_bosh"
+        return 1
+        }
       }
+    } ||
+    {
+    #msgbox "Error" "Could not target to ${conf_network_micro_ip}:25555. Micro bosh does not seem to be deployed."
+    return 1
     }
 }
 
@@ -233,7 +245,9 @@ CPUs: $needed_cpu\n\n
 
    Press OK to continue" 0 0 &&
    {
-   check_if_bosh_is_deployed && check_vsphere_prerequistes
+   check_if_bosh_is_deployed
+   check_vsphere_prerequistes
+   return 0
    }
 }
 
