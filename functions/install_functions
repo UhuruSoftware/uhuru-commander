@@ -171,7 +171,7 @@ do
   --item-help \
   --menu "\nSelect the installation step you need to run.\nThe environment must be installed in order to deploy CloudFoundry.\nIf you already have a Cloud Foundry deployment, clicking 'Deploy cloudfoundry will update the current deployment." 12 0 0 \
   "Setup environment" "Current status: $progress_deploy_bosh" "Setup the environment" \
-  "Deploy CloudFoundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
+  "Deploy Cloud Foundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
   2>$tmpdir/install_steps_menu.out
   ret=$?
 
@@ -182,7 +182,7 @@ do
     {
     case "$sel" in
     "Setup environment") install_everything ;;
-    "Deploy Cloudfoundry") deploy_cloudfoundry_gui ;;
+    "Deploy Cloud Foundry") deploy_cloudfoundry_gui ;;
     esac
     }
 done
