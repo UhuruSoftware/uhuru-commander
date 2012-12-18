@@ -175,7 +175,7 @@ function passwordbox()
 
     [ "`cat $tmpdir/password.out`" != "$pass" ] &&
       {
-      msgbox "The passwords dont match"
+      msgbox "The passwords don't match"
       return 1
       } ||
       {

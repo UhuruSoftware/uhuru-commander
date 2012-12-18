@@ -3,12 +3,12 @@
 function check_system_packages()
 {
   progress_install_packages="$progress_failure"
-  infobox "Checking if the necessary packages are installed.\nPlease be patient, this wont take long..."
+  infobox "Checking if the necessary packages are installed.\nPlease be patient, this won't take long..."
   [ ! -z "`cat /etc/environment|grep /usr/local/ruby/bin`" ] && progress_install_packages=$progress_success
 
   [ "$progress_install_packages" != "$progress_success" ] &&
     {
-    yesno "The system doesent seem to be set up. Do you want to install the necessary packages ?" && install_packages || return 1
+    yesno "The system doesen't seem to be set up. Do you want to install the necessary packages ?" && install_packages || return 1
     }
   return 0
 }
@@ -18,13 +18,13 @@ function check_if_bosh_is_deployed()
   progress_deploy_bosh=$progress_failure
   progress_deploy_micro_bosh=$progress_failure
 
-  infobox "Checking if micro bosh is deployed.\nPlease be patient, this wont take long..."
+  infobox "Checking if micro bosh is deployed.\nPlease be patient, this won't take long..."
   $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 1>/dev/null 2>/dev/null &&
     {
     progress_deploy_micro_bosh=$progress_success
     $bosh_nonint login admin admin 1>/dev/null 2>/dev/null &&
       {
-      infobox "Checking if bosh is deployed.\nPlease be patient, this wont take long..."
+      infobox "Checking if bosh is deployed.\nPlease be patient, this won't take long..."
       [ ! -z "`$bosh deployments 2>/dev/null | grep -w 'bosh'` | grep -w $version_bosh" ] && 
         {
         progress_deploy_bosh=$progress_success
@@ -55,7 +55,7 @@ function check_progress()
 
   check_system_packages || return 1
 
-  infobox "Checking if Cloud Foundry is deployed.\nPlease be patient, this wont take long..."
+  infobox "Checking if Cloud Foundry is deployed.\nPlease be patient, this won't take long..."
 
   rm -f ~/.bosh_config 2>/dev/null
   $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 2>/dev/null 1>/dev/null && \
@@ -169,9 +169,9 @@ do
   --default-item "$sel" \
   --cancel-label "Back" \
   --item-help \
-  --menu "\nSelect the installation step you need to run.\nThe environment must be installed in order to deploy CloudFoundry.\nIf you already have a Cloud Foundry deployment, clicking 'Deploy cloudfoundry will update the current deployment." 12 0 0 \
+  --menu "\nSelect the installation step you need to run.\nThe environment must be installed in order to deploy Cloud Foundry.\nIf you already have a Cloud Foundry deployment, clicking 'Deploy Cloud Foundry will update the current deployment." 12 0 0 \
   "Setup environment" "Current status: $progress_deploy_bosh" "Setup the environment" \
-  "Deploy Cloud Foundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloudfoundry" \
+  "Deploy Cloud Foundry" "Current status: $progress_deploy_cloudfoundry" "Setup or deploy Cloud Foundry" \
   2>$tmpdir/install_steps_menu.out
   ret=$?
 
@@ -234,7 +234,7 @@ local mixed=""
 	  --yesno "Before we continue please make sure the follow conditions are met :\n
   -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
   -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
-  -          The domain <$color_underline$cloudfoundry_domain$color_no_underline> points to the following IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
+  -          HTTP requests on port 80 to domain <$color_underline$cloudfoundry_domain$color_no_underline> and its subdomains are forwarded to IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
 Beside these, you will need :\n
 RAM : $needed_ram MB ($needed_ram_gb GB)\n
 DISK: $needed_disk MB ($needed_disk_gb GB)\n

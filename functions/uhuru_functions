@@ -8,11 +8,11 @@ local sel="Port"
 while [ $ret -eq 0 ];
 do
   $dialog --backtitle "$bgtitle" \
-  --title " Uhuru configuration " \
+  --title " Uhuru Cloud Configuration " \
   --default-item "$sel" \
   --cancel-label "Back" \
   --menu "Configure Uhuru settings" 8 0 0 \
-  "Microsoft Product Keys" "-> Windows and SQLServer activation keys" \
+  "Microsoft Product Keys" "-> Windows and SQL Server activation keys" \
   " " "" \
   "Cloud name" "$conf_uhuru_cloud_name" \
   "Cloud description" "$conf_uhuru_description" \
