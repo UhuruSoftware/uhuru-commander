@@ -180,15 +180,15 @@ do
   --default-item "$sel" \
   --cancel-label "Back" \
   --menu "\nHere you can set up the number of machines for the Cloud Foundry deployment.\nOn the right side you can see how many VMs are currently configured" 0 0 0 \
-  "DEA"     "Linux Droplet Execution Agent machines ($cloudfoundry_deas_count)" \
+  "DEA"     "Linux Droplet Execution Agent machines   ($cloudfoundry_deas_count)" \
   "WinDEA"  "Windows Droplet Execution Agent machines ($cloudfoundry_windea_count)" \
-  "MySQL"   "MySQL nodes                      ($cloudfoundry_mysqlnode_count)" \
-  "MsSQL"   "MsSQL nodes                      ($cloudfoundry_mssqlnode_count)" \
-  "Mongodb" "MongoDB nodes                    ($cloudfoundry_mongodbnode_count)" \
-  "Redis"   "Redis nodes                      ($cloudfoundry_redisnode_count)" \
-  "Rabbit"  "Rabbit MQ nodes                     ($cloudfoundry_rabbitnode_count)" \
-  "Postgresql" "PostgreSQL nodes                 ($cloudfoundry_postgresqlnode_count)" \
-  "UhuruFS" "UhuruFS nodes                    ($cloudfoundry_uhurufsnode_count)" \
+  "MySQL"   "MySQL nodes                              ($cloudfoundry_mysqlnode_count)" \
+  "MsSQL"   "MsSQL nodes                              ($cloudfoundry_mssqlnode_count)" \
+  "Mongodb" "MongoDB nodes                            ($cloudfoundry_mongodbnode_count)" \
+  "Redis"   "Redis nodes                              ($cloudfoundry_redisnode_count)" \
+  "Rabbit"  "Rabbit MQ nodes                          ($cloudfoundry_rabbitnode_count)" \
+  "Postgresql" "PostgreSQL nodes                         ($cloudfoundry_postgresqlnode_count)" \
+  "UhuruFS" "UhuruFS nodes                            ($cloudfoundry_uhurufsnode_count)" \
   2>$tmpdir/conf_cloudfoundry_vms_count_simple.out
   ret=$?
 
