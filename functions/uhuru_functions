@@ -72,7 +72,7 @@ function windows_licenses()
 {
   local ret=0 sel=""
 
-  msgbox "By entering the license keys for Microsoft Windows and Microsoft SQL Server, you agree to the licenses found at\n\nhttp://FIXME\nhttp://FIXME2"
+  msgbox "By entering the license keys for Microsoft Windows and Microsoft SQL Server, you agree to the licenses found at\n\nhttp://www.microsoft.com/en-us/download/details.aspx?id=18795\nhttp://www.microsoft.com/en-us/download/details.aspx?id=2803"
 
 while [ $ret -eq 0 ];
 do
