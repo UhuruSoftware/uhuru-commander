@@ -15,7 +15,7 @@ function deploy_cloudfoundry()
 #  [ -e uhuru-windows-2008R2-0.9.3.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-0.9.3.tgz
 #  ret=$(( $ret + $? ))
 
-#  [ -e uhuru-windows-2008R2-sqlserver-0.9.3.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-sqlserver-0.9.3.tgz
+#  [ -e uhuru-windows-2008R2-sqlserver-0.9.4.tgz ] || $bosh download public stemcell uhuru-windows-2008R2-sqlserver-0.9.4.tgz
 #  ret=$(( $ret + $? ))
 
   echo "Finished downloading BOSH stemcell."
@@ -40,7 +40,7 @@ function deploy_cloudfoundry()
   $bosh_nonint upload stemcell uhuru-windows-2008R2-0.9.3.tgz
 
   echo "Uploading Uhuru Windows 2008R2 SQL server stemcell"
-  $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.3.tgz
+  $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.4.tgz
 
   echo "Uploading release"
   [ -z "`$bosh releases 2>/dev/null | grep -iw 'uhuru-appcloud' | grep -w $version_cloudfoundry`" ] &&
@@ -443,7 +443,7 @@ resource_pools:
   size: $cloudfoundry_pool_sqlserver_size
   stemcell:
     name: uhuru-windows-2008R2-sqlserver
-    version: 0.9.3
+    version: 0.9.4
   cloud_properties:
     ram: 2048
     disk: 5000
