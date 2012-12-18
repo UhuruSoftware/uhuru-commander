@@ -17,7 +17,7 @@ do
   "Cloud name" "$conf_uhuru_cloud_name" \
   "Cloud description" "$conf_uhuru_description" \
   "Admin email" "$conf_uhuru_admin_email" \
-  "Admin password" "<hidded>" \
+  "Admin password" "<hidden>" \
   " " "" \
   "Recaptcha public key" "$conf_uhuru_recaptcha_public_key" \
   "Recaptcha private key" "$conf_uhuru_recaptcha_private_key" \
@@ -25,7 +25,7 @@ do
   "SMTP server" "$conf_uhuru_smtp_server" \
   "SMTP port" "$conf_uhuru_smtp_port" \
   "SMTP user" "$conf_uhuru_smtp_user" \
-  "SMTP password" "$conf_uhuru_smtp_password" \
+  "SMTP password" "<hidden>" \
   "SMTP TLS" "$conf_uhuru_smtp_tls" \
   "SMTP sender email" "$conf_uhuru_email_from" \
   "SMTP sender alias" "$conf_uhuru_email_from_alias" \
@@ -50,20 +50,20 @@ do
     "SMTP sender email") inputbox "Enter" "Enter email" "$conf_uhuru_email_from" && conf_uhuru_email_from=`cat $tmpdir/input.out` ;;
     "SMTP sender alias") inputbox "Email alias" "Enter email alias" "$conf_uhuru_email_from_alias" && conf_uhuru_email_from_alias=`cat $tmpdir/input.out` ;;
     "Admin email") inputbox "Admin email" "Enter admin email address" "$conf_uhuru_admin_email" && conf_uhuru_admin_email=`cat $tmpdir/input.out` ;;
-    "Admin password") inputbox "Admin password" "Enter admin password" && conf_uhuru_admin_password=`cat $tmpdir/input.out` ;;
+    "Admin password") passwordbox "Admin password" "Enter admin password" && conf_uhuru_admin_password=`cat $tmpdir/password.out` ;;
     "Company") inputbox "Company name" "Enter company name" "$conf_uhuru_company_name" && conf_uhuru_company_name=`cat $tmpdir/input.out` ;;
     "Address") inputbox "Company address" "Enter company address" "$conf_uhuru_company_address" && conf_uhuru_company_address=`cat $tmpdir/input.out` ;;
     "Phone") inputbox "Company phone" "Enter company phone number" "$conf_uhuru_company_phone" && conf_uhuru_company_phone=`cat $tmpdir/input.out` ;;
     "SMTP server") inputbox "SMTP server" "Enter the SMTP server address" "$conf_uhuru_smtp_server" && conf_uhuru_smtp_server=`cat $tmpdir/input.out` ;;
     "SMTP user") inputbox "SMTP user" "Enter the SMTP username" "$conf_uhuru_smtp_user" && conf_uhuru_smtp_user=`cat $tmpdir/input.out` ;;
     "SMTP port") inputbox "SMTP port" "Enter the SMTP port" "$conf_uhuru_smtp_port" && conf_uhuru_smtp_port=`cat $tmpdir/input.out` ;;
-    "SMTP password") inputbox "SMTP password" "Enter the SMTP user password" "$conf_uhuru_smtp_password" && conf_uhuru_smtp_password=`cat $tmpdir/input.out` ;;
+    "SMTP password") passwordbox "SMTP password" "Enter the SMTP user password" && conf_uhuru_smtp_password=`cat $tmpdir/password.out` ;;
     "SMTP TLS") yesno "SMTP TLS" "Do you want to use TLS for SMTP ?" && conf_uhuru_smtp_tls="true" || conf_uhuru_smtp_tls="false" ;;
     "Microsoft Product Keys") windows_licenses ;;
     "Support address") inputbox "Support address" "Enter the URL for user support" "$conf_uhuru_support_address" && conf_uhuru_support_address=`cat $tmpdir/input.out` ;;
     "Cloud description") inputbox "Description" "Enter the description of the cloud" "$conf_uhuru_description" && conf_uhuru_description=`cat $tmpdir/input.out` ;;
     esac
-    rm -f $tmpdir/input.out
+    rm -f $tmpdir/input.out $tmpdir/password.out
     }
 done
 }
