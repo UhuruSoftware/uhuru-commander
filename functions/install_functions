@@ -234,9 +234,6 @@ local mixed=""
 	  --yesno "Before we continue please make sure the follow conditions are met :\n
   -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
   -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
-  -          The folder <$color_underline$conf_datacenter_deployer_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
-  -          The folder <$color_underline$conf_datacenter_micro_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
-  -          The folder <$color_underline$conf_datacenter_bosh_diskpath$color_no_underline> exists in the datastores having the name pattern <$color_underline$conf_datacenter_datastorepattern$color_no_underline> $mixed\n
   -          The domain <$color_underline$cloudfoundry_domain$color_no_underline> points to the following IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
 Beside these, you will need :\n
 RAM : $needed_ram MB ($needed_ram_gb GB)\n
