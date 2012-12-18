@@ -835,7 +835,6 @@ properties:
       copyright_message: "Copyright Uhuru Software 2012"
       welcome_message: "Welcome to your PAAS cloud"
       color_theme: simple_white
-      domain: "$cloudfoundry_domain"
       recaptcha_public_key: "$conf_uhuru_recaptcha_public_key"
       recaptcha_private_key: "$conf_uhuru_recaptcha_private_key"
       activation_link_secret: "$conf_uhuru_activation_link_secret"
