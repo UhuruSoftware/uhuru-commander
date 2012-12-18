@@ -2,7 +2,7 @@
 
 function delete_deployment()
 {
-  yesno "DELETE" "Are you sure you want to delete deployment $1 ? This CAN NOT be undone !" && 
+  yesno "DELETE" "Are you sure you want to delete deployment $1 ? This CANNOT be undone !" && 
     {
     clear
 
@@ -13,7 +13,7 @@ function delete_deployment()
 
 function tear_down_deployment()
 {
-  yesno "DELETE" "Are you sure you want to delete the VMs from deployment $1 ? This CAN NOT be undone !" && 
+  yesno "DELETE" "Are you sure you want to delete the VMs from deployment $1 ? This CANNOT be undone !" && 
     {
     clear
     echo "Tearing down VMs from the deployment ..."
@@ -189,7 +189,7 @@ function deployment_menu()
 	  --help-button \
 	  --help-label "Back" \
 	  --menu "In the monitoring section you will be able to ssh into each VM.\nIf you want to change deployment settings, choose 'Manage'" 10 0 0 \
-	  "Monitor" "Monitor and controll the deployment" \
+	  "Monitor" "Monitor and control the deployment" \
 	  "Manage" "Manage the deployments" \
 	  2>$tmpdir/deployment_menu.sel
 	  ret=$?

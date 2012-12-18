@@ -191,13 +191,13 @@ do
   [ $ret -eq 0 ] &&
     {
     case "$sel" in
-    "Subnet") inputbox "Subnet" "Enter an unused subnet. It will hold the Cloud Foundry deployment. Its strongly recomended that you use a /16 subnet." "$conf_network" && validate_subnet `cat $tmpdir/input.out` &&
+    "Subnet") inputbox "Subnet" "Enter an unused subnet. It will hold the Cloud Foundry deployment. It's strongly recomended that you use a /16 subnet." "$conf_network" && validate_subnet `cat $tmpdir/input.out` &&
       {
       conf_network=`cat $tmpdir/input.out`
       calc_bosh_ips
       calc_cloudfoundry_ips
       } ;;
-    "Netmask") inputbox "Netmask" "Enter the netmask for the Cloud Foundry subnet. Its strongly recomended that you use a /16 subnet (255.255.0.0) " "$conf_network_netmask" && validate_ip `cat $tmpdir/input.out` && conf_network_netmask=`cat $tmpdir/input.out` ;;
+    "Netmask") inputbox "Netmask" "Enter the netmask for the Cloud Foundry subnet. It's strongly recomended that you use a /16 subnet (255.255.0.0) " "$conf_network_netmask" && validate_ip `cat $tmpdir/input.out` && conf_network_netmask=`cat $tmpdir/input.out` ;;
     "Gateway") inputbox "Gateway" "Enter the gateway IP address for the cloudfoundry subnet." "$conf_network_gateway" && validate_ip `cat $tmpdir/input.out` && conf_network_gateway=`cat $tmpdir/input.out` ;;
     "DNS1") inputbox "DNS 1" "Enter first DNS server" "$conf_network_dns1" && conf_network_dns1=`cat $tmpdir/input.out` ;;
     "DNS2") inputbox "DNS 2" "Enter second DNS server" "$conf_network_dns2" && conf_network_dns2=`cat $tmpdir/input.out` ;;

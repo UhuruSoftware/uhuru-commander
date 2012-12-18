@@ -33,13 +33,13 @@ function deploy_cloudfoundry()
   $bosh_nonint upload stemcell bosh-stemcell-vsphere-0.6.7.tgz
 #  ret=$(( $ret + $? ))
 
-  echo "Uploading bosh php vsphere stemcell"
+  echo "Uploading bosh PHP vSphere stemcell"
   $bosh_nonint upload stemcell bosh-stemcell-php-vsphere-0.6.4.3.tgz
 
-  echo "Uploading uhuru windows 2008R2 stemcell"
+  echo "Uploading Uhuru Windows 2008R2 stemcell"
   $bosh_nonint upload stemcell uhuru-windows-2008R2-0.9.3.tgz
 
-  echo "Uploading uhuru windows 2008R2 SQL server stemcell"
+  echo "Uploading Uhuru Windows 2008R2 SQL server stemcell"
   $bosh_nonint upload stemcell uhuru-windows-2008R2-sqlserver-0.9.3.tgz
 
   echo "Uploading release"
@@ -92,7 +92,7 @@ do
   --title " BOSH IPs " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --menu "\nConfigure nats." 9 0 0 \
+  --menu "\nConfigure NATS." 9 0 0 \
   "IP" "$cloudfoundry_ip_nats" \
   "Username" "$cloudfoundry_nats_username" \
   "Password" "$cloudfoundry_nats_password" \
@@ -105,9 +105,9 @@ do
   [ $ret -eq 0 ] &&
     {
     case "$sel" in
-    "IP") inputbox "Nats IP" "Please enter the IP for the nats server" "$cloudfoundry_ip_nats" && validate_ip `cat $tmpdir/input.out` && cloudfoundry_ip_nats=`cat $tmpdir/input.out` ;;
-    "Username") inputbox "NATS username" "Please enter the username for the nats server" "$cloudfoundry_nats_username" && cloudfoundry_nats_username=`cat $tmpdir/input.out` ;;
-    "Password") inputbox "NATS password" "Please enter the password for the nats server" "$cloudfoundry_nats_password" && cloudfoundry_nats_password=`cat $tmpdir/input.out` ;;
+    "IP") inputbox "Nats IP" "Please enter the IP for the NATS server" "$cloudfoundry_ip_nats" && validate_ip `cat $tmpdir/input.out` && cloudfoundry_ip_nats=`cat $tmpdir/input.out` ;;
+    "Username") inputbox "NATS username" "Please enter the username for the NATS server" "$cloudfoundry_nats_username" && cloudfoundry_nats_username=`cat $tmpdir/input.out` ;;
+    "Password") inputbox "NATS password" "Please enter the password for the NATS server" "$cloudfoundry_nats_password" && cloudfoundry_nats_password=`cat $tmpdir/input.out` ;;
     esac
     rm -f $tmpdir/input.out
     }
@@ -124,20 +124,20 @@ while [ $ret -eq 0 ];
 do
 
   $dialog --backtitle "$bgtitle" \
-  --title " Cloudfoundry machines count " \
+  --title " Cloud Foundry machines count " \
   --default-item "$sel" \
   --cancel-label "Back" \
-  --menu "\nHere you can set up the number of machines for the cloudfoundry deployment.\nOn the right side you cna see how many are currently configured" 0 0 0 \
-  "DEA"     "Droplet execution agent machines ($cloudfoundry_deas_count)" \
-  "WinDEA"  "Windows DEAs                     ($cloudfoundry_windea_count)" \
-  "CC"      "Cloud controller machines        ($cloudfoundry_cloud_controller_count)" \
+  --menu "\nHere you can set up the number of machines for the Cloud Foundry deployment.\nOn the right side you can see how many are currently configured" 0 0 0 \
+  "DEA"     "Linux Droplet Execution Agent machines   ($cloudfoundry_deas_count)" \
+  "WinDEA"  "Windows Droplet Execution Agent machines ($cloudfoundry_windea_count)" \
+  "CC"      "Cloud Controller machines        ($cloudfoundry_cloud_controller_count)" \
   "Router"  "Routers                          ($cloudfoundry_router_count)" \
   "Stager"  "Stagers                          ($cloudfoundry_stager_count)" \
-  "Mysql"   "Mysql nodes                      ($cloudfoundry_mysqlnode_count)" \
-  "Mongodb" "Mongodb nodes                    ($cloudfoundry_mongodbnode_count)" \
+  "Mysql"   "MySql nodes                      ($cloudfoundry_mysqlnode_count)" \
+  "Mongodb" "MongoDB nodes                    ($cloudfoundry_mongodbnode_count)" \
   "Redis"   "Redis nodes                      ($cloudfoundry_redisnode_count)" \
-  "Rabbit"  "Rabbit nodes                     ($cloudfoundry_rabbitnode_count)" \
-  "Postgresql" "Postgresql nodes                 ($cloudfoundry_postgresqlnode_count)" \
+  "Rabbit"  "Rabbit MQ nodes                     ($cloudfoundry_rabbitnode_count)" \
+  "Postgresql" "PostgreSQL nodes                 ($cloudfoundry_postgresqlnode_count)" \
   "MsSQL"   "MS SQL nodes                     ($cloudfoundry_mssqlnode_count)" \
   "UhuruFS" "Uhuru filesystem nodes           ($cloudfoundry_uhurufsnode_count)" \
   2>$tmpdir/conf_cloudfoundry_vms_count.out
@@ -150,16 +150,16 @@ do
     {
     case "$sel" in
     "DEA") inputbox "DEA" "How many DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
-    "CC") inputbox "CC" "How many cloud controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
-    "Mysql") inputbox "Mysql" "How many mysql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
+    "CC") inputbox "CC" "How many Cloud Controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
+    "Mysql") inputbox "Mysql" "How many MySql nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
     "Router") inputbox "Router" "How many routers should be created ?" "$cloudfoundry_router_count" && cloudfoundry_router_count=`cat $tmpdir/input.out` ;;
     "Stager") inputbox "Stager" "How many stagers should be created ?" "$cloudfoundry_stager_count" && cloudfoundry_stager_count=`cat $tmpdir/input.out` ;;
-    "Mongodb") inputbox "Mongodb" "How many mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
-    "Redis") inputbox "Redis" "How many redis nodes should be created ?" "$cloudfoundry_redisnode_count" && cloudfoundry_redisnode_count=`cat $tmpdir/input.out` ;;
-    "Rabbit") inputbox "Rabbit" "How many rabbit nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
-    "Postgresql") inputbox "Postgresql" "How many postgresql nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
-    "MsSQL") inputbox "MsSQL" "How many MSSQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
-    "WinDEA") inputbox "WinDEA" "How many windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
+    "Mongodb") inputbox "Mongodb" "How many Mongo DB nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
+    "Redis") inputbox "Redis" "How many Redis nodes should be created ?" "$cloudfoundry_redisnode_count" && cloudfoundry_redisnode_count=`cat $tmpdir/input.out` ;;
+    "Rabbit") inputbox "Rabbit" "How many Rabbit MQ nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
+    "Postgresql") inputbox "Postgresql" "How many PostgreSQL nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
+    "MsSQL") inputbox "MsSQL" "How many MS SQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
+    "WinDEA") inputbox "WinDEA" "How many Windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
     "UhuruFS") inputbox "UhuruFS" "How many UhuruFS nodes should be created ?" "$cloudfoundry_uhurufsnode_count" && cloudfoundry_uhurufsnode_count=`cat $tmpdir/input.out` ;;
     esac
     rm -f $tmpdir/input.out
@@ -180,14 +180,14 @@ do
   --default-item "$sel" \
   --cancel-label "Back" \
   --menu "\nHere you can set up the number of machines for the Cloud Foundry deployment.\nOn the right side you can see how many VMs are currently configured" 0 0 0 \
-  "DEA"     "Droplet execution agent machines ($cloudfoundry_deas_count)" \
-  "WinDEA"  "Windows DEAs                     ($cloudfoundry_windea_count)" \
+  "DEA"     "Linux Droplet Execution Agent machines ($cloudfoundry_deas_count)" \
+  "WinDEA"  "Windows Droplet Execution Agent machines ($cloudfoundry_windea_count)" \
   "MySQL"   "MySQL nodes                      ($cloudfoundry_mysqlnode_count)" \
-  "MsSQL"   "MSSQL nodes                      ($cloudfoundry_mssqlnode_count)" \
-  "Mongodb" "Mongodb nodes                    ($cloudfoundry_mongodbnode_count)" \
+  "MsSQL"   "MsSQL nodes                      ($cloudfoundry_mssqlnode_count)" \
+  "Mongodb" "MongoDB nodes                    ($cloudfoundry_mongodbnode_count)" \
   "Redis"   "Redis nodes                      ($cloudfoundry_redisnode_count)" \
-  "Rabbit"  "Rabbit nodes                     ($cloudfoundry_rabbitnode_count)" \
-  "Postgresql" "Postgresql nodes                 ($cloudfoundry_postgresqlnode_count)" \
+  "Rabbit"  "Rabbit MQ nodes                     ($cloudfoundry_rabbitnode_count)" \
+  "Postgresql" "PostgreSQL nodes                 ($cloudfoundry_postgresqlnode_count)" \
   "UhuruFS" "UhuruFS nodes                    ($cloudfoundry_uhurufsnode_count)" \
   2>$tmpdir/conf_cloudfoundry_vms_count_simple.out
   ret=$?
@@ -198,16 +198,16 @@ do
   [ $ret -eq 0 ] &&
     {
     case "$sel" in
-    "DEA") inputbox "DEA" "How many DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
+    "DEA") inputbox "DEA" "How many Linux DEAs should be created ?" "$cloudfoundry_deas_count" && cloudfoundry_deas_count=`cat $tmpdir/input.out` ;;
     "CC") inputbox "CC" "How many cloud controllers should be created ?" "$cloudfoundry_cloud_controller_count" && cloudfoundry_cloud_controller_count=`cat $tmpdir/input.out` ;;
     "MySQL") inputbox "Mysql" "How many MySQL nodes should be created ?" "$cloudfoundry_mysqlnode_count" && cloudfoundry_mysqlnode_count=`cat $tmpdir/input.out` ;;
     "Router") inputbox "Router" "How many routers should be created ?" "$cloudfoundry_router_count" && cloudfoundry_router_count=`cat $tmpdir/input.out` ;;
     "Stager") inputbox "Stager" "How many stagers should be created ?" "$cloudfoundry_stager_count" && cloudfoundry_stager_count=`cat $tmpdir/input.out` ;;
-    "Mongodb") inputbox "Mongodb" "How many mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
-    "Redis") inputbox "Redis" "How many redis nodes should be created ?" "$cloudfoundry_redisnode_count" && cloudfoundry_redisnode_count=`cat $tmpdir/input.out` ;;
-    "Rabbit") inputbox "Rabbit" "How many rabbit nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
-    "Postgresql") inputbox "Postgresql" "How many postgresql nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
-    "MsSQL") inputbox "MsSQL" "How many MSSQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
+    "Mongodb") inputbox "Mongodb" "How many Mongodb nodes should be created ?" "$cloudfoundry_mongodbnode_count" && cloudfoundry_mongodbnode_count=`cat $tmpdir/input.out` ;;
+    "Redis") inputbox "Redis" "How many Redis nodes should be created ?" "$cloudfoundry_redisnode_count" && cloudfoundry_redisnode_count=`cat $tmpdir/input.out` ;;
+    "Rabbit") inputbox "Rabbit" "How many Rabbit MQ nodes should be created ?" "$cloudfoundry_rabbitnode_count" && cloudfoundry_rabbitnode_count=`cat $tmpdir/input.out` ;;
+    "Postgresql") inputbox "Postgresql" "How many PostgreSQL nodes should be created ?" "$cloudfoundry_postgresqlnode_count" && cloudfoundry_postgresqlnode_count=`cat $tmpdir/input.out` ;;
+    "MsSQL") inputbox "MsSQL" "How many MsSQL nodes should be created ?" "$cloudfoundry_mssqlnode_count" && cloudfoundry_mssqlnode_count=`cat $tmpdir/input.out` ;;
     "WinDEA") inputbox "WinDEA" "How many Windows DEAs should be created ?" "$cloudfoundry_windea_count" && cloudfoundry_windea_count=`cat $tmpdir/input.out` ;;
     "UhuruFS") inputbox "UhuruFS" "How many UhuruFS nodes should be created ?" "$cloudfoundry_uhurufsnode_count" && cloudfoundry_uhurufsnode_count=`cat $tmpdir/input.out` ;;
     esac
@@ -222,7 +222,7 @@ local ret=0 sel=""
 while [ $ret -eq 0 ];
 do
   $dialog --backtitle "$bgtitle" \
-  --title " Cloudfoundry main menu " \
+  --title " Cloud Foundry main menu " \
   --default-item "$sel" \
   --cancel-label "Back" \
   --menu "\nSelect which item you want to configure." 8 0 0 \

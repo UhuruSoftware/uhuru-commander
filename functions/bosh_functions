@@ -395,14 +395,14 @@ do
   [ $ret -eq 0 ] &&
     {
     case "$sel" in
-    "RAM  (Small) ") inputbox "RAM" "Enter the ammount of ram reserved for the small resource pool (MB)" "$bosh_pool_small_ram" && bosh_pool_small_ram=`cat $tmpdir/input.out` ;;
-    "Disk (Small) ") inputbox "Disk" "Enter the ammount of disk reserved for the small resource pool (MB)" "$bosh_pool_small_disk" && bosh_pool_small_disk=`cat $tmpdir/input.out` ;;
+    "RAM  (Small) ") inputbox "RAM" "Enter the amount of ram reserved for the small resource pool (MB)" "$bosh_pool_small_ram" && bosh_pool_small_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Small) ") inputbox "Disk" "Enter the amount of disk reserved for the small resource pool (MB)" "$bosh_pool_small_disk" && bosh_pool_small_disk=`cat $tmpdir/input.out` ;;
     "CPU  (Small) ") inputbox "CPU" "Enter the number of CPUs reserved for the small resource pool (integer)" "$bosh_pool_small_cpu" && bosh_pool_small_cpu=`cat $tmpdir/input.out` ;;
-    "RAM  (Medium)") inputbox "RAM" "Enter the ammount of ram reserved for the medium resource pool (MB)" "$bosh_pool_medium_ram" && bosh_pool_medium_ram=`cat $tmpdir/input.out` ;;
-    "Disk (Medium)") inputbox "Disk" "Enter the ammount of disk reserved for the medium resource pool (MB)" "$bosh_pool_medium_disk" && bosh_pool_medium_disk=`cat $tmpdir/input.out` ;;
+    "RAM  (Medium)") inputbox "RAM" "Enter the amount of ram reserved for the medium resource pool (MB)" "$bosh_pool_medium_ram" && bosh_pool_medium_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Medium)") inputbox "Disk" "Enter the amount of disk reserved for the medium resource pool (MB)" "$bosh_pool_medium_disk" && bosh_pool_medium_disk=`cat $tmpdir/input.out` ;;
     "CPU  (Medium)") inputbox "CPU" "Enter the number of CPUs reserved for the medium resource pool (integer)" "$bosh_pool_medium_cpu" && bosh_pool_medium_cpu=`cat $tmpdir/input.out` ;;
-    "RAM  (Large) ") inputbox "RAM" "Enter the ammount of ram reserved for the large resource pool (MB)" "$bosh_pool_large_ram" && bosh_pool_large_ram=`cat $tmpdir/input.out` ;;
-    "Disk (Large) ") inputbox "Disk" "Enter the ammount of disk reserved for the large resource pool (MB)" "$bosh_pool_large_disk" && bosh_pool_large_disk=`cat $tmpdir/input.out` ;;
+    "RAM  (Large) ") inputbox "RAM" "Enter the amount of ram reserved for the large resource pool (MB)" "$bosh_pool_large_ram" && bosh_pool_large_ram=`cat $tmpdir/input.out` ;;
+    "Disk (Large) ") inputbox "Disk" "Enter the amount of disk reserved for the large resource pool (MB)" "$bosh_pool_large_disk" && bosh_pool_large_disk=`cat $tmpdir/input.out` ;;
     "CPU  (Large) ") inputbox "CPU" "Enter the number of CPUs reserved for the large resource pool (integer)" "$bosh_pool_large_cpu" && bosh_pool_large_cpu=`cat $tmpdir/input.out` ;;
     esac
     rm -f $tmpdir/input.out
