@@ -1,16 +1,5 @@
 #!/bin/bash
 
-function delete_deployment()
-{
-  yesno "DELETE" "Are you sure you want to delete deployment $1 ? This CAN NOT be undone !" && 
-    {
-    clear
-
-    cd $pwd
-    [ -d $pwd/.uhuru-deployments/$1 ] && rm -rf $pwd/.uhuru-deployments/$1
-    }
-}
-
 function tear_down_deployment()
 {
   yesno "DELETE" "Are you sure you want to delete the VMs from deployment $1 ? This CAN NOT be undone !" && 
@@ -19,16 +8,21 @@ function tear_down_deployment()
     echo "Tearing down VMs from the deployment ..."
 
     rm -f ~/.bosh_config 2>/dev/null
+
     $bosh --user admin --password admin target ${conf_bosh_director_ip}:25555 && \
     $bosh_nonint login admin admin && \
     $bosh_nonint delete deployment cloud-foundry --force
 
-    rm -f ~/.bosh_config 2>/dev/null && \
+    rm -f ~/.bosh_config 2>/dev/null
+
     $bosh --user admin --password admin target ${conf_network_micro_ip}:25555 && \
     $bosh_nonint login admin admin && \
     $bosh_nonint delete deployment bosh --force && \
     cd $pwd/.uhuru-deployments/$deployment/deployments && \
-    $bosh_nonint micro delete
+    $bosh_nonint micro delete && \
+      {
+      [ -d $pwd/.uhuru-deployments/$deployment ] && rm -rf $pwd/.uhuru-deployments/$deployment
+      }
 
     echo "Press ENTER to continue"
     read
@@ -178,16 +172,14 @@ function deployment_menu()
 # gives the user 2 options, to monitor or configure the deployment
   local ret=0 sel="Monitor"
 
-  until [ $ret -eq 2 -o $ret -eq 1 -o $ret -eq 3 ];
+  until [ $ret -eq 1 ];
   do
   $dialog --backtitle "$bgtitle" \
 	  --title " Deployment $1 " \
-	  --cancel-label "Delete" \
+	  --cancel-label "Back" \
 	  --default-item "$sel" \
 	  --extra-button \
 	  --extra-label "Tear down" \
-	  --help-button \
-	  --help-label "Back" \
 	  --menu "In the monitoring section you will be able to ssh into each VM.\nIf you want to change deployment settings, choose 'Manage'" 10 0 0 \
 	  "Monitor" "Monitor and controll the deployment" \
 	  "Manage" "Manage the deployments" \
@@ -202,10 +194,8 @@ function deployment_menu()
       case "$sel" in
       "Monitor") monitor_deployment ;;
       "Manage") configure_main_menu ;;
-      "Tear down") tear_down_deployment ;;
       esac ;;
     3) tear_down_deployment ;;
-    1) delete_deployment $1 ;;
     esac
   done
 }
