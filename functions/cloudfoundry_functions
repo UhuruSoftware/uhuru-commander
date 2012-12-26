@@ -509,8 +509,8 @@ resource_pools:
   network: default
   size: $cloudfoundry_deas_count
   stemcell:
-    name: bosh-stemcell
-    version: 0.6.7
+    name: bosh-stemcell-php
+    version: 0.6.4.3
   cloud_properties:
     ram: $cloudfoundry_pool_deas_ram
     disk: $cloudfoundry_pool_deas_disk
