@@ -216,11 +216,15 @@ function check_vsphere_prerequistes()
 
 function confirm_install()
 {
-local needed_ram=$(( $cloudfoundry_pool_small_ram * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_ram * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_ram * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_ram * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_ram * $cloudfoundry_deas_count))
-local needed_disk=$(( $cloudfoundry_pool_small_disk * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_disk * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_disk * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_disk * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_disk * $cloudfoundry_deas_count ))
-local needed_cpu=$(( $cloudfoundry_pool_small_cpu * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_cpu * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_cpu * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_cpu * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_cpu * $cloudfoundry_deas_count ))
-local needed_ram_gb=$(( $needed_ram / 1000 + 1 ))
-local needed_disk_gb=$(( $needed_disk / 1000 + 1))
+
+calc_cloudfoundry_vm_count
+calc_cloudfoundry_vm_size
+
+#local needed_ram=$(( $cloudfoundry_pool_small_ram * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_ram * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_ram * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_ram * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_ram * $cloudfoundry_deas_count))
+#local needed_disk=$(( $cloudfoundry_pool_small_disk * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_disk * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_disk * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_disk * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_disk * $cloudfoundry_deas_count ))
+#local needed_cpu=$(( $cloudfoundry_pool_small_cpu * $cloudfoundry_pool_small_size + $cloudfoundry_pool_medium_cpu * $cloudfoundry_pool_medium_size + $cloudfoundry_pool_large_cpu * $cloudfoundry_pool_large_size + $cloudfoundry_pool_tiny_cpu * $cloudfoundry_pool_tiny_size + $cloudfoundry_pool_deas_cpu * $cloudfoundry_deas_count ))
+#local needed_ram_gb=$(( $needed_ram / 1000 + 1 ))
+#local needed_disk_gb=$(( $needed_disk / 1000 + 1))
 local mixed=""
 
 [ "$conf_datacenter_datastorepattern" != "$conf_datacenter_persistentpattern" ] && mixed="and <$color_underline$conf_datacenter_persistentpattern$color_no_underline>"
@@ -235,7 +239,7 @@ local mixed=""
   -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
   -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the cluster <$color_underline$conf_vcenter_clustername$color_no_underline>\n
   -          HTTP requests on port 80 to domain <$color_underline$cloudfoundry_domain$color_no_underline> and its subdomains are forwarded to IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
-Beside these, you will need :\n
+Beside these, you will need approximately:\n
 RAM : $needed_ram MB ($needed_ram_gb GB)\n
 DISK: $needed_disk MB ($needed_disk_gb GB)\n
 CPUs: $needed_cpu\n\n
