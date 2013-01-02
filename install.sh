@@ -429,7 +429,12 @@ do
       "vSphere") configure_vcenter ;;
       "Cloud Foundry components") cloudfoundry_vms_count_simple ;;
       "Advanced") advanced_main_menu ;;
-      "Domain") inputbox "Domain" "Enter a valid domain used for your cloud" "$cloudfoundry_domain" && cloudfoundry_domain=`cat $tmpdir/input.out` ;;
+      "Domain") inputbox "Domain" "Enter a valid domain used for your cloud" "$cloudfoundry_domain" && 
+	    {
+		cloudfoundry_domain=`cat $tmpdir/input.out`
+		cloudfoundry_srv_api_uri="api.$cloudfoundry_domain"
+		
+		} ;;
       "Uhuru cloud settings") configure_uhuru ;;
     esac ;;
     3) save_conf
