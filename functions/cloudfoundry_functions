@@ -954,6 +954,7 @@ properties:
       port: 8080
       user: $cloudfoundry_router_username
       password: $cloudfoundry_router_password
+    redirect_parent_domain_to: www.$cloudfoundry_domain
 
   dashboard:
     uaa:
