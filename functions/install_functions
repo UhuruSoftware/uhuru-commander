@@ -236,8 +236,8 @@ local mixed=""
 	  --defaultno \
 	  --colors \
 	  --yesno "Before we continue please make sure the follow conditions are met :\n
-  -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the datacenter <$color_underline$conf_vcenter_clustername$color_no_underline>\n
-  -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the datacenter <$color_underline$conf_vcenter_clustername$color_no_underline>\n
+  -          The folder <$color_underline$conf_datacenter_vmfolder$color_no_underline> exists in the datacenter <$color_underline$conf_datacenter_name$color_no_underline>\n
+  -          The folder <$color_underline$conf_datacenter_templatefolder$color_no_underline> exists in the datacenter <$color_underline$conf_datacenter_name$color_no_underline>\n
   -          HTTP requests on port 80 to domain <$color_underline$cloudfoundry_domain$color_no_underline> and its subdomains are forwarded to IP: <$color_underline$cloudfoundry_ip_router$color_no_underline>\n\n
 Beside these, you will need approximately:\n
 RAM : $needed_ram MB ($needed_ram_gb GB)\n
