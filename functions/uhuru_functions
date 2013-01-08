@@ -29,6 +29,7 @@ do
   "SMTP TLS" "$conf_uhuru_smtp_tls" \
   "SMTP sender email" "$conf_uhuru_email_from" \
   "SMTP sender alias" "$conf_uhuru_email_from_alias" \
+  "SMTP authentication" "$conf_uhuru_email_authentication" \
   " " "" \
   "Company" "$conf_uhuru_company_name" \
   "Address" "$conf_uhuru_company_address" \
@@ -62,6 +63,17 @@ do
     "Microsoft Product Keys") windows_licenses ;;
     "Support address") inputbox "Support address" "Enter the URL for user support" "$conf_uhuru_support_address" && conf_uhuru_support_address=`cat $tmpdir/input.out` ;;
     "Cloud description") inputbox "Description" "Enter the description of the cloud" "$conf_uhuru_description" && conf_uhuru_description=`cat $tmpdir/input.out` ;;
+    "SMTP authentication")
+      $dialog --backtitle "$bgtitle" \
+    	      --title "SMTP email authentication" \
+    	      --default-item "$conf_uhuru_email_authentication" \
+    	      --menu "Select the email authentication method" 7 0 0 \
+    	      "plain" "Use plain authentication" \
+    	      "login" "Use login to authenicate" \
+    	      "cram_md5" "Use cram_md5 authenication" \
+    	      2>$tmpdir/email_auth.out && conf_uhuru_email_authentication=`cat $tmpdir/email_auth.out`
+    	      rm -f $tmpdir/email_auth.out
+    ;;
     esac
     rm -f $tmpdir/input.out $tmpdir/password.out
     }
