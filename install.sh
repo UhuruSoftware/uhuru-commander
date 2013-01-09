@@ -443,7 +443,110 @@ do
        msgbox "Settings saved" ;;
   esac
 done
+}
 
+function local_network_config()
+{
+local ret=0 ret_type=0 net_type=""
+local sel="IP"
+local interface=`ifconfig -a|grep ^eth|cut -f 1 -d " "|head -n 1`
+
+[ -z "$interface" ] &&
+  {
+  msgbox "There is no network interface present."
+  return 1
+  }
+
+[ -z "$local_network_ip" ] &&
+  {
+  local_network_ip="192.168.0.200"
+  local_network_netmask="255.255.255.0"
+  local_network_gateway="192.168.0.1"
+  local_network_dns="8.8.8.8"
+  }
+
+$dialog --backtitle "$bgtitle" \
+	--title "Networking" \
+	--cancel-label "Back" \
+	--menu "Select a method of configuring the local network interface" 8 0 0 \
+	"DHCP" "Get the ip address dynamically" \
+	"Static" "Set up a static ip address" \
+	2>$tmpdir/local_network_type.out
+	ret_type=$?
+
+[ $ret_type -eq 0 ] && 
+  {
+  net_type=`cat $tmpdir/local_network_type.out`
+  rm -f $tmpdir/local_network_type.out
+  } || 
+  {
+  rm -f $tmpdir/local_network_type.out
+  return 1
+  }
+
+[ "$net_type" == "DHCP" ] &&
+  {
+  cat <<EOF>/etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto $interface
+iface $interface inet dhcp
+EOF
+
+  ifconfig $interface up
+  /etc/init.d/networking restart
+  echo "Press ENTER to continue"
+  read
+  return 0
+  }
+
+while [ $ret -ne 1 ];
+do
+  $dialog --backtitle "$bgtitle" \
+  --title " Local network configuration " \
+  --default-item "$sel" \
+  --cancel-label "Back" \
+  --extra-button \
+  --extra-label "Apply" \
+  --menu "\nConfigure the local network settings." 9 0 0 \
+  "IP" "$local_network_ip" \
+  "Netmask" "$local_network_netmask" \
+  "Gateway" "$local_network_gateway" \
+  "DNS" "$local_network_dns" \
+  2>$tmpdir/local_network.out
+  ret=$?
+
+  sel=`cat $tmpdir/local_network.out`
+  rm -f $tmpdir/local_network.out
+
+  case $ret in
+    0)
+    case "$sel" in
+      "IP") inputbox "IP" "Enter the Local IP Address" "$local_network_ip" && local_network_ip=`cat $tmpdir/input.out` ;;
+      "Netmask") inputbox "Netmask" "Enter the Netmask for the local IP address" "$local_network_netmask" && local_network_netmask=`cat $tmpdir/input.out` ;;
+      "Gateway") inputbox "Gateway" "Enter the Gateway Address" "$local_network_gateway" && local_network_gateway=`cat $tmpdir/input.out` ;;
+      "DNS") inputbox "DNS" "Enter the IP address of a DNS server" "$local_network_dns" && local_network_dns=`cat $tmpdir/input.out` ;;
+    esac ;;
+    3) local_network_broadcast=`ipcalc ${local_network_ip}/${local_network_netmask}|grep Broadcast|cut -f 2 -d " "`
+cat <<EOF>/etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+auto $interface
+iface $interface inet static
+address $local_network_ip
+netmask $local_network_netmask
+gateway $local_network_gateway
+broadcast $local_network_broadcast
+EOF
+    echo "nameserver $local_network_dns" >>/etc/resolv.conf
+    /etc/init.d/networking restart
+    echo "Press ENTER to continue"
+    read
+    ;;
+  esac
+done
 }
 
 vars
