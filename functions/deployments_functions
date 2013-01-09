@@ -105,7 +105,7 @@ clear
 get_cloudfoundry_uuid
 set_cloudfoundry_uuid
 
-cd $pwd/.uhuru-deployments/$deployment
+cd $pwd/.uhuru-deployments/$deployment/deployments
 $bosh deployment cloudfoundry/cloudfoundry.yml
 $bosh_nonint login admin admin
 
@@ -190,6 +190,7 @@ function deployment_menu()
 	  --menu "In the monitoring section you will be able to ssh into each VM.\nIf you want to change deployment settings, choose 'Manage'" 10 0 0 \
 	  "Monitor" "Monitor and control the deployment" \
 	  "Manage" "Manage the deployments" \
+          "Shell" "Open shell" \
 	  2>$tmpdir/deployment_menu.sel
 	  ret=$?
 	  
@@ -201,11 +202,18 @@ function deployment_menu()
       case "$sel" in
       "Monitor") monitor_deployment ;;
       "Manage") configure_main_menu ;;
+      "Shell") open_shell ;;
       esac ;;
     3) tear_down_deployment ;;
     1) delete_deployment ;;
     esac
   done
+}
+
+function open_shell()
+{
+clear
+/bin/bash
 }
 
 function select_deployment()
@@ -231,8 +239,6 @@ $dialog --backtitle "$bgtitle" \\
        --title " Select deployment " \\
        --help-button \\
        --help-label "Exit" \\
-	   --extra-button \\
-	   --extra-label "Shell" \\
        --ok-label "Set" \\
        --cancel-label "Add" \\
        --menu "\nHere are the current deployments. You can either edit an existing one, delete it, or add a new one." $(( 9 + $count )) 0 0 \\
@@ -255,7 +261,6 @@ EOF
   case $ret in
     0) set_deployment $sel;;
     1) add_deployment;;
-	3) /bin/bash ;;
   esac
 done
 }

@@ -509,8 +509,8 @@ resource_pools:
   network: default
   size: $cloudfoundry_deas_count
   stemcell:
-    name: bosh-stemcell
-    version: 0.6.7
+    name: bosh-stemcell-php
+    version: 0.6.4.3
   cloud_properties:
     ram: $cloudfoundry_pool_deas_ram
     disk: $cloudfoundry_pool_deas_disk
@@ -954,6 +954,7 @@ properties:
       port: 8080
       user: $cloudfoundry_router_username
       password: $cloudfoundry_router_password
+    redirect_parent_domain_to: www.$cloudfoundry_domain
 
   dashboard:
     uaa:
