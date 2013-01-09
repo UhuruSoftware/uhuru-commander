@@ -239,9 +239,11 @@ $dialog --backtitle "$bgtitle" \\
        --title " Select deployment " \\
        --help-button \\
        --help-label "Exit" \\
+       --extra-button \
+       --extra-label "Local Network" \
        --ok-label "Set" \\
        --cancel-label "Add" \\
-       --menu "\nHere are the current deployments. You can either edit an existing one, delete it, or add a new one." $(( 9 + $count )) 0 0 \\
+       --menu "\nHere are the current deployments. You can either edit an existing one, delete it, or add a new one." $(( 9 + $count )) 70 0 \\
 EOF
 
   for i in `ls $deployments/`;
@@ -261,6 +263,7 @@ EOF
   case $ret in
     0) set_deployment $sel;;
     1) add_deployment;;
+    3) local_network_config;;
   esac
 done
 }
