@@ -846,7 +846,7 @@ properties:
         port: $conf_uhuru_smtp_port
         user: $conf_uhuru_smtp_user
         secret: $conf_uhuru_smtp_password
-        auth_method: :$conf_uhuru_email_authentication
+        auth_method: ":$conf_uhuru_email_authentication"
         enable_tls: $conf_uhuru_smtp_tls
       contact:
         company: "$conf_uhuru_company_name"
