@@ -1,0 +1,10 @@
+pid_filename: /tmp/ucc.pid
+local_route: 192.168.1.186
+port: 9191
+
+bosh:
+  target: "10.0.79.137"
+
+logging:
+  level: debug
+  file: /tmp/uhuru_cloud_commander.log

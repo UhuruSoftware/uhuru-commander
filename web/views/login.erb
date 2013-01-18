@@ -1,0 +1,17 @@
+<form action="/login" method="post">
+  <table id="login_table">
+    <tr>
+      <td><label for="user">User</label></td>
+      <td><input type="text" id="username" name="username" value="admin"></td>
+    </tr>
+
+    <tr>
+      <td><label for="password">Password</label> </td>
+      <td><input type="text" id="pass" name="pass" value="admin"></td>
+    </tr>
+  </table>
+  <div class="welcome_box">
+    <h2><%= message_large %></h2>
+  </div>
+  <button type="submit" class="btn ok"><span class="line"></span>Login</button>
+</form>

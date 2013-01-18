@@ -2,8 +2,27 @@ module Uhuru
   module Ucc
     class Director
 
-      def initialize(director_uri, user = nil, password = nil)
+      DIRECTOR_HTTP_ERROR_CODES = [400, 403, 404, 500]
 
+      API_TIMEOUT = 86400 * 3
+      CONNECT_TIMEOUT = 30
+
+      attr_reader :director_uri
+
+      # @return [String]
+      attr_accessor :user
+
+      # @return [String]
+      attr_accessor :password
+
+      def initialize(director_uri, user = nil, password = nil)
+        if director_uri.nil? || director_uri =~ /^\s*$/
+          raise DirectorMissing, "no director URI given"
+        end
+
+        @director_uri = director_uri
+        @user = user
+        @password = password
       end
 
       def create_user(username, password)

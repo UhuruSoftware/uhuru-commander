@@ -6,4 +6,4 @@ ENV['BUNDLE_GEMFILE'] = "#{home}/Gemfile"
 require "rubygems"
 require "bundler/setup"
 require "runner"
-Uhuru::Cui::Runner.new(ARGV).run!
+Uhuru::Ucc::Runner.new(ARGV).run!
