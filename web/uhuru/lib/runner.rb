@@ -54,7 +54,7 @@ module Uhuru::Ucc
         pid_file = VCAP::PidFile.new($config[:pid_filename])
         pid_file.unlink_at_exit
       rescue => e
-        puts "ERROR: Can't create pid file #{$config[:pid_filename]}"
+        puts "ERROR: Can't create pid file #{$config[:pid_filename]} error: #{e}"
         exit 1
       end
     end
