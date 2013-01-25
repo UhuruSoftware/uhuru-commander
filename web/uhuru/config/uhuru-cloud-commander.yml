@@ -3,7 +3,7 @@ local_route: 192.168.1.186
 port: 9191
 
 bosh:
-  target: "10.0.79.137"
+  target: "10.134.0.133"
 
 logging:
   level: debug
