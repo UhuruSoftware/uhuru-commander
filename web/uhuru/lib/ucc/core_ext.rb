@@ -2,10 +2,11 @@
 
 module UccExtensions
 
-  def say(message, sep = "\n")
+  def say(message, sep = "<br>")
     message = message.dup.to_s
     sep = "" if message[-1..-1] == sep
-    File.open("/tmp/some_file", 'a') { |file| file.write(message) }
+    $streamer.write_stream("mitza", "#{message}#{sep}")
+    #File.open("/tmp/some_file", 'a') { |file| file.write(message) }
     $stdout.write message
   end
 

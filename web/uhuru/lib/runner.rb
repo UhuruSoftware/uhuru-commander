@@ -3,6 +3,7 @@ require "config"
 require "ucc"
 require "thin"
 require 'optparse'
+require "../lib/ucc/status_streamer"
 
 module Uhuru::Ucc
   class Runner
@@ -20,6 +21,8 @@ module Uhuru::Ucc
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
 
       create_pidfile
+      $streamer = setup_streamer
+      $streamer.create_stream("mitza")
       setup_logging
     end
 
@@ -57,6 +60,12 @@ module Uhuru::Ucc
         puts "ERROR: Can't create pid file #{$config[:pid_filename]} error: #{e}"
         exit 1
       end
+    end
+
+    def setup_streamer
+      StatusStreamer.configure("/home/mitza/code/private-uhuru-commander/web/tmp/")
+      streamer = StatusStreamer.new
+      streamer
     end
 
     def setup_logging

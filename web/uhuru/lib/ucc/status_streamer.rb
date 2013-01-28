@@ -93,29 +93,3 @@ class StatusStreamer
     FileUtils.rm_rf(@streams_dir)
   end
 end
-
-
-StatusStreamer.configure("/home/mitza/code/private-uhuru-commander/web/tmp/")
-
-streamer = StatusStreamer.new
-
-streamer.create_stream("mitza")
-
-Thread.new do
-  while true
-    begin
-      streamer.write_stream("mitza", "#{UUIDTools::UUID.random_create}|")
-    rescue Exception => e
-      puts e.message
-    end
-    sleep(1)
-  end
-end
-
-
-streamer.create_screen("pelerinul", "mitza")
-
-
-while true
-  print streamer.read_screen("pelerinul")
-end

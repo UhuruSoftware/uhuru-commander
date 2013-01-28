@@ -11,6 +11,7 @@ require "cli"
 
 require "ucc/core_ext"
 require "ucc/file_with_progress_bar_web"
+require "ucc/stage_progressbar"
 
 autoload :HTTPClient, "httpclient"
 
@@ -108,11 +109,6 @@ module Uhuru::Ucc
     end
 
     get('/') { "Hello #{session['user_name']}." }
-    #get '/' do
-    #  erb :login, {:locals => {:page_title => "Home"}, :layout => :layout}
-    #end
-
-
 
     get '/test' do
       "good"
@@ -131,9 +127,11 @@ module Uhuru::Ucc
     end
 
     get '/evented' do
+      uuid = UUIDTools::UUID.random_create
+      $streamer.create_screen("#{uuid}","mitza")
       stream(:keep_open) do |out|
         EventMachine::PeriodicTimer.new(1) {
-          contents = File.read('/tmp/some_file')
+          contents = $streamer.read_screen("#{uuid}")
           out << "#{contents}\n"
         }
       end
