@@ -21,8 +21,7 @@ module Uhuru::Ucc
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
 
       create_pidfile
-      $streamer = setup_streamer
-      $streamer.create_stream("mitza")
+      setup_streamer!
       setup_logging
     end
 
@@ -62,10 +61,9 @@ module Uhuru::Ucc
       end
     end
 
-    def setup_streamer
-      StatusStreamer.configure("/home/mitza/code/private-uhuru-commander/web/tmp/")
-      streamer = StatusStreamer.new
-      streamer
+    def setup_streamer!
+      tmpdir = Dir.mktmpdir
+      StatusStreamer.configure(tmpdir)
     end
 
     def setup_logging
@@ -80,10 +78,15 @@ module Uhuru::Ucc
         # TODO: we really should put these bootstrapping into a place other
         # than Rack::Builder
         use Rack::CommonLogger
+        use Rack::Session::Pool
         #use Rack::Recaptcha, :public_key => config[:ui_settings][:recaptcha_public_key], :private_key => config[:ui_settings][:recaptcha_private_key]
 
         map "/" do
-          run Uhuru::Ucc::Ucc.new()
+          #if (!defined? $ucc)
+          #  $ucc = Uhuru::Ucc::Ucc.new()
+          #end
+          #run $ucc
+          run Uhuru::Ucc::Ucc
         end
       end
       @thin_server = Thin::Server.new($config[:bind_address], $config[:port])

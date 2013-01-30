@@ -5,9 +5,15 @@ module UccExtensions
   def say(message, sep = "<br>")
     message = message.dup.to_s
     sep = "" if message[-1..-1] == sep
-    $streamer.write_stream("mitza", "#{message}#{sep}")
-    #File.open("/tmp/some_file", 'a') { |file| file.write(message) }
-    $stdout.write message
+    if (defined? @options)
+      streamer = @options[:streamer]
+      uuid = @options[:command_uuid]
+    else
+      streamer = Thread.current.streamer
+      uuid = Thread.current.command_id
+    end
+    streamer.write_stream(uuid, "#{message}#{sep}")
+    $stdout.puts "#{message}"
   end
 
   def with_indent(indent)

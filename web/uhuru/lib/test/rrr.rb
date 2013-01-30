@@ -1,33 +1,16 @@
-class Testme
-  def initialize
-    @param = "salam"
-  end
+require 'rubygems'
+require 'sinatra'
 
-  def tip
-    puts @param
-  end
+use Rack::Session::Pool
 
-  def saracie
-    puts "sarac"
-  end
+get '/count' do
+  session[:count] ||= 0
+  session[:count] +=1
+  "Count: #{session[:count]}"
 end
 
-testme = Testme.new
-testme.tip
-testme.saracie
-
-class Testme
-  undef tip
-  undef saracie
-
-  def tip
-    puts "acm"
-  end
-
-  def saracie
-    puts "bbb"
-  end
+get '/reset' do
+  session.clear
+  "Count reset to 0."
 end
 
-testme.tip
-testme.saracie

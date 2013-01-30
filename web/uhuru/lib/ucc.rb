@@ -8,7 +8,8 @@ require 'erb'
 require "sinatra/vcap"
 require 'net/http'
 require "cli"
-
+require "weakref"
+require "uuidtools"
 require "ucc/core_ext"
 require "ucc/file_with_progress_bar_web"
 require "ucc/stage_progressbar"
@@ -18,11 +19,16 @@ autoload :HTTPClient, "httpclient"
 
 module Uhuru::Ucc
 
+  #class Ucc < Sinatra::Base
   class LoginScreen < Sinatra::Base
-    enable :sessions
+
+    register Sinatra::VCAP
+    use Rack::Session::Pool
+    use Rack::Logger
     set :root, File.expand_path("../../", __FILE__)
     set :views, File.expand_path("../../views", __FILE__)
     set :public_folder, File.expand_path("../../public", __FILE__)
+    #enable :sessions
 
     get '/login' do
       erb :login, {:locals => {:page_title => "Login", :message_large => ""}}
@@ -31,39 +37,53 @@ module Uhuru::Ucc
 
     def login
 
+      if session['streamer'] == nil
+        session['streamer'] = StatusStreamer.new
+        session['command_uuid'] = UUIDTools::UUID.random_create
+        session['streamer'].create_stream(session['command_uuid'])
+      end
+
       command =  Bosh::Cli::Command::Misc.new
+
+      session['command'] = command
 
       #we do not care about local user
       tmpdir = Dir.mktmpdir
       puts tmpdir
-      @config = File.join(tmpdir, "bosh_config")
-      @cache = File.join(tmpdir, "bosh_cache")
-      command.add_option(:config, @config)
-      command.add_option(:cache_dir, @cache)
+      config = File.join(tmpdir, "bosh_config")
+      cache = File.join(tmpdir, "bosh_cache")
+
+      command.add_option(:config, config)
+      command.add_option(:cache_dir, cache)
       command.add_option(:non_interactive, true)
+      command.add_option(:command_uuid, session['command_uuid'])
+      command.add_option(:streamer,  session['streamer'])
 
       Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(@cache)
-
-
       command.set_target($config[:bosh][:target])
       command.login(params[:username], params[:pass])
 
-
-      command
+      return command, config, cache
     end
 
 
 
     post '/login' do
 
-      command = login
+      session['user_name'] = params[:username]
+      command, config, cache = login
 
       if (command.logged_in?)
         message = "logged in as `#{params[:username]}'"
-        session['command'] = command
-        session['user_name'] = params[:username]
-        session['command_stemcell'] = Bosh::Cli::Command::Stemcell.new
 
+        stemcell_cmd = Bosh::Cli::Command::Stemcell.new
+        stemcell_cmd.add_option(:config, config)
+        stemcell_cmd.add_option(:cache_dir, cache)
+        stemcell_cmd.add_option(:non_interactive, true)
+        stemcell_cmd.add_option(:command_uuid, session['command_uuid'])
+        stemcell_cmd.add_option(:streamer,  session['streamer'])
+
+        session['command_stemcell'] = stemcell_cmd
       else
         message = "cannot log in as `#{params[:username]}'"
       end
@@ -91,7 +111,7 @@ module Uhuru::Ucc
     use Rack::Logger
     use LoginScreen
 
-    enable :sessions
+    #enable :sessions
 
     before do
       unless session['user_name']
@@ -128,27 +148,45 @@ module Uhuru::Ucc
 
     get '/evented' do
       uuid = UUIDTools::UUID.random_create
-      $streamer.create_screen("#{uuid}","mitza")
+      session['streamer'].create_screen("#{uuid}",session['command_uuid'])
       stream(:keep_open) do |out|
-        EventMachine::PeriodicTimer.new(1) {
-          contents = $streamer.read_screen("#{uuid}")
+        while true
+          contents = session['streamer'].read_screen("#{uuid}")
           out << "#{contents}\n"
-        }
+        end
       end
     end
 
     post '/uploadstemcell' do
-      Thread.new do
+      Mytrend.new do
+        begin
+        Thread.current.command_id = session['command_uuid']
+        Thread.current.streamer = session['streamer']
         command_stemcell =  session['command_stemcell']
-        command_stemcell.upload('/home/mitza/stemcells/bosh-stemcell-vsphere-0.6.4.tgz')
+        command_stemcell.upload('/home/mitza/old_serv/mitza/stemcells/bosh-stemcell-vsphere-0.6.4.tgz')
+
+        rescue Exception => e
+         $stdout.puts "#{e.to_s}"
+        end
       end
       "uploading stemcell"
     end
 
+    get '/sloboz' do
+      if (session[:slobo] == nil)
+        session[:slobo] = 'asd'
+      else
+        session[:slobo] = session[:slobo] + 'asd'
+      end
+      session[:slobo]
+
+    end
+
   end
 
-
-    def message_page(title, message)
-
+  class Mytrend < Thread
+    attr_accessor :command_id
+    attr_accessor :streamer
   end
+
 end
