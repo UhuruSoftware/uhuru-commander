@@ -21,7 +21,6 @@ module Uhuru::Ucc
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
 
       create_pidfile
-      setup_streamer!
       setup_logging
     end
 
@@ -61,10 +60,7 @@ module Uhuru::Ucc
       end
     end
 
-    def setup_streamer!
-      tmpdir = Dir.mktmpdir
-      StatusStreamer.configure(tmpdir)
-    end
+
 
     def setup_logging
       steno_config = Steno::Config.to_config_hash($config[:logging])

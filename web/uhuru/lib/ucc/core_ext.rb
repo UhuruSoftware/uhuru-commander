@@ -2,17 +2,19 @@
 
 module UccExtensions
 
-  def say(message, sep = "<br>")
+  def say(message, sep = "<br />")
     message = message.dup.to_s
     sep = "" if message[-1..-1] == sep
-    if (defined? @options)
-      streamer = @options[:streamer]
-      uuid = @options[:command_uuid]
-    else
-      streamer = Thread.current.streamer
-      uuid = Thread.current.command_id
-    end
-    streamer.write_stream(uuid, "#{message}#{sep}")
+    #if (defined? @options)
+    #  streamer = @options[:streamer]
+    #  uuid = @options[:command_uuid]
+    #else
+    #  streamer = Thread.current.streamer
+    #  uuid = Thread.current.command_id
+    #end
+    #streamer.write_stream(uuid, "#{message}#{sep}")
+    request_id = Thread.current.request_id
+    Thread.current.streamer.write_stream(request_id, "#{message} #{sep}")
     $stdout.puts "#{message}"
   end
 
@@ -102,9 +104,9 @@ end
 module UccStringExtensions
 
   COLOR_CODES = {
-    :red => "\e[0m\e[31m",
-    :green => "\e[0m\e[32m",
-    :yellow => "\e[0m\e[33m"
+    :red => "isa_error",
+    :green => "isa_success",
+    :yellow => "isa_warning"
   }
 
   def red
@@ -120,15 +122,7 @@ module UccStringExtensions
   end
 
   def colorize(color_code)
-    if Bosh::Cli::Config.output &&
-       Bosh::Cli::Config.output.tty? &&
-       Bosh::Cli::Config.colorize &&
-       COLOR_CODES[color_code]
-
-      "#{COLOR_CODES[color_code]}#{self}\e[0m"
-    else
-      self
-    end
+    "<span class='#{COLOR_CODES[color_code]}'> #{self}</span>"
   end
 
   def blank?
@@ -167,7 +161,7 @@ module UccStringExtensions
 
   def indent(margin = 2)
     self.split("\n").map { |line|
-      " " * margin + line
+      '&nbsp;' * margin + line
     }.join("\n")
   end
 

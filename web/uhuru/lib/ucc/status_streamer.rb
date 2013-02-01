@@ -1,95 +1,72 @@
+
 require 'fileutils'
 require "uuidtools"
+require 'tmpdir'
 
-class StatusStreamer
-  MAX_BYTES_TO_READ = 1024 * 10
+module Uhuru
+  class StatusStreamer
+    MAX_BYTES_TO_READ = 1024 * 10
 
-  @@data_dir
+    @streams_dir = nil
+    @screens = nil
+    @id = nil
 
-  @streams_dir = nil
-  @screens = nil
-  @id = nil
+    def initialize()
+      @id = UUIDTools::UUID.random_create
+      @streams_dir = File.join(Dir.tmpdir, @id)
 
-  def self.configure(data_dir)
-    @@data_dir = data_dir
+      Dir.mkdir(@streams_dir)
 
-    Dir.glob("#{@@data_dir}/*/").each do |d|
-      FileUtils.rm_rf(d)
-    end
-  end
-
-  def initialize()
-    unless @@data_dir
-      raise "Status streamer not configured. Call 'StatusStreamer.config' to configure."
+      @screens = {}
+      ObjectSpace.define_finalizer(self, proc { cleanup! })
     end
 
-    @id = UUIDTools::UUID.random_create
-    @streams_dir = File.join(@@data_dir, @id)
-
-    Dir.mkdir(@streams_dir)
-
-    @screens = {}
-    ObjectSpace.define_finalizer(self, proc { cleanup! })
-  end
-
-  def create_stream(stream_name)
-    file_name = File.join(@streams_dir, stream_name)
-
-    if File.exists? file_name
-      raise "Stream already exists"
+    def write_stream(stream_name, data)
+      file_name = File.join(@streams_dir, stream_name)
+      File.open(file_name, "a") do |file|
+        file.write("#{data}<!-- WRITE_BLOCK_END -->")
+      end
     end
 
-    FileUtils.touch file_name
-  end
+    def create_screen(stream_name, screen_name)
+      if @screens[screen_name]
+        raise "Screen already exists"
+      end
 
-  def write_stream(stream_name, data)
-    file_name = File.join(@streams_dir, stream_name)
-    File.open(file_name, "a") do |file|
-      file.write(data)
-    end
-  end
-
-  def create_screen(screen_name, stream_name)
-    if @screens[screen_name]
-      raise "Screen already exists"
+      @screens[screen_name] = [stream_name, 0]
     end
 
-    file_name = File.join(@streams_dir, stream_name)
+    def read_screen(screen_name)
+      unless @screens[screen_name]
+        raise "Screen #{screen_name} does not exist"
+      end
 
-    unless File.exists?(file_name)
-      raise "Stream '#{ stream_name }' does not exist"
+      stream_name, read_bytes = @screens[screen_name]
+
+      file_name = File.join(@streams_dir, stream_name)
+
+      unless File.exist?(file_name)
+       return ""
+      end
+
+      chunk = IO::read(file_name, MAX_BYTES_TO_READ, read_bytes)
+
+      if chunk
+        chunk = chunk.match(/.*(<!-- WRITE_BLOCK_END -->)/m).to_s
+        @screens[screen_name][1] = read_bytes + chunk.length
+      end
+
+      chunk
     end
 
-    @screens[screen_name] = [stream_name, 0]
-  end
-
-  def read_screen(screen_name)
-    unless @screens[screen_name]
-      raise "Screen does not exist"
+    def close_screen(screen_name)
+      @screens[screen_name] = nil
     end
 
-    stream_name, read_bytes = @screens[screen_name]
+    private
 
-    file_name = File.join(@streams_dir, stream_name)
-
-    chunk = IO::read(file_name, MAX_BYTES_TO_READ, read_bytes)
-
-    if chunk
-      @screens[screen_name][1] = read_bytes + chunk.length
+    def cleanup!()
+      FileUtils.rm_rf(@streams_dir)
     end
-
-    sleep(1)
-
-    chunk
-  end
-
-  def close_screen(screen_name)
-    @screens[screen_name] = nil
-  end
-
-  private
-
-  def cleanup!()
-    FileUtils.rm_rf(@streams_dir)
   end
 end

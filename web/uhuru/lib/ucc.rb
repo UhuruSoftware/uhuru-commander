@@ -13,6 +13,7 @@ require "uuidtools"
 require "ucc/core_ext"
 require "ucc/file_with_progress_bar_web"
 require "ucc/stage_progressbar"
+require "ucc/commander_bosh_runner"
 
 autoload :HTTPClient, "httpclient"
 
@@ -37,31 +38,30 @@ module Uhuru::Ucc
 
     def login
 
-      if session['streamer'] == nil
-        session['streamer'] = StatusStreamer.new
-        session['command_uuid'] = UUIDTools::UUID.random_create
-        session['streamer'].create_stream(session['command_uuid'])
-      end
+        if session['streamer'] == nil
+          session['command_uuid'] = UUIDTools::UUID.random_create
+        end
 
-      command =  Bosh::Cli::Command::Misc.new
 
-      session['command'] = command
+        command =  Bosh::Cli::Command::Misc.new
 
-      #we do not care about local user
-      tmpdir = Dir.mktmpdir
-      puts tmpdir
-      config = File.join(tmpdir, "bosh_config")
-      cache = File.join(tmpdir, "bosh_cache")
+        session['command'] = command
 
-      command.add_option(:config, config)
-      command.add_option(:cache_dir, cache)
-      command.add_option(:non_interactive, true)
-      command.add_option(:command_uuid, session['command_uuid'])
-      command.add_option(:streamer,  session['streamer'])
+        #we do not care about local user
+        tmpdir = Dir.mktmpdir
+        puts tmpdir
+        config = File.join(tmpdir, "bosh_config")
+        cache = File.join(tmpdir, "bosh_cache")
 
-      Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(@cache)
-      command.set_target($config[:bosh][:target])
-      command.login(params[:username], params[:pass])
+        command.add_option(:config, config)
+        command.add_option(:cache_dir, cache)
+        command.add_option(:non_interactive, true)
+        Uhuru::CommanderBoshRunner.execute(session) do
+          Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(cache)
+
+          command.set_target($config[:bosh][:target])
+          command.login(params[:username], params[:pass])
+        end
 
       return command, config, cache
     end
@@ -69,26 +69,25 @@ module Uhuru::Ucc
 
 
     post '/login' do
+      message = ""
+      Uhuru::CommanderBoshRunner.execute(session) do
+        session['user_name'] = params[:username]
+        command, config, cache = login
 
-      session['user_name'] = params[:username]
-      command, config, cache = login
+        if (command.logged_in?)
+          message = "logged in as `#{params[:username]}'"
 
-      if (command.logged_in?)
-        message = "logged in as `#{params[:username]}'"
+          stemcell_cmd = Bosh::Cli::Command::Stemcell.new
+          stemcell_cmd.add_option(:config, config)
+          stemcell_cmd.add_option(:cache_dir, cache)
+          stemcell_cmd.add_option(:non_interactive, true)
 
-        stemcell_cmd = Bosh::Cli::Command::Stemcell.new
-        stemcell_cmd.add_option(:config, config)
-        stemcell_cmd.add_option(:cache_dir, cache)
-        stemcell_cmd.add_option(:non_interactive, true)
-        stemcell_cmd.add_option(:command_uuid, session['command_uuid'])
-        stemcell_cmd.add_option(:streamer,  session['streamer'])
+          session['command_stemcell'] = stemcell_cmd
+        else
+          message = "cannot log in as `#{params[:username]}'"
+        end
 
-        session['command_stemcell'] = stemcell_cmd
-      else
-        message = "cannot log in as `#{params[:username]}'"
       end
-
-
       erb :login,
           {
               :locals =>
@@ -157,19 +156,43 @@ module Uhuru::Ucc
       end
     end
 
-    post '/uploadstemcell' do
-      Mytrend.new do
-        begin
-        Thread.current.command_id = session['command_uuid']
-        Thread.current.streamer = session['streamer']
-        command_stemcell =  session['command_stemcell']
-        command_stemcell.upload('/home/mitza/old_serv/mitza/stemcells/bosh-stemcell-vsphere-0.6.4.tgz')
+    get '/logs/:stream_id' do
+      screen_id = UUIDTools::UUID.random_create.to_s
+      Uhuru::CommanderBoshRunner.status_streamer(session).create_screen(params[:stream_id], screen_id)
 
-        rescue Exception => e
-         $stdout.puts "#{e.to_s}"
-        end
+      erb :logs,
+          {
+              :locals =>
+                  {
+                      :screen_id => screen_id
+                  }
+          }
+    end
+
+    get '/screen/:screen_id' do
+      Uhuru::CommanderBoshRunner.status_streamer(session).read_screen(params[:screen_id])
+
+    end
+
+
+    post '/uploadstemcell' do
+      request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+        command_stemcell =  session['command_stemcell']
+        command_stemcell.upload('../resources/bosh-stemcell-vsphere-0.6.4.tgz')
       end
-      "uploading stemcell"
+      redirect "logs/#{request_id}"
+    end
+
+    post '/setup_infrastructure' do
+      request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+        command_stemcell =  session['command_stemcell']
+        command_stemcell.upload('../resources/bosh-stemcell-vsphere-0.6.4.tgz')
+        command_stemcell.upload('../resources/bosh-stemcell-php-vsphere-0.6.4.3.tgz')
+        command_stemcell.upload('../resources/uhuru-windows-2008R2-0.9.3.tgz')
+        command_stemcell.upload('../resources/uhuru-windows-2008R2-sqlserver-0.9.4.tgz')
+      end
+      redirect "logs/#{request_id}"
+
     end
 
     get '/sloboz' do
@@ -179,7 +202,6 @@ module Uhuru::Ucc
         session[:slobo] = session[:slobo] + 'asd'
       end
       session[:slobo]
-
     end
 
   end
