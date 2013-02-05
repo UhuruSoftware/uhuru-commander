@@ -1,0 +1,204 @@
+<ul class="list_cloud_configuration">
+  <li><a href="#" onclick="showManage(this);" id="manage_btn" style="background-color: #06242d;">Manage</a></li>
+  <li><a href="#" onclick="showVirtualMachines(this);" id="virtual_machines_btn">Virtual Machines</a></li>
+  <li><a href="#" onclick="showSummary(this);" id="summary_btn">Summary</a></li>
+</ul>
+
+<ul class="list_cloud_configuration_sublist" id="virtual_machines_sublist" style="display: none;">
+  <li><a href="#" onclick="">1</a></li>
+  <li><a href="#" onclick="">2</a></li>
+  <li><a href="#" onclick="">3</a></li>
+  <li><a href="#" onclick="">4</a></li>
+</ul>
+
+<ul class="list_cloud_configuration_sublist" id="manage_sublist">
+  <li><a href="#" onclick="showCloudNetworks();" id="cloud_networks" style="background-color: #06242d;">Networks</a></li>
+  <li><a href="#" onclick="showCloudCompilation();" id="cloud_compilation" >Compilation</a></li>
+  <li><a href="#" onclick="showCloudResourcePools();" id="cloud_resource_pools" >Resource Pools</a></li>
+  <li><a href="#" onclick="showCloudUpdate();" id="cloud_update" >Update</a></li>
+  <li><a href="#" onclick="showCloudDeas();" id="cloud_deas" >DEAs</a></li>
+  <li><a href="#" onclick="showCloudServices();" id="cloud_services" >Services</a></li>
+  <li><a href="#" onclick="showCloudProperties();" id="cloud_properties" >Properties</a></li>
+  <li><a href="#" onclick="showCloudServicePlans();" id="cloud_service_plans" >Service Plans</a></li>
+  <li><a href="#" onclick="showCloudAdvanced();" id="cloud_advanced" >Advanced</a></li>
+</ul>
+
+<div class="tab_divs" id="manage_cloud_div">
+    <form method="post" action="/doCloudManage">
+        <div id="cloud_networks_div">
+            <div class="middle_div">
+                NETWORKS
+            </div>
+        </div>
+
+        <div id="cloud_compilation_div" class="hidden_divs">
+            <div class="middle_div">
+                <table class="cloud_configuration_tables">
+                  <% form_generator.generate_form(form, compilation, form_data).each do |html_field| %>
+
+                      <tr>
+                        <td>
+                          <label for="<%= html_field[:input_name] %>">
+                            <%= html_field[:name] + ":" %>
+                          </label>
+                        </td>
+
+                        <td>
+                          <input name="<%= html_field[:input_name] %>"
+                                 type="<%= html_field[:type] %>"
+                                 class="<%= html_field[:class] %> local"
+                                 id="<%= html_field[:id] %>"
+                                 value="<%= html_field[:value] %>" />
+                        </td>
+
+                        <td>
+                          <input type="<%= html_field[:type] %>"
+                                 value="<%= html_field[:value_live] %>"
+                                 class="<%= html_field[:class] %> disabled" disabled="" />
+                        </td>
+
+                        <td>
+                          <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                              <span class="field_error"><%= html_field[:error] %></span>
+                          <% end %>
+                        </td>
+
+                      </tr>
+
+                  <% end %>
+                </table>
+            </div>
+            <div class="help_div">
+                <h3 class="help_header">Help</h3>
+                <p class="help_paragraph">This is the Infrastructure tab the CPI sub tab. Here you can set up the Ip DNS and the VCenter Network Name.</p>
+                <p class="help_paragraph"><span class="span_notes">NOTE:</span> If you switch between on sub tab to another sub tab you wont lose form data you alredy completed! </p>
+            </div>
+        </div>
+
+        <div id="cloud_resource_pools_div" class="hidden_divs">
+            <div class="middle_div">
+              RESOURCE POOLS DIV
+            </div>
+        </div>
+
+        <div id="cloud_update_div" class="hidden_divs">
+            <div class="middle_div">
+              UPDATE DIV
+            </div>
+        </div>
+
+        <div id="cloud_deas_div" class="hidden_divs">
+            <div class="middle_div">
+              DEAS DIV
+            </div>
+        </div>
+
+        <div id="cloud_services_div" class="hidden_divs">
+            <div class="middle_div">
+              SERVICES DIV
+            </div>
+        </div>
+
+        <div id="cloud_properties_div" class="hidden_divs">
+            <div class="middle_div">
+              UPDATE DIV
+            </div>
+        </div>
+
+        <div id="cloud_service_plans_div" class="hidden_divs">
+            <div class="middle_div">
+              SERVICE PLANS DIV
+            </div>
+        </div>
+
+        <div id="cloud_advanced_div" class="hidden_divs">
+            <div class="middle_div">
+              ADVANCED DIV
+            </div>
+        </div>
+
+        <div class="middle_div">
+        <input type="text" name="method_name" class="method_name" />
+            <div class="bottom_buttons_div">
+                <input name="btn_parameter" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
+                <input name="btn_parameter" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
+                <input name="btn_parameter" type="submit" value="Tear Down" class="tear_down" />
+                <input name="btn_parameter" type="submit" value="Delete" class="delete" />
+                <input name="btn_parameter" type="submit" value="Export" class="export" />
+                <input name="btn_parameter" type="submit" value="Import" class="import" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+
+<div class="tab_divs hidden_divs" id="virtual_machines_div">
+
+  <div class="middle_div">
+    <form id="virtual_machines_form">
+        <table class="virtual_machines_table">
+            <tr>
+                <td>Cloud Controller</td>
+                <td>10.0.5.100</td>
+                <td>SSH | Logs</td>
+            </tr>
+
+            <tr>
+                <td>NATS</td>
+                <td>10.0.5.101</td>
+                <td>SSH | Logs</td>
+            </tr>
+            <tr>
+                <td>CCDB</td>
+                <td>10.0.5.102</td>
+                <td>SSH | Logs</td>
+            </tr>
+            <tr>
+                <td>Router</td>
+                <td>10.0.5.103</td>
+                <td>SSH | Logs</td>
+            </tr>
+            <tr>
+                <td>DEA</td>
+                <td>10.0.5.104</td>
+                <td>SSH | Logs</td>
+            </tr>
+        </table>
+
+        <div class="bottom_buttons_div">
+          <input name="btn_parameter" type="button" value="Save" id="save_virtual_machines_btn" />
+          <input name="btn_parameter" type="button" value="Save & Deploy" id="saveanddeploy_virtual_machines_btn" />
+          <input name="btn_parameter" type="button" value="Tear Down" />
+          <input name="btn_parameter" type="button" value="Delete" />
+          <input name="btn_parameter" type="button" value="Export" />
+          <input name="btn_parameter" type="button" value="Import" />
+        </div>
+    </form>
+
+  </div>
+
+
+  <div class="help_div">
+    <h3>Dummy text dummy text</h3>
+    <p>Dummy text dummy texttext dummy texttext dummy texttext dummy texttext dummy texttext dummy texttext dummy text</p>
+  </div>
+</div>
+
+<div class="tab_divs hidden_divs" id="summary_div">
+
+  <div class="middle_div">
+
+      Summary div
+
+  </div>
+
+  <div class="help_div">
+    <h3>Dummy text dummy text</h3>
+    <p>Dummy text dummy texttext dummy texttext dummy texttext dummy texttext dummy texttext dummy texttext dummy text</p>
+  </div>
+</div>

@@ -1,0 +1,176 @@
+@font-face
+{
+    font-family: Sagoe UI;
+    src: url('segoe_ui.ttf'); /* IE9+ */
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Open Sans Light'), local('OpenSans-Light'), url("open_sans.woff") format('woff');
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+    color: #aeb6c9;
+}
+
+
+body
+{
+    text-align: center;
+    background-color: #24344A;
+}
+
+#error,
+#wrapper
+{
+	margin-top: 5px;
+	padding-bottom: 20px;
+	
+	background-color: #036D80;
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+}
+
+#error /* THIS IS THE DIV FOR 404PAGE */
+{
+    height: 300px;
+}
+
+
+.error_messages
+{
+    text-align: left;
+    font-size: 14px;
+    font-weight: 300;
+    color: #dc143c;
+}
+.error_highlight
+{
+    font-size: 12px;
+    font-weight: 200;
+    color: #6f1f06;
+    background-color: #111;
+}
+
+.error_inputs
+{
+    display: none;
+}
+
+
+#header
+{
+	width: 100%;
+	background-color: #036D80;
+	
+}
+#header > h1
+{
+	color: white;
+	padding-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 25px;
+}
+.master_list
+{
+	padding-top: 5px;
+	padding-bottom: 5px;
+    padding-left: 5px;
+	list-style: none;
+	background-color: #023C55;
+}
+.master_list > li
+{
+    display: inline-block;
+    text-align: center;
+	width: 120px;
+	margin-left: 1px;
+}
+.master_list > li > a
+{
+    display: block;
+    color: #ffffff;
+    background-color: #1A5560;
+    border: 1px solid #1a5540;
+    text-decoration: none;
+
+    width: 100%;
+    font-size: 14px;
+}
+.master_list > li > a:hover
+{
+    color: #d2d2d2;
+    background-color: #036D80;
+    border: 1px solid #1a5580;
+}
+
+.bottom_buttons_div
+{
+	width: 600px;
+	text-align: center;
+	position: relative;
+	
+	margin-top: 20px;
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	
+	/*background-color: #06246f;*/
+}
+
+input[type=text],
+input[type=submit],
+input[type=button],
+textarea
+{
+    font-family: 'Segoe UI Light', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+	font-weight: 100;
+
+	background-color: #023C55;
+	color: #ffffff;
+	border: 1px solid #dddddd;
+	outline: 0px solid #dddddd;
+}
+
+input[type=submit],
+input[type=button],
+input[type=checkbox]
+{
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+input[type=submit]:hover,
+input[type=button]:hover
+{
+	cursor: pointer;
+	background-color: #06242d;
+}
+
+textarea
+{
+	padding: 0px;
+	text-align: left;
+	dispaly: block;
+	height: 200px;
+	width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+

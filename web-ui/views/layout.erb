@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <title>Uhuru Cloud Commander</title>
+  <link rel="stylesheet" href="../../css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/views.css" type="text/css" />
+  <meta charset="utf-8" />
+</head>
+
+<body>
+    <div id="wrapper">
+	
+		<div id="header">
+			<h1>Uhuru Cloud Commander</h1>
+		</div>	
+	
+		<ul class="master_list">
+			<li><a href="/infrastructure">Infrastructure</a></li>
+            <li><a href="/clouds">Clouds</a></li>
+            <li><a href="#">Users</a></li>
+            <li><a href="#">Help</a></li>
+            <li><a href="/tasks">Tasks</a></li>
+            <li><a href="#">Monitoring</a></li>
+            <li style="float: right; margin-right: 15px;"><a href="#">Logout</a></li>
+		</ul>
+		
+		<%= yield %>
+	
+	
+    </div>
+
+<script type="text/javascript" src="../../scripts/jquery-1.5.js"></script>
+<script type="text/javascript" src="../../scripts/jquery_ui.js"></script>
+
+    <script type="text/javascript" src="../../scripts/infrastructureTabs.js" ></script>
+    <script type="text/javascript" src="../../scripts/cloudConfigurationTabs.js" ></script>
+    <script type="text/javascript" src="../../scripts/infrastructureValidation.js" ></script>
+
+    <script type="text/javascript" src="../../scripts/methodControll.js" ></script>
+    <script type="text/javascript" src="../../scripts/fieldErrors.js" ></script>
+</body>
+
+</html>

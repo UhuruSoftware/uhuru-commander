@@ -1,0 +1,140 @@
+---
+infrastructure:
+  - screen:
+    name: Networking
+    fields:
+    - field:
+      name: castravetele
+      label: Label Castravete
+      description: aksdaskdbh
+      type: numeric
+      value: 123.23
+    - field:
+      name: ip
+      id: ip_textbox
+      label: IP Address
+      class: ip_type
+      type: text
+      value: 192.168.5.111
+      description: Ip address for this deployment(user inputs range)
+    - field: 
+      name: netmask
+      id: netmask_textbox
+      label: Netmask
+      class: ip_type
+      type: text
+      value: 192.168.52.22
+      description: Ip address for this deployment
+    - field: 
+      name: gateway
+      id: gateway_textbox
+      label: Gateway
+      class: ip_type
+      type: text
+      value: 192.168.5.133
+      description: Ip address for this deployment
+    - field: 
+      name: dns
+      id: dns_textbox
+      label: DNS
+      class: ip_type
+      type: text
+      value: 192.168.5.188
+      description: Ip address for this deployment
+    - field: 
+      name: vcentername
+      id: vcentername_textbox
+      label: VCenter Network Name
+      class: name
+      type: text
+      value: No Name
+      description: Name of deployment
+  - screen:
+    name: CPI
+    fields:
+    - field: 
+      name: test1
+      label: IP Address
+      id: ip_textbox22
+      class: ip_type
+      type: text
+      value: 192.168.10.100
+      description: Ip address for this deployment
+    - field: 
+      name: iprangetest
+      label: IPs For Cloud Foundry
+      class: ip_type
+      type: text
+      value: 192.168.0.1-192.168.0.243
+      description: IP Range CF
+    - field: 
+      name: test2
+      label: Gateway
+      class: ip_type
+      type: text
+      value: 255.255.10.10
+      description: Ip address for this deployment
+    - field: 
+      name: test3
+      label: Gateway
+      class: ip_type
+      type: text
+      value: 255.255.10.10
+      description: Ip address for this deployment
+    - field: 
+      name: test4
+      label: Gateway
+      class: ip_type
+      type: text
+      value: 255.255.10.10
+      description: Ip address for this deployment
+cloud:
+  - screen:
+    name: Networks
+  -screen:
+    name: Resource Pools
+  -screen:
+    name: DEAs
+  -screen:
+    name: Services
+  -screen:
+    name: Cloud Properties
+  - screen:
+    name: Compilation
+    fields:
+    - field:
+      name: name
+      label: Workers
+      class: numbers_type
+      type: text
+      value: 2
+      description: Name of deployment
+    - field:
+      name: name
+      label: Network
+      type: text
+      value: Default
+      description: Name of deployment
+    - field:
+      name: numbers
+      label: RAM (MB)
+      class: numbers_type
+      type: text
+      value: 2048
+      description: Numeric for this deployment
+    - field:
+      name: ip
+      label: CPU (vCores)
+      class: numbers_type
+      type: text
+      value: 0
+      description: Ip address for this deployment
+      error_value: ''
+    - field:
+      name: ip
+      label: Disk (MB)
+      class: numbers_type
+      type: text
+      value: 0
+      description: Ip address for this deployment
+      error_value: ''
