@@ -1,8 +1,7 @@
+require 'fileutils'
 
-chunk = <<script
-askdgh sdlkjh asdsdl
-sd
-dsfsdf-
-script
+FileUtils.cp("/tmp/aa.txt","/tmp/test/")
 
-puts chunk.match(/.*(<!-- WRITE_BLOCK_END -->)/m).to_s
+
+
+

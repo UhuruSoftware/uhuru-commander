@@ -6,7 +6,6 @@ module Uhuru
       unless session[:status_streamer]
         session[:status_streamer] = StatusStreamer.new
       end
-
       session[:status_streamer]
     end
 
@@ -18,7 +17,7 @@ module Uhuru
       BoshThread.new {
         Thread.current.request_id = id
         Thread.current.streamer = status_streamer(session)
-
+        Thread.current.current_session = session
         code.call
       }.join
 
@@ -33,7 +32,7 @@ module Uhuru
       BoshThread.new {
         Thread.current.request_id = id
         Thread.current.streamer = status_streamer(session)
-
+        Thread.current.current_session = session
         code.call
       }
 
@@ -44,6 +43,7 @@ module Uhuru
   class BoshThread < Thread
     attr_accessor :request_id
     attr_accessor :streamer
+    attr_accessor :current_session
   end
 end
 
