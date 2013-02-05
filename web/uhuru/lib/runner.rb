@@ -22,6 +22,8 @@ module Uhuru::Ucc
 
       create_pidfile
       setup_logging
+      $config[:logger] = logger
+
     end
 
     def logger

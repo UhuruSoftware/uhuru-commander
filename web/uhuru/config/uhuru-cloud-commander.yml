@@ -3,7 +3,9 @@ local_route: 192.168.1.186
 port: 9191
 
 bosh:
-  target: "10.134.0.133"
+  target: "0.0.0.0"
+#  base_dir: "/home/mitza/testing/assets/vcap"
+  base_dir: "/var/vcap"
 
 logging:
   level: debug

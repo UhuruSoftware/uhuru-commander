@@ -10,10 +10,13 @@ require 'net/http'
 require "cli"
 require "weakref"
 require "uuidtools"
+require "monit_api"
 require "ucc/core_ext"
 require "ucc/file_with_progress_bar_web"
 require "ucc/stage_progressbar"
 require "ucc/commander_bosh_runner"
+require "ucc/infrastructure"
+require "ucc/monit"
 
 autoload :HTTPClient, "httpclient"
 
@@ -38,30 +41,30 @@ module Uhuru::Ucc
 
     def login
 
-        if session['streamer'] == nil
-          session['command_uuid'] = UUIDTools::UUID.random_create
-        end
+      if session['streamer'] == nil
+        session['command_uuid'] = UUIDTools::UUID.random_create
+      end
 
 
-        command =  Bosh::Cli::Command::Misc.new
+      command =  Bosh::Cli::Command::Misc.new
 
-        session['command'] = command
+      session['command'] = command
 
-        #we do not care about local user
-        tmpdir = Dir.mktmpdir
-        puts tmpdir
-        config = File.join(tmpdir, "bosh_config")
-        cache = File.join(tmpdir, "bosh_cache")
+      #we do not care about local user
+      tmpdir = Dir.mktmpdir
+      puts tmpdir
+      config = File.join(tmpdir, "bosh_config")
+      cache = File.join(tmpdir, "bosh_cache")
 
-        command.add_option(:config, config)
-        command.add_option(:cache_dir, cache)
-        command.add_option(:non_interactive, true)
-        Uhuru::CommanderBoshRunner.execute(session) do
-          Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(cache)
+      command.add_option(:config, config)
+      command.add_option(:cache_dir, cache)
+      command.add_option(:non_interactive, true)
+      Uhuru::CommanderBoshRunner.execute(session) do
+        Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(cache)
 
-          command.set_target($config[:bosh][:target])
-          command.login(params[:username], params[:pass])
-        end
+        command.set_target($config[:bosh][:target])
+        command.login(params[:username], params[:pass])
+      end
 
       return command, config, cache
     end
@@ -185,11 +188,15 @@ module Uhuru::Ucc
 
     post '/setup_infrastructure' do
       request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
-        command_stemcell =  session['command_stemcell']
-        command_stemcell.upload('../resources/bosh-stemcell-vsphere-0.6.4.tgz')
-        command_stemcell.upload('../resources/bosh-stemcell-php-vsphere-0.6.4.3.tgz')
-        command_stemcell.upload('../resources/uhuru-windows-2008R2-0.9.3.tgz')
-        command_stemcell.upload('../resources/uhuru-windows-2008R2-sqlserver-0.9.4.tgz')
+        begin
+          infrastructure = Infrastructure.new
+          infrastructure.setup('/home/mitza/testing/assets/director_config/director.yml.erb')
+        rescue Exception => e
+          err e.message.to_s
+          $stdout.puts(e)
+          $stdout.puts(e.backtrace)
+        end
+
       end
       redirect "logs/#{request_id}"
 
@@ -205,10 +212,4 @@ module Uhuru::Ucc
     end
 
   end
-
-  class Mytrend < Thread
-    attr_accessor :command_id
-    attr_accessor :streamer
-  end
-
 end

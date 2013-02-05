@@ -36,6 +36,7 @@ module UccExtensions
   end
 
   def err(message)
+    say("ERROR : #{message.to_s.red}")
     puts "This is err : #{message}"
   end
 

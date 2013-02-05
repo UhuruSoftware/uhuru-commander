@@ -3,12 +3,11 @@ module Bosh::Cli
 class StageProgressBar
   undef_method :refresh
   undef_method :bar
+  undef_method :calculate_terminal_width
 
   def refresh
     if (!@isprogress)
       @isprogress = true
-      @progress_guid = UUIDTools::UUID.random_create
-
       mssg = <<script
           <div id="#{@progress_guid}_title"></div>
           <div style="position:relative; width:102px; height:18px; background-color:#A0A0A0;border:1px solid #7E7E7E">
@@ -41,6 +40,18 @@ script
           </script>
 script
     say(mssg, "")
+  end
+
+  def calculate_terminal_width
+    @progress_guid = UUIDTools::UUID.random_create.to_s
+    if !ENV["TERM"].blank?
+      width = `tput cols`
+      $?.exitstatus == 0 ? [width.to_i, 100].min : 80
+    else
+      80
+    end
+  rescue
+    80
   end
 
   def bar
