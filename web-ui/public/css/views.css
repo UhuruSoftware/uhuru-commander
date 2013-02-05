@@ -1,0 +1,296 @@
+ /*HERE ARE ALL THE LISTS USED */
+
+.child_list_infrastructure,
+.list_cloud_configuration,
+.list_cloud_configuration_sublist,
+.list_cloud_configuration_last_row
+{
+	padding-top: 2px;
+	padding-bottom: 5px;
+    padding-left: 5px;
+	list-style: none;
+    background-color: #335F9D;
+}
+.child_list_infrastructure > li,
+.list_cloud_configuration > li,
+.list_cloud_configuration_sublist > li,
+.list_cloud_configuration_last_row > li
+{
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    margin-left: 1px;
+}
+.child_list_infrastructure > li > a,
+.list_cloud_configuration > li > a,
+.list_cloud_configuration_sublist > li > a,
+.list_cloud_configuration_last_row > li > a
+{
+    display: block;
+    color: #ffffff;
+    background-color: #183052;
+    border: 1px solid #052148;
+    text-decoration: none;
+
+    width: 100%;
+    font-size: 12px;
+}
+.child_list_infrastructure > li > a:hover,
+.list_cloud_configuration > li > a:hover,
+.list_cloud_configuration_sublist > li > a:hover,
+.list_cloud_configuration_last_row > li > a:hover
+{
+    /*color: #d2d2d2;*/
+    /*background-color: #366EBC;*/
+    border: 1px solid #052148;
+}
+
+
+ /*HERE LISTS DETAILS ARE OVERWRITTEN */
+
+
+.list_cloud_configuration_sublist
+{
+}
+.list_cloud_configuration_sublist > li
+{
+}
+.list_cloud_configuration_sublist > li > a
+{
+    background-color: #466f55;
+}
+.list_cloud_configuration_sublist > li > a:hover
+{
+    color: #d2d2d2;
+    background-color: #466f77;
+}
+
+
+ /*HERE ARE THE 3 DIVs THAT FORM THE MAIN CONTENT OF EACH PAGE */
+
+
+
+.tab_divs
+{
+    margin-top: 10px;
+    position: relative;
+}
+
+.help_div
+{
+    position: absolute;
+    width: 200px;
+    right: 9px;
+    top: 0;
+	padding-bottom: 30px;
+
+	background-color: #335F9D;
+}
+
+.middle_div
+{
+    position: relative;
+    display: block;
+
+	margin-left: 5px;
+    width: 776px;
+
+	padding-top: 10px;
+	padding-bottom: 10px;
+
+	background-color: transparent;
+}
+
+.hidden_divs,
+.method_name
+{
+    display: none;
+}
+
+
+
+.help_header
+{
+    display: block;
+    padding-left: 5px;
+    width: 195px;
+    height: 26px;
+    font-size: 18px;
+    font-weight: 100;
+    background-color: #1C4D90;
+}
+.help_paragraph
+{
+    margin-top: 20px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+.span_notes
+{
+    font-size: 16px;
+    font-weight: 700;
+    color: #052148;
+}
+
+
+
+
+/*  FROM HERE ALL THE TABLES ARE FORMATTED  */
+
+
+
+table.infrastructure_table,
+table.infrastructure_table tbody,
+table.clouds_table,
+table.clouds_table tbody,
+table.cloud_configuration_tables,
+table.cloud_configuration_tables tbody,
+table.virtual_machines_table,
+table.virtual_machines_table tbody,
+table.tasks_table,
+table.tasks_table tbody
+{
+	display: block;
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td
+{
+    width: 20%;
+    padding: 2px;
+}
+td:nth-child(4)
+{
+    width: 25%;
+    /*  the errors td  */
+}
+
+
+
+
+.infrastructure_table label,
+.cloud_configuration_tables label,
+{
+	margin-right: 10px;
+}
+.cloud_configuration_tables td,
+table.infrastructure_table td
+{
+	text-align: right;
+}
+
+
+.clouds_table .first_row,
+.tasks_table .first_row
+{
+	background-color: #023C55;
+}
+table.clouds_table,
+table.virtual_machines_table,
+table.tasks_table
+{
+	width: 100%;
+}
+table.clouds_table td,
+table.virtual_machines_table td,
+table.tasks_table td
+{
+	text-align: center;
+	width: 250px;
+	border: 1px solid white;
+}
+table.virtual_machines_table td
+{
+    border: 0 solid #000000;
+}
+
+
+
+
+
+
+
+ .config_field.local.changed
+ {
+     border: 2px solid red;
+ }
+
+
+ .config_field.ip
+ {
+     color: #f6c5b1;
+ }
+ .config_field.ip_range
+ {
+     color: #f6d2c3;
+ }
+ .config_field.list,
+ .config_field.product_key
+ {
+     color: #ff7400;
+ }
+ .config_field.numeric,
+ .config_field.boolean
+ {
+     color: #228d00;
+ }
+ .config_field.boolean
+ {
+     display: block;
+     padding: 0;
+     margin: auto;
+     background-color: red;
+ }
+ .config_field.string,
+ .config_field.text
+ {
+     color: #f2f2f2;
+ }
+
+ .config_field.boolean
+ {
+     margin: auto;
+ }
+
+
+ .config_field.error
+ {
+     background-color: #111;
+     border: 2px solid red;
+     color: red;
+ }
+
+ .config_field.disabled
+ {
+     background-color: #111;
+ }
+
+ .field_error
+ {
+     color: red;
+     font-size: 12px;
+     font-weight: 200;
+     float: left;
+     margin-left: 3px;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+source :rubygems
+
+gem "sinatra"
+gem "vcap_common"
+gem "vcap_logging"
+gem "thin"
+gem "ip"
+gem "ipadmin"
+gem "ipaddress"
