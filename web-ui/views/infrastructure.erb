@@ -1,0 +1,110 @@
+<ul class="child_list_infrastructure">
+    <li><a href="#" onclick="showNetworking();" id="networking_btn" style="background-color: #000000;">Networking</a></li>
+    <li><a href="#" onclick="showCPI();" id="cpi_btn">CPI</a></li>
+    <li><a href="/advanced" style="background-color: #1C4D90;">Advanced</a></li>
+</ul>
+
+<form method="post" action="/doInfrastructure">
+
+    <div class="tab_divs" id="networking_div">
+        <div class="middle_div">
+            <table class="infrastructure_table">
+              <% form_generator.generate_form(form, table[:networking], form_data).each do |html_field| %>
+
+                  <tr>
+                    <td>
+                      <label for="<%= html_field[:input_name] %>">
+                        <%= html_field[:name] + ":" %>
+                      </label>
+                    </td>
+
+                    <td>
+                      <input name="<%= html_field[:input_name] %>"
+                             type="<%= html_field[:type] %>"
+                             class="<%= html_field[:class] %> local"
+                             id="<%= html_field[:id] %>"
+                             value="<%= html_field[:value] %>" />
+                    </td>
+
+                    <td>
+                      <input type="<%= html_field[:type] %>"
+                             value="<%= html_field[:value_live] %>"
+                             class="<%= html_field[:class] %> disabled" disabled="" />
+                    </td>
+
+                    <td>
+                      <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                          <span class="field_error"><%= html_field[:error] %></span>
+                      <% end %>
+                    </td>
+
+                  </tr>
+
+              <% end %>
+            </table>
+        </div>
+
+        <div class="help_div">
+            <h3 class="help_header">Help</h3>
+            <p class="help_paragraph">This is the Infrastructure tab the Networking sub tab. Here you can set up the Ip Netmask Gateway DNS and the VCenter Network Name.</p>
+            <p class="help_paragraph"><span class="span_notes">NOTE:</span> If you switch between on sub tab to another sub tab you wont lose form data you alredy completed! </p>
+        </div>
+    </div>
+
+    <div class="tab_divs" id="cpi_div" style="display: none;">
+        <div class="middle_div">
+            <table class="infrastructure_table">
+              <% form_generator.generate_form(form, table[:cpi], form_data).each do |html_field| %>
+                  <tr>
+                    <td>
+                      <label for="<%= html_field[:input_name] %>">
+                        <%= html_field[:name] + ":" %>
+                      </label>
+                    </td>
+
+                    <td>
+                      <input name="<%= html_field[:input_name] %>"
+                             type="<%= html_field[:type] %>"
+                             class="<%= html_field[:class] %> local"
+                             id="<%= html_field[:id] %>"
+                             value="<%= html_field[:value] %>" />
+                    </td>
+
+                    <td>
+                      <input type="<%= html_field[:type] %>"
+                             value="<%= html_field[:value_live] %>"
+                             class="<%= html_field[:class] %> disabled" disabled="" />
+                    </td>
+
+                    <td>
+                      <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                        <span class="field_error"><%= html_field[:error] %></span>
+                      <% end %>
+                    </td>
+                  </tr>
+              <% end %>
+            </table>
+        </div>
+
+      <div class="help_div">
+        <h3 class="help_header">Help</h3>
+        <p class="help_paragraph">This is the Infrastructure tab the CPI sub tab. Here you can set up the Ip DNS and the VCenter Network Name.</p>
+        <p class="help_paragraph"><span class="span_notes">NOTE:</span> If you switch between on sub tab to another sub tab you wont lose form data you alredy completed! </p>
+      </div>
+    </div>
+
+    <!--DIV FROM SAME CLASS THE ONE ABOVE-->
+
+    <div class="middle_div">
+        <input type="text" name="method_name" class="method_name" />
+        <div class="bottom_buttons_div">
+            <input name="btn_parameter" type="submit" value="Save" id="save_networking_btn" class="save" />
+            <input name="btn_parameter" type="submit" value="Test" id="test_networking_btn" class="test" />
+            <input name="btn_parameter" type="submit" value="Update" id="update_networking_btn" class="update" />
+        </div>
+    </div>
+
+</form>
+
+
+

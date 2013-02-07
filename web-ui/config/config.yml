@@ -1,0 +1,8 @@
+pid_filename: /tmp/boshcommander.pid
+local_route: 192.168.1.9
+port: 4567
+dev-mode: true
+
+bosh_commander:
+  domain: "localhost"
+

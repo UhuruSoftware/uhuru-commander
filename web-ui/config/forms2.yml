@@ -1,0 +1,54 @@
+---
+infrastructure:
+  - screen: Networking
+    fields:
+      - {name: ip,          label: IP Addresses,  type: ip_range,   description: 'A range of IP addresses; either provide the beginning and end of the range, or an IP and its sub-net.' }
+      - {name: netmask,     label: Netmask,       type: ip,         description: 'The netmask used for the cloud network.' }
+      - {name: gateway,     label: Gateway,       type: ip,         description: 'The gateway that can route cloud traffic to the infrastructure network and the WAN.' }
+      - {name: dns1,        label: DNS Server 1,  type: ip,         description: 'Primary Domain Name Server used for all cloud machines.' }
+      - {name: dns2,        label: DNS Server 2,  type: ip,         description: 'Secondary Domain Name Server' }
+      - {name: ntpserver1,  label: NTP Server 1,  type: string,     description: 'Primary Network Time Protocol Server, used to sync time across all cloud machines.' }
+      - {name: ntpserver2,  label: NTP Server 2,  type: string,     description: 'Secondary Network Time Protocol Server' }
+  - screen: CPI
+    fields:
+      - {name: test numeric,    label: test numeric,        type: numeric,          description: 'Secondary Network Time Protocol Server' }
+      - {name: product_key,     label: test product key,    type: product_key,      description: 'Secondary Network Time Protocol Server' }
+      - {name: string,          label: test strings,        type: string,           description: 'Secondary Network Time Protocol Server' }
+      #- {name: text,            label: test text area..,    type: text,             description: 'Secondary Network Time Protocol Server' }
+      - {name: boolean,         label: bool..,              type: boolean,          description: 'Secondary Network Time Protocol Server' }
+      #- {name: list,            label: list..,              type: list,             description: 'Secondary Network Time Protocol Server' }
+cloud:
+  - screen: Networks
+    fields:
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+  - screen: Resource Pools
+    fields:
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+  - screen: DEAs
+    fields:
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+  - screen: Services
+    fields:
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+  - screen: Cloud Properties
+    fields:
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+  - screen: Compilation
+    fields:
+      - {name: ip,          label: IP Addresses,  type: ip_range,   description: 'A range of IP addresses;' }
+      - {name: netmask,     label: Netmask,       type: ip,         description: 'The netmask used for the cloud network.' }
