@@ -11,7 +11,7 @@ module Uhuru::BoshCommander
     end
 
     def generate_form(form, screen_name, form_data = {} )
-      forms = YAML.load_file('G:/code/private-bosh-web-commander/config/forms2.yml')
+      forms = YAML.load_file('../config/forms.yml')
       screen = forms[form].find { |item| item['screen'] == screen_name }
 
       html_fields = []
@@ -102,6 +102,7 @@ module Uhuru::BoshCommander
 
     def get_live_value(form, screen, field)
       get_yml_value(@deployment_live, form, screen, field)
+      #"199"
     end
 
     def get_yml_value(yml, form, screen, field)
@@ -115,6 +116,6 @@ module Uhuru::BoshCommander
 end
 
 
-#gen = Uhuru::FormGenerator.new 'G:/code/private-bosh-web-commander/config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms2.yml', {}
+#gen = Uhuru::FormGenerator.new '../config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms.yml', {}
 #gen.generate_form('infrastructure', 'Networking')
 

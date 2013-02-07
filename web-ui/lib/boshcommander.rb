@@ -1,9 +1,9 @@
-require "rubygems"
-require "sinatra"
-require "yaml"
-require "exceptions"
-require "validations"
-require "bosh_methods"
+require 'rubygems'
+require 'sinatra'
+require 'yaml'
+require 'exceptions'
+require 'validations'
+require 'bosh_methods'
 require 'form_generator'
 
 module Uhuru::BoshCommander
@@ -39,29 +39,60 @@ module Uhuru::BoshCommander
     end
 
     get '/infrastructure' do
-        form_generator = FormGenerator.new('G:/code/private-bosh-web-commander/config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms2.yml', {})
-        tables = { :networking => "Networking", :cpi => "CPI" }
+      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
+      tables = { :networking => "Networking", :cpi => "CPI" }
 
-        erb :infrastructure, {:locals =>
-                                  {
-                                      :form_generator => form_generator,
-                                      :form => "infrastructure",
-                                      :table => tables,
-                                      :error => nil,
-                                      :form_data => {}
-                                  },
-                              :layout => :layout}
+      #if defined? params[:table_error]
+      #  if params[:table_error] != nil
+      #    a = params.sub( '\'', "" )
+      #    puts params
+      #    #b = a.replace()
+      #  end
+      #end
+
+      erb :infrastructure, {:locals =>
+                                {
+                                    :form_generator => form_generator,
+                                    :form => "infrastructure",
+                                    :table => tables,
+                                    :error => nil,
+                                    :table_error => nil, #params[:table_error],
+                                    :form_data => {}
+                                },
+                            :layout => :layout}
+    end
+
+    def indifferent_params(params)
+      params = indifferent_hash.merge(params)
+      params.each do |key, value|
+        next unless value.is_a?(Hash)
+        params[key] = indifferent_params(value)
+      end
     end
 
     post '/doInfrastructure' do
-      form_generator = FormGenerator.new('G:/code/private-bosh-web-commander/config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms2.yml', {})
-      tables = { :networking => "Networking", :cpi => "CPI" }
+      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
+      tables = { :networking => "Networking", :cpi => "CPI" }                                          # a hash for each table in this page
+      table_error = Hash.new
+      table_error = { :networking => "", :cpi => "" }                                                  # a hask for signing an error an a particular table  -- in the current page
 
       if params[:method_name] == "save"
         params.delete("method_name")
         params.delete("btn_parameter")
+
         form_generator.generate_form("infrastructure", tables[:networking], params)
-        form_generator.generate_form("infrastructure", tables[:cpi], params)
+
+        form_generator.generate_form("infrastructure", tables[:networking], params).each do |networking_field|
+          if(networking_field[:error].to_s != "true")
+            table_error[:networking] = 'error'
+          end
+        end
+
+        form_generator.generate_form("infrastructure", tables[:cpi], params).each  do |cpi_field|
+          if(cpi_field[:error].to_s != "true")
+            table_error[:cpi] = 'error'
+          end
+        end
       end
 
       if params[:method_name] == "test"
@@ -78,12 +109,16 @@ module Uhuru::BoshCommander
         form_generator.generate_form("infrastructure", tables[:cpi], params)
       end
 
-      redirect '/infrastructure'
+      if table_error[:networking] != 'error' && table_error[:cpi] != 'error'
+        redirect '/infrastructure'
+      else
+        redirect "/infrastructure?table_error=#{table_error}"
+      end
     end
 
     get '/clouds/configure' do
 
-      form_generator = FormGenerator.new('G:/code/private-bosh-web-commander/config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms2.yml', {})
+      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
 
       erb :cloudConfiguration, {:locals =>
                                 {
@@ -96,7 +131,7 @@ module Uhuru::BoshCommander
     end
 
     post '/doCloudManage' do
-      form_generator = FormGenerator.new('G:/code/private-bosh-web-commander/config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms2.yml', {})
+      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
 
       if params[:method_name] == "save"
         params.delete("method_name")
@@ -152,22 +187,6 @@ module Uhuru::BoshCommander
       erb :tasks, {:layout => :layout}
     end
 
-
-
-
-    get "/formtest" do
-
-      form_generator = FormGenerator.new('G:/code/private-bosh-web-commander/config/cloudfoundry.yml', 'G:/code/private-bosh-web-commander/config/forms2.yml', {})
-
-      erb :form, {:locals =>
-                      {
-                          :form_generator => form_generator,
-                          :form => 'infrastructure',
-                          :screen_name => 'Networking',
-                          :form_data => {}
-                      },
-                  :layout => :layout}
-    end
   end
 
 end
