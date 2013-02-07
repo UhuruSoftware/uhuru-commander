@@ -27,7 +27,40 @@
     <form method="post" action="/doCloudManage">
         <div id="cloud_networks_div">
             <div class="middle_div">
-                NETWORKS
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, networks, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
@@ -77,43 +110,274 @@
 
         <div id="cloud_resource_pools_div" class="hidden_divs">
             <div class="middle_div">
-              RESOURCE POOLS DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, resource_pools, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
         <div id="cloud_update_div" class="hidden_divs">
             <div class="middle_div">
-              UPDATE DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, update, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
         <div id="cloud_deas_div" class="hidden_divs">
             <div class="middle_div">
-              DEAS DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, deas, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
         <div id="cloud_services_div" class="hidden_divs">
             <div class="middle_div">
-              SERVICES DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, services, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
         <div id="cloud_properties_div" class="hidden_divs">
             <div class="middle_div">
-              UPDATE DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, properties, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
         <div id="cloud_service_plans_div" class="hidden_divs">
             <div class="middle_div">
-              SERVICE PLANS DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, service_plans, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 
         <div id="cloud_advanced_div" class="hidden_divs">
             <div class="middle_div">
-              ADVANCED DIV
+              <table class="cloud_configuration_tables">
+                <% form_generator.generate_form(form, advanced, form_data).each do |html_field| %>
+
+                    <tr>
+                      <td>
+                        <label for="<%= html_field[:input_name] %>">
+                          <%= html_field[:name] + ":" %>
+                        </label>
+                      </td>
+
+                      <td>
+                        <input name="<%= html_field[:input_name] %>"
+                               type="<%= html_field[:type] %>"
+                               class="<%= html_field[:class] %> local"
+                               id="<%= html_field[:id] %>"
+                               value="<%= html_field[:value] %>" />
+                      </td>
+
+                      <td>
+                        <input type="<%= html_field[:type] %>"
+                               value="<%= html_field[:value_live] %>"
+                               class="<%= html_field[:class] %> disabled" disabled="" />
+                      </td>
+
+                      <td>
+                        <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <span class="field_error"><%= html_field[:error] %></span>
+                        <% end %>
+                      </td>
+
+                    </tr>
+
+                <% end %>
+              </table>
             </div>
         </div>
 

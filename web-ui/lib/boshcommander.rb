@@ -42,13 +42,13 @@ module Uhuru::BoshCommander
       form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
       tables = { :networking => "Networking", :cpi => "CPI" }
 
-      #if defined? params[:table_error]
-      #  if params[:table_error] != nil
-      #    a = params.sub( '\'', "" )
-      #    puts params
-      #    #b = a.replace()
-      #  end
-      #end
+      if defined? params
+        if params[:error_networking] != nil
+
+          table_errors = { :networking => params[:error_networking], :cpi => params[:error_cpi] }
+
+        end
+      end
 
       erb :infrastructure, {:locals =>
                                 {
@@ -56,25 +56,18 @@ module Uhuru::BoshCommander
                                     :form => "infrastructure",
                                     :table => tables,
                                     :error => nil,
-                                    :table_error => nil, #params[:table_error],
+                                    :table_errors => table_errors,
                                     :form_data => {}
                                 },
                             :layout => :layout}
     end
 
-    def indifferent_params(params)
-      params = indifferent_hash.merge(params)
-      params.each do |key, value|
-        next unless value.is_a?(Hash)
-        params[key] = indifferent_params(value)
-      end
-    end
-
     post '/doInfrastructure' do
       form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
       tables = { :networking => "Networking", :cpi => "CPI" }                                          # a hash for each table in this page
-      table_error = Hash.new
-      table_error = { :networking => "", :cpi => "" }                                                  # a hask for signing an error an a particular table  -- in the current page
+
+      error_networking = ""
+      error_cpi = ""
 
       if params[:method_name] == "save"
         params.delete("method_name")
@@ -84,13 +77,13 @@ module Uhuru::BoshCommander
 
         form_generator.generate_form("infrastructure", tables[:networking], params).each do |networking_field|
           if(networking_field[:error].to_s != "true")
-            table_error[:networking] = 'error'
+            error_networking = 'error'
           end
         end
 
         form_generator.generate_form("infrastructure", tables[:cpi], params).each  do |cpi_field|
           if(cpi_field[:error].to_s != "true")
-            table_error[:cpi] = 'error'
+            error_cpi = 'error'
           end
         end
       end
@@ -109,10 +102,10 @@ module Uhuru::BoshCommander
         form_generator.generate_form("infrastructure", tables[:cpi], params)
       end
 
-      if table_error[:networking] != 'error' && table_error[:cpi] != 'error'
+      if error_networking != 'error' && error_cpi != 'error'
         redirect '/infrastructure'
       else
-        redirect "/infrastructure?table_error=#{table_error}"
+        redirect "/infrastructure?error_networking=#{error_networking}&error_cpi=#{error_cpi}"
       end
     end
 
@@ -124,7 +117,15 @@ module Uhuru::BoshCommander
                                 {
                                     :form_generator => form_generator,
                                     :form => "cloud",
+                                    :networks => "Networks",
                                     :compilation => "Compilation",
+                                    :resource_pools => "Resource Pools",
+                                    :update => "Update",
+                                    :deas => "DEAs",
+                                    :services => "Services",
+                                    :properties => "Properties",
+                                    :service_plans => "Service Plans",
+                                    :advanced => "Advanced",
                                     :form_data => {}
                                 },
                             :layout => :layout}
