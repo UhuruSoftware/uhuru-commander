@@ -12,12 +12,15 @@
     <file path="/a.less" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360224896273" ignored="false" />
     <file path="/a.sql" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360224905155" ignored="false" />
     <file path="/a.xml" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360224908772" ignored="false" />
-    <file path="/boshcommander.rb" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360236400742" ignored="false" />
+    <file path="/boshcommander.rb" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360241807624" ignored="false" />
     <file path="/form_generator.rb" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360232455591" ignored="false" />
-    <file path="/infrastructure.erb" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360229975310" ignored="false" />
+    <file path="/infrastructure.erb" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360241387047" ignored="false" />
     <file path="/Dummy.txt" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360227982955" ignored="false" />
     <file path="/forms2.yml" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360229039019" ignored="false" />
     <file path="/a.dummy" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360229523079" ignored="false" />
+    <file path="/views.css" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360241334361" ignored="false" />
+    <file path="/cloudConfiguration.erb" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360241898386" ignored="false" />
+    <file path="/forms.yml" changelist="15064b44-62d8-4183-9ded-9a0d16b08439" time="1360241757705" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,32 +37,19 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="infrastructure.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/infrastructure.erb">
+      <file leaf-file-name="cloudConfiguration.erb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/views/cloudConfiguration.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="57" selection-start="225" selection-end="225" vertical-scroll-proportion="-2.6153846">
-              <folding>
-                <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#form#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="boshcommander.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lib/boshcommander.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="48" selection-start="869" selection-end="869" vertical-scroll-proportion="0.23244147">
+            <state line="337" column="52" selection-start="14437" selection-end="14437" vertical-scroll-proportion="0.3107861">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/forms.yml">
+      <file leaf-file-name="boshcommander.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/boshcommander.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="35" selection-start="42" selection-end="42" vertical-scroll-proportion="0.0">
+            <state line="120" column="87" selection-start="4062" selection-end="4062" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -68,7 +58,7 @@
       <file leaf-file-name="fieldErrors.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/scripts/fieldErrors.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="47" selection-start="431" selection-end="431" vertical-scroll-proportion="0.0">
+            <state line="15" column="3" selection-start="431" selection-end="431" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -84,22 +74,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/config/forms2.yaml" />
         <option value="$PROJECT_DIR$/views/form.erb" />
         <option value="$PROJECT_DIR$/bin/test.rb" />
         <option value="$PROJECT_DIR$/bin/validate_ip_types.rb" />
         <option value="$PROJECT_DIR$/lib/validations.rb" />
         <option value="$PROJECT_DIR$/public/scripts/cloudConfigurationTabs.js" />
-        <option value="$PROJECT_DIR$/views/cloudConfiguration.erb" />
         <option value="$PROJECT_DIR$/public/scripts/infrastructureTabs.js" />
-        <option value="$PROJECT_DIR$/public/css/views.css" />
         <option value="$PROJECT_DIR$/views/layout.erb" />
         <option value="$PROJECT_DIR$/public/css/layout.css" />
         <option value="$PROJECT_DIR$/public/scripts/fieldErrors.js" />
         <option value="$PROJECT_DIR$/config/forms2.yml" />
-        <option value="$PROJECT_DIR$/views/infrastructure.erb" />
         <option value="$PROJECT_DIR$/lib/form_generator.rb" />
+        <option value="$PROJECT_DIR$/public/css/views.css" />
+        <option value="$PROJECT_DIR$/views/infrastructure.erb" />
+        <option value="$PROJECT_DIR$/config/forms.yml" />
         <option value="$PROJECT_DIR$/lib/boshcommander.rb" />
+        <option value="$PROJECT_DIR$/views/cloudConfiguration.erb" />
       </list>
     </option>
   </component>
@@ -209,6 +199,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -249,7 +257,7 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="appearance" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../private-uhuru-webui" />
@@ -585,20 +593,6 @@
         <state line="11" column="4" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/views.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="17" selection-start="2222" selection-end="2222" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/css/layout.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="7" selection-start="1037" selection-end="1037" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/bosh_methods.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="50" selection-start="432" selection-end="432" vertical-scroll-proportion="0.38026315">
@@ -613,16 +607,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/cloudConfiguration.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="39" selection-start="604" selection-end="604" vertical-scroll-proportion="-0.39373296">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/scripts/fieldErrors.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="47" selection-start="431" selection-end="431" vertical-scroll-proportion="0.0">
+        <state line="15" column="3" selection-start="431" selection-end="431" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -641,16 +628,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/form_generator.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="80" selection-start="831" selection-end="831" vertical-scroll-proportion="-0.19899665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="213" column="7" selection-start="3071" selection-end="3071" vertical-scroll-proportion="0.8294314">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/views.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="263" column="70" selection-start="4006" selection-end="4006" vertical-scroll-proportion="0.40301004">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/config/forms.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="35" selection-start="42" selection-end="42" vertical-scroll-proportion="0.0">
+        <state line="49" column="140" selection-start="4174" selection-end="4174" vertical-scroll-proportion="0.4882943">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/infrastructure.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="57" selection-start="225" selection-end="225" vertical-scroll-proportion="-2.6153846">
+        <state line="7" column="60" selection-start="332" selection-end="332" vertical-scroll-proportion="0.20804195">
           <folding>
             <element signature="n#style#0;n#a#0;n#li#0;n#ul#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#a#0;n#li#2;n#ul#0;n#!!top" expanded="true" />
@@ -659,16 +667,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/form_generator.rb">
+    <entry file="file://$PROJECT_DIR$/lib/boshcommander.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="39" selection-start="326" selection-end="337" vertical-scroll-proportion="0.35602096">
+        <state line="120" column="87" selection-start="4062" selection-end="4062" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/boshcommander.rb">
+    <entry file="file://$PROJECT_DIR$/views/cloudConfiguration.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="48" selection-start="869" selection-end="869" vertical-scroll-proportion="0.23244147">
+        <state line="337" column="52" selection-start="14437" selection-end="14437" vertical-scroll-proportion="0.3107861">
           <folding />
         </state>
       </provider>
