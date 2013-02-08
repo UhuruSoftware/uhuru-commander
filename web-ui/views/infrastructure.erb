@@ -1,6 +1,6 @@
 <ul class="child_list_infrastructure">
     <li><a href="#" onclick="showNetworking();" id="networking_btn" style="background-color: #000000;">Networking
-      <% if defined? table_errors[:networking] %>
+      <% if table_errors != nil %>
           <% if table_errors[:networking].to_s == "error" %>
 
           <span class="asterix_error">*</span>
@@ -9,7 +9,7 @@
       <% end %>
     </a></li>
     <li><a href="#" onclick="showCPI();" id="cpi_btn">CPI
-      <% if defined? table_errors[:networking] %>
+      <% if table_errors != nil %>
           <% if table_errors[:cpi].to_s == "error" %>
 
               <span class="asterix_error">*</span>
@@ -17,7 +17,7 @@
           <% end %>
       <% end %>
     </a></li>
-    <li><a href="/advanced" style="background-color: #1C4D90;">Advanced</a></li>
+    <li><a href="#" id="advanced_page" style="background-color: #1C4D90;">Advanced</a></li>
 </ul>
 
 <form method="post" action="/doInfrastructure">

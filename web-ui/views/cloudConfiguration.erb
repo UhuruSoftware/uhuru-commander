@@ -12,15 +12,69 @@
 </ul>
 
 <ul class="list_cloud_configuration_sublist" id="manage_sublist">
-  <li><a href="#" onclick="showCloudNetworks();" id="cloud_networks" style="background-color: #06242d;">Networks</a></li>
-  <li><a href="#" onclick="showCloudCompilation();" id="cloud_compilation" >Compilation</a></li>
-  <li><a href="#" onclick="showCloudResourcePools();" id="cloud_resource_pools" >Resource Pools</a></li>
-  <li><a href="#" onclick="showCloudUpdate();" id="cloud_update" >Update</a></li>
-  <li><a href="#" onclick="showCloudDeas();" id="cloud_deas" >DEAs</a></li>
-  <li><a href="#" onclick="showCloudServices();" id="cloud_services" >Services</a></li>
-  <li><a href="#" onclick="showCloudProperties();" id="cloud_properties" >Properties</a></li>
-  <li><a href="#" onclick="showCloudServicePlans();" id="cloud_service_plans" >Service Plans</a></li>
-  <li><a href="#" onclick="showCloudAdvanced();" id="cloud_advanced" >Advanced</a></li>
+  <li><a href="#" onclick="showCloudNetworks();" id="cloud_networks" style="background-color: #06242d;">Networks
+    <% if table_errors != nil %>
+        <% if table_errors[:networks].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudCompilation();" id="cloud_compilation" >Compilation
+    <% if table_errors != nil %>
+        <% if table_errors[:compilations].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudResourcePools();" id="cloud_resource_pools" >Resource Pools
+    <% if table_errors != nil %>
+        <% if table_errors[:resource_pools].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudUpdate();" id="cloud_update" >Update
+    <% if table_errors != nil %>
+        <% if table_errors[:update].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudDeas();" id="cloud_deas" >DEAs
+    <% if table_errors != nil %>
+        <% if table_errors[:deas].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudServices();" id="cloud_services" >Services
+    <% if table_errors != nil %>
+        <% if table_errors[:services].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudProperties();" id="cloud_properties" >Properties
+    <% if table_errors != nil %>
+        <% if table_errors[:properties].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudServicePlans();" id="cloud_service_plans" >Service Plans
+    <% if table_errors != nil %>
+        <% if table_errors[:service_plans].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
+  <li><a href="#" onclick="showCloudAdvanced();" id="cloud_advanced" >Advanced
+    <% if table_errors != nil %>
+        <% if table_errors[:advanced].to_s == "error" %>
+            <span class="asterix_error">*</span>
+        <% end %>
+    <% end %>
+  </a></li>
 </ul>
 
 <div class="tab_divs" id="manage_cloud_div">

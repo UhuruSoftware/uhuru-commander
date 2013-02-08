@@ -9,7 +9,21 @@
 </head>
 
 <body>
+    <div id="black_screen">x</div>
     <div id="wrapper">
+
+      <div id="advanced_dialog">
+        <h3 id="advanced_dialog_header">Leave this page?</h3>
+        <p id="advanced_dialog_paragraph">
+            <span style="color: darkred"> < Warning > </span> If you leave this page all form fields that you completed will be erased !
+            <br />
+            Are you sure you want to leave?
+        </p>
+        <div id="advanced_dialog_buttons_div">
+            <a href="/advanced" class="advanced_dialog_buttons" style="background-color: #1C4D90;">Yes</a>
+            <a href="#" class="advanced_dialog_buttons" id="advanced_dialog_no_btn" style="background-color: #1C4D90;">No</a>
+        </div>
+      </div>
 	
 		<div id="header">
 			<h1>Uhuru Cloud Commander</h1>
@@ -43,6 +57,7 @@
 
     <script type="text/javascript" src="../../scripts/methodControll.js" ></script>
     <script type="text/javascript" src="../../scripts/fieldErrors.js" ></script>
+    <script type="text/javascript" src="../../scripts/preventAdvancedPage.js" ></script>
 </body>
 
 </html>
