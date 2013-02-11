@@ -11,12 +11,16 @@ require "cli"
 require "weakref"
 require "uuidtools"
 require "monit_api"
+require 'fileutils'
 require "ucc/core_ext"
 require "ucc/file_with_progress_bar_web"
 require "ucc/stage_progressbar"
 require "ucc/commander_bosh_runner"
 require "ucc/infrastructure"
 require "ucc/monit"
+require "ucc/deployment"
+require "ucc/step_deployment"
+require "ucc/event_log_renderer_web"
 
 autoload :HTTPClient, "httpclient"
 
@@ -81,9 +85,10 @@ module Uhuru::Ucc
           message = "logged in as `#{params[:username]}'"
 
           stemcell_cmd = Bosh::Cli::Command::Stemcell.new
-          stemcell_cmd.add_option(:config, config)
-          stemcell_cmd.add_option(:cache_dir, cache)
-          stemcell_cmd.add_option(:non_interactive, true)
+          stemcell_cmd.instance_variable_set("@config", command.instance_variable_get("@config"))
+          #stemcell_cmd.add_option(:config, config)
+          #stemcell_cmd.add_option(:cache_dir, cache)
+          #stemcell_cmd.add_option(:non_interactive, true)
 
           session['command_stemcell'] = stemcell_cmd
         else
@@ -203,16 +208,27 @@ module Uhuru::Ucc
 
       end
       redirect "logs/#{request_id}"
+    end
+
+    post '/deploy' do
+      request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+        begin
+          yaml = load_yaml_file('/home/mitza/bosh/deployments/cloudfoundry.yml')
+          deployment = Uhuru::Ucc::Deployment.new("cloud-foundry")
+          deployment.save(yaml)
+          deployment.deploy
+        rescue Exception => e
+          err e.message.to_s
+          $stdout.puts(e)
+          $stdout.puts(e.backtrace)
+        end
+      end
+      redirect "logs/#{request_id}"
 
     end
 
     get '/sloboz' do
-      if (session[:slobo] == nil)
-        session[:slobo] = 'asd'
-      else
-        session[:slobo] = session[:slobo] + 'asd'
-      end
-      session[:slobo]
+      Deployment.deployments
     end
 
   end
