@@ -22,37 +22,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="core_ext.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/core_ext.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="6" selection-start="2634" selection-end="2634" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="status_streamer.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/status_streamer.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="31" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="stage_progressbar.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/stage_progressbar.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="18" selection-start="1980" selection-end="1994" vertical-scroll-proportion="0.0">
+            <state line="18" column="19" selection-start="951" selection-end="951" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="file_with_progress_bar_web.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/file_with_progress_bar_web.rb">
+      <file leaf-file-name="event_log_renderer_web.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/event_log_renderer_web.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="23" selection-start="2206" selection-end="2206" vertical-scroll-proportion="0.48913044">
+            <state line="19" column="12" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="deployment.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/deployment.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="26" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ucc.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="227" column="20" selection-start="5853" selection-end="5853" vertical-scroll-proportion="0.7278226">
               <folding />
             </state>
           </provider>
@@ -61,25 +61,7 @@
       <file leaf-file-name="step_deployment.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/step_deployment.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="28" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ucc.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="184" column="45" selection-start="4447" selection-end="4456" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="infrastructure.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/infrastructure.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="86" selection-start="702" selection-end="1061" vertical-scroll-proportion="0.0">
+            <state line="117" column="51" selection-start="3966" selection-end="4009" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -95,22 +77,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/uhuru/lib/config.rb" />
-        <option value="$PROJECT_DIR$/uhuru/lib/ucc/step_deployment.rb" />
-        <option value="$PROJECT_DIR$/uhuru/views/logs.erb" />
-        <option value="$PROJECT_DIR$/uhuru/lib/ucc/status_streamer.rb" />
-        <option value="$PROJECT_DIR$/uhuru/views/login.erb" />
         <option value="$PROJECT_DIR$/uhuru/lib/test/ttt.rb" />
         <option value="$PROJECT_DIR$/uhuru/lib/runner.rb" />
         <option value="$PROJECT_DIR$/uhuru/lib/ucc/commander_bosh_runner.rb" />
         <option value="$PROJECT_DIR$/uhuru/lib/ucc/core_ext.rb" />
         <option value="$PROJECT_DIR$/uhuru/Gemfile" />
         <option value="$PROJECT_DIR$/uhuru/lib/ucc/monit.rb" />
+        <option value="$PROJECT_DIR$/uhuru/lib/ucc/file_with_progress_bar_web.rb" />
+        <option value="$PROJECT_DIR$/uhuru/views/login.erb" />
         <option value="$PROJECT_DIR$/uhuru/config/uhuru-cloud-commander.yml" />
         <option value="$PROJECT_DIR$/uhuru/lib/ucc/infrastructure.rb" />
-        <option value="$PROJECT_DIR$/uhuru/lib/ucc.rb" />
+        <option value="$PROJECT_DIR$/uhuru/vendor/cache/private-bosh-1b33cefd20b5/bat/spec/helpers/deployment_helper.rb" />
+        <option value="$PROJECT_DIR$/uhuru/lib/ucc/step_deployment.rb" />
         <option value="$PROJECT_DIR$/uhuru/lib/ucc/stage_progressbar.rb" />
-        <option value="$PROJECT_DIR$/uhuru/lib/ucc/file_with_progress_bar_web.rb" />
+        <option value="$PROJECT_DIR$/uhuru/lib/ucc/event_log_renderer_web.rb" />
+        <option value="$PROJECT_DIR$/uhuru/lib/ucc/deployment.rb" />
+        <option value="$PROJECT_DIR$/uhuru/lib/ucc.rb" />
       </list>
     </option>
   </component>
@@ -329,24 +311,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uhuru" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cf_deployments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -628,14 +592,14 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928178" sideWeight="0.49786323" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3272506" sideWeight="0.4609619" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3272506" sideWeight="0.4534666" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2279825" sideWeight="0.6374696" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36982968" sideWeight="0.726421" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.7051843" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3625304" sideWeight="0.142411" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3625304" sideWeight="0.85321677" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3625304" sideWeight="0.15740162" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3625304" sideWeight="0.8382261" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -706,114 +670,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p374@global/bundler/gems/private-bosh-1b33cefd20b5/monit_api/lib/monit_api/version.rb">
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/core_ext.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="33" selection-start="2107" selection-end="2107" vertical-scroll-proportion="0.54435486">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/bin/uhuru-cloud-commander">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="12" selection-start="218" selection-end="218" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/runner.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/Gemfile">
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/infrastructure.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="34" selection-start="425" selection-end="425" vertical-scroll-proportion="0.3326613">
+        <state line="30" column="42" selection-start="949" selection-end="949" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/Gemfile.lock">
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/config.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="27" selection-start="447" selection-end="447" vertical-scroll-proportion="0.4817987">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p374@global/bundler/gems/private-bosh-1b33cefd20b5/monit_api/lib/monit_api.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="61" selection-start="99" selection-end="99" vertical-scroll-proportion="0.18145162">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/rubystubs193/kernel.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1843" column="8" selection-start="79529" selection-end="79529" vertical-scroll-proportion="0.3319239">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/rubystubs193/hash.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="526" column="8" selection-start="19276" selection-end="19276" vertical-scroll-proportion="0.7124736">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/monit.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="123" selection-start="2333" selection-end="2333" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/uhuru/config/uhuru-cloud-commander.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="16" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0">
+        <state line="13" column="40" selection-start="417" selection-end="417" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/core_ext.rb">
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/monit.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="6" selection-start="2634" selection-end="2634" vertical-scroll-proportion="0.0">
+        <state line="22" column="28" selection-start="468" selection-end="468" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/infrastructure.rb">
+    <entry file="file://$PROJECT_DIR$/uhuru/vendor/cache/private-bosh-1b33cefd20b5/bat/spec/helpers/deployment_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="86" selection-start="702" selection-end="1061" vertical-scroll-proportion="0.0">
+        <state line="13" column="11" selection-start="285" selection-end="285" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc.rb">
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p374/gems/sinatra-1.3.4/lib/sinatra/base.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="184" column="45" selection-start="4447" selection-end="4456" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/status_streamer.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="31" selection-start="207" selection-end="207" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/step_deployment.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="28" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/stage_progressbar.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="18" selection-start="1980" selection-end="1994" vertical-scroll-proportion="0.0">
+        <state line="965" column="0" selection-start="30693" selection-end="30693" vertical-scroll-proportion="0.33150685">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/rubystubs193/file.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="878" column="13" selection-start="38779" selection-end="38779" vertical-scroll-proportion="0.3319239">
+        <state line="463" column="13" selection-start="23166" selection-end="23166" vertical-scroll-proportion="0.50576925">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/file_with_progress_bar_web.rb">
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/status_streamer.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="23" selection-start="2206" selection-end="2206" vertical-scroll-proportion="0.48913044">
+        <state line="15" column="13" selection-start="263" selection-end="263" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/stage_progressbar.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="19" selection-start="951" selection-end="951" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/event_log_renderer_web.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="12" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/step_deployment.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="117" column="51" selection-start="3966" selection-end="4009" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc/deployment.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="26" selection-start="748" selection-end="748" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/uhuru/lib/ucc.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="227" column="20" selection-start="5853" selection-end="5853" vertical-scroll-proportion="0.7278226">
           <folding />
         </state>
       </provider>

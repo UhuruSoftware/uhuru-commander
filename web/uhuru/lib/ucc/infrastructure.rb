@@ -27,13 +27,13 @@ module Uhuru
       def upload_stemcells
         command_stemcell = Thread.current.current_session['command_stemcell']
         say "Uploading Linux stemcell"
-        command_stemcell.upload('../resources/bosh-stemcell-vsphere-0.6.4.tgz')
+        command_stemcell.upload("../resources/#{$config[:bosh][:stemcells][:linux_stemcell]}")
         say "Uploading Linux PHP stemcell"
-        command_stemcell.upload('../resources/bosh-stemcell-php-vsphere-0.6.4.3.tgz')
+        command_stemcell.upload("../resources/#{$config[:bosh][:stemcells][:linux_php_stemcell]}")
         say "Uploading Windows stemcell"
-        #command_stemcell.upload('../resources/uhuru-windows-2008R2-0.9.3.tgz')
+        #command_stemcell.upload("../resources/#{$config[:bosh][:stemcells][:windows_stemcell]}")
         say "Uploading Windows SQL Server stemcell"
-        #command_stemcell.upload('../resources/uhuru-windows-2008R2-sqlserver-0.9.4.tgz')
+        #command_stemcell.upload("../resources/#{$config[:bosh][:stemcells][:mssql_stemcell]}")
       end
     end
   end

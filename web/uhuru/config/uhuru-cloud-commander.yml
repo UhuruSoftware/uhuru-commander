@@ -6,6 +6,11 @@ bosh:
   target: "10.134.0.133"
 #  base_dir: "/home/mitza/testing/assets/vcap"
   base_dir: "/var/vcap"
+  stemcells:
+    linux_stemcell: "bosh-stemcell-vsphere-0.6.7.tgz"
+    linux_php_stemcell: "bosh-stemcell-php-vsphere-0.6.4.3.tgz"
+    windows_stemcell: "uhuru-windows-2008R2-0.9.3.tgz"
+    mssql_stemcell: "uhuru-windows-2008R2-sqlserver-0.9.4.tgz"
 
 logging:
   level: debug

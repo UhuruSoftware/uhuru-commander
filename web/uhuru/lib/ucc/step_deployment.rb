@@ -1,7 +1,5 @@
-require "yaml"
+module Uhuru::Ucc
 
-
-module Uhuru
   class StepDeploymentGenerator
 
     def self.generate_step_deployment(cf_deployment_file, out_dir)
@@ -12,7 +10,6 @@ module Uhuru
       unless out_dir && Dir.exist?(out_dir)
         raise "Cannot find output directory '#{out_dir}'."
       end
-
 
       cf_deployment = YAML::load(File.open(cf_deployment_file ))
 
@@ -86,7 +83,8 @@ mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashbo
 
       all_jobs = core_jobs + dea_jobs + service_jobs
 
-      cf_deployment_original = cf_deployment.clone
+      #we must do a deep copy
+      cf_deployment_original = deep_copy(cf_deployment)
 
       # set everything to 0
       cf_deployment['resource_pools'].each do |resource_pool|
@@ -95,6 +93,11 @@ mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashbo
 
       cf_deployment['jobs'].each do |job|
         job['instances'] = 0
+        job['networks'].each do |net|
+          if (net['static_ips'])
+            net['static_ips'].clear
+          end
+        end
       end
 
       step = 0
@@ -110,7 +113,9 @@ mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashbo
         yml_job = cf_deployment['jobs'].find { |item| item['name'] == job }
         yml_job_original = cf_deployment_original['jobs'].find { |item| item['name'] == job }
 
-        for i in 0 .. yml_job_original['instances']
+        yml_job['networks'] = yml_job_original['networks']
+
+        for i in 1 .. yml_job_original['instances']
           yml_pool['size'] += 1
           yml_job['instances'] += 1
 
@@ -122,8 +127,13 @@ mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashbo
 
       end
     end
+
+    def self.deep_copy(o)
+      Marshal.load(Marshal.dump(o))
+    end
   end
 end
+
 
 
 #
