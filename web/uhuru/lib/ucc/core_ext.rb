@@ -5,14 +5,6 @@ module UccExtensions
   def say(message, sep = "<br />")
     message = message.dup.to_s
     sep = "" if message[-1..-1] == sep
-    #if (defined? @options)
-    #  streamer = @options[:streamer]
-    #  uuid = @options[:command_uuid]
-    #else
-    #  streamer = Thread.current.streamer
-    #  uuid = Thread.current.command_id
-    #end
-    #streamer.write_stream(uuid, "#{message}#{sep}")
     request_id = Thread.current.request_id
     Thread.current.streamer.write_stream(request_id, "#{message} #{sep}")
     $stdout.puts "#{message}"

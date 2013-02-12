@@ -10,7 +10,7 @@ module Uhuru::Ucc
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
 
       #create deployment folder
-      if (!Dir["#{@deployment_dir}"])
+      if (Dir["#{@deployment_dir}"].empty?)
         Dir.mkdir @deployment_dir
       end
 
@@ -51,12 +51,13 @@ module Uhuru::Ucc
 
       #deploy
       command = deployment_command
-      for i in 0 .. total_steps.to_i
+      for i in 0 .. 0 #total_steps.to_i
         current_file = File.join(@deployment_dir, "step_#{i}_#{@deployment_name}.yml")
         command.set_current(current_file)
         command.perform
         File.delete(current_file)
       end
+      say "Deployment finished".green
 
     end
 
@@ -71,12 +72,13 @@ module Uhuru::Ucc
     #the VMs and deployment manifests are deleted.
     def delete()
       info = deployment_info
-      if (info["status"] != "Saved")
+      if (info["state"] != "Saved")
         tear_down
       end
 
       #clean the files on disk
       FileUtils.rm_rf "#{@deployment_dir}"
+      say "Deployment deleted".green
     end
 
     #delete VMs corresponding to this deployment
@@ -96,8 +98,9 @@ module Uhuru::Ucc
     private
     def deployment_command
       command = Thread.current.current_session[:command]
-      deployment_command = Bosh::Cli::Command::Deployment.new
-      deployment_command.instance_variable_set("@options", command.instance_variable_get("@options"))
+      deployment_cmd = Bosh::Cli::Command::Deployment.new
+      deployment_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
+      deployment_cmd
     end
 
     def split_manifest
