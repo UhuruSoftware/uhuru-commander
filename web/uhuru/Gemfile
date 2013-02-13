@@ -12,3 +12,5 @@ gem "yajl-ruby"
 gem "bosh_cli", "~> 1.0.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => '1b33cef'
 gem "uuidtools"
 gem "monit_api"
+gem "sequel"
+gem "pg"
