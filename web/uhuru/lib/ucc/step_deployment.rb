@@ -74,7 +74,7 @@ ERROR
 
       core_jobs = %w(debian_nfs_server syslog_aggregator nats ccdb_postgres uaadb vcap_redis uaa cloud_controller stager
 router health_manager simple_webui mysql_gateway mongodb_gateway redis_gateway rabbit_gateway postgresql_gateway
-mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashboard)
+mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashboard uhuru_tunnel)
 
       dea_jobs = %w(dea win_dea)
 

@@ -5,7 +5,7 @@ require 'tmpdir'
 
 module Uhuru
   class StatusStreamer
-    MAX_BYTES_TO_READ = 1024 * 10
+    MAX_BYTES_TO_READ = 1024 * 100
 
     @streams_dir = nil
     @screens = nil

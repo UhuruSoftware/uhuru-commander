@@ -9,23 +9,20 @@ module Bosh::Cli
         if (!@isprogress)
           @isprogress = true
           @msg_guid = UUIDTools::UUID.random_create.to_s
-#          mssg = <<script
-#          <div id="#{@msg_guid}_text"></div>
-#script
-#          say(mssg, "")
+          template = ERB.new(File.read("../views/display/event_log.erb"))
+          mssg = template.result(binding)
+          say(mssg, "")
         end
 
         @buffer.seek(@pos)
         output = @buffer.read
 
-#        mssg = <<script
-#          <script type="text/javascript">
-#            text = "#{output}"
-#            document.getElementById("#{@msg_guid}_text").innerText = text;
-#          </script>
-#script
+        jsText = output.strip.split(/[\n\r]/).join('" + "\\n" + "')
 
-        say(output)
+        template = ERB.new(File.read("../views/display/event_log_script.erb"))
+        mssg = template.result(binding)
+
+        say(mssg, "")
         @pos = @buffer.tell
         output
       end

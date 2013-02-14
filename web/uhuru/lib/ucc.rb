@@ -86,9 +86,6 @@ module Uhuru::Ucc
 
           stemcell_cmd = Bosh::Cli::Command::Stemcell.new
           stemcell_cmd.instance_variable_set("@config", command.instance_variable_get("@config"))
-          #stemcell_cmd.add_option(:config, config)
-          #stemcell_cmd.add_option(:cache_dir, cache)
-          #stemcell_cmd.add_option(:non_interactive, true)
 
           session['command_stemcell'] = stemcell_cmd
         else
@@ -224,7 +221,21 @@ module Uhuru::Ucc
         end
       end
       redirect "logs/#{request_id}"
+    end
 
+    post '/deletedep'do
+      request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+        begin
+          deployment = Uhuru::Ucc::Deployment.new("cloud-foundry")
+          deployment.delete
+        rescue Exception => e
+          err e.message.to_s
+          $stdout.puts(e)
+          $stdout.puts(e.backtrace)
+        end
+      end
+
+      redirect "logs/#{request_id}"
     end
 
   end
