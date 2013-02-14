@@ -1,17 +1,19 @@
-require 'yaml'
-require 'config'
-require 'date'
-require 'json'
-require 'sinatra'
-require 'uri'
-require 'erb'
+require "yaml"
+require "config"
+require "date"
+require "json"
+require "sinatra"
+require "uri"
+require "erb"
 require "sinatra/vcap"
-require 'net/http'
+require "net/http"
 require "cli"
 require "weakref"
 require "uuidtools"
 require "monit_api"
-require 'fileutils'
+require "fileutils"
+require "sequel"
+
 require "ucc/core_ext"
 require "ucc/file_with_progress_bar_web"
 require "ucc/stage_progressbar"
@@ -21,6 +23,8 @@ require "ucc/monit"
 require "ucc/deployment"
 require "ucc/step_deployment"
 require "ucc/event_log_renderer_web"
+
+
 
 autoload :HTTPClient, "httpclient"
 
