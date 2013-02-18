@@ -20,14 +20,17 @@ infrastructure:
 cloud:
   - screen: Networks
     fields:
-      - {name: castravetele,    label: Label Castravetele,       type: string,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: gateway,    label: Gateway,       type: ip,      description: asldkjad }
+      - {name: netmask,     label: Netmask,  type: list,      items: 'smtp,plain,login',                description: 'The netmask used for the cloud network.' }
       - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
       - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
   - screen: Compilation
     fields:
-      - {name: ip,          label: IP Addresses,  type: ip_range,   description: 'A range of IP addresses;' }
-      - {name: netmask,     label: Netmask,       type: ip,         description: 'The netmask used for the cloud network.' }
+      - {name: workers,       label: Workers,     type: numeric,    yml_key: '["compilation"]["workers"]',                  description: '' }
+      - {name: reusevms,      label: Reuse VMs,   type: boolean,    yml_key: '["compilation"]["reuse_compilation_vms"]',    description: '' }
+      - {name: ram,           label: Memory,      type: numeric,    yml_key: '["compilation"]["cloud_properties"]["ram"]',  description: '' }
+      - {name: disk,          label: Disk,        type: numeric,    yml_key: '["compilation"]["cloud_properties"]["disk"]', description: '' }
+      - {name: cpu,           label: CPU,         type: numeric,    yml_key: '["compilation"]["cloud_properties"]["cpu"]',  description: '' }
   - screen: Resource Pools
     fields:
       - {name: castravetele,    label: Label Castravetele,       type: string,      description: asldkjad }
