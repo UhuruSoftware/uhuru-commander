@@ -51,7 +51,7 @@ module Uhuru::Ucc
 
       #deploy
       command = deployment_command
-      for i in 0 .. 0 #total_steps.to_i
+      for i in 0 .. total_steps.to_i
         current_file = File.join(@deployment_dir, "step_#{i}_#{@deployment_name}.yml")
         command.set_current(current_file)
         command.perform
