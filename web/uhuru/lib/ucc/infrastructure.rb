@@ -10,7 +10,7 @@ module Uhuru
         say('Uploading stemcells')
         upload_stemcells
         say('Configuring database')
-        #configure_database
+        configure_database
         say ('Infrastructure configured')
       end
 
