@@ -4,22 +4,84 @@ module Uhuru
 
       def setup(new_config)
         say('Moving director config')
-        @director_config_file = move_director_config(new_config)
+        @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
+
+        setup_micro(new_config)
         say('Restarting services')
-        restart_monit
+        #restart_monit
         say('Uploading stemcells')
-        upload_stemcells
+        #upload_stemcells
         say('Configuring database')
-        configure_database
+        #configure_database
         say ('Infrastructure configured')
       end
 
       private
 
-      def move_director_config(new_config)
-        director_config_path = File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
-        FileUtils.cp(new_config, director_config_path)
-        director_config_path
+      def setup_micro(new_config)
+        FileUtils.cp(new_config, @director_config_file)
+        director_yml = load_yaml_file(@director_config_file)
+        build_info(director_yml)
+        create_hm_user()
+        setup_nats()
+        setup_postgres()
+        setup_health_monitor()
+      end
+
+      def build_info(director_yml)
+        nats_hash = director_yml["mbus"].scan(/(nats):\/\/(\S+):(\S+)@(\S+):(\S+)?/).first
+        @nats_info = {}
+        @nats_info[:user] = nats_hash[1]
+        @nats_info[:password] = nats_hash[2]
+        @nats_info[:ip] = nats_hash[3]
+        @nats_info[:port] = nats_hash[4].to_i
+
+        #we assume that redis is going to be on the same box as the director
+        @director_info = {}
+        @director_info[:hostname] = $config[:bosh][:target].match(/[0-9]+(?:\.[0-9]+){3}/).to_s
+        @director_info[:port] = director_yml["port"].to_i
+        @director_info[:hm_user] = "hm_user"
+        @director_info[:hm_password] = (0...8).map{ ('a'..'z').to_a[rand(26)] }.join
+
+      end
+
+      def create_hm_user()
+
+      end
+
+      def setup_nats()
+        nats_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','nats','config','nats.yml')
+        nats_yml = load_yaml_file(nats_file)
+        nats_yml["net"] = @nats_info[:ip]
+        nats_yml["port"] = @nats_info[:port]
+        nats_yml["authorization"]["user"] = @nats_info[:user]
+        nats_yml["authorization"]["password"] = @nats_info[:password]
+
+        File.open(nats_file, 'w') do |file|
+          dump_yaml_to_file(nats_yml, file )
+        end
+
+      end
+
+      def setup_postgres()
+        postgres_file = File.join($config[:bosh][:base_dir],'jobs','micro_vsphere', 'postgres', 'bin', 'postgres_ctl')
+      end
+
+      def setup_health_monitor()
+        hm_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','health_monitor','config','health_monitor.yml')
+
+        hm_yml =  load_yaml_file(hm_file)
+        hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
+        hm_yml["mbus"]["user"] = @nats_info[:user]
+        hm_yml["mbus"]["password"] = @nats_info[:password]
+        hm_yml["director"]["endpoint"] = "http://#{@director_info[:hostname]}:#{@director_info[:port]}"
+        hm_yml["director"]["user"] = @director_info[:hm_user]
+        hm_yml["director"]["password"] = @director_info[:hm_password]
+
+        File.open(hm_file, 'w') do |file|
+          dump_yaml_to_file(hm_yml, file )
+        end
+
       end
 
       def restart_monit

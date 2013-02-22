@@ -1,11 +1,11 @@
-pid_filename: /var/run/daemon.pid
+pid_filename: /tmp/daemon.pid
 local_route: 192.168.1.186
 port: 9191
 
 bosh:
-  target: "10.134.0.133"
-#  base_dir: "/home/mitza/testing/assets/vcap"
-  base_dir: "/var/vcap"
+  target: "10.134.0.73"
+  base_dir: "/home/mitza/testing/assets/vcap"
+#  base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:
     linux_stemcell:
