@@ -200,8 +200,8 @@ module Uhuru::Ucc
       request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
         begin
           infrastructure = Infrastructure.new
-          infrastructure.setup('/var/vcap/assets/director_config/director.yml.erb')
-          #infrastructure.setup('/home/mitza/testing/assets/director_config/director.yml.erb')
+          #infrastructure.setup('/var/vcap/assets/director_config/director.yml.erb')
+          infrastructure.setup('/home/mitza/testing/assets/director_config/director.yml.erb')
         rescue Exception => e
           err e.message.to_s
           $stdout.puts(e)
@@ -215,9 +215,9 @@ module Uhuru::Ucc
     post '/deploy' do
       request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
         begin
-          yaml = load_yaml_file('/var/vcap/assets/deployments/cloudfoundry.yml')
-          #yaml = load_yaml_file('/home/mitza/bosh/deployments/cloudfoundry.yml')
-          deployment = Uhuru::Ucc::Deployment.new("cloud-foundry")
+          #yaml = load_yaml_file('/var/vcap/assets/deployments/cloudfoundry.yml')
+          yaml = load_yaml_file('/home/mitza/bosh/deployments/ng-cloudfoundry.yml')
+          deployment = Uhuru::Ucc::Deployment.new("ccng-dev")
           deployment.save(yaml)
           deployment.deploy
         rescue Exception => e
@@ -232,7 +232,7 @@ module Uhuru::Ucc
     post '/deletedep'do
       request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
         begin
-          deployment = Uhuru::Ucc::Deployment.new("cloud-foundry")
+          deployment = Uhuru::Ucc::Deployment.new("ccng-dev")
           deployment.delete
         rescue Exception => e
           err e.message.to_s
