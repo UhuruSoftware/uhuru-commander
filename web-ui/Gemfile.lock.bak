@@ -12,9 +12,7 @@ GEM
       http_parser.rb (>= 0.5.3)
     em-socksify (0.2.1)
       eventmachine (>= 1.0.0.beta.4)
-    eventmachine (1.0.0)
     eventmachine (1.0.0-x86-mingw32)
-    http_parser.rb (0.5.3)
     http_parser.rb (0.5.3-x86-mingw32)
     httpclient (2.3.2)
     ip (0.3.0)
@@ -57,11 +55,9 @@ GEM
       yajl-ruby
     vcap_logging (0.1.4)
       rake
-    yajl-ruby (1.1.0)
     yajl-ruby (1.1.0-x86-mingw32)
 
 PLATFORMS
-  ruby
   x86-mingw32
 
 DEPENDENCIES

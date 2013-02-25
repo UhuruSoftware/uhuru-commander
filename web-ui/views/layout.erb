@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
   <title>Uhuru Cloud Commander</title>
@@ -12,52 +12,55 @@
     <div id="black_screen">x</div>
     <div id="wrapper">
 
-      <div id="advanced_dialog">
-        <h3 id="advanced_dialog_header">Leave this page?</h3>
-        <p id="advanced_dialog_paragraph">
-            <span style="color: darkred"> < Warning > </span> If you leave this page all form fields that you completed will be erased !
-            <br />
-            Are you sure you want to leave?
-        </p>
-        <div id="advanced_dialog_buttons_div">
-            <a href="/advanced" class="advanced_dialog_buttons" style="background-color: #1C4D90;">Yes</a>
-            <a href="#" class="advanced_dialog_buttons" id="advanced_dialog_no_btn" style="background-color: #1C4D90;">No</a>
-        </div>
-      </div>
-	
 		<div id="header">
 			<h1>Uhuru Cloud Commander</h1>
 		</div>	
-	
-		<ul class="master_list">
-			<li><a href="/infrastructure">Infrastructure</a></li>
-            <li><a href="/clouds">Clouds</a></li>
-            <li><a href="#">Users</a></li>
-            <li><a href="#">Help</a></li>
-            <li><a href="/tasks">Tasks</a></li>
-            <li><a href="#">Monitoring</a></li>
-            <li style="float: right; margin-right: 15px;"><a href="#">Logout</a></li>
-		</ul>
-		
-		<%= yield %>
+
+        <div id="main_menu">
+            <ul class="main_menu">
+                <li><a class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
+              <% unless first_run %>
+                <li><a class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
+                <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="#">Users</a></li>
+                <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks">Tasks</a></li>
+                <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
+                <li style="float: right; margin-right: 15px;"><a href="#">Logout</a></li>
+                <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
+              <% end %>
+            </ul>
+        </div>
+
+      <div class="actual_body">
+        <div class="actual_body_header">
+          <div class="actual_body_header_user">
+            Logged in as: Sauron, Lord of the Rings
+          </div>
+        </div>
+
+        <div class="help_div">
+          <div class="help_header">Help</div>
+          <h4>Lorem Ipsum</h4>
+          <p>
+            This is the Infrastructure tab the CPI sub tab. Here you can set up the Ip DNS and the VCenter Network Name.
+          </p>
+          <h4>Node</h4>
+          <p>
+            If you switch between sub tabs to another sub tab you wont lose form data you already completed!
+          </p>
+        </div>
 
 
-	  <div id="footer">
-        <p> Copyright &copy; Uhuru Software.Inc </p>
-	  </div>
-	
+        <%= yield %>
+      </div>
+      <div class="actual_body_footer">
+        Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved
+      </div>
     </div>
 
 <script type="text/javascript" src="../../scripts/jquery-1.5.js"></script>
 <script type="text/javascript" src="../../scripts/jquery_ui.js"></script>
 
-    <script type="text/javascript" src="../../scripts/infrastructureTabs.js" ></script>
-    <script type="text/javascript" src="../../scripts/cloudConfigurationTabs.js" ></script>
-    <script type="text/javascript" src="../../scripts/infrastructureValidation.js" ></script>
-
-    <script type="text/javascript" src="../../scripts/methodControll.js" ></script>
-    <script type="text/javascript" src="../../scripts/fieldErrors.js" ></script>
-    <script type="text/javascript" src="../../scripts/preventAdvancedPage.js" ></script>
+    <script type="text/javascript" src="../../scripts/cloud_tabs.js" ></script>
 </body>
 
 </html>

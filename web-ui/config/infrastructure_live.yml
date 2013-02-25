@@ -1,0 +1,61 @@
+---
+name: dev1
+
+network:
+  ip: 10.0.21.22
+  netmask: 255.255.0.0
+  gateway: 10.0.0.1
+  dns:
+  - 192.168.1.130
+  - 8.8.8.8
+  cloud_properties:
+    name: "VM Network"
+
+resources:
+  persistent_disk: 10240
+
+cloud:
+  plugin: vsphere
+  properties:
+    agent:
+      ntp:
+       - 0.pool.ntp.org
+       - 1.pool.ntp.org
+    cpi_log: DEBUG
+    soap_log: DEBUG
+    vcenters:
+      - host: 192.168.1.114
+        user: administrator
+        password: password1234!
+        datacenters:
+          - name: dev
+            vm_folder: florind_bosh_deployer_vms
+            template_folder: florind_bosh_deployer_templates
+            use_sub_folder: false
+            disk_path: florind_bosh_deployer_disks
+            datastore_pattern: local
+            persistent_datastore_pattern: local
+            allow_mixed_datastores: true
+            clusters:
+              - florind
+
+apply_spec:
+  agent:
+    nats: {}
+    blobstore: {}
+  properties:
+    vcenter:
+      host: 192.168.1.114
+      user: administrator
+      password: password1234!
+      datacenters:
+        - name: dev
+          vm_folder: florind_bosh_micro_vms
+          template_folder: florind_bosh_micro_templates
+          use_sub_folder: false
+          disk_path: florind_bosh_micro_disks
+          datastore_pattern: local
+          persistent_datastore_pattern: local
+          allow_mixed_datastores: true
+          clusters:
+            - florind
