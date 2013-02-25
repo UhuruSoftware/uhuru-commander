@@ -1,346 +1,326 @@
- /*HERE ARE ALL THE LISTS USED */
+/* color scheme address: http://colorschemedesigner.com/#2S627scqqcOho */
 
-.child_list_infrastructure,
-.list_cloud_configuration,
-.list_cloud_configuration_sublist,
-.list_cloud_configuration_last_row
+
+/************************************************************************/
+/*Cloud menu CSS - Manage/Virtual Machines/etc. */
+/************************************************************************/
+.cloud_menu
 {
-	padding-top: 2px;
-	padding-bottom: 5px;
-    padding-left: 5px;
-	list-style: none;
-    background-color: #335F9D;
-}
-.child_list_infrastructure > li,
-.list_cloud_configuration > li,
-.list_cloud_configuration_sublist > li,
-.list_cloud_configuration_last_row > li
-{
+    float: left;
     display: inline-block;
-    text-align: center;
-    width: 100px;
-    margin-left: 1px;
-}
-.child_list_infrastructure > li > a,
-.list_cloud_configuration > li > a,
-.list_cloud_configuration_sublist > li > a,
-.list_cloud_configuration_last_row > li > a
-{
-    display: block;
-    color: #ffffff;
-    background-color: #183052;
-    border: 1px solid #052148;
-    text-decoration: none;
-
-    width: 100%;
-    font-size: 12px;
-}
-.child_list_infrastructure > li > a:hover,
-.list_cloud_configuration > li > a:hover,
-.list_cloud_configuration_sublist > li > a:hover,
-.list_cloud_configuration_last_row > li > a:hover
-{
-    /*color: #d2d2d2;*/
-    /*background-color: #366EBC;*/
-    border: 1px solid #052148;
-}
-
-
- /*HERE LISTS DETAILS ARE OVERWRITTEN */
-
-
-.list_cloud_configuration_sublist
-{
-}
-.list_cloud_configuration_sublist > li
-{
-}
-.list_cloud_configuration_sublist > li > a
-{
-    background-color: #466f55;
-}
-.list_cloud_configuration_sublist > li > a:hover
-{
-    color: #d2d2d2;
-    background-color: #466f77;
-}
-
-
- /*HERE ARE THE 3 DIVs THAT FORM THE MAIN CONTENT OF EACH PAGE */
-
-
-
-.tab_divs
-{
-    margin-top: 10px;
+    margin-left: 5px;
     position: relative;
+    top: -24px;
+    height: 0px;
 }
 
-.help_div
+.cloud_menu > li
 {
-    position: absolute;
-    width: 200px;
-    right: 9px;
-    top: 0;
-	padding-bottom: 30px;
-
-	background-color: #335F9D;
-}
-
-.middle_div
-{
-    position: relative;
-    display: block;
-
-	margin-left: 5px;
-    width: 776px;
-
-	padding-top: 10px;
-	padding-bottom: 10px;
-
-	background-color: transparent;
-}
-
-.hidden_divs,
-.method_name
-{
-    display: none;
-}
-
-
-
-.help_header
-{
-    display: block;
-    padding-left: 5px;
-    width: 195px;
-    height: 26px;
-    font-size: 18px;
-    font-weight: 100;
-    background-color: #1C4D90;
-}
-.help_paragraph
-{
-    margin-top: 20px;
-    font-size: 12px;
+    float: left;
+    display: inline-block;
     margin-left: 5px;
 }
-.span_notes
+
+.cloud_menu > li > a
 {
-    font-size: 16px;
-    font-weight: 700;
-    color: #052148;
+    margin-top: 1px;
+    display: inline-block;
+    background: #195289;
+    color: #fff;
+    border-color: #306DA7;
+    border-style: solid solid none solid;
+    border-width: 1px;
+    text-decoration: none;
+    padding: 4px 10px 4px 10px;
+    font-weight: bold;
 }
+
+.cloud_menu > li > a:hover
+{
+    margin-top: 0;
+    background:#306DA7;
+    border-color:#3E74A7;
+    padding-bottom: 5px;
+}
+
+.cloud_menu > li > a.tab_focus
+{
+    margin-top: 0;
+    background: #0A3660;
+    border-color: #306DA7;
+    padding-bottom: 5px;
+}
+
+
+/************************************************************************/
+/*Cloud sub-menu CSS - Network/Resource Pools/etc. */
+/************************************************************************/
+
+.cloud_menu.sub_menu
+{
+    top: 0px;
+    margin-left: 5px;
+    z-index: 1;
+    display: inline;
+}
+
+.cloud_menu.sub_menu > li
+{
+    clear: both;
+    display: block;
+    margin-top: 5px;
+}
+
+/************************************************************************/
+/*Cloud Management div
+/************************************************************************/
+
+.cloud_tab_manage_div
+{
+
+}
+
+/************************************************************************/
+/*Configuration Tables
+/************************************************************************/
+
+.settings_table
+{
+    padding-top: 20px;
+    display: block;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.settings_table_header > td
+{
+    color: #fff;
+    font-weight: normal;
+    border-style: solid;
+    border-width: .09em;
+    border-color: #ccc;
+    text-align: left;
+    padding: .09em .543em;
+    background: #999;
+    vertical-align: bottom;
+}
+
+.separator
+{
+    padding-top: 20px;
+    font-weight: bold;
+}
+
+
+/*.tab_divs*/
+/*{*/
+    /*margin-top: 10px;*/
+    /*position: relative;*/
+/*}*/
+
+
+
+/*.middle_div*/
+/*{*/
+    /*position: relative;*/
+    /*display: block;*/
+
+	/*margin-left: 5px;*/
+    /*width: 776px;*/
+
+	/*padding-top: 10px;*/
+	/*padding-bottom: 10px;*/
+
+	/*background-color: transparent;*/
+/*}*/
+
+/*.hidden_divs,*/
+/*.method_name*/
+/*{*/
+    /*display: none;*/
+/*}*/
+
+
+
+/*.help_header*/
+/*{*/
+    /*display: block;*/
+    /*padding-left: 5px;*/
+    /*width: 195px;*/
+    /*height: 26px;*/
+    /*font-size: 18px;*/
+    /*font-weight: 100;*/
+    /*background-color: #1C4D90;*/
+/*}*/
+/*.help_paragraph*/
+/*{*/
+    /*margin-top: 20px;*/
+    /*font-size: 12px;*/
+    /*margin-left: 5px;*/
+/*}*/
+/*.span_notes*/
+/*{*/
+    /*font-size: 16px;*/
+    /*font-weight: 700;*/
+    /*color: #052148;*/
+/*}*/
 
 
 /*  FROM HERE ALL THE TABLES ARE FORMATTED  */
 
 
 
-table.infrastructure_table,
-table.infrastructure_table tbody,
-table.clouds_table,
-table.clouds_table tbody,
-table.cloud_configuration_tables,
-table.cloud_configuration_tables tbody,
-table.virtual_machines_table,
-table.virtual_machines_table tbody,
-table.tasks_table,
-table.tasks_table tbody
-{
-	display: block;
-	width: 700px;
-	margin-left: auto;
-	margin-right: auto;
-}
+/*table.infrastructure_table,*/
+/*table.infrastructure_table tbody,*/
+/*table.clouds_table,*/
+/*table.clouds_table tbody,*/
+/*table.cloud_configuration_tables,*/
+/*table.cloud_configuration_tables tbody,*/
+/*table.virtual_machines_table,*/
+/*table.virtual_machines_table tbody,*/
+/*table.tasks_table,*/
+/*table.tasks_table tbody*/
+/*{*/
+	/*display: block;*/
+	/*width: 700px;*/
+	/*margin-left: auto;*/
+	/*margin-right: auto;*/
+/*}*/
 
-td
-{
-    width: 20%;
-    padding: 2px;
-}
-td:nth-child(4)
-{
-    width: 25%;
+/*td*/
+/*{*/
+    /*width: 20%;*/
+    /*padding: 2px;*/
+/*}*/
+/*td:nth-child(4)*/
+/*{*/
+    /*width: 25%;*/
     /*  the errors td  */
-}
+/*}*/
 
 
+/*.infrastructure_table label,*/
+/*.cloud_configuration_tables label,*/
+/*{*/
+	/*margin-right: 10px;*/
+/*}*/
+/*.cloud_configuration_tables td,*/
+/*table.infrastructure_table td*/
+/*{*/
+	/*text-align: right;*/
+/*}*/
 
 
-.infrastructure_table label,
-.cloud_configuration_tables label,
-{
-	margin-right: 10px;
-}
-.cloud_configuration_tables td,
-table.infrastructure_table td
-{
-	text-align: right;
-}
+/*.clouds_table .first_row,*/
+/*.tasks_table .first_row*/
+/*{*/
+	/*background-color: #023C55;*/
+/*}*/
+/*table.clouds_table,*/
+/*table.virtual_machines_table,*/
+/*table.tasks_table*/
+/*{*/
+	/*width: 100%;*/
+/*}*/
+/*table.clouds_table td,*/
+/*table.virtual_machines_table td,*/
+/*table.tasks_table td*/
+/*{*/
+	/*text-align: center;*/
+	/*width: 250px;*/
+	/*border: 1px solid white;*/
+/*}*/
+/*table.virtual_machines_table td*/
+/*{*/
+    /*border: 0 solid #000000;*/
+/*}*/
+
+/*.table_header > td*/
+/*{*/
+    /*color: #fff;*/
+    /*font-weight: normal;*/
+    /*border-style: solid;*/
+    /*border-width: .09em;*/
+    /*border-color: #ccc #666 #666 #ccc;*/
+    /*text-align: left;*/
+    /*padding: .09em .543em;*/
+    /*background: #999;*/
+    /*vertical-align: bottom;*/
+/*}*/
+
+/*label.config_field*/
+/*{*/
+    /*font-size: 13px;*/
+    /*width: 200px;*/
+/*}*/
+
+ /*.config_field.local.changed*/
+ /*{*/
+     /*border: 2px solid red;*/
+ /*}*/
 
 
-.clouds_table .first_row,
-.tasks_table .first_row
-{
-	background-color: #023C55;
-}
-table.clouds_table,
-table.virtual_machines_table,
-table.tasks_table
-{
-	width: 100%;
-}
-table.clouds_table td,
-table.virtual_machines_table td,
-table.tasks_table td
-{
-	text-align: center;
-	width: 250px;
-	border: 1px solid white;
-}
-table.virtual_machines_table td
-{
-    border: 0 solid #000000;
-}
+ /*.config_field.boolean*/
+ /*{*/
+     /*display: block;*/
+     /*padding: 0;*/
+     /*margin: auto;*/
+ /*}*/
 
+ /*.config_field.separator*/
+ /*{*/
+     /*text-align: left;*/
+     /*color: #30519c;*/
+     /*font-weight: bold;*/
+     /*background: #fff;*/
+     /*font-size: 10px;*/
+ /*}*/
 
+ /*.config_field.error*/
+ /*{*/
+     /*background-color: #111;*/
+     /*border: 2px solid red;*/
+     /*color: red;*/
+ /*}*/
 
+ /*.config_field.live_value*/
+ /*{*/
+ /*}*/
 
+ /*.asterix_error*/
+ /*{*/
+     /*padding-left: 5px;*/
+     /*font-weight: 800;*/
+     /*color: red;*/
+ /*}*/
 
-
-
- .config_field.local.changed
- {
-     border: 2px solid red;
- }
-
-
- .config_field.ip
- {
-     color: #f6c5b1;
- }
- .config_field.ip_range
- {
-     color: #f6d2c3;
- }
- .config_field.list,
- .config_field.product_key
- {
-     color: #ff7400;
- }
- .config_field.numeric,
- .config_field.boolean
- {
-     color: #228d00;
- }
- .config_field.boolean
- {
-     display: block;
-     padding: 0;
-     margin: auto;
-     background-color: red;
- }
- .config_field.string,
- .config_field.text
- {
-     color: #f2f2f2;
- }
-
- .config_field.boolean
- {
-     margin: auto;
- }
-
-
- .config_field.error
- {
-     background-color: #111;
-     border: 2px solid red;
-     color: red;
- }
-
- .config_field.disabled
- {
-     background-color: #111;
- }
-
- .asterix_error
- {
-     padding-left: 5px;
-     font-weight: 800;
-     color: red;
- }
-
- .field_error
- {
-     color: red;
-     font-size: 12px;
-     font-weight: 200;
-     float: left;
-     margin-left: 3px;
- }
+ /*.field_error*/
+ /*{*/
+     /*color: red;*/
+     /*font-size: 12px;*/
+     /*font-weight: 200;*/
+     /*float: left;*/
+     /*margin-left: 3px;*/
+ /*}*/
 
 
  /*    HERE ARE ALL THE MODALS   */
 
 
- #black_screen
- {
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 5000px;
-     height: 5000px;
-     background-color: #000000;
-     opacity: 0.8;
-     z-index: 5;
-     display: none;
- }
+ /*#black_screen*/
+ /*{*/
+     /*position: absolute;*/
+     /*top: 0;*/
+     /*left: 0;*/
+     /*width: 5000px;*/
+     /*height: 5000px;*/
+     /*background-color: #000000;*/
+     /*opacity: 0.8;*/
+     /*z-index: 5;*/
+     /*display: none;*/
+ /*}*/
 
- #advanced_dialog
- {
-     width: 600px;
-     background-color: #052148;
-     text-align: left;
-     position: absolute;
-     top: 50%;
-     left: 50%;
-     margin-left:-300px;
-     margin-top:-150px;
-     z-index: 10;
-     display: none;
- }
- #advanced_dialog_header
- {
-     background-color: #000000;
-     width: 580px;
-     padding-top: 10px;
-     padding-bottom: 10px;
-     padding-left: 20px;
- }
- #advanced_dialog_paragraph
- {
-     margin-top: 30px;
-     margin-bottom: 30px;
-     margin-left: 20px;
-     font-size: 12px;
-     font-weight: 300;
- }
- #advanced_dialog_buttons_div
- {
-     width: 100%;
-     margin-top: 50px;
-     background-color: #000000;
-     text-align: center;
- }
- .advanced_dialog_buttons
- {
-     display: inline-block;
-     width: 80px;
-     text-decoration: none;
-     margin: 10px;
- }
 
 
 

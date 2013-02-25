@@ -1,68 +1,143 @@
 ---
 infrastructure:
-  - screen: Networking
-    fields:
-      - {name: ip,          label: IP Addresses,  type: ip_range,   description: 'A range of IP addresses; either provide the beginning and end of the range, or an IP and its sub-net.' }
-      - {name: netmask,     label: Netmask,       type: ip,         description: 'The netmask used for the cloud network.' }
-      - {name: gateway,     label: Gateway,       type: ip,         description: 'The gateway that can route cloud traffic to the infrastructure network and the WAN.' }
-      - {name: dns1,        label: DNS Server 1,  type: ip,         description: 'Primary Domain Name Server used for all cloud machines.' }
-      - {name: dns2,        label: DNS Server 2,  type: ip,         description: 'Secondary Domain Name Server' }
-      #- {name: ntpserver1,  label: NTP Server 1,  type: string,     description: 'Primary Network Time Protocol Server, used to sync time across all cloud machines.' }
-      #- {name: ntpserver2,  label: NTP Server 2,  type: string,     description: 'Secondary Network Time Protocol Server' }
+#  - screen: Networking
+#    fields:
+#      - {name: ip,            label: IP,          type: ip,             yml_key: '["network"]["ip"]',                         description:  }
+#      - {name: netmask,       label: Netmask,     type: ip,             yml_key: '["network"]["netmask"]',                    description:  }
+#      - {name: gateway,       label: Gateway,     type: ip,             yml_key: '["network"]["gateway"]',                    description:  }
+#      - {name: dns,           label: DNS,         type: array_ip,       yml_key: '["network"]["dns"]',                        description:  }
+#      - {name: network_name,  label: Network,     type: string,         yml_key: '["network"]["cloud_properties"]["name"]',   description:  }
   - screen: CPI
     fields:
-      - {name: test numeric,    label: test numeric,        type: numeric,          description: 'Secondary Network Time Protocol Server' }
-      #- {name: product_key,     label: test product key,    type: product_key,      description: 'Secondary Network Time Protocol Server' }
-      #- {name: string,          label: test strings,        type: string,           description: 'Secondary Network Time Protocol Server' }
-      # - {name: text,            label: test text area..,    type: text,             description: 'Secondary Network Time Protocol Server' }
-      - {name: boolean,         label: bool..,              type: boolean,          description: 'Secondary Network Time Protocol Server' }
-      # - {name: list,            label: list..,              type: list,             description: 'Secondary Network Time Protocol Server' }
+      - {name: vcenter,    label: vCenter Host,        type: ip,    yml_key: '["cloud"]["properties"]["vcenters"][0]["host"]',      description: 'vCenter Host IP Address' }
+      - {name: vcenter_user,    label: vCenter User,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["user"]',      description: 'vCenter Host User' }
+      - {name: vcenter_password,    label: vCenter Password,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["password"]',      description: 'vCenter Host User Password' }
+      - {name: vcenter_datacenter,   label: vCenter DataCenter,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["name"]',      description: 'Datacenter name inside vCenter to be used for deployments' }
+      - {name: vcenter_clusters,   label: vCenter Clusters,        type: array_string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["clusters"]',      description: 'Cluster name inside the datacenter' }
+      - {name: vcenter_datastore,   label: vCenter Datastores,        type: string,    yml_key: [ '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["datastore_pattern"]', '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["persistent_datastore_pattern"]' ],      description: 'Name of the datastore used for storing VMs and persistent disks' }
+      - {name: vcenter_vm_folder,   label: vCenter VM Folder,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["vm_folder"]',      description: 'vCenter Folder for storing VMs (must exist)' }
+      - {name: vcenter_template_folder,   label: vCenter Template Folder,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["template_folder"]',      description: 'vCenter Folder for storing VM Templates (must exist)' }
+      - {name: ntp,    label: NTP Servers,        type: array_string,    yml_key: '["cloud"]["properties"]["agent"]["ntp"]',      description: 'Network Time Protocol Server' }
 cloud:
-  - screen: Networks
+  - screen: Network
     fields:
-      - {name: gateway,    label: Gateway,       type: ip,      description: asldkjad }
-      - {name: netmask,     label: Netmask,  type: list,      items: 'smtp,plain,login',                description: 'The netmask used for the cloud network.' }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-  - screen: Compilation
-    fields:
-      - {name: workers,       label: Workers,     type: numeric,    yml_key: '["compilation"]["workers"]',                  description: '' }
-      - {name: reusevms,      label: Reuse VMs,   type: boolean,    yml_key: '["compilation"]["reuse_compilation_vms"]',    description: '' }
-      - {name: ram,           label: Memory,      type: numeric,    yml_key: '["compilation"]["cloud_properties"]["ram"]',  description: '' }
-      - {name: disk,          label: Disk,        type: numeric,    yml_key: '["compilation"]["cloud_properties"]["disk"]', description: '' }
-      - {name: cpu,           label: CPU,         type: numeric,    yml_key: '["compilation"]["cloud_properties"]["cpu"]',  description: '' }
+      - {name: network_name,  label: vCenter Network,     type: string,         yml_key: '["networks"][0]["subnets"][0]["cloud_properties"]["name"]',   description: 'vCenter Network Name' }
+      - {name: ip_pool,  label: IP Pool,     type: ip_range,         description: 'Network IP Pool' }
+      - {name: subnet_mask,  label: Subnet Mask,     type: ip,         description: 'Network Subnet mask' }
+#      - {name: reserved,      label: Reserved IPs, type: array_ip_range, yml_key: '["networks"][0]["subnets"][0]["reserved"]',                   description:  }
+#      - {name: static,        label: Static IPs,  type: array_ip_range, yml_key: '["networks"][0]["subnets"][0]["static"]',                     description:  }
+      - {name: gateway,       label: Gateway,     type: ip,             yml_key: '["networks"][0]["subnets"][0]["gateway"]',                    description: 'Network Gateway' }
+#      - {name: range,         label: Range,       type: ip_range,       yml_key: '["networks"][0]["subnets"][0]["range"]',                      description:  }
+      - {name: dns,           label: DNS,         type: array_ip,       yml_key: '["networks"][0]["subnets"][0]["dns"]',                        description: 'Domain Name Servers' }
+
+#  - screen: Compilation
+#    fields:
+#      - {name: workers,       label: Workers,     type: numeric,    yml_key: '["compilation"]["workers"]',                  description: '' }
+#      - {name: reusevms,      label: Reuse VMs,   type: boolean,    yml_key: '["compilation"]["reuse_compilation_vms"]',    description: '' }
+#      - {name: ram,           label: Memory,      type: numeric,    yml_key: '["compilation"]["cloud_properties"]["ram"]',  description: '' }
+#      - {name: disk,          label: Disk,        type: numeric,    yml_key: '["compilation"]["cloud_properties"]["disk"]', description: '' }
+#      - {name: cpu,           label: CPU,         type: numeric,    yml_key: '["compilation"]["cloud_properties"]["cpu"]',  description: '' }
   - screen: Resource Pools
     fields:
-      - {name: castravetele,    label: Label Castravetele,       type: string,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-  - screen: Update
+      - {name: vsms_sep,     label: Very small management servers,       type: separator}
+      - {name: tiny_cpu,    label: Virtual CPU count,       type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "tiny"}.first["cloud_properties"]["cpu"]',   description: '' }
+      - {name: tiny_disk,   label: Tiny Disk,      type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "tiny"}.first["cloud_properties"]["disk"]',      description: '' }
+      - {name: tiny_ram,    label: Tiny Memory,    type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "tiny"}.first["cloud_properties"]["ram"]',      description: '' }
+      - {name: sms_sep,     label: Small management servers,       type: separator}
+      - {name: small_cpu,   label: Small CPU,       type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "small"}.first["cloud_properties"]["cpu"]',      description: '' }
+      - {name: small_disk,  label: Small Disk,      type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "small"}.first["cloud_properties"]["disk"]',      description: '' }
+      - {name: small_ram,   label: Small Memory,    type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "small"}.first["cloud_properties"]["ram"]',      description: '' }
+      - {name: mms_sep,     label: Linux DEA and Service Nodes,       type: separator}
+      - {name: medium_cpu,  label: Medium CPU,       type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["cpu"]',      description: '' }
+      - {name: medium_disk, label: Medium Disk,      type: numeric,    yml_key: '["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["disk"]',     description: '' }
+      - {name: medium_ram,  label: Medium Memory,    type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["ram"]',      description: '' }
+      - {name: lms_sep,     label: 'Tunnel, Sql Server and Windows DEA',       type: separator}
+      - {name: large_cpu,   label: Large CPU,       type: numeric,    yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["cpu"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["cpu"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["cpu"]' ],     description: '' }
+      - {name: large_disk,  label: Large Disk,      type: numeric,   yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["disk"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["disk"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["disk"]' ],      description: '' }
+      - {name: large_ram,   label: Large Memory,    type: numeric,    yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["ram"]' ],     description: '' }
+
+     # - {name: netmask,         label: Netmask,                   type: list,      items: 'smtp,plain,login',                description: 'The netmask used for the cloud network.' }
+#  - screen: Update
+#    fields:
+#      - {name: canaries,            label: Canaries,            type: numeric,  yml_key: '["update"]["canaries"]',          description: '' }
+#      - {name: canary_watch_time,   label: Canary Watch Time,   type: string,   yml_key: '["update"]["canary_watch_time"]', description: '' }
+#      - {name: update_watch_time,   label: Update Watch Time,   type: string,   yml_key: '["update"]["update_watch_time"]', description: '' }
+#      - {name: max_in_flight,       label: Max in flight,       type: numeric,  yml_key: '["update"]["max_in_flight"]',     description: '' }
+  - screen: Components
     fields:
-      - {name: ip,          label: IP Addresses,  type: string,   description: 'A range of IP addresses;' }
-      - {name: netmask,     label: Netmask,       type: ip,         description: 'The netmask used for the cloud network.' }
-  - screen: DEAs
+      - {name: dea_sep,     label: Droplet Execution Agents,       type: separator}
+      - {name: linux_deas,    label: Linux DEAs,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "dea_next"}.first["instances"]',    description: '' }
+      - {name: windows_deas,  label: Windows DEAs,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "win_dea"}.first["instances"]',    description: '' }
+
+      - {name: winser_sep,     label: Windows Services,       type: separator}
+      - {name: mssql_nodes,    label: MSSQL Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mssql_node"}.first["instances"]',    description: '' }
+      - {name: uhurufs_nodes,    label: UhuruFS Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "uhurufs_node"}.first["instances"]',    description: '' }
+      - {name: uhuru_tunnel,    label: Tunnel DEAs,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "uhuru_tunnel"}.first["instances"]',    description: '' }
+
+      - {name: linuxser_sep,     label: Linux Services,       type: separator}
+      - {name: mysql_nodes,    label: MySQL Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mysql_node_ng"}.first["instances"]',    description: '' }
+      - {name: mongodb_nodes,    label: MongoDB Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mongodb_node_ng"}.first["instances"]',    description: '' }
+      - {name: redis_nodes,    label: Redis Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "redis_node_ng"}.first["instances"]',    description: '' }
+      - {name: rabbit_nodes,    label: RabbitMQ Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "rabbit_node_ng"}.first["instances"]',    description: '' }
+      - {name: postgres_nodes,    label: Postgresql Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "postgresql_node_ng"}.first["instances"]',    description: '' }
+
+      - {name: core_sep,     label: App Cloud Core Components,       type: separator}
+      - {name: cloud_controllers,    label: Cloud Controllers,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "cloud_controller_ng"}.first["instances"]',    description: '' }
+      - {name: routers,    label: Routers,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "router"}.first["instances"]',    description: '' }
+  - screen: Product Keys
     fields:
-      - {name: castravetele,    label: Label Castravetele,       type: string,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-  - screen: Services
-    fields:
-      - {name: castravetele,    label: Label Castravetele,       type: string,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
+      - {name: windows_activation_key,    label: Windows 2008 R2 Activation Key,       type: product_key,   yml_key: ['["resource_pools"].select{|r| r["name"] == "windows"}.first["env"]["windows"]["product_key"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["env"]["windows"]["product_key"]'],   description: '' }
+      - {name: mssql_server_product_key,    label: MSSQL Server 2008 Product Key,       type: product_key,   yml_key: '["properties"]["mssql_node"]["product_key"]',   description: '' }
   - screen: Properties
     fields:
-      - {name: castravetele,    label: Label Castravetele,       type: string,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-      - {name: castravetele,    label: Label Castravetele,       type: ip_range,      description: asldkjad }
-  - screen: Service Plans
+      - {name: admin_sep,    label: Administrator Settings,       type: separator }
+      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_email"]', '["properties"]["cc"]["admins"][0]'],   description: '' }
+      - {name: admin_password,    label: Administrator Password,       type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["admin_password"]',   description: '' }
+
+      - {name: cloud_info_sep,    label: Cloud Information,       type: separator }
+      - {name: name,    label: Name,       type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_name"]',   description: '' }
+      - {name: domain,    label: Domain,       type: string,   yml_key: '["properties"]["domain"]',   description: '' }
+      - {name: description,    label: Description,       type: string,   yml_key: '["properties"]["description"]',   description: '' }
+      - {name: support_address,    label: Support Address,       type: string,   yml_key: '["properties"]["support_address"]',   description: '' }
+
+      - {name: contact_sep,    label: Contact Information,       type: separator }
+      - {name: contact_company, label: Company, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["contact"]["company"]',   description: ''}
+      - {name: contact_address, label: Address, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["contact"]["address"]',   description: ''}
+      - {name: contact_phone, label: Phone, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["contact"]["phone"]',   description: ''}
+      - {name: contact_email, label: E-mail, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["contact"]["email"]',   description: ''}
+
+      - {name: cloud_messages_sep,    label: App Cloud Portal Customization,       type: separator }
+      - {name: welcome_message, label: Welcome Message, type: text,   yml_key: '["properties"]["uhuru"]["simple_webui"]["welcome_message"]',   description: ''}
+      - {name: signup_message, label: Signup Message, type: text,   yml_key: '["properties"]["uhuru"]["simple_webui"]["signup_message"]',   description: ''}
+      - {name: copyright_message, label: Copyright Notice, type: text,   yml_key: '["properties"]["uhuru"]["simple_webui"]["copyright_message"]',   description: ''}
+      - {name: color_theme, label: Color Theme, type: list,      items: 'Simple,Lightsaber Blue',   yml_key: '["properties"]["uhuru"]["simple_webui"]["color_theme"]',   description: ''}
+
+      - {name: recaptcha_sep,    label: Recaptcha Settings,       type: separator }
+      - {name: recaptcha_public_key, label: Public Key, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["recaptcha_public_key"]',   description: ''}
+      - {name: recaptcha_private_key, label: Private Key, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["recaptcha_private_key"]',   description: ''}
+
+      - {name: email_sep,    label: E-mail Settings,       type: separator }
+      - {name: email_from, label: From Address, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["from"]',   description: ''}
+      - {name: email_from_alias, label: From Alias, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["from_alias"]',   description: ''}
+      - {name: email_server, label: Server, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["server"]',   description: ''}
+      - {name: email_server_port, label: SMTP Port, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["port"]',   description: ''}
+      - {name: email_server_user, label: Username, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["user"]',   description: ''}
+      - {name: email_server_secret, label: Password, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["secret"]',   description: ''}
+      - {name: email_server_auth_method, label: Authentication Method, type: list, items: ':plain,Login,CRAM-MD5',   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["auth_method"]',   description: ''}
+      - {name: email_server_enable_tls, label: Use TLS, type: boolean,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["enable_tls"]',   description: ''}
+
+      - {name: cloud_tools_sep,    label: Links to Client Tools,       type: separator }
+      - {name: cloud_admin_download_url, label: Uhuru Cloud Admin, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_admin_download_url"]',   description: ''}
+      - {name: visual_studio_plugin_download_url, label: Uhuru Visual Studio Plugin, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["visual_studio_plugin_download_url"]',   description: ''}
+      - {name: vmc_url, label: VMC CLI, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["vmc_url"]',   description: ''}
+      - {name: eclipse_url, label: Eclipse Plugin, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["eclipse_url"]',   description: ''}
+
+  - screen: User Limits
     fields:
-      - {name: ip,          label: IP Addresses,  type: string,   description: 'A range of IP addresses;' }
-      - {name: netmask,     label: Netmask,       type: ip,         description: 'The netmask used for the cloud network.' }
+      - {name: free_sep, label: Free Accounts, type: separator }
+      - {name: free_app_memory, label: Maximum App Memory, type: number,   yml_key: '["properties"]["cc"]["default_account_capacity"]["memory"]',   description: ''}
+      - {name: free_services, label: Maximum Services, type: number,   yml_key: '["properties"]["cc"]["default_account_capacity"]["services"]',   description: ''}
+
   - screen: Advanced
     fields:
       - {name: ip,          label: IP Addresses,  type: ip_range,   description: 'A range of IP addresses;' }

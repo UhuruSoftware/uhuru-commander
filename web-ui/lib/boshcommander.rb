@@ -16,12 +16,27 @@ module Uhuru::BoshCommander
     set :raise_errors, Proc.new { false }
     set :show_exceptions, false
 
+    def cloud_js_tabs
+    {
+        :networks => "Network",
+        :resource_pools => "Resource Pools",
+        :components => "Components",
+        :product_keys => "Product Keys",
+        :properties => "Properties",
+        :user_limits => "User Limits"
+    }
+    end
+
+    def first_run
+      !File.exists?('../config/infrastructure.yml')
+    end
+
     def initialize(config)
       super()
     end
 
     error 404 do
-      ex = "The page was not foud, please try again later!"
+      ex = "The page was not found, please try again later!"
       erb :error404, {:locals => {:ex => ex}, :layout => :layout_error}
     end
 
@@ -32,18 +47,22 @@ module Uhuru::BoshCommander
     end
 
 
-
-
     get '/' do
       redirect '/infrastructure'
     end
 
     get '/infrastructure' do
-      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
-      tables = { :networking => "Networking", :cpi => "CPI" }
+      form_generator = nil
+      if !first_run
+        form_generator = FormGenerator.new('../config/infrastructure_live.yml', '../config/forms.yml', '../config/infrastructure_live.yml')
+      else
+        form_generator = FormGenerator.new('../config/infrastructure.yml', '../config/forms.yml', '../config/infrastructure_live.yml')
+      end
+
+      tables = { :cpi => "CPI" }
 
       if defined? params
-        table_errors = { :networking => params[:error_networking], :cpi => params[:error_cpi] }
+        table_errors = { :cpi => params[:error_cpi] }
       else
         table_errors = nil
       end
@@ -55,48 +74,48 @@ module Uhuru::BoshCommander
                                     :table => tables,
                                     :error => nil,
                                     :table_errors => table_errors,
-                                    :form_data => {}
+                                    :form_data => {},
+                                    :first_run => first_run
                                 },
                             :layout => :layout}
     end
 
     post '/doInfrastructure' do
-      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
-      tables = { :networking => "Networking", :cpi => "CPI" }                                          # a hash for each table in this page
+      form_generator = FormGenerator.new('../config/infrastructure.yml', '../config/forms.yml', '../config/infrastructure_live.yml')
+      tables = { :cpi => "CPI" }                                          # a hash for each table in this page
 
       error_networking = ""
       error_cpi = ""
+
+      if defined? params
+        puts params.inspect
+        table_errors = { :cpi => params[:error_cpi] }
+      else
+        table_errors = nil
+      end
 
       if params[:method_name] == "save"
         params.delete("method_name")
         params.delete("btn_parameter")
 
-        #form_generator.generate_form("infrastructure", tables[:networking], params)
-        form_generator.generate_form("infrastructure", tables[:networking], params).each do |networking_field|
-          if(networking_field[:error].to_s != "true")
-            error_networking = 'error'
-          end
+        if table_errors.select{|key, value| value==true }.size == 0
+           form_generator.save_local_deployment("infrastructure", params)
         end
 
-        #form_generator.generate_form("infrastructure", tables[:cpi], params)
         form_generator.generate_form("infrastructure", tables[:cpi], params).each  do |cpi_field|
           if(cpi_field[:error].to_s != "true")
             error_cpi = 'error'
           end
         end
-      end
 
-      if params[:method_name] == "test"
+      elsif params[:method_name] == "test"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("infrastructure", tables[:networking], params)
         form_generator.generate_form("infrastructure", tables[:cpi], params)
-      end
 
-      if params[:method_name] == "update"
+      elsif params[:method_name] == "update"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("infrastructure", tables[:networking], params)
         form_generator.generate_form("infrastructure", tables[:cpi], params)
       end
 
@@ -109,114 +128,166 @@ module Uhuru::BoshCommander
 
 
 
+    get '/clouds/configure/*' do
+      if first_run
+        redirect '/infrastructure'
+      end
 
-
-
-    get '/clouds/configure' do
-      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
+      cloud_name = request.path_info.split("configure/")[1]
+      form_generator = FormGenerator.new("../config/clouds/#{cloud_name}", "../config/forms.yml", "../config/clouds/live/#{cloud_name}")
 
       form_data = {}
+      puts DateTime.now
       table_errors = form_generator.get_table_errors(form_data)
+      puts DateTime.now
 
-    erb :cloudConfiguration, {:locals =>
+      erb :cloud_configuration, {:locals =>
                                   {
                                       :form_generator => form_generator,
                                       :form => "cloud",
-                                      :js_tabs => {
-                                        :networks => "Networks",
-                                        :compilation => "Compilation",
-                                        :resource_pools => "Resource Pools",
-                                        :update => "Update",
-                                        :deas => "DEAs",
-                                        :services => "Services",
-                                        :properties => "Properties",
-                                        :service_plans => "Service Plans"
-                                       },
+                                      :js_tabs => cloud_js_tabs,
                                       :default_tab => :networks,
                                       :error => nil,
                                       :table_errors => table_errors,
-                                      :form_data => {}
+                                      :form_data => {},
+                                      :cloud_name => cloud_name,
+                                      :first_run => first_run
                                   },
                               :layout => :layout}
     end
 
-    post '/clouds/configure' do
-      form_generator = FormGenerator.new('../config/cloudfoundry.yml', '../config/forms.yml', {})
+    post '/clouds/configure/*' do
+      if first_run
+        redirect '/infrastructure'
+      end
+
+      cloud_name = request.path_info.split("configure/")[1]
 
       if params[:method_name] == "save"
         params.delete("method_name")
         params.delete("btn_parameter")
 
+        form_generator = FormGenerator.new("../config/clouds/#{cloud_name}", "../config/forms.yml")
         table_errors = form_generator.get_table_errors(params)
 
-        if (table_errors.select{|key| key=true }).size == 0
-           form_generator.save_local_deployment(params)
+        if table_errors.select{|key, value| value==true }.size == 0
+           form_generator.save_local_deployment("cloud", params)
         end
 
+        form_generator = FormGenerator.new("../config/clouds/#{cloud_name}", "../config/forms.yml", "../config/clouds/live/#{cloud_name}")
         erb :cloudConfiguration, {:locals =>
                                   {
                                       :form_generator => form_generator,
                                       :form => "cloud",
-                                      :js_tabs => {
-                                        :networks => "Networks",
-                                        :compilation => "Compilation",
-                                        :resource_pools => "Resource Pools",
-                                        :update => "Update",
-                                        :deas => "DEAs",
-                                        :services => "Services",
-                                        :properties => "Properties",
-                                        :service_plans => "Service Plans"
-                                       },
+                                      :js_tabs => cloud_js_tabs,
                                       :default_tab => :networks,
                                       :error => nil,
                                       :table_errors => table_errors,
-                                      :form_data => params
+                                      :form_data => params,
+                                      :cloud_name => cloud_name,
+                                      :first_run => first_run
                                   },
                               :layout => :layout}
 
       elsif params[:method_name] == "save_and_deploy"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("cloud", "Compilation", params)
+
+        form_generator = FormGenerator.new("../config/clouds/#{cloud_name}", "../config/forms.yml")
+        table_errors = form_generator.get_table_errors(params)
+
+        if table_errors.select{|key, value| value==true }.size == 0
+           form_generator.save_local_deployment("cloud", params)
+        end
+
+        FileUtils.copy_file("../config/clouds/#{cloud_name}", "../config/clouds/live/#{cloud_name}")
+        form_generator = FormGenerator.new("../config/clouds/#{cloud_name}", "../config/forms.yml", "../config/clouds/live/#{cloud_name}")
+        erb :cloudConfiguration, {:locals =>
+                                  {
+                                      :form_generator => form_generator,
+                                      :form => "cloud",
+                                      :js_tabs => cloud_js_tabs,
+                                      :default_tab => :networks,
+                                      :error => nil,
+                                      :table_errors => table_errors,
+                                      :form_data => params,
+                                      :cloud_name => cloud_name
+                                  },
+                              :layout => :layout}
 
       elsif params[:method_name] == "tear_down"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("cloud", "Compilation", params)
 
       elsif params[:method_name] == "delete"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("cloud", "Compilation", params)
+        File.delete("../config/clouds/#{cloud_name}")
+        if File.exist?("../config/clouds/live/#{cloud_name}")
+          File.delete("../config/clouds/live/#{cloud_name}")
+        end
+
+        redirect "/clouds"
 
       elsif params[:method_name] == "export"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("cloud", "Compilation", params)
+
+        content_type 'application/octet-stream'
+        File.read("../config/clouds/#{cloud_name}")
 
       elsif params[:method_name] == "import"
         params.delete("method_name")
         params.delete("btn_parameter")
-        form_generator.generate_form("cloud", "Compilation", params)
       end
 
     end
 
 
     get '/advanced' do
-      erb :advanced, {:layout => :layout}
+      erb :advanced, {
+          :locals => {
+              :first_run => first_run
+          },
+          :layout => :layout}
     end
 
 
     get '/clouds' do
-      erb :clouds, {:layout => :layout}
+      if first_run
+        redirect '/infrastructure'
+      end
+      erb :clouds, {:locals =>
+                                  {
+                                      :clouds => FormGenerator.get_clouds,
+                                      :first_run => first_run
+                                  },
+                              :layout => :layout}
     end
 
 
     get '/tasks' do
-      erb :tasks, {:layout => :layout}
+      if first_run
+        redirect '/infrastructure'
+      end
+      erb :tasks, {
+          :locals => {
+              :first_run => first_run
+          },
+          :layout => :layout}
     end
 
+    post '/clouds' do
+      if params["create_cloud_name"] != ''
+        FileUtils.copy_file("../config/blank.yml", "../config/clouds/#{params["create_cloud_name"]}")
+      end
+
+      erb :clouds, {:locals =>
+                                  {
+                                      :clouds => FormGenerator.get_clouds
+                                  },
+                              :layout => :layout}
+    end
   end
 
 end

@@ -1,0 +1,194 @@
+<%
+   splitter = "','"
+   cloud_tabs = {
+           'tab_manage' =>  'Manage',
+           'tab_virtual_machines' => 'Virtual Machines',
+           'tab_summary' => 'Summary'
+   }
+
+   cloud_tab_default = 'tab_manage'
+%>
+
+
+
+<ul class="cloud_menu">
+
+  <% cloud_tabs.each do |tab, name| %>
+      <li><a href="#" class="<%= cloud_tab_default == tab ? 'tab_focus' : '' %>" onclick="switchCloudMenu(<%= "['#{cloud_tabs.keys.join splitter}']" %>, '<%= tab %>');" id="cloud_<%= tab %>" ><%= name %></a></li>
+  <% end %>
+</ul>
+
+<div id="cloud_tab_manage_div">
+
+  <ul class="cloud_menu sub_menu" id="manage_sublist">
+    <% js_tabs.each do |tab, name| %>
+
+        <li><a class="<%= default_tab == tab ? 'tab_focus' : '' %>" href="#" onclick="switchCloudMenu(<%= "['#{js_tabs.keys.join splitter}']" %>, '<%= tab %>');" id="cloud_<%= tab %>" > <%= name %>
+          <% if table_errors != nil %>
+              <% if table_errors[tab] == true %>
+                  <span class="asterix_error">*</span>
+              <% end %>
+          <% end %>
+        </a></li>
+
+    <% end %>
+  </ul>
+
+
+  <form method="post" action="/clouds/configure/<%= cloud_name %>">
+
+        <% js_tabs.each do |tab, name| %>
+            <div id="cloud_<%= tab %>_div" class="<%= default_tab != tab ? 'hidden' : '' %> ">
+                <div>
+                  <table class="settings_table">
+                        <tr class="settings_table_header">
+                          <td>Description</td>
+                          <td>Local value</td>
+                          <td>Live value</td>
+                          <td>Error</td>
+                        </tr>
+                    <% form_generator.generate_form(form, name, form_data).each do |html_field| %>
+                        <% if html_field[:type] == 'separator' %>
+                        <tr>
+                          <td colspan="3">
+                            <div class="<%= html_field[:class] %> separator"><%= html_field[:name] %></div>
+                            <hr/>
+                          </td>
+                          <td />
+                        </tr>
+                        <% else %>
+                        <tr>
+                          <td>
+                            <label class="<%= html_field[:class] %> local" for="<%= html_field[:input_name] %>">
+                              <%= html_field[:name] + ":" %>
+                            </label>
+                          </td>
+
+                          <td>
+                            <% if html_field[:type] == 'select' %>
+                                <select name="<%= html_field[:input_name] %>"
+                                       type="<%= html_field[:type] %>"
+                                       class="<%= html_field[:class] %> local"
+                                       id="<%= html_field[:id] %>">
+                                  <% html_field[:select_options].each do |option| %>
+                                    <option <%= option == html_field[:value] ? 'selected' : '' %> value="<%= option %>" ><%= option %></option>
+                                  <% end %>
+                                </select>
+                            <% elsif html_field[:type] == 'textarea' %>
+                                <textarea name="<%= html_field[:input_name] %>"
+                                       class="<%= html_field[:class] %> local"
+                                       id="<%= html_field[:id] %>"><%= html_field[:value] %></textarea>
+                            <% elsif html_field[:type] == 'checkbox' %>
+                                <input name="<%= html_field[:input_name] %>"
+                                       type="<%= html_field[:type] %>"
+                                       class="<%= html_field[:class] %> local"
+                                       id="<%= html_field[:id] %>"
+                                       value="true"
+                                <% if html_field[:value] == "true" %>
+                                    checked
+                                <% end %>
+                                />
+                            <% else %>
+                                <input name="<%= html_field[:input_name] %>"
+                                       type="<%= html_field[:type] %>"
+                                       class="<%= html_field[:class] %> local"
+                                       id="<%= html_field[:id] %>"
+                                       value="<%= html_field[:value] %>"
+                                />
+                            <% end %>
+                          </td>
+
+                          <td>
+                            <input type="<%= html_field[:type] %>"
+                                   value="<%= html_field[:value_live] %>"
+                                   class="<%= html_field[:class] %> live_value" disabled=""
+                                   <% if html_field[:type] == 'checkbox' %>
+                                      <% if html_field[:value_live] == "true" %>
+                                        checked
+                                      <% end %>
+                                   <% end %>
+                            />
+                          </td>
+
+                          <td>
+                            <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                                <span class="field_error"><%= html_field[:error] %></span>
+                            <% end %>
+                          </td>
+
+                        </tr>
+                            <% end %>
+                    <% end %>
+                  </table>
+                </div>
+            </div>
+        <% end %>
+
+
+        <div id="cloud_advanced_div" class="hidden">
+            <div >
+              <textarea><%= form_generator.deployment.to_yaml %></textarea>
+            </div>
+        </div>
+
+        <div class="bottom_buttons_div">
+            <input name="btn_parameter" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
+            <input name="btn_parameter" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
+            <input name="btn_parameter" type="submit" value="Tear Down" class="tear_down" />
+            <input name="btn_parameter" type="submit" value="Delete" class="delete" />
+            <input name="btn_parameter" type="submit" value="Export" class="export" />
+            <input name="btn_parameter" type="submit" value="Import" class="import" />
+        </div>
+    </form>
+
+</div>
+
+<div class="tab_divs hidden" id="cloud_tab_virtual_machines_div">
+
+  <div>
+    <form id="virtual_machines_form">
+        <table class="virtual_machines_table">
+            <tr>
+                <td>Cloud Controller</td>
+                <td>10.0.5.100</td>
+                <td>SSH | Logs</td>
+            </tr>
+
+            <tr>
+                <td>NATS</td>
+                <td>10.0.5.101</td>
+                <td>SSH | Logs</td>
+            </tr>
+            <tr>
+                <td>CCDB</td>
+                <td>10.0.5.102</td>
+                <td>SSH | Logs</td>
+            </tr>
+            <tr>
+                <td>Router</td>
+                <td>10.0.5.103</td>
+                <td>SSH | Logs</td>
+            </tr>
+            <tr>
+                <td>DEA</td>
+                <td>10.0.5.104</td>
+                <td>SSH | Logs</td>
+            </tr>
+        </table>
+
+        <div class="bottom_buttons_div">
+          <input name="btn_parameter" type="button" value="Save" id="save_virtual_machines_btn" />
+          <input name="btn_parameter" type="button" value="Save & Deploy" id="saveanddeploy_virtual_machines_btn" />
+          <input name="btn_parameter" type="button" value="Tear Down" />
+          <input name="btn_parameter" type="button" value="Delete" />
+          <input name="btn_parameter" type="button" value="Export" />
+          <input name="btn_parameter" type="button" value="Import" />
+        </div>
+    </form>
+
+  </div>
+</div>
+
+<div class="tab_divs hidden" id="cloud_tab_summary_div">
+
+</div>

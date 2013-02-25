@@ -1,36 +1,23 @@
-<div class="tab_divs" id="networking_div">
-  <div class="middle_div">
-
-    <table class="clouds_table">
-        <tr class="first_row">
+    <table class="settings_table">
+        <tr class="settings_table_header">
           <td>Name</td>
           <td>Status</td>
           <td>Services</td>
           <td>Frameworks</td>
         </tr>
-		
+      <% clouds.each do |cloud| %>
         <tr>
-          <td><a href="/clouds/configure" style="color: #ffffff;">Dev</a></td>
-          <td>sts</td>
-          <td>ico</td>
-          <td>framework</td>
+          <td><a href="/clouds/configure/<%= cloud[:name] %>"><%= cloud[:name] %></a></td>
+          <td><%= cloud[:status] %></td>
+          <td><%= cloud[:services] %></td>
+          <td><%= cloud[:frameworks] %></td>
         </tr>
-        <tr>
-          <td>Prod</td>
-          <td>sts</td>
-          <td>ico</td>
-          <td>framework</td>
-        </tr>
+      <% end %>
     </table>
 
     <div class="bottom_buttons_div">
-      <input name="create_cloud" type="button" value="Create Cloud" id="create_cloud" />
+      <form action="/clouds" method="post">
+        <input name="create_cloud_name" type="text" id="create_cloud_name" />
+        <input name="btn_parameter" type="submit" value="Create Cloud" id="create_cloud" class="create" />
+      </form>
     </div>
-
-  </div>
-
-  <div class="help_div">
-    <h3>Dummy text dummy text</h3>
-    <p>Dummy text dummy texttext dummy texttext dummy texttext dummy texttext dummy texttext dummy texttext dummy text</p>
-  </div>
-</div>

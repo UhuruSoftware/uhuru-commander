@@ -1,7 +1,8 @@
 pid_filename: /tmp/boshcommander.pid
-local_route: 192.168.1.9
-port: 4567
+local_route: 10.0.0.3
+port: 80
 dev-mode: true
+infrastructure_manifest:
 
 bosh_commander:
   domain: "localhost"
