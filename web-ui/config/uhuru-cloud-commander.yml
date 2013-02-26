@@ -1,0 +1,26 @@
+pid_filename: /tmp/daemon.pid
+local_route: 192.168.1.186
+port: 9191
+
+bosh:
+  target: "10.134.0.73"
+  base_dir: "/home/mitza/testing/assets/vcap"
+#  base_dir: "/var/vcap"
+  infrastructure: "vsphere"
+  stemcells:
+    linux_stemcell:
+      name: "bosh-stemcell"
+      version: "0.6.7"
+    linux_php_stemcell:
+      name: "bosh-stemcell-php"
+      version: "0.6.4.3"
+    windows_stemcell:
+      name: "uhuru-windows-2008R2"
+      version: "0.9.3"
+    mssql_stemcell:
+      name: "uhuru-windows-2008R2-sqlserver"
+      version: "0.9.4"
+
+logging:
+  level: debug
+  file: /tmp/uhuru_cloud_commander.log
