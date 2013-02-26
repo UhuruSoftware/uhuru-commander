@@ -5,14 +5,17 @@ module Uhuru
       def setup(new_config)
         say('Moving director config')
         @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
-
+        @is_update = is_update
         setup_micro(new_config)
         say('Restarting services')
-        #restart_monit
-        say('Uploading stemcells')
-        #upload_stemcells
-        say('Configuring database')
-        #configure_database
+        restart_monit
+        if (!@is_update)
+          say('Uploading stemcells')
+          upload_stemcells
+          say('Configuring database')
+          configure_database
+        end
+
         say ('Infrastructure configured')
       end
 
@@ -25,8 +28,18 @@ module Uhuru
         create_users()
         setup_nats()
         setup_postgres()
-        setup_health_manager()
+        setup_health_monitor()
       end
+
+      def is_update
+        db = get_database
+        first_name = db[:stemcells].select(:name).first()[:name]
+        if (first_name.start_with?("empty-"))
+          return false
+        end
+        true
+      end
+
 
       def build_info(director_yml)
         nats_hash = director_yml["mbus"].scan(/(nats):\/\/(\S+):(\S+)@(\S+):(\S+)?/).first
@@ -48,7 +61,9 @@ module Uhuru
       def create_users()
         #we need to created the default admin user
         Uhuru::Ucc::User.create("admin", "admin")
-        Uhuru::Ucc::User.create(@director_info[:hm_user], @director_info[:hm_password])
+        if (!@is_update)
+          Uhuru::Ucc::User.create(@director_info[:hm_user], @director_info[:hm_password])
+        end
       end
 
       def setup_nats()
@@ -78,7 +93,9 @@ module Uhuru
         hm_yml["mbus"]["password"] = @nats_info[:password]
         hm_yml["director"]["endpoint"] = "http://#{@director_info[:hostname]}:#{@director_info[:port]}"
         hm_yml["director"]["user"] = @director_info[:hm_user]
-        hm_yml["director"]["password"] = @director_info[:hm_password]
+        if (!@is_update)
+          hm_yml["director"]["password"] = @director_info[:hm_password]
+        end
 
         File.open(hm_file, 'w') do |file|
           dump_yaml_to_file(hm_yml, file )
@@ -108,6 +125,15 @@ module Uhuru
       end
 
       def configure_database
+        db = get_database
+        $config[:bosh][:stemcells].each do |stemcell_type, config_stemcell|
+          current_cid = db[:stemcells].select(:cid).first(:name=>config_stemcell[:name])[:cid]
+          db[:stemcells].filter(:name => config_stemcell[:name]).delete
+          db[:stemcells].filter(:name => "empty-#{config_stemcell[:name]}").update(:cid => current_cid, :name => config_stemcell[:name])
+        end
+      end
+
+      def get_database
         director_yaml = YAML.load_file(@director_config_file)
         db_config = director_yaml["db"]
         connection_options = {
@@ -115,12 +141,7 @@ module Uhuru
             :pool_timeout => db_config["pool_timeout"]
         }
         db = Sequel.connect(db_config["database"], connection_options)
-
-        $config[:bosh][:stemcells].each do |stemcell_type, config_stemcell|
-          current_cid = db[:stemcells].select(:cid).first(:name=>config_stemcell[:name])[:cid]
-          db[:stemcells].filter(:name => config_stemcell[:name]).delete
-          db[:stemcells].filter(:name => "empty-#{config_stemcell[:name]}").update(:cid => current_cid, :name => config_stemcell[:name])
-        end
+        db
       end
 
     end
