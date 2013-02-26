@@ -51,6 +51,7 @@ GEM
       builder
       mime-types
       xml-simple
+    bcrypt-ruby (3.0.1)
     blobstore_client (0.4.0)
       aws-s3 (~> 0.6.2)
       bosh_common (~> 0.5)
@@ -144,6 +145,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt-ruby
   bosh_cli (~> 1.0.3)!
   cfoundry
   monit_api

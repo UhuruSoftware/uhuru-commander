@@ -23,6 +23,7 @@ require "ucc/monit"
 require "ucc/deployment"
 require "ucc/step_deployment"
 require "ucc/event_log_renderer_web"
+require "ucc/user"
 
 
 
@@ -243,6 +244,26 @@ module Uhuru::Ucc
 
       redirect "logs/#{request_id}"
     end
+
+    post '/createuser' do
+      user = Uhuru::Ucc::User.create("ion", "ion")
+
+    end
+
+    post '/deleteuser' do
+      user = Uhuru::Ucc::User.new("ion")
+      user.delete
+    end
+
+    post '/updateu' do
+      user = Uhuru::Ucc::User.new("ion")
+      user.update("salam")
+    end
+
+    post '/users' do
+      Uhuru::Ucc::User.users()
+    end
+
 
   end
 end

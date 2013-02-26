@@ -22,10 +22,10 @@ module Uhuru
         FileUtils.cp(new_config, @director_config_file)
         director_yml = load_yaml_file(@director_config_file)
         build_info(director_yml)
-        create_hm_user()
+        create_users()
         setup_nats()
         setup_postgres()
-        setup_health_monitor()
+        setup_health_manager()
       end
 
       def build_info(director_yml)
@@ -37,16 +37,18 @@ module Uhuru
         @nats_info[:port] = nats_hash[4].to_i
 
         #we assume that redis is going to be on the same box as the director
-        @director_info = {}
+
         @director_info[:hostname] = $config[:bosh][:target].match(/[0-9]+(?:\.[0-9]+){3}/).to_s
         @director_info[:port] = director_yml["port"].to_i
         @director_info[:hm_user] = "hm_user"
-        @director_info[:hm_password] = (0...8).map{ ('a'..'z').to_a[rand(26)] }.join
+        @director_info[:hm_password] = (0...8).map{ ('a'..'z').to_a[rand(26)] }.join.to_s
 
       end
 
-      def create_hm_user()
-
+      def create_users()
+        #we need to created the default admin user
+        Uhuru::Ucc::User.create("admin", "admin")
+        Uhuru::Ucc::User.create(@director_info[:hm_user], @director_info[:hm_password])
       end
 
       def setup_nats()
@@ -71,7 +73,7 @@ module Uhuru
         hm_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','health_monitor','config','health_monitor.yml')
 
         hm_yml =  load_yaml_file(hm_file)
-        hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
+        hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{nats_info[@nats_info[:port]]}"
         hm_yml["mbus"]["user"] = @nats_info[:user]
         hm_yml["mbus"]["password"] = @nats_info[:password]
         hm_yml["director"]["endpoint"] = "http://#{@director_info[:hostname]}:#{@director_info[:port]}"
@@ -116,8 +118,8 @@ module Uhuru
 
         $config[:bosh][:stemcells].each do |stemcell_type, config_stemcell|
           current_cid = db[:stemcells].select(:cid).first(:name=>config_stemcell[:name])[:cid]
-          db[:stemcells].filter(:name=>config_stemcell[:name]).delete
-          db[:stemcells].filter(:name=>"empty-#{config_stemcell[:name]}").update(:cid=> current_cid,                                                                  :name=> config_stemcell[:name])
+          db[:stemcells].filter(:name => config_stemcell[:name]).delete
+          db[:stemcells].filter(:name => "empty-#{config_stemcell[:name]}").update(:cid => current_cid, :name => config_stemcell[:name])
         end
       end
 
