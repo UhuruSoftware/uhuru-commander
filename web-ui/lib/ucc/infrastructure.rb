@@ -51,6 +51,7 @@ module Uhuru
 
         #we assume that redis is going to be on the same box as the director
 
+        @director_info = {}
         @director_info[:hostname] = $config[:bosh][:target].match(/[0-9]+(?:\.[0-9]+){3}/).to_s
         @director_info[:port] = director_yml["port"].to_i
         @director_info[:hm_user] = "hm_user"
@@ -60,8 +61,8 @@ module Uhuru
 
       def create_users()
         #we need to created the default admin user
-        Uhuru::Ucc::User.create("admin", "admin")
         if (!@is_update)
+          Uhuru::Ucc::User.create("admin", "admin")
           Uhuru::Ucc::User.create(@director_info[:hm_user], @director_info[:hm_password])
         end
       end
@@ -88,7 +89,7 @@ module Uhuru
         hm_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','health_monitor','config','health_monitor.yml')
 
         hm_yml =  load_yaml_file(hm_file)
-        hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{nats_info[@nats_info[:port]]}"
+        hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
         hm_yml["mbus"]["user"] = @nats_info[:user]
         hm_yml["mbus"]["password"] = @nats_info[:password]
         hm_yml["director"]["endpoint"] = "http://#{@director_info[:hostname]}:#{@director_info[:port]}"

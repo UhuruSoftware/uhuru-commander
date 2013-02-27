@@ -11,22 +11,15 @@ module Uhuru::BoshCommander
 
     def self.get_clouds
       clouds = []
-      dir = File.expand_path('../../config/clouds/', __FILE__)
+      dir = File.join($config[:cf_deployments_dir],"local")
       Dir.foreach(dir) do |file|
         next if file == '.' or file == '..'
         obj = File.join(dir, file)
         unless Dir.exist?(obj)
           if File.exist?(obj)
             cloud = {}
-            cloud[:name] = file
+            cloud[:name] = file.gsub(".yml", "")
             cloud[:status] = ""
-            if FileUtils.compare_file("../config/clouds/#{file}", "../config/blank.yml")
-              cloud[:status] = "Not configured"
-            elsif !File.exist?("../config/clouds/live/#{file}")
-              cloud[:status] = "Not deployed"
-            elsif FileUtils.compare_file("../config/clouds/#{file}", "../config/clouds/live/#{file}")
-              cloud[:status] = "Not deployed"
-            end
             cloud[:services] = ""
             cloud[:frameworks] = ""
             clouds << cloud
@@ -204,26 +197,20 @@ module Uhuru::BoshCommander
           @deployment["properties"]["nats"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("nats") == true }.first["networks"][0]["static_ips"][0]
 
         end
-
+      elsif page == "infrastructure"
+        @deployment
       end
 
       File.open(@deployment_manifest, "w+") {|f| f.write(@deployment.to_yaml)}
       is_ok
     end
 
-    def get_table_errors(form_data)
+    def get_errors(form_data, page, screens)
       table_errors = {}
 
-      table_errors[:networks] = (generate_form("cloud", "Network", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      #table_errors[:compilation] = (generate_form("cloud", "Compilation", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      table_errors[:resource_pools] = (generate_form("cloud", "Resource Pools", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      #table_errors[:update] = (generate_form("cloud", "Update", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      table_errors[:components] = (generate_form("cloud", "Components", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      table_errors[:properties] = (generate_form("cloud", "Properties", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      table_errors[:product_keys] = (generate_form("cloud", "Product Keys", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      table_errors[:user_limits] = (generate_form("cloud", "User Limits", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      #table_errors[:service_plans] = (generate_form("cloud", "Service Plans", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      #table_errors[:advanced] = (generate_form("cloud", "Advanced", form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
+      screens.each do |key, value|
+        table_errors[key] = (generate_form(page, value, form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
+      end
 
       table_errors
     end

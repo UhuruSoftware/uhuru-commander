@@ -1,7 +1,9 @@
-#require "steno"
+require "steno"
 require "config"
 require "boshcommander"
 require "thin"
+require 'optparse'
+require "../lib/ucc/status_streamer"
 
 module Uhuru::BoshCommander
   class Runner
@@ -15,10 +17,16 @@ module Uhuru::BoshCommander
 
       parse_options!
 
-      @config = Uhuru::BoshCommander::Config.from_file(@config_file)
-      @config[:bind_address] = VCAP.local_ip(@config[:local_route])
+      $config = Uhuru::BoshCommander::Config.from_file(@config_file)
+      $config[:bind_address] = VCAP.local_ip($config[:local_route])
 
       create_pidfile
+      setup_logging
+      $config[:logger] = logger
+    end
+
+    def logger
+      @logger ||= Steno.logger("uhuru-cloud-commander.runner")
     end
 
     def options_parser
@@ -45,27 +53,34 @@ module Uhuru::BoshCommander
 
     def create_pidfile
       begin
-        pid_file = VCAP::PidFile.new(@config[:pid_filename])
+        pid_file = VCAP::PidFile.new($config[:pid_filename])
         pid_file.unlink_at_exit
       rescue => e
-        puts "ERROR: Can't create pid file #{@config[:pid_filename]}"
+        puts "ERROR: Can't create pid file #{$config[:pid_filename]}"
         exit 1
       end
     end
 
+    def setup_logging
+      steno_config = Steno::Config.to_config_hash($config[:logging])
+      steno_config[:context] = Steno::Context::ThreadLocal.new
+      Steno.init(Steno::Config.new(steno_config))
+    end
+
     def run!
-      config = @config.dup
+      config = $config.dup
 
       app = Rack::Builder.new do
         # TODO: we really should put these bootstrapping into a place other
         # than Rack::Builder
         use Rack::CommonLogger
+        use Rack::Session::Pool
 
         map "/" do
-          run Uhuru::BoshCommander::BoshCommander.new(config)
+          run Uhuru::BoshCommander::BoshCommander
         end
       end
-      @thin_server = Thin::Server.new(@config[:bind_address], @config[:port])
+      @thin_server = Thin::Server.new($config[:bind_address], $config[:port])
       @thin_server.app = app
 
       trap_signals
