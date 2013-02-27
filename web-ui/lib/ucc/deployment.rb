@@ -6,7 +6,7 @@ module Uhuru::Ucc
 
     def initialize(deployment_name)
       @deployment_name = deployment_name
-      @deployment_dir = "#{$config[:cf_deployments_dir]}/#{deployment_name}"
+      @deployment_dir = "../cf_deployments/#{deployment_name}"
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
 
       #create deployment folder
@@ -78,7 +78,7 @@ module Uhuru::Ucc
 
       #clean the files on disk
       FileUtils.rm_rf "#{@deployment_dir}"
-      File.delete(File.join($config[:cf_deployments_dir],"local","#{@deployment_name}.yml"))
+      File.delete("../cf_deployments/local/#{@deployment_name}.yml")
       say "Deployment deleted".green
     end
 

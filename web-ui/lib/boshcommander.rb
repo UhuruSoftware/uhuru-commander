@@ -164,7 +164,7 @@ module Uhuru::BoshCommander
 
     helpers do
       def first_run?
-        !File.exists?($config[:infrastructure_yml])
+        !File.exists?(File.expand_path('../../config/infrastructure.yml', __FILE__))
       end
 
       def check_first_run!
@@ -186,7 +186,7 @@ module Uhuru::BoshCommander
       if first_run?
         form_generator = FormGenerator.new(director_yml, forms_yml, director_yml)
       else
-        infrastructure_yml = $config[:infrastructure_yml]
+        infrastructure_yml = File.expand_path('../../config/infrastructure.yml', __FILE__)
         form_generator = FormGenerator.new(infrastructure_yml, forms_yml, director_yml)
       end
 
@@ -207,7 +207,7 @@ module Uhuru::BoshCommander
     post '/infrastructure' do
 
       director_yml = File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
-      infrastructure_yml = $config[:infrastructure_yml]
+      infrastructure_yml = File.expand_path('../../config/infrastructure.yml', __FILE__)
       tables = { :cpi => "CPI" }                                          # a hash for each table in this page
 
       puts params.inspect
@@ -274,19 +274,15 @@ module Uhuru::BoshCommander
                                     },
                                 :layout => :layout}
         end
-
-
-
       end
-
     end
 
     get '/clouds/configure/:cloud_name' do
       check_first_run!
 
       cloud_name = params[:cloud_name]
-      cloud_config = File.join($config[:cf_deployments_dir],"local","#{cloud_name}.yml")
-      cloud_config_live = File.join($config[:cf_deployments_dir],cloud_name,"#{cloud_name}.yml")
+      cloud_config = File.expand_path("../../cf_deployments/local/#{cloud_name}.yml", __FILE__)
+      cloud_config_live = File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)
 
       form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
 
@@ -311,8 +307,8 @@ module Uhuru::BoshCommander
       check_first_run!
 
       cloud_name = params[:cloud_name]
-      cloud_config = File.join($config[:cf_deployments_dir],"local","#{cloud_name}.yml")
-      cloud_config_live = File.join($config[:cf_deployments_dir],cloud_name,"#{cloud_name}.yml")
+      cloud_config = File.expand_path("../../cf_deployments/local/#{cloud_name}.yml", __FILE__)
+      cloud_config_live = File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)
 
       if params.has_key?("btn_save")
         params.delete("btn_save")
@@ -433,7 +429,7 @@ module Uhuru::BoshCommander
     post '/clouds' do
       check_first_run!
       if params["create_cloud_name"] != ''
-        FileUtils.copy_file(File.expand_path("../../config/blank.yml", __FILE__), File.join($config[:cf_deployments_dir], "local", "#{params["create_cloud_name"]}.yml") )
+        FileUtils.copy_file(File.expand_path("../../config/blank.yml", __FILE__), File.expand_path("../../cf_deployments/local/#{params["create_cloud_name"]}.yml", __FILE__) )
       end
 
       erb :clouds, {:locals =>

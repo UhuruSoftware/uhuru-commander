@@ -11,7 +11,7 @@ module Uhuru::BoshCommander
 
     def self.get_clouds
       clouds = []
-      dir = File.join($config[:cf_deployments_dir],"local")
+      dir = File.expand_path("../../cf_deployments/local", __FILE__)
       Dir.foreach(dir) do |file|
         next if file == '.' or file == '..'
         obj = File.join(dir, file)
