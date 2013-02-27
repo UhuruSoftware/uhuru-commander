@@ -16,13 +16,13 @@ networks:
     cloud_properties:
       name:
 compilation:
-  workers:
-  reuse_compilation_vms:
+  workers: 3
+  reuse_compilation_vms: false
   network: default
   cloud_properties:
-    cpu:
-    ram:
-    disk:
+    cpu: 2
+    ram: 1024
+    disk: 1024
 resource_pools:
 - name: tiny
   stemcell:
@@ -55,6 +55,16 @@ resource_pools:
     ram: 500
     disk: 5000
 - name: large
+  stemcell:
+    name: bosh-stemcell
+    version: 0.7.0
+  network: default
+  size: 0
+  cloud_properties:
+    cpu: 3
+    ram: 500
+    disk: 5000
+- name: deas
   stemcell:
     name: bosh-stemcell
     version: 0.7.0
@@ -99,9 +109,18 @@ jobs:
 - name: debian_nfs_server
   template:
   - debian_nfs_server
+  instances: 1
+  resource_pool: small
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+  properties: {}
+- name: syslog_aggregator
+  template:
   - syslog_aggregator
   instances: 1
-  resource_pool: tiny
+  resource_pool: medium
   persistent_disk: 5000
   networks:
   - name: default
@@ -110,7 +129,7 @@ jobs:
 - name: nats
   template: nats
   instances: 1
-  resource_pool: tiny
+  resource_pool: small
   networks:
   - name: default
     static_ips:
@@ -118,15 +137,31 @@ jobs:
 - name: router
   template: gorouter
   instances: 1
-  resource_pool: tiny
+  resource_pool: medium
   networks:
   - name: default
     static_ips:
   properties: {}
-- name: vcap_postgres
+- name: hbase_master
+  template: hbase_master
+  instances: 1
+  resource_pool: medium
+  networks:
+  - name: default
+    static_ips:
+  properties: {}
+- name: hbase_slave
+  template: hbase_slave
+  instances: 1
+  resource_pool: medium
+  networks:
+  - name: default
+    static_ips:
+  properties: {}
+- name: ccdb_postgres
   template: postgres
   instances: 1
-  resource_pool: tiny
+  resource_pool: medium
   persistent_disk: 1000
   networks:
   - name: default
@@ -136,7 +171,7 @@ jobs:
 - name: vcap_redis
   template: vcap_redis
   instances: 1
-  resource_pool: tiny
+  resource_pool: medium
   persistent_disk: 1000
   networks:
   - name: default
@@ -149,24 +184,32 @@ jobs:
   networks:
   - name: default
   properties: {}
-- name: login
-  template: login
+- name: uaadb
+  template: uaadb
   instances: 1
   resource_pool: small
   networks:
   - name: default
+    static_ips:
   properties: {}
+#- name: login
+#  template: login
+#  instances: 1
+#  resource_pool: small
+#  networks:
+#  - name: default
+#  properties: {}
 - name: stager
   template: stager
   instances: 1
-  resource_pool: small
+  resource_pool: medium
   networks:
   - name: default
   properties: {}
-- name: dea_next
+- name: dea
   template: dea_next
   instances: 1
-  resource_pool: medium
+  resource_pool: deas
   networks:
   - name: default
   properties: {}
@@ -180,7 +223,7 @@ jobs:
     win_dea:
       runtimes:
       - iis
-- name: mysql_node_ng
+- name: mysql_node
   template: mysql_node_ng
   instances: 1
   resource_pool: medium
@@ -189,26 +232,26 @@ jobs:
   - name: default
     static_ips:
   properties: {}
-- name: mysql_node_ng_wardenized
-  template: mysql_node_ng
-  instances: 1
-  resource_pool: medium
-  persistent_disk: 5000
-  networks:
-  - name: default
-    static_ips:
-  properties:
-    plan: wardenized
-- name: redis_node_ng
+#- name: mysql_node_ng_wardenized
+#  template: mysql_node_ng
+#  instances: 1
+#  resource_pool: medium
+#  persistent_disk: 5000
+#  networks:
+#  - name: default
+#    static_ips:
+#  properties:
+#    plan: wardenized
+- name: redis_node
   template: redis_node_ng
   instances: 1
-  resource_pool: medium
+  resource_pool: large
   persistent_disk: 5000
   networks:
   - name: default
     static_ips:
   properties: {}
-- name: mongodb_node_ng
+- name: mongodb_node
   template: mongodb_node_ng
   instances: 1
   resource_pool: medium
@@ -217,7 +260,7 @@ jobs:
   - name: default
     static_ips:
   properties: {}
-- name: postgresql_node_ng
+- name: postgresql_node
   template: postgresql_node_ng
   instances: 1
   resource_pool: medium
@@ -225,8 +268,34 @@ jobs:
   networks:
   - name: default
     static_ips:
+- name: opentsdb
+  template: opentsdb
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
   properties: {}
-- name: rabbit_node_ng
+- name: collector
+  template: collector
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+  properties: {}
+- name: dashboard
+  template: dashboard
+  instances: 1
+  resource_pool: medium
+  persistent_disk: 5000
+  networks:
+  - name: default
+    static_ips:
+  properties: {}
+- name: rabbit_node
   template: rabbit_node_ng
   instances: 1
   resource_pool: medium
@@ -258,17 +327,72 @@ jobs:
   networks:
   - name: default
     static_ips:
-- name: cloud_controller_ng
+- name: cloud_controller
   template: cloud_controller_ng
   instances: 1
-  resource_pool: small
+  resource_pool: medium
   networks:
   - name: default
   properties: {}
-- name: service_gateways
+- name: mysql_gateway
   template:
   - mysql_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: mongodb_gateway
+  template:
+  - mongodb_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: redis_gateway
+  template:
   - redis_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: rabbit_gateway
+  template:
+  - rabbit_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: postgresql_gateway
+  template:
+  - postgresql_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: mssql_gateway
+  template:
+  - mssql_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: uhurufs_gateway
+  template:
+  - uhurufs_gateway
+  instances: 1
+  resource_pool: tiny
+  networks:
+  - name: default
+  properties: {}
+- name: simple_webui
+  template:
+  - simple_webui
   instances: 1
   resource_pool: tiny
   networks:
@@ -278,7 +402,7 @@ jobs:
   template:
   - health_manager_next
   instances: 1
-  resource_pool: tiny
+  resource_pool: small
   networks:
   - name: default
   properties: {}

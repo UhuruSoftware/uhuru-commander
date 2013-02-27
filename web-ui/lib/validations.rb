@@ -45,7 +45,7 @@ class Validations
             error = ''
 
         when "product_key"
-          unless /^([A-Z1-9]{5})-([A-Z1-9]{5})-([A-Z1-9]{5})-([A-Z1-9]{5})-([A-Z1-9]{5})$/.match(value)
+          unless /^([A-Z0-9]{5})-([A-Z0-9]{5})-([A-Z0-9]{5})-([A-Z0-9]{5})-([A-Z0-9]{5})$/.match(value)
             error = "Invalid product key!"
           end
 

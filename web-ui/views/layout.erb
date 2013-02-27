@@ -19,14 +19,14 @@
         <div id="main_menu">
             <ul class="main_menu">
                 <li><a class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
-              <% unless first_run %>
+              <% unless first_run? %>
                 <li><a class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
                 <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="#">Users</a></li>
                 <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks">Tasks</a></li>
                 <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
-                <li style="float: right; margin-right: 15px;"><a href="#">Logout</a></li>
-                <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
               <% end %>
+                <li style="float: right; margin-right: 15px;"><a href="/logout">Logout</a></li>
+                <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
             </ul>
         </div>
 

@@ -78,6 +78,7 @@ module Uhuru::Ucc
 
       #clean the files on disk
       FileUtils.rm_rf "#{@deployment_dir}"
+      File.delete(File.join($config[:cf_deployments_dir],"local","#{@deployment_name}.yml"))
       say "Deployment deleted".green
     end
 

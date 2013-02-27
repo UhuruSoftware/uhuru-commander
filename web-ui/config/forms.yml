@@ -48,9 +48,9 @@ cloud:
       - {name: small_disk,  label: Small Disk,      type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "small"}.first["cloud_properties"]["disk"]',      description: '' }
       - {name: small_ram,   label: Small Memory,    type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "small"}.first["cloud_properties"]["ram"]',      description: '' }
       - {name: mms_sep,     label: Linux DEA and Service Nodes,       type: separator}
-      - {name: medium_cpu,  label: Medium CPU,       type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["cpu"]',      description: '' }
-      - {name: medium_disk, label: Medium Disk,      type: numeric,    yml_key: '["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["disk"]',     description: '' }
-      - {name: medium_ram,  label: Medium Memory,    type: numeric,   yml_key: '["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["ram"]',      description: '' }
+      - {name: medium_cpu,  label: Medium CPU,       type: numeric,   yml_key: ['["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["cpu"]', '["resource_pools"].select{|r| r["name"] == "deas"}.first["cloud_properties"]["cpu"]'],      description: '' }
+      - {name: medium_disk, label: Medium Disk,      type: numeric,    yml_key: ['["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["disk"]', '["resource_pools"].select{|r| r["name"] == "deas"}.first["cloud_properties"]["disk"]'],     description: '' }
+      - {name: medium_ram,  label: Medium Memory,    type: numeric,   yml_key: ['["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "deas"}.first["cloud_properties"]["ram"]'],      description: '' }
       - {name: lms_sep,     label: 'Tunnel, Sql Server and Windows DEA',       type: separator}
       - {name: large_cpu,   label: Large CPU,       type: numeric,    yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["cpu"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["cpu"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["cpu"]' ],     description: '' }
       - {name: large_disk,  label: Large Disk,      type: numeric,   yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["disk"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["disk"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["disk"]' ],      description: '' }
@@ -66,7 +66,7 @@ cloud:
   - screen: Components
     fields:
       - {name: dea_sep,     label: Droplet Execution Agents,       type: separator}
-      - {name: linux_deas,    label: Linux DEAs,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "dea_next"}.first["instances"]',    description: '' }
+      - {name: linux_deas,    label: Linux DEAs,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "dea"}.first["instances"]',    description: '' }
       - {name: windows_deas,  label: Windows DEAs,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "win_dea"}.first["instances"]',    description: '' }
 
       - {name: winser_sep,     label: Windows Services,       type: separator}
@@ -75,14 +75,14 @@ cloud:
       - {name: uhuru_tunnel,    label: Tunnel DEAs,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "uhuru_tunnel"}.first["instances"]',    description: '' }
 
       - {name: linuxser_sep,     label: Linux Services,       type: separator}
-      - {name: mysql_nodes,    label: MySQL Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mysql_node_ng"}.first["instances"]',    description: '' }
-      - {name: mongodb_nodes,    label: MongoDB Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mongodb_node_ng"}.first["instances"]',    description: '' }
-      - {name: redis_nodes,    label: Redis Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "redis_node_ng"}.first["instances"]',    description: '' }
-      - {name: rabbit_nodes,    label: RabbitMQ Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "rabbit_node_ng"}.first["instances"]',    description: '' }
-      - {name: postgres_nodes,    label: Postgresql Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "postgresql_node_ng"}.first["instances"]',    description: '' }
+      - {name: mysql_nodes,    label: MySQL Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mysql_node"}.first["instances"]',    description: '' }
+      - {name: mongodb_nodes,    label: MongoDB Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mongodb_node"}.first["instances"]',    description: '' }
+      - {name: redis_nodes,    label: Redis Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "redis_node"}.first["instances"]',    description: '' }
+      - {name: rabbit_nodes,    label: RabbitMQ Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "rabbit_node"}.first["instances"]',    description: '' }
+      - {name: postgres_nodes,    label: Postgresql Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "postgresql_node"}.first["instances"]',    description: '' }
 
       - {name: core_sep,     label: App Cloud Core Components,       type: separator}
-      - {name: cloud_controllers,    label: Cloud Controllers,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "cloud_controller_ng"}.first["instances"]',    description: '' }
+      - {name: cloud_controllers,    label: Cloud Controllers,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "cloud_controller"}.first["instances"]',    description: '' }
       - {name: routers,    label: Routers,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "router"}.first["instances"]',    description: '' }
   - screen: Product Keys
     fields:

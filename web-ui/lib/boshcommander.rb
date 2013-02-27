@@ -325,7 +325,7 @@ module Uhuru::BoshCommander
         end
 
         form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
-        erb :cloudConfiguration, {:locals =>
+        erb :cloud_configuration, {:locals =>
                                       {
                                           :form_generator => form_generator,
                                           :form => "cloud",
@@ -360,19 +360,49 @@ module Uhuru::BoshCommander
             end
           end
           redirect "logs/#{request_id}"
+        else
+          form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
+          erb :cloud_configuration, {:locals =>
+                                         {
+                                             :form_generator => form_generator,
+                                             :form => "cloud",
+                                             :js_tabs => cloud_js_tabs,
+                                             :default_tab => :networks,
+                                             :error => nil,
+                                             :table_errors => table_errors,
+                                             :form_data => params,
+                                             :cloud_name => cloud_name
+                                         },
+                                     :layout => :layout}
         end
 
       elsif params.has_key?("btn_tear_down")
         params.delete("btn_tear_down")
+        request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+          begin
+            deployment = Uhuru::Ucc::Deployment.new(cloud_name)
+            deployment.tear_down
+          rescue Exception => e
+            err e.message.to_s
+            $stdout.puts(e)
+            $stdout.puts(e.backtrace)
+          end
+        end
+        redirect "logs/#{request_id}"
 
       elsif params.has_key?("btn_delete")
         params.delete("btn_delete")
-        File.delete(cloud_config)
-        if File.exist?(cloud_config_live)
-          File.delete(cloud_config_live)
+        request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+          begin
+            deployment = Uhuru::Ucc::Deployment.new(cloud_name)
+            deployment.delete
+          rescue Exception => e
+            err e.message.to_s
+            $stdout.puts(e)
+            $stdout.puts(e.backtrace)
+          end
         end
-
-        redirect "/clouds"
+        redirect "logs/#{request_id}"
 
       elsif params.has_key?("btn_export")
         params.delete("btn_export")

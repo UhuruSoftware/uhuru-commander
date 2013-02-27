@@ -111,7 +111,7 @@
                           </td>
 
                           <td>
-                            <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                            <% if html_field[:error] %>
                                 <span class="field_error"><%= html_field[:error] %></span>
                             <% end %>
                           </td>
@@ -132,12 +132,12 @@
         </div>
 
         <div class="bottom_buttons_div">
-            <input name="btn_parameter" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
-            <input name="btn_parameter" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
-            <input name="btn_parameter" type="submit" value="Tear Down" class="tear_down" />
-            <input name="btn_parameter" type="submit" value="Delete" class="delete" />
-            <input name="btn_parameter" type="submit" value="Export" class="export" />
-            <input name="btn_parameter" type="submit" value="Import" class="import" />
+            <input name="btn_save" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
+            <input name="btn_save_and_deploy" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
+            <input name="btn_tear_down" type="submit" value="Tear Down" class="tear_down" />
+            <input name="btn_delete" type="submit" value="Delete" class="delete" />
+            <input name="btn_export" type="submit" value="Export" class="export" />
+            <input name="btn_import" type="submit" value="Import" class="import" />
         </div>
     </form>
 

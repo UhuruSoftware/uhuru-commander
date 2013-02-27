@@ -1,26 +1,4 @@
-<!--<ul class="child_list_infrastructure">-->
-    <!--<li><a href="#" onclick="showNetworking();" id="networking_btn" style="background-color: #000000;">Networking-->
-      <!--<% if table_errors != nil %>-->
-          <!--<% if table_errors[:networking].to_s == "error" %>-->
-
-          <!--<span class="asterix_error">*</span>-->
-
-          <!--<% end %>-->
-      <!--<% end %>-->
-    <!--</a></li>-->
-    <!--<li><a href="#" onclick="showCPI();" id="cpi_btn">CPI-->
-      <!--<% if table_errors != nil %>-->
-          <!--<% if table_errors[:cpi].to_s == "error" %>-->
-
-              <!--<span class="asterix_error">*</span>-->
-
-          <!--<% end %>-->
-      <!--<% end %>-->
-    <!--</a></li>-->
-    <!--<li><a href="#" id="advanced_page" style="background-color: #1C4D90;">Advanced</a></li>-->
-<!--</ul>-->
-
-<form method="post" action="/doInfrastructure">
+<form method="post" action="/infrastructure">
 
     <div class="tab_divs" id="cpi_div">
         <table class="settings_table">
@@ -53,7 +31,7 @@
                 </td>
 
                 <td>
-                  <% if html_field[:error].to_s != "true" && html_field[:error].to_s != "false" %>
+                  <% if html_field[:error] %>
                     <span class="field_error"><%= html_field[:error] %></span>
                   <% end %>
                 </td>
@@ -65,9 +43,9 @@
     <!--DIV FROM SAME CLASS THE ONE ABOVE-->
 
     <div class="bottom_buttons_div">
-        <input name="btn_parameter" type="submit" value="Save" id="save_networking_btn" class="save" />
-        <input name="btn_parameter" type="submit" value="Test" id="test_networking_btn" class="test" />
-        <input name="btn_parameter" type="submit" value="Update" id="update_networking_btn" class="update" />
+        <input name="btn_save" type="submit" value="Save" id="save_networking_btn" class="save" />
+        <input name="btn_test" type="submit" value="Test" id="test_networking_btn" class="test" />
+        <input name="btn_update" type="submit" value="Update" id="update_networking_btn" class="update" />
     </div>
 
 </form>

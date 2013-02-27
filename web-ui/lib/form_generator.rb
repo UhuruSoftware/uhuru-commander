@@ -328,7 +328,7 @@ module Uhuru::BoshCommander
 
       ip_range = NetAddr::CIDR.create("#{ip_pool} #{subnet_mask}")
 
-      ips = ip_range.range(0, needed_ips)
+      ips = ip_range.range(1, needed_ips+1)
 
       range = "#{ip_range.network}#{ip_range.netmask}"
 
