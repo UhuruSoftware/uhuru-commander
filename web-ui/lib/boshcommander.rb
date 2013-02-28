@@ -34,6 +34,7 @@ require "ucc/deployment"
 require "ucc/step_deployment"
 require "ucc/event_log_renderer_web"
 require "ucc/user"
+require "ucc/vms"
 
 autoload :HTTPClient, "httpclient"
 
@@ -463,6 +464,22 @@ module Uhuru::BoshCommander
 
     get '/screen/:screen_id' do
       Uhuru::CommanderBoshRunner.status_streamer(session).read_screen(params[:screen_id])
+    end
+
+    #test method for vms
+    post '/vms_test' do
+      @vms_list = {}
+      Uhuru::CommanderBoshRunner.execute(session) do
+        vms = Uhuru::Ucc::Vms.new()
+        @vms_list = vms.list("ccng-dev")
+      end
+      test_display = []
+       if (@vms_list)
+         @vms_list.each do |vm|
+            test_display << vm["agent_id"]
+         end
+       end
+      test_display
     end
 
 
