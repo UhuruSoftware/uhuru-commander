@@ -1,0 +1,9 @@
+Change-Id: I411dbd1a45bf489586d9b0a79e8c3b0e0c543e07
+Code-Review+2: Vlad Iovanov <vlad.iovanov@uhurusoftware.com>
+Verified+1: Vlad Iovanov <vlad.iovanov@uhurusoftware.com>
+Verified+1: Mihai Buzgau <mihai.buzgau@uhurusoftware.com>
+Submitted-by: Florin Dragos <florind@uhurusoftware.com>
+Submitted-at: Thu, 28 Feb 2013 19:23:30 +0200
+Reviewed-on: http://gerrit.uhurusoftware.org/1116
+Project: private-uhuru-commander
+Branch: refs/heads/master
