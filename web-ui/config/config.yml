@@ -2,15 +2,13 @@ pid_filename: /tmp/boshcommander.pid
 local_route: 10.0.0.3
 port: 8000
 dev-mode: true
-infrastructure_yml: "/home/florind/tmp/infrastructure.yml"
-cf_deployments_dir: "/home/florind/tmp/deployments"
 
 bosh_commander:
   domain: "localhost"
 
 bosh:
-  target: "10.134.0.73"
-  base_dir: "/home/mitza/testing/assets/vcap"
+  target: "10.0.21.22"
+  base_dir: "/home/florind/tmp/testing/assets/vcap"
 #  base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:

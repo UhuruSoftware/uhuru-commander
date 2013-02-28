@@ -21,7 +21,7 @@
                 <li><a class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
               <% unless first_run? %>
                 <li><a class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
-                <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="#">Users</a></li>
+                <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
                 <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks">Tasks</a></li>
                 <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
               <% end %>
@@ -33,7 +33,7 @@
       <div class="actual_body">
         <div class="actual_body_header">
           <div class="actual_body_header_user">
-            Logged in as: Sauron, Lord of the Rings
+            Logged in as: <%= session['user_name'] %>
           </div>
         </div>
 

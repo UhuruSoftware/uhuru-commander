@@ -78,7 +78,7 @@ module Uhuru::Ucc
 
       #clean the files on disk
       FileUtils.rm_rf "#{@deployment_dir}"
-      File.delete("../cf_deployments/local/#{@deployment_name}.yml")
+      File.delete(File.expand_path("../../../cf_deployments/#{@deployment_name}.yml", __FILE__))
       say "Deployment deleted".green
     end
 

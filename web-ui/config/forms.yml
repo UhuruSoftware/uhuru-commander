@@ -22,7 +22,8 @@ cloud:
   - screen: Network
     fields:
       - {name: network_name,  label: vCenter Network,     type: string,         yml_key: '["networks"][0]["subnets"][0]["cloud_properties"]["name"]',   description: 'vCenter Network Name' }
-      - {name: ip_pool,  label: IP Pool,     type: ip_range,         description: 'Network IP Pool' }
+      - {name: static_ip_range,  label: Static IP Range,     type: ip_range,     yml_key: '["networks"][0]["subnets"][0]["static"][0]',    description: 'Network IP Pool' }
+      - {name: dynamic_ip_range,  label: Dynamic IP Range,     type: ip_range,         description: 'Network IP Pool' }
       - {name: subnet_mask,  label: Subnet Mask,     type: ip,         description: 'Network Subnet mask' }
 #      - {name: reserved,      label: Reserved IPs, type: array_ip_range, yml_key: '["networks"][0]["subnets"][0]["reserved"]',                   description:  }
 #      - {name: static,        label: Static IPs,  type: array_ip_range, yml_key: '["networks"][0]["subnets"][0]["static"]',                     description:  }

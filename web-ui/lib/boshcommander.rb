@@ -90,28 +90,28 @@ module Uhuru::BoshCommander
     post '/login' do
       message = ""
       #Uhuru::CommanderBoshRunner.execute(session) do
-        session['user_name'] = params[:username]
-        command, config, cache = login
+      session['user_name'] = params[:username]
+      command, config, cache = login
 
-        if (command.logged_in?)
-          message = "logged in as `#{params[:username]}'"
+      if (command.logged_in?)
+        message = "logged in as `#{params[:username]}'"
 
-          stemcell_cmd = Bosh::Cli::Command::Stemcell.new
-          stemcell_cmd.instance_variable_set("@config", command.instance_variable_get("@config"))
+        stemcell_cmd = Bosh::Cli::Command::Stemcell.new
+        stemcell_cmd.instance_variable_set("@config", command.instance_variable_get("@config"))
 
-          session['command_stemcell'] = stemcell_cmd
-          redirect '/'
-        else
-          message = "cannot log in as `#{params[:username]}'"
-          erb :login,
-              {
-                  :locals =>
-                      {
-                          :error_message => message
-                      },
-                  :layout => :login
-              }
-        end
+        session['command_stemcell'] = stemcell_cmd
+        redirect '/'
+      else
+        message = "cannot log in as `#{params[:username]}'"
+        erb :login,
+            {
+                :locals =>
+                    {
+                        :error_message => message
+                    },
+                :layout => :login
+            }
+      end
       #end
     end
   end
@@ -282,13 +282,22 @@ module Uhuru::BoshCommander
       check_first_run!
 
       cloud_name = params[:cloud_name]
-      cloud_config = File.expand_path("../../cf_deployments/local/#{cloud_name}.yml", __FILE__)
+      cloud_config = File.expand_path("../../cf_deployments/#{cloud_name}.yml", __FILE__)
       cloud_config_live = File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)
 
       form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
 
       form_data = {}
       table_errors = form_generator.get_errors(form_data, "cloud", cloud_js_tabs)
+      vms_list = {}
+      begin
+        Uhuru::CommanderBoshRunner.execute(session) do
+          vms = Uhuru::Ucc::Vms.new()
+          vms_list = vms.list(cloud_name)
+        end
+      rescue Exception >> ex
+        logger.err(ex.to_s)
+      end
 
       erb :cloud_configuration, {:locals =>
                                      {
@@ -299,7 +308,8 @@ module Uhuru::BoshCommander
                                          :error => nil,
                                          :table_errors => table_errors,
                                          :form_data => {},
-                                         :cloud_name => cloud_name
+                                         :cloud_name => cloud_name,
+                                         :vms => vms_list
                                      },
                                  :layout => :layout}
     end
@@ -308,37 +318,48 @@ module Uhuru::BoshCommander
       check_first_run!
 
       cloud_name = params[:cloud_name]
-      cloud_config = File.expand_path("../../cf_deployments/local/#{cloud_name}.yml", __FILE__)
+      cloud_config = File.expand_path("../../cf_deployments/#{cloud_name}.yml", __FILE__)
       cloud_config_live = File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)
 
       if params.has_key?("btn_save")
         params.delete("btn_save")
 
-        form_generator = FormGenerator.new(cloud_config, forms_yml)
+        form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
         table_errors = form_generator.get_errors(params, "cloud", cloud_js_tabs)
 
         if table_errors.select{|key, value| value==true }.size == 0
           form_generator.save_local_deployment("cloud", params)
         end
 
+        vms_list = {}
+        begin
+          Uhuru::CommanderBoshRunner.execute(session) do
+            vms = Uhuru::Ucc::Vms.new()
+            vms_list = vms.list(cloud_name)
+          end
+        rescue Exception >> ex
+          logger.err(ex.to_s)
+        end
+
         form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
         erb :cloud_configuration, {:locals =>
-                                      {
-                                          :form_generator => form_generator,
-                                          :form => "cloud",
-                                          :js_tabs => cloud_js_tabs,
-                                          :default_tab => :networks,
-                                          :error => nil,
-                                          :table_errors => table_errors,
-                                          :form_data => params,
-                                          :cloud_name => cloud_name
-                                      },
-                                  :layout => :layout}
+                                       {
+                                           :form_generator => form_generator,
+                                           :form => "cloud",
+                                           :js_tabs => cloud_js_tabs,
+                                           :default_tab => :networks,
+                                           :error => nil,
+                                           :table_errors => table_errors,
+                                           :form_data => params,
+                                           :cloud_name => cloud_name,
+                                           :vms => vms_list
+                                       },
+                                   :layout => :layout}
 
       elsif params.has_key?("btn_save_and_deploy")
         params.delete("btn_save_and_deploy")
 
-        form_generator = FormGenerator.new(cloud_config, forms_yml)
+        form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
         table_errors = form_generator.get_errors(params, "cloud", cloud_js_tabs)
 
         if table_errors.select{|key, value| value==true }.size == 0
@@ -358,6 +379,17 @@ module Uhuru::BoshCommander
           end
           redirect "logs/#{request_id}"
         else
+
+          vms_list = {}
+          begin
+            Uhuru::CommanderBoshRunner.execute(session) do
+              vms = Uhuru::Ucc::Vms.new()
+              vms_list = vms.list(cloud_name)
+            end
+          rescue Exception >> ex
+            logger.err(ex.to_s)
+          end
+
           form_generator = FormGenerator.new(cloud_config, forms_yml, cloud_config_live)
           erb :cloud_configuration, {:locals =>
                                          {
@@ -368,7 +400,8 @@ module Uhuru::BoshCommander
                                              :error => nil,
                                              :table_errors => table_errors,
                                              :form_data => params,
-                                             :cloud_name => cloud_name
+                                             :cloud_name => cloud_name,
+                                             :vms => vms_list
                                          },
                                      :layout => :layout}
         end
@@ -415,9 +448,13 @@ module Uhuru::BoshCommander
 
     get '/clouds' do
       check_first_run!
+      clouds = {}
+      Uhuru::CommanderBoshRunner.execute(session) do
+        clouds = FormGenerator.get_clouds
+      end
       erb :clouds, {:locals =>
                         {
-                            :clouds => FormGenerator.get_clouds
+                            :clouds => clouds
                         },
                     :layout => :layout}
     end
@@ -430,12 +467,15 @@ module Uhuru::BoshCommander
     post '/clouds' do
       check_first_run!
       if params["create_cloud_name"] != ''
-        FileUtils.copy_file(File.expand_path("../../config/blank.yml", __FILE__), File.expand_path("../../cf_deployments/local/#{params["create_cloud_name"]}.yml", __FILE__) )
+        FileUtils.copy_file(File.expand_path("../../config/blank.yml", __FILE__), File.expand_path("../../cf_deployments/#{params["create_cloud_name"]}.yml", __FILE__) )
       end
-
+      clouds = {}
+      Uhuru::CommanderBoshRunner.execute(session) do
+        clouds = FormGenerator.get_clouds
+      end
       erb :clouds, {:locals =>
                         {
-                            :clouds => FormGenerator.get_clouds
+                            :clouds => clouds
                         },
                     :layout => :layout}
     end
@@ -466,23 +506,62 @@ module Uhuru::BoshCommander
       Uhuru::CommanderBoshRunner.status_streamer(session).read_screen(params[:screen_id])
     end
 
-    #test method for vms
-    post '/vms_test' do
-      @vms_list = {}
-      Uhuru::CommanderBoshRunner.execute(session) do
-        vms = Uhuru::Ucc::Vms.new()
-        @vms_list = vms.list("ccng-dev")
-      end
-      test_display = []
-       if (@vms_list)
-         @vms_list.each do |vm|
-            test_display << vm["agent_id"]
-         end
-       end
-      test_display
+    get '/users' do
+      check_first_run!
+      users = Uhuru::Ucc::User.users
+      erb :users,
+          {
+              :locals =>
+                  {
+                      :users => users,
+                      :message => ""
+                  },
+              :layout => :layout
+          }
     end
 
+    post '/users' do
+      check_first_run!
+      message = "Success"
+      begin
+        if params.has_key?("btn_create_user")
+          if params["create_user_name"] != '' && params["create_user_password"] != '' && Validations.validate_field(params["create_user_password"], "password") == ""
+            puts params["create_user_name"]
+            puts params["create_user_password"]
+            Uhuru::Ucc::User.create(params["create_user_name"], params["create_user_password"])
+          else
+            message = "Invalid username/password"
+          end
+        elsif params.keys.grep(/btn_change_password_(\w+)/).size > 0
+          if params["new_password"] != '' && Validations.validate_field(params["new_password"], "password") == ""
+            username = params.keys.grep(/btn_change_password_(\w+)/).first.scan(/btn_change_password_(\w+)/).first
+            user = Uhuru::Ucc::User.new(username)
+            user.update(params["new_password"])
+            message = "Password changed successfully"
+          else
+            message = "Invalid username/password"
+          end
+        elsif params.keys.grep(/btn_delete_user_(\w+)/).size > 0
+          username = params.keys.grep(/btn_delete_user_(\w+)/).first.scan(/btn_delete_user_(\w+)/).first
+          user = Uhuru::Ucc::User.new(username)
+          user.delete
+          message = "User deleted successfully"
+        end
+      rescue Exception >> ex
+        message = ex.to_s
+      end
+      users = Uhuru::Ucc::User.users
+      erb :users,
+          {
+              :locals =>
+                  {
+                      :users => users,
+                      :message => message
 
+                  },
+              :layout => :layout
+          }
+    end
   end
 
 end

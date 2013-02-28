@@ -8,8 +8,8 @@ networks:
 - name: default
   type: manual
   subnets:
-  - reserved:
-    static:
+  - reserved: []
+    static: []
     range:
     gateway:
     dns:

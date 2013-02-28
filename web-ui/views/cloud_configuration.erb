@@ -148,32 +148,13 @@
   <div>
     <form id="virtual_machines_form">
         <table class="virtual_machines_table">
+          <% vms.each do |vm| %>
             <tr>
-                <td>Cloud Controller</td>
+                <td><%= vm[:agent_id] %></td>
                 <td>10.0.5.100</td>
                 <td>SSH | Logs</td>
             </tr>
-
-            <tr>
-                <td>NATS</td>
-                <td>10.0.5.101</td>
-                <td>SSH | Logs</td>
-            </tr>
-            <tr>
-                <td>CCDB</td>
-                <td>10.0.5.102</td>
-                <td>SSH | Logs</td>
-            </tr>
-            <tr>
-                <td>Router</td>
-                <td>10.0.5.103</td>
-                <td>SSH | Logs</td>
-            </tr>
-            <tr>
-                <td>DEA</td>
-                <td>10.0.5.104</td>
-                <td>SSH | Logs</td>
-            </tr>
+          <%end%>
         </table>
 
         <div class="bottom_buttons_div">

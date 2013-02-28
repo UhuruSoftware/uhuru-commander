@@ -1,0 +1,34 @@
+<table class="settings_table">
+  <form action="/users" method="post">
+      <tr class="settings_table_header">
+        <td>Name</td>
+        <td colspan="3">Actions</td>
+      </tr>
+      <% users.each do |user| %>
+          <tr>
+            <td><%= user %></td>
+            <td><input name="new_password" type="password" id="new_password"/></td>
+            <td><input name="btn_change_password_<%= user %>" type="submit" value="Change password" id="change_password" class="change_password"/></td>
+            <td><input name="btn_delete_user_<%= user %>" type="submit" value="Delete User" id="delete_user" class="delete"/></td>
+          </tr>
+      <% end %>
+  </form>
+</table>
+<span class="field_error"><%= message %></span>
+<form action="/users" method="post">
+  <div class="separator">New User</div>
+  <hr/>
+  <table class="settings_table">
+    <tr>
+      <td><label for="create_user_name">Name</label></td>
+      <td><input name="create_user_name" type="text" id="create_user_name" /></td>
+    </tr>
+    <tr>
+      <td><label for="create_user_password">Password</label></td>
+      <td><input name="create_user_password" type="password" id="create_user_password" /></td>
+    </tr>
+  </table>
+  <div class="bottom_buttons_div">
+    <input name="btn_create_user" type="submit" value="Create User" id="create_user" class="create" />
+  </div>
+</form>

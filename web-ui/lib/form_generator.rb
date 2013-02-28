@@ -4,6 +4,8 @@ require 'ipaddr'
 require 'netaddr'
 require 'fileutils'
 require 'securerandom'
+require 'pathname'
+require 'network_helper'
 
 module Uhuru::BoshCommander
   class FormGenerator
@@ -11,22 +13,17 @@ module Uhuru::BoshCommander
 
     def self.get_clouds
       clouds = []
-      dir = File.expand_path("../../cf_deployments/local", __FILE__)
-      Dir.foreach(dir) do |file|
-        next if file == '.' or file == '..'
-        obj = File.join(dir, file)
-        unless Dir.exist?(obj)
-          if File.exist?(obj)
-            cloud = {}
-            cloud[:name] = file.gsub(".yml", "")
-            cloud[:status] = ""
-            cloud[:services] = ""
-            cloud[:frameworks] = ""
-            clouds << cloud
-          end
-        end
-      end
+      dir = File.expand_path("../../cf_deployments", __FILE__)
+      Dir.glob("#{dir}/*.yml").each do |file|
+        cloud_name = Pathname.new(file).basename.to_s.gsub(".yml", "")
 
+        cloud = {}
+        cloud[:name] = cloud_name
+        cloud[:status] = get_cloud_status(cloud_name)
+        cloud[:services] = ""
+        cloud[:frameworks] = ""
+        clouds << cloud
+      end
       clouds
     end
 
@@ -188,17 +185,16 @@ module Uhuru::BoshCommander
 
         set_ips(form_data)
 
-        if get_cloud_status == "Not configured"
+        if !@deployment_live
           @deployment["properties"]["nfs_server"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("debian_nfs_server") == true }.first["networks"][0]["static_ips"][0]
           @deployment["properties"]["nfs_server"]["network"] = @deployment["networks"][0]["subnets"][0]["range"]
           @deployment["properties"]["syslog_aggregator"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("syslog_aggregator") == true }.first["networks"][0]["static_ips"][0]
           @deployment["properties"]["nats"]["user"] = SecureRandom.hex
           @deployment["properties"]["nats"]["password"] = SecureRandom.hex
           @deployment["properties"]["nats"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("nats") == true }.first["networks"][0]["static_ips"][0]
-
         end
       elsif page == "infrastructure"
-        @deployment
+
       end
 
       File.open(@deployment_manifest, "w+") {|f| f.write(@deployment.to_yaml)}
@@ -281,12 +277,17 @@ module Uhuru::BoshCommander
       error
     end
 
-
     def get_local_value(form, screen, field)
       if field["yml_key"]
         get_yml_value(@deployment, form, screen, field)
+      elsif field["name"] == "dynamic_ip_range"
+        helper = NetworkHelper.new(cloud_manifest: @deployment)
+        return helper.get_dynamic_ip_range
+      elsif field["name"] == "subnet_mask"
+        helper = NetworkHelper.new(cloud_manifest: @deployment)
+        return helper.get_subnet_mask
       else
-        ""
+        return ""
       end
     end
 
@@ -294,11 +295,17 @@ module Uhuru::BoshCommander
       if @deployment_live
         if field["yml_key"]
           get_yml_value(@deployment_live, form, screen, field)
+        elsif field["name"] == "dynamic_ip_range"
+          helper = NetworkHelper.new(cloud_manifest: @deployment)
+          return helper.get_dynamic_ip_range
+        elsif field["name"] == "subnet_mask"
+          helper = NetworkHelper.new(cloud_manifest: @deployment)
+          return helper.get_subnet_mask
         else
-          ""
+          return ""
         end
       else
-        ""
+        return ""
       end
     end
 
@@ -320,60 +327,20 @@ module Uhuru::BoshCommander
     end
 
     def set_ips(form_data)
-      ip_pool = form_data["cloud:Network:ip_pool"]
-      subnet_mask = form_data["cloud:Network:subnet_mask"]
 
       needed_ips = @deployment["jobs"].select{|job| job["networks"][0].has_key?("static_ips")}.inject(0){|sum, job| sum += job["instances"].to_i}
+
       ips = []
+      NetworkHelper.get_ip_range(@deployment["networks"][0]["subnets"][0]["static"][0].split("-")[0], @deployment["networks"][0]["subnets"][0]["static"][0].split("-")[1], true).first(needed_ips).each do |ip|
+        unless ip_taken?(ip)
+          ips << ip
+        end
+      end
 
-      ip_range = NetAddr::CIDR.create("#{ip_pool} #{subnet_mask}")
+      helper = NetworkHelper.new(form_data: form_data)
+      @deployment["networks"][0]["subnets"][0]["reserved"] = helper.get_reserved_ip_range
+      @deployment["networks"][0]["subnets"][0]["range"] = helper.get_subnet
 
-      ips = ip_range.range(1, needed_ips+1)
-
-      range = "#{ip_range.network}#{ip_range.netmask}"
-
-      puts ips.inspect
-      puts range
-
-      @deployment["networks"][0]["subnets"][0]["static"] = ips
-      @deployment["networks"][0]["subnets"][0]["range"] = ip_range.to_s
-
-      #static.each {|st|
-      #  if st.include?('-')
-      #    low = IPAddr.new(st.split('-')[0].strip).to_i
-      #    high = IPAddr.new(st.split('-')[1].strip).to_i
-      #    for j in low..high do
-      #      if ip_in_range?(range, j)
-      #        if ip_not_reserved?(reserved, j)
-      #          ip = IPAddr.new(j, Socket::AF_INET).to_s
-      #          unless ip_taken?(ip)
-      #            ips << ip
-      #          end
-      #        end
-      #        if ips.size == needed_ips
-      #          break
-      #        end
-      #      end
-      #    end
-      #  else
-      #    ip = IPAddr.new(st).to_i
-      #    if ip_in_range?(range, ip)
-      #      if ip_not_reserved?(reserved, ip)
-      #        ip = IPAddr.new(j, Socket::AF_INET).to_s
-      #        unless ip_taken?(ip)
-      #          ips << ip
-      #        end
-      #      end
-      #      if ips.size == needed_ips
-      #        break
-      #      end
-      #    end
-      #  end
-      #  if ips.size == needed_ips
-      #    break
-      #  end
-      #}
-      #
       @deployment["jobs"].select{|job| job["networks"][0].has_key?("static_ips")}.each {|job_with_ip|
         if job_with_ip["networks"][0]["static_ips"].nil?
           job_with_ip["networks"][0]["static_ips"] = []
@@ -420,8 +387,14 @@ module Uhuru::BoshCommander
        @deployment["jobs"].map{|job| job["networks"][0]["static_ips"]}.flatten.include?(ip)
     end
 
-    def get_cloud_status
-      "Not configured"
+    def self.get_cloud_status(cloud_name)
+      puts File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)
+      if !File.exist?(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__))
+        return "Not Configured"
+      else
+        deployment = Uhuru::Ucc::Deployment.new(cloud_name)
+        return deployment.get_status["state"]
+      end
     end
 
   end

@@ -17,10 +17,16 @@ class Validations
 
         when "ip_range"
           begin
-            cidr4 = IPAdmin::CIDR.new(value)
-            list = cidr4.enumerate
-            if list.count == 0
-              error = "This is not a proper IP range!"
+            if value.include?("-")
+              unless IPAddress.valid_ipv4?(value.split('-')[0]) || IPAddress.valid_ipv4?(value.split('-')[1])
+                error = "This is not a proper IP range!"
+              end
+            else
+              cidr4 = IPAdmin::CIDR.new(value)
+              list = cidr4.enumerate
+              if list.count == 0
+                error = "This is not a proper IP range!"
+              end
             end
           rescue
             error = "This is not a proper IP range!"
