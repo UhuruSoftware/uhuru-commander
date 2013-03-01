@@ -82,6 +82,25 @@ module Uhuru::Ucc
       say "Deployment deleted".green
     end
 
+    #returns the deployment manifest. If save_as is provided, also saves the deployment manifest to a flie
+    def get_manifest(save_as = nil)
+      info = deployment_info
+      if (info["state"] != "Deployed")
+        raise "Cannot get deployment manifest, current deployment state is #{info["state"]}"
+      end
+
+      director = Thread.current.current_session[:command].instance_variable_get("@director")
+      deployment = director.get_deployment(@deployment_name)
+
+      if save_as
+        File.open(save_as, "w") do |f|
+          f.write(deployment["manifest"])
+        end
+      end
+
+      deployment["manifest"]
+    end
+
     #delete VMs corresponding to this deployment
     def tear_down()
 
@@ -121,7 +140,7 @@ module Uhuru::Ucc
       total_steps = 0
 
       if (state == "Deployed" || state == "Saved")
-           current_step, total_steps = get_info_steps
+        current_step, total_steps = get_info_steps
       end
 
       info = { "current_step" => current_step,
@@ -164,19 +183,19 @@ module Uhuru::Ucc
           "Error"
         end
       end
-        if (director_deployment)
-          if (local_manifest)
-            "Deployed"
-          else
-            "Error"
-          end
+      if (director_deployment)
+        if (local_manifest)
+          "Deployed"
         else
-          if (local_manifest)
-            "Saved"
-          else
-            "Not Saved"
-          end
+          "Error"
         end
+      else
+        if (local_manifest)
+          "Saved"
+        else
+          "Not Saved"
+        end
+      end
     end
   end
 
