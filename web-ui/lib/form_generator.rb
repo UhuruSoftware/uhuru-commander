@@ -6,6 +6,7 @@ require 'fileutils'
 require 'securerandom'
 require 'pathname'
 require 'network_helper'
+require 'ucc/deployment'
 
 module Uhuru::BoshCommander
   class FormGenerator
@@ -13,10 +14,7 @@ module Uhuru::BoshCommander
 
     def self.get_clouds
       clouds = []
-      dir = File.expand_path("../../cf_deployments", __FILE__)
-      Dir.glob("#{dir}/*.yml").each do |file|
-        cloud_name = Pathname.new(file).basename.to_s.gsub(".yml", "")
-
+      Uhuru::Ucc::Deployment.deployments.each do |cloud_name|
         cloud = {}
         cloud[:name] = cloud_name
         cloud[:status] = get_cloud_status(cloud_name)
@@ -27,15 +25,28 @@ module Uhuru::BoshCommander
       clouds
     end
 
-    def initialize(deployment_file, forms_file, deployment_live = nil)
-      @deployment_manifest = deployment_file
-      @deployment = File.open(deployment_file) { |file| YAML.load(file)}
-      if deployment_live
-        if File.exist?(deployment_live)
-          @deployment_live = File.open(deployment_live)  { |file| YAML.load(file)}
+    def initialize(parameters = {})
+      @is_infrastructure = parameters[:is_infrastructure]
+      if @is_infrastructure
+        director_yml = File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
+        if File.exists?(File.expand_path('../../config/infrastructure.yml', __FILE__))
+          @deployment = File.open(File.expand_path('../../config/infrastructure.yml', __FILE__)) { |file| YAML.load(file)}
+        else
+          @deployment = File.open(director_yml) { |file| YAML.load(file)}
         end
+        @deployment_live = File.open(director_yml) { |file| YAML.load(file)}
+      else
+        @deployment_name = parameters[:deployment_name]
+        @deployment = File.open(File.expand_path("../../cf_deployments/#{@deployment_name}/#{@deployment_name}.yml", __FILE__)) { |file| YAML.load(file)}
+        @deployment_obj = Uhuru::Ucc::Deployment.new(@deployment_name)
+        begin
+          @deployment_live = @deployment_obj.get_manifest
+        rescue Exception => ex
+          puts ex
+        end
+
       end
-      @forms = File.open(forms_file) { |file| YAML.load(file)}
+      @forms = File.open(File.expand_path("../../config/forms.yml", __FILE__)) { |file| YAML.load(file)}
     end
 
     def generate_form(form, screen_name, form_data = {} )
@@ -137,8 +148,6 @@ module Uhuru::BoshCommander
     end
 
     def save_local_deployment(page, form_data)
-      is_ok = true
-
       @forms[page].each{|screen|
         screen["fields"].each{|field|
           if field["yml_key"]
@@ -184,6 +193,7 @@ module Uhuru::BoshCommander
         }
 
         set_ips(form_data)
+        configure_service_gateways(form_data)
 
         if !@deployment_live
           @deployment["properties"]["nfs_server"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("debian_nfs_server") == true }.first["networks"][0]["static_ips"][0]
@@ -192,13 +202,24 @@ module Uhuru::BoshCommander
           @deployment["properties"]["nats"]["user"] = SecureRandom.hex
           @deployment["properties"]["nats"]["password"] = SecureRandom.hex
           @deployment["properties"]["nats"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("nats") == true }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["ccdb_ng"]["address"] = @deployment["jobs"].select{|job| job["name"] == "ccdb" }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["ccdb_ng"]["roles"][0]["name"] = SecureRandom.hex
+          @deployment["properties"]["ccdb_ng"]["roles"][0]["password"] = SecureRandom.hex
+          @deployment["properties"]["uaadb"]["address"] = @deployment["jobs"].select{|job| job["name"] == "uaadb" }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["uaadb"]["roles"][0]["name"] = SecureRandom.hex
+          @deployment["properties"]["uaadb"]["roles"][0]["password"] = SecureRandom.hex
+          @deployment["properties"]["router"]["status"]["user"] = SecureRandom.hex
+          @deployment["properties"]["router"]["status"]["password"] = SecureRandom.hex
         end
       elsif page == "infrastructure"
 
       end
 
-      File.open(@deployment_manifest, "w+") {|f| f.write(@deployment.to_yaml)}
-      is_ok
+      if @is_infrastructure
+        File.open(File.expand_path("../../config/infrastructure.yml", __FILE__), "w+") {|f| f.write(@deployment.to_yaml)}
+      else
+        @deployment_obj.save(@deployment)
+      end
     end
 
     def get_errors(form_data, page, screens)
@@ -387,8 +408,19 @@ module Uhuru::BoshCommander
        @deployment["jobs"].map{|job| job["networks"][0]["static_ips"]}.flatten.include?(ip)
     end
 
+    def configure_service_gateways(form_data)
+      gateways = []
+      gateways << "mysql_gateway" if @deployment["jobs"].select{|job| job["name"] == "mysql_node"}.first["instances"].to_i > 0
+      gateways << "mongodb_gateway" if @deployment["jobs"].select{|job| job["name"] == "mongodb_node"}.first["instances"].to_i > 0
+      gateways << "redis_gateway" if @deployment["jobs"].select{|job| job["name"] == "redis_node"}.first["instances"].to_i > 0
+      gateways << "postgresql_gateway" if @deployment["jobs"].select{|job| job["name"] == "postgresql_node"}.first["instances"].to_i > 0
+      gateways << "rabbit_gateway" if @deployment["jobs"].select{|job| job["name"] == "rabbit_node"}.first["instances"].to_i > 0
+      gateways << "uhurufs_gateway" if @deployment["jobs"].select{|job| job["name"] == "uhurufs_node"}.first["instances"].to_i > 0
+      gateways << "mssql_gateway" if @deployment["jobs"].select{|job| job["name"] == "mssql_node"}.first["instances"].to_i > 0
+      @deployment["jobs"].select{|job| job["name"] == "service_gateways"}.first["templates"] = gateways
+    end
+
     def self.get_cloud_status(cloud_name)
-      puts File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)
       if !File.exist?(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__))
         return "Not Configured"
       else

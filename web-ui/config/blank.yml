@@ -107,8 +107,7 @@ update:
   max_in_flight: 5
 jobs:
 - name: debian_nfs_server
-  template:
-  - debian_nfs_server
+  template: debian_nfs_server
   instances: 1
   resource_pool: small
   persistent_disk: 5000
@@ -117,8 +116,7 @@ jobs:
     static_ips:
   properties: {}
 - name: syslog_aggregator
-  template:
-  - syslog_aggregator
+  template: syslog_aggregator
   instances: 1
   resource_pool: medium
   persistent_disk: 5000
@@ -142,22 +140,6 @@ jobs:
   - name: default
     static_ips:
   properties: {}
-- name: hbase_master
-  template: hbase_master
-  instances: 1
-  resource_pool: medium
-  networks:
-  - name: default
-    static_ips:
-  properties: {}
-- name: hbase_slave
-  template: hbase_slave
-  instances: 1
-  resource_pool: medium
-  networks:
-  - name: default
-    static_ips:
-  properties: {}
 - name: ccdb_postgres
   template: postgres
   instances: 1
@@ -167,7 +149,7 @@ jobs:
   - name: default
     static_ips:
   properties:
-    db: vcap_databases
+    db: ccdb_ng
 - name: vcap_redis
   template: vcap_redis
   instances: 1
@@ -185,20 +167,21 @@ jobs:
   - name: default
   properties: {}
 - name: uaadb
-  template: uaadb
+  template: postgres
   instances: 1
   resource_pool: small
   networks:
   - name: default
     static_ips:
+  properties:
+    db: uaadb
+- name: login
+  template: login
+  instances: 1
+  resource_pool: small
+  networks:
+  - name: default
   properties: {}
-#- name: login
-#  template: login
-#  instances: 1
-#  resource_pool: small
-#  networks:
-#  - name: default
-#  properties: {}
 - name: stager
   template: stager
   instances: 1
@@ -268,33 +251,6 @@ jobs:
   networks:
   - name: default
     static_ips:
-- name: opentsdb
-  template: opentsdb
-  instances: 1
-  resource_pool: medium
-  persistent_disk: 5000
-  networks:
-  - name: default
-    static_ips:
-  properties: {}
-- name: collector
-  template: collector
-  instances: 1
-  resource_pool: medium
-  persistent_disk: 5000
-  networks:
-  - name: default
-    static_ips:
-  properties: {}
-- name: dashboard
-  template: dashboard
-  instances: 1
-  resource_pool: medium
-  persistent_disk: 5000
-  networks:
-  - name: default
-    static_ips:
-  properties: {}
 - name: rabbit_node
   template: rabbit_node_ng
   instances: 1
@@ -334,56 +290,14 @@ jobs:
   networks:
   - name: default
   properties: {}
-- name: mysql_gateway
+- name: service_gateways
   template:
   - mysql_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-  properties: {}
-- name: mongodb_gateway
-  template:
   - mongodb_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-  properties: {}
-- name: redis_gateway
-  template:
   - redis_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-  properties: {}
-- name: rabbit_gateway
-  template:
   - rabbit_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-  properties: {}
-- name: postgresql_gateway
-  template:
   - postgresql_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-  properties: {}
-- name: mssql_gateway
-  template:
   - mssql_gateway
-  instances: 1
-  resource_pool: tiny
-  networks:
-  - name: default
-  properties: {}
-- name: uhurufs_gateway
-  template:
   - uhurufs_gateway
   instances: 1
   resource_pool: tiny
@@ -391,16 +305,14 @@ jobs:
   - name: default
   properties: {}
 - name: simple_webui
-  template:
-  - simple_webui
+  template: simple_webui
   instances: 1
   resource_pool: tiny
   networks:
   - name: default
   properties: {}
 - name: health_manager
-  template:
-  - health_manager_next
+  template: health_manager_next
   instances: 1
   resource_pool: small
   networks:
@@ -467,24 +379,6 @@ properties:
     password: nats
     address: 10.0.7.122
     port: 4222
-  vcap_databases:
-    address: 10.0.7.123
-    port: 2544
-    databases:
-    - tag: cc
-      name: appcloud
-    - tag: cc_ng
-      name: appcloud_ng
-      citext: true
-    - tag: uaa
-      name: uaa
-    roles:
-    - tag: admin
-      name: root
-      password: root
-    - tag: uaa
-      name: uaa
-      password: uaa
   ccdb_ng:
     address: 10.0.7.123
     port: 2544

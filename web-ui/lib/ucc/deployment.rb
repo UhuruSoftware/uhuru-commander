@@ -33,7 +33,9 @@ module Uhuru::Ucc
 
     #Returns an array of all the deployments
     def self.deployments
-      folders = Dir.entries('../cf_deployments').select {|entry| !(entry =='.' || entry == '..') }
+      folders = Dir.entries('../cf_deployments').select {|entry|
+        !(entry =='.' || entry == '..' || File.file?(File.join("../cf_deployments/",entry)))
+      }
       folders
     end
 
