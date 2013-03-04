@@ -265,6 +265,7 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
       form_data = {}
       vms_list = {}
+      deployment_status = nil
       form_generator = nil
       table_errors = nil
       Uhuru::CommanderBoshRunner.execute(session) do
@@ -273,8 +274,10 @@ module Uhuru::BoshCommander
           table_errors = form_generator.get_errors(form_data, "cloud", cloud_js_tabs)
           vms = Uhuru::Ucc::Vms.new()
           vms_list = vms.list(cloud_name)
+          deployment = Ucc::Deployment.new(cloud_name)
+          deployment_status = deployment.status
         rescue Exception => ex
-          puts ex
+          puts "#{ex} -> #{ex.backtrace}"
         end
       end
 
@@ -288,7 +291,8 @@ module Uhuru::BoshCommander
                                        :table_errors => table_errors,
                                        :form_data => {},
                                        :cloud_name => cloud_name,
-                                       :vms => vms_list
+                                       :vms => vms_list,
+                                       :summary => deployment_status
                                    },
                                :layout => :layout}
     end
@@ -300,6 +304,7 @@ module Uhuru::BoshCommander
       table_errors = nil
       form_generator = nil
       vms_list = {}
+      deployment_status = nil
       if params.has_key?("btn_save")
         params.delete("btn_save")
         Uhuru::CommanderBoshRunner.execute(session) do
@@ -311,6 +316,8 @@ module Uhuru::BoshCommander
             end
             vms = Uhuru::Ucc::Vms.new()
             vms_list = vms.list(cloud_name)
+            deployment = Ucc::Deployment.new(cloud_name)
+            deployment_status = deployment.status
           rescue Exception => ex
             logger.err(ex.to_s)
           end
@@ -326,7 +333,8 @@ module Uhuru::BoshCommander
                                            :table_errors => table_errors,
                                            :form_data => params,
                                            :cloud_name => cloud_name,
-                                           :vms => vms_list
+                                           :vms => vms_list,
+                                           :summary => deployment_status
                                        },
                                    :layout => :layout}
 
@@ -533,6 +541,18 @@ module Uhuru::BoshCommander
               :layout => :layout
           }
     end
+
+
+    post '/deployment_status' do
+      deployment_status = nil
+      Uhuru::CommanderBoshRunner.execute(session) do
+        deployment = Uhuru::Ucc::Deployment.new("ccng-dev")
+        deployment_status = deployment.status
+      end
+      deployment_status
+    end
+
+
   end
 
 end

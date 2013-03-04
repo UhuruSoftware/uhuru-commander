@@ -63,11 +63,40 @@ module Uhuru::Ucc
 
     end
 
+    #retrieves deployment information
+    def status
+      state = get_state
+      current_manifest = nil
+      if (state == "Deployed")
+        current_manifest = get_manifest()
+      else
+        if (state == "Saved")
+          current_manifest = load_yaml_file(@deployment_manifest_path)
+        else
+          raise "Cannot get status, current state is #{state}"
+        end
+
+      end
+      stats = {}
+      stats["resources"] = get_resources(current_manifest)
+
+      properties = current_manifest["properties"]
+      stats["api_url"] = properties["cc"]["srv_api_uri"]
+      stats["uaa_url"] = properties["uaa_endpoint"]
+      stats["web_ui_url"] = "www.#{properties["domain"]}"
+      stats["admin_email"] = properties["uhuru"]["simple_webui"]["admin_email"]
+      stats["contact_email"] = properties["uhuru"]["simple_webui"]["contact"]["email"]
+      stats["support_url"] = properties["support_address"]
+
+      stats
+
+    end
+
+
     def update()
       if (!deployment_info)
         rais "Deployment does not exist"
       end
-
 
     end
 
@@ -100,7 +129,7 @@ module Uhuru::Ucc
         end
       end
 
-      deployment["manifest"]
+       YAML.load(deployment["manifest"])
     end
 
     #delete VMs corresponding to this deployment
@@ -118,6 +147,35 @@ module Uhuru::Ucc
     end
 
     private
+
+    def get_resources(deployment_manifest)
+      result = {}
+      total_cpu = 0
+      total_RAM = 0
+      total_disk = 0
+      deployment_manifest["resource_pools"].each do |resource_pool|
+        total_cpu +=  resource_pool["cloud_properties"]["cpu"].to_i * resource_pool["size"].to_i
+        total_RAM += resource_pool["cloud_properties"]["ram"].to_i * resource_pool["size"].to_i
+        total_disk += (get_stemcell_disk(resource_pool["stemcell"]) + resource_pool["cloud_properties"]["disk"].to_i) * resource_pool["size"].to_i
+      end
+      deployment_manifest["jobs"].each do |job|
+        total_disk += job["persistent_disk"].to_i * job["instances"].to_i
+      end
+      result["total_cpu"] = total_cpu
+      result["total_RAM"] = total_RAM
+      result["total_disk"] = total_disk
+      result
+    end
+
+    def get_stemcell_disk(stemcell)
+      $config[:bosh][:stemcells].each do |stemcell_type, config_stemcell|
+        if (config_stemcell[:name] == stemcell["name"] && config_stemcell[:version] == stemcell["version"])
+          return config_stemcell[:system_disk].to_i
+        end
+      end
+      0
+    end
+
     def deployment_command
       command = Thread.current.current_session[:command]
       deployment_cmd = Bosh::Cli::Command::Deployment.new

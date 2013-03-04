@@ -89,6 +89,9 @@ module Uhuru::BoshCommander
         html_field[:name] = field['label']
         html_field[:description] = field['description']
         local_value = form_data.has_key?(html_field[:id]) ? form_data[html_field[:id].to_sym] : get_local_value(form, screen_name, field)
+        if (!local_value)
+          next
+        end
         live_value = get_live_value(form, screen_name, field)
 
         if field["type"].start_with?('array_')
@@ -137,12 +140,12 @@ module Uhuru::BoshCommander
     def validate_form(form_data)
       is_ok = true
 
-        #form_data.each do |name, value|
-        #  name.split(",").each do |this_name|
-        #    Validations.validate_field(value, this_name)
-        #    puts this_name.to_s
-        #  end
-        #end
+      #form_data.each do |name, value|
+      #  name.split(",").each do |this_name|
+      #    Validations.validate_field(value, this_name)
+      #    puts this_name.to_s
+      #  end
+      #end
 
       is_ok
     end
@@ -331,14 +334,20 @@ module Uhuru::BoshCommander
     end
 
     def get_yml_value(yml, form, screen, field)
-      value = ""
-      if field["yml_key"].kind_of?(Array)
-        value = eval("yml" + field["yml_key"][0])
-      else
-        value = eval("yml" + field["yml_key"])
-      end
+      begin
+        if field["yml_key"].kind_of?(Array)
+          value = eval("yml" + field["yml_key"][0])
+        else
+          value = eval("yml" + field["yml_key"])
+        end
 
-      value
+        value
+
+      rescue Exception => ex
+        puts "#{ex} -> #{ex.backtrace}"
+        #needed if some resource pools/jobs are missing
+        return nil
+      end
     end
 
     def get_yaml_key(id)
@@ -405,7 +414,7 @@ module Uhuru::BoshCommander
     end
 
     def ip_taken?(ip)
-       @deployment["jobs"].map{|job| job["networks"][0]["static_ips"]}.flatten.include?(ip)
+      @deployment["jobs"].map{|job| job["networks"][0]["static_ips"]}.flatten.include?(ip)
     end
 
     def configure_service_gateways(form_data)

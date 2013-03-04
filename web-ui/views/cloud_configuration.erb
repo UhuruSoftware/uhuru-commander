@@ -150,8 +150,10 @@
         <table class="virtual_machines_table">
           <% vms.each do |vm| %>
             <tr>
-                <td><%= vm[:agent_id] %></td>
-                <td>10.0.5.100</td>
+                <td><%= vm["agent_id"] %></td>
+                <td><%= vm["job_name"] %></td>
+                <td><%= vm["job_state"] %></td>
+                <td><%= vm["ips"].join("; ") if !vm["ips"].nil? %></td>
                 <td>SSH | Logs</td>
             </tr>
           <%end%>

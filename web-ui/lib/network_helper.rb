@@ -115,7 +115,7 @@ class NetworkHelper
   end
 
   def self.get_ip_range(ip_start, ip_end, inclusive = false)
-    IPAdmin.range :Boundaries => [IPAdmin::CIDR.new(:CIDR => ip_start), IPAdmin::CIDR.new(:CIDR => ip_end)], :Inclusive => inclusive
+    IPAdmin.range :Boundaries => [IPAdmin::CIDR.new(:CIDR => ip_start.strip), IPAdmin::CIDR.new(:CIDR => ip_end.strip)], :Inclusive => inclusive
   end
 
   private

@@ -18,7 +18,7 @@ class Validations
         when "ip_range"
           begin
             if value.include?("-")
-              unless IPAddress.valid_ipv4?(value.split('-')[0]) || IPAddress.valid_ipv4?(value.split('-')[1])
+              unless IPAddress.valid_ipv4?(value.split('-')[0].strip) || IPAddress.valid_ipv4?(value.split('-')[1].strip)
                 error = "This is not a proper IP range!"
               end
             else
