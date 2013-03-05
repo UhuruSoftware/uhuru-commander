@@ -42,7 +42,7 @@ module Uhuru::BoshCommander
         begin
           @deployment_live = @deployment_obj.get_manifest
         rescue Exception => ex
-          puts ex
+          #puts ex
         end
 
       end
@@ -151,10 +151,12 @@ module Uhuru::BoshCommander
     end
 
     def save_local_deployment(page, form_data)
+
       @forms[page].each{|screen|
         screen["fields"].each{|field|
           if field["yml_key"]
             id = "#{page}:#{screen["screen"]}:#{field['name']}"
+            next unless form_data[id]
             value = form_data[id]
             if field["yml_key"].kind_of?(Array)
               field["yml_key"].each do |key|
@@ -205,22 +207,52 @@ module Uhuru::BoshCommander
           @deployment["properties"]["nats"]["user"] = SecureRandom.hex
           @deployment["properties"]["nats"]["password"] = SecureRandom.hex
           @deployment["properties"]["nats"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("nats") == true }.first["networks"][0]["static_ips"][0]
-          @deployment["properties"]["ccdb_ng"]["address"] = @deployment["jobs"].select{|job| job["name"] == "ccdb" }.first["networks"][0]["static_ips"][0]
-          @deployment["properties"]["ccdb_ng"]["roles"][0]["name"] = SecureRandom.hex
-          @deployment["properties"]["ccdb_ng"]["roles"][0]["password"] = SecureRandom.hex
-          @deployment["properties"]["uaadb"]["address"] = @deployment["jobs"].select{|job| job["name"] == "uaadb" }.first["networks"][0]["static_ips"][0]
-          @deployment["properties"]["uaadb"]["roles"][0]["name"] = SecureRandom.hex
-          @deployment["properties"]["uaadb"]["roles"][0]["password"] = SecureRandom.hex
+          @deployment["properties"]["ccdb"]["address"] = @deployment["jobs"].select{|job| job["name"] == "ccdb" }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["ccdb"]["password"] = SecureRandom.hex
+          @deployment["properties"]["ccdb"]["roles"][0]["password"] = SecureRandom.hex
+          @deployment["properties"]["ccdb"]["dbname"] = SecureRandom.hex
+          @deployment["properties"]["ccdb"]["databases"][0]["name"] = @deployment["properties"]["ccdb"]["dbname"]
+          @deployment["properties"]["ccdb"]["roles"][0]["password"] = @deployment["properties"]["ccdb"]["password"]
+          @deployment["properties"]["cc"]["srv_api_uri"] = "api.#{@deployment['properties']['domain']}"
+          @deployment["properties"]["cc"]["password"] = SecureRandom.hex
+          @deployment["properties"]["cc"]["token"] = SecureRandom.hex
+          @deployment["properties"]["cc"]["staging_upload_user"] = SecureRandom.hex
+          @deployment["properties"]["cc"]["staging_upload_password"] = SecureRandom.hex
+          @deployment["properties"]["vcap_redis"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("vcap_redis") == true }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["vcap_redis"]["password"] = SecureRandom.hex
+          @deployment["properties"]["vcap_redis"]["maxmemory"] = @deployment["resource_pools"].select{|pool| pool["name"] == "medium" }.first["cloud_properties"]["ram"]
           @deployment["properties"]["router"]["status"]["user"] = SecureRandom.hex
           @deployment["properties"]["router"]["status"]["password"] = SecureRandom.hex
+          @deployment["properties"]["router"]["redirect_parent_domain_to"] = "www.#{@deployment['properties']['domain']}"
+          @deployment["properties"]["dea"]["maxmemory"] = @deployment["resource_pools"].select{|pool| pool["name"] == "deas" }.first["cloud_properties"]["ram"]
+          @deployment["properties"]["hbase_master"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("hbase_master") == true }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["hbase_slave"]["addresses"][0] = @deployment["jobs"].select{|job| job["template"].include?("hbase_slave") == true }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["opentsdb"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("opentsdb") == true }.first["networks"][0]["static_ips"][0]
+          @deployment["properties"]["uaa"]["cc"]["token_secret"] = SecureRandom.hex
+          @deployment["properties"]["uaa"]["cc"]["client_secret"] = SecureRandom.hex
+          @deployment["properties"]["uaa"]["admin"]["client_secret"] = SecureRandom.hex
+          @deployment["properties"]["uaa"]["login"]["client_secret"] = SecureRandom.hex
+          @deployment["properties"]["uaa"]["clients"]["dashboard"]["secret"] = SecureRandom.hex
+          @deployment["properties"]["uaa"]["scim"]["users"][0] = "#{form_data['cloud:Properties:dashboard_username']}|#{form_data['cloud:Properties:dashboard_password']}|#{form_data['cloud:Properties:dashboard_email']}|Dash|Board|openid,dashboard.user"
+
+          #@deployment["properties"]["ccdb_ng"]["roles"][0]["name"] = SecureRandom.hex
+          #@deployment["properties"]["ccdb_ng"]["roles"][0]["password"] = SecureRandom.hex
+          #@deployment["properties"]["ccdb_ng"]["address"] = @deployment["jobs"].select{|job| job["name"] == "ccdb" }.first["networks"][0]["static_ips"][0]
+          #@deployment["properties"]["uaadb"]["address"] = @deployment["jobs"].select{|job| job["name"] == "uaadb" }.first["networks"][0]["static_ips"][0]
+          #@deployment["properties"]["uaadb"]["roles"][0]["name"] = SecureRandom.hex
+          #@deployment["properties"]["uaadb"]["roles"][0]["password"] = SecureRandom.hex
+          #@deployment["properties"]["router"]["status"]["user"] = SecureRandom.hex
+          #@deployment["properties"]["router"]["status"]["password"] = SecureRandom.hex
         end
       elsif page == "infrastructure"
 
       end
 
       if @is_infrastructure
+        puts "caca"
         File.open(File.expand_path("../../config/infrastructure.yml", __FILE__), "w+") {|f| f.write(@deployment.to_yaml)}
       else
+        puts @deployment
         @deployment_obj.save(@deployment)
       end
     end
@@ -310,6 +342,12 @@ module Uhuru::BoshCommander
       elsif field["name"] == "subnet_mask"
         helper = NetworkHelper.new(cloud_manifest: @deployment)
         return helper.get_subnet_mask
+      elsif field["name"] == "dashboard_email"
+        return @deployment["properties"]["uaa"]["scim"]["users"][0].split('|')[2]
+      elsif field["name"] == "dashboard_username"
+        return @deployment["properties"]["uaa"]["scim"]["users"][0].split('|')[0]
+      elsif field["name"] == "dashboard_password"
+        return @deployment["properties"]["uaa"]["scim"]["users"][0].split('|')[1]
       else
         return ""
       end
@@ -341,10 +379,14 @@ module Uhuru::BoshCommander
           value = eval("yml" + field["yml_key"])
         end
 
-        value
+        if value.nil?
+          return ""
+        else
+          return value
+        end
 
       rescue Exception => ex
-        puts "#{ex} -> #{ex.backtrace}"
+        #puts "field: #{field}: #{ex} -> #{ex.backtrace}"
         #needed if some resource pools/jobs are missing
         return nil
       end
@@ -418,15 +460,32 @@ module Uhuru::BoshCommander
     end
 
     def configure_service_gateways(form_data)
-      gateways = []
-      gateways << "mysql_gateway" if @deployment["jobs"].select{|job| job["name"] == "mysql_node"}.first["instances"].to_i > 0
-      gateways << "mongodb_gateway" if @deployment["jobs"].select{|job| job["name"] == "mongodb_node"}.first["instances"].to_i > 0
-      gateways << "redis_gateway" if @deployment["jobs"].select{|job| job["name"] == "redis_node"}.first["instances"].to_i > 0
-      gateways << "postgresql_gateway" if @deployment["jobs"].select{|job| job["name"] == "postgresql_node"}.first["instances"].to_i > 0
-      gateways << "rabbit_gateway" if @deployment["jobs"].select{|job| job["name"] == "rabbit_node"}.first["instances"].to_i > 0
-      gateways << "uhurufs_gateway" if @deployment["jobs"].select{|job| job["name"] == "uhurufs_node"}.first["instances"].to_i > 0
-      gateways << "mssql_gateway" if @deployment["jobs"].select{|job| job["name"] == "mssql_node"}.first["instances"].to_i > 0
-      @deployment["jobs"].select{|job| job["name"] == "service_gateways"}.first["templates"] = gateways
+
+      #one job per gateway
+      gateways = {
+          "mysql_gateway" => "mysql_node",
+          "mongodb_gateway" => "mongodb_node",
+          "redis_gateway" => "redis_node",
+          "postgresql_gateway" => "postgresql_node",
+          "rabbit_gateway" => "rabbit_node",
+          "uhurufs_gateway" => "uhurufs_node",
+          "mssql_gateway" => "mssql_node"
+      }
+      gateways.each{|key, value|
+        if @deployment["jobs"].select{|job| job["name"] == value}.first["instances"].to_i > 0
+          @deployment["jobs"].select{|job| job["name"] == key}.first["instances"] = 1
+        else
+          @deployment["jobs"].select{|job| job["name"] == key}.first["instances"] = 0
+        end
+      }
+
+      #job collocation
+
+      #gateways = []
+      #gateways.each{|key, value|
+      #  gateways << key if @deployment["jobs"].select{|job| job["name"] == value}.first["instances"].to_i > 0
+      #  }
+      #@deployment["jobs"].select{|job| job["name"] == "service_gateways"}.first["templates"] = gateways
     end
 
     def self.get_cloud_status(cloud_name)

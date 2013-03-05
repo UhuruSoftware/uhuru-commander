@@ -25,10 +25,7 @@ cloud:
       - {name: static_ip_range,  label: Static IP Range,     type: ip_range,     yml_key: '["networks"][0]["subnets"][0]["static"][0]',    description: 'Network IP Pool' }
       - {name: dynamic_ip_range,  label: Dynamic IP Range,     type: ip_range,         description: 'Network IP Pool' }
       - {name: subnet_mask,  label: Subnet Mask,     type: ip,         description: 'Network Subnet mask' }
-#      - {name: reserved,      label: Reserved IPs, type: array_ip_range, yml_key: '["networks"][0]["subnets"][0]["reserved"]',                   description:  }
-#      - {name: static,        label: Static IPs,  type: array_ip_range, yml_key: '["networks"][0]["subnets"][0]["static"]',                     description:  }
       - {name: gateway,       label: Gateway,     type: ip,             yml_key: '["networks"][0]["subnets"][0]["gateway"]',                    description: 'Network Gateway' }
-#      - {name: range,         label: Range,       type: ip_range,       yml_key: '["networks"][0]["subnets"][0]["range"]',                      description:  }
       - {name: dns,           label: DNS,         type: array_ip,       yml_key: '["networks"][0]["subnets"][0]["dns"]',                        description: 'Domain Name Servers' }
 
 #  - screen: Compilation
@@ -92,8 +89,8 @@ cloud:
   - screen: Properties
     fields:
       - {name: admin_sep,    label: Administrator Settings,       type: separator }
-      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_email"]', '["properties"]["cc"]["admins"][0]'],   description: '' }
-      - {name: admin_password,    label: Administrator Password,       type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["admin_password"]',   description: '' }
+      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_email"]', '["properties"]["cc"]["admins"][0]', '["properties"]["cc"]["bootstrap_users"][0]["email"]'],   description: '' }
+      - {name: admin_password,    label: Administrator Password,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_password"]', '["properties"]["cc"]["bootstrap_users"][0]["password"]'],   description: '' }
 
       - {name: cloud_info_sep,    label: Cloud Information,       type: separator }
       - {name: name,    label: Name,       type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_name"]',   description: '' }
@@ -126,6 +123,11 @@ cloud:
       - {name: email_server_secret, label: Password, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["secret"]',   description: ''}
       - {name: email_server_auth_method, label: Authentication Method, type: list, items: ':plain,Login,CRAM-MD5',   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["auth_method"]',   description: ''}
       - {name: email_server_enable_tls, label: Use TLS, type: boolean,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["enable_tls"]',   description: ''}
+
+      - {name: dashboard_sep,    label: Dashboard Settings,       type: separator }
+      - {name: dashboard_email, label: Email, type: string,   description: ''}
+      - {name: dashboard_username, label: User name, type: string,   description: ''}
+      - {name: dashboard_password, label: Password, type: password,   description: ''}
 
       - {name: cloud_tools_sep,    label: Links to Client Tools,       type: separator }
       - {name: cloud_admin_download_url, label: Uhuru Cloud Admin, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_admin_download_url"]',   description: ''}

@@ -319,7 +319,7 @@ module Uhuru::BoshCommander
             deployment = Ucc::Deployment.new(cloud_name)
             deployment_status = deployment.status
           rescue Exception => ex
-            logger.err(ex.to_s)
+            logger.err("#{ex.to_s}: #{ex.backtrace}")
           end
         end
 
@@ -447,7 +447,7 @@ module Uhuru::BoshCommander
       if params["create_cloud_name"] != ''
         Uhuru::CommanderBoshRunner.execute(session) do
           deployment = Uhuru::Ucc::Deployment.new(params["create_cloud_name"])
-          blank_manifest = File.open(File.expand_path("../../config/blank.yml", __FILE__)) { |file| YAML.load(file)}
+          blank_manifest = File.open(File.expand_path("../../config/blank_cf.yml", __FILE__)) { |file| YAML.load(file)}
           deployment.save(blank_manifest)
           clouds = FormGenerator.get_clouds
         end
