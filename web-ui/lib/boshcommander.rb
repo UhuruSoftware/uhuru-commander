@@ -272,10 +272,11 @@ module Uhuru::BoshCommander
         begin
           form_generator = FormGenerator.new(deployment_name: cloud_name)
           table_errors = form_generator.get_errors(form_data, "cloud", cloud_js_tabs)
-          vms = Uhuru::Ucc::Vms.new()
-          vms_list = vms.list(cloud_name)
-          deployment = Ucc::Deployment.new(cloud_name)
-          deployment_status = deployment.status
+          if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
+            vms = Uhuru::Ucc::Vms.new()
+            vms_list = vms.list(cloud_name)
+          end
+          deployment_status = form_generator.deployment_obj.status
         rescue Exception => ex
           puts "#{ex} -> #{ex.backtrace}"
         end
@@ -316,7 +317,7 @@ module Uhuru::BoshCommander
             end
             vms = Uhuru::Ucc::Vms.new()
             vms_list = vms.list(cloud_name)
-            deployment = Ucc::Deployment.new(cloud_name)
+            deployment = Uhuru::Ucc::Deployment.new(cloud_name)
             deployment_status = deployment.status
           rescue Exception => ex
             logger.err("#{ex.to_s}: #{ex.backtrace}")

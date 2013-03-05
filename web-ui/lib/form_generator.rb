@@ -11,6 +11,8 @@ require 'ucc/deployment'
 module Uhuru::BoshCommander
   class FormGenerator
     attr_accessor :deployment
+    attr_accessor :deployment_obj
+
 
     def self.get_clouds
       clouds = []

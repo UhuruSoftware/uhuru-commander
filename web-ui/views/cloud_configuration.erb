@@ -37,109 +37,109 @@
 
   <form method="post" action="/clouds/configure/<%= cloud_name %>">
 
-        <% js_tabs.each do |tab, name| %>
-            <div id="cloud_<%= tab %>_div" class="<%= default_tab != tab ? 'hidden' : '' %> ">
-                <div>
-                  <table class="settings_table">
-                        <tr class="settings_table_header">
-                          <td>Description</td>
-                          <td>Local value</td>
-                          <td>Live value</td>
-                          <td>Error</td>
-                        </tr>
-                    <% form_generator.generate_form(form, name, form_data).each do |html_field| %>
-                        <% if html_field[:type] == 'separator' %>
-                        <tr>
-                          <td colspan="3">
-                            <div class="<%= html_field[:class] %> separator"><%= html_field[:name] %></div>
-                            <hr/>
-                          </td>
-                          <td />
-                        </tr>
-                        <% else %>
-                        <tr>
-                          <td>
-                            <label class="<%= html_field[:class] %> local" for="<%= html_field[:input_name] %>">
-                              <%= html_field[:name] + ":" %>
-                            </label>
-                          </td>
+    <% js_tabs.each do |tab, name| %>
+        <div id="cloud_<%= tab %>_div" class="<%= default_tab != tab ? 'hidden' : '' %> ">
+          <div>
+            <table class="settings_table">
+              <tr class="settings_table_header">
+                <td>Description</td>
+                <td>Local value</td>
+                <td>Live value</td>
+                <td>Error</td>
+              </tr>
+              <% form_generator.generate_form(form, name, form_data).each do |html_field| %>
+                  <% if html_field[:type] == 'separator' %>
+                      <tr>
+                        <td colspan="3">
+                          <div class="<%= html_field[:class] %> separator"><%= html_field[:name] %></div>
+                          <hr/>
+                        </td>
+                        <td />
+                      </tr>
+                  <% else %>
+                      <tr>
+                        <td>
+                          <label class="<%= html_field[:class] %> local" for="<%= html_field[:input_name] %>">
+                            <%= html_field[:name] + ":" %>
+                          </label>
+                        </td>
 
-                          <td>
-                            <% if html_field[:type] == 'select' %>
-                                <select name="<%= html_field[:input_name] %>"
-                                       type="<%= html_field[:type] %>"
-                                       class="<%= html_field[:class] %> local"
-                                       id="<%= html_field[:id] %>">
-                                  <% html_field[:select_options].each do |option| %>
+                        <td>
+                          <% if html_field[:type] == 'select' %>
+                              <select name="<%= html_field[:input_name] %>"
+                                      type="<%= html_field[:type] %>"
+                                      class="<%= html_field[:class] %> local"
+                                      id="<%= html_field[:id] %>">
+                                <% html_field[:select_options].each do |option| %>
                                     <option <%= option == html_field[:value] ? 'selected' : '' %> value="<%= option %>" ><%= option %></option>
-                                  <% end %>
-                                </select>
-                            <% elsif html_field[:type] == 'textarea' %>
-                                <textarea name="<%= html_field[:input_name] %>"
-                                       class="<%= html_field[:class] %> local"
-                                       id="<%= html_field[:id] %>"><%= html_field[:value] %></textarea>
-                            <% elsif html_field[:type] == 'checkbox' %>
-                                <input name="<%= html_field[:input_name] %>"
-                                       type="<%= html_field[:type] %>"
-                                       class="<%= html_field[:class] %> local"
-                                       id="<%= html_field[:id] %>"
-                                       value="true"
-                                <% if html_field[:value] == "true" %>
-                                    checked
                                 <% end %>
-                                />
-                            <% else %>
-                                <input name="<%= html_field[:input_name] %>"
-                                       type="<%= html_field[:type] %>"
-                                       class="<%= html_field[:class] %> local"
-                                       id="<%= html_field[:id] %>"
-                                       value="<%= html_field[:value] %>"
-                                />
-                            <% end %>
-                          </td>
+                              </select>
+                          <% elsif html_field[:type] == 'textarea' %>
+                              <textarea name="<%= html_field[:input_name] %>"
+                                        class="<%= html_field[:class] %> local"
+                                        id="<%= html_field[:id] %>"><%= html_field[:value] %></textarea>
+                          <% elsif html_field[:type] == 'checkbox' %>
+                              <input name="<%= html_field[:input_name] %>"
+                                     type="<%= html_field[:type] %>"
+                                     class="<%= html_field[:class] %> local"
+                                     id="<%= html_field[:id] %>"
+                                     value="true"
+                                     <% if html_field[:value] == "true" %>
+                                     checked
+                                     <% end %>
+                                     />
+                          <% else %>
+                              <input name="<%= html_field[:input_name] %>"
+                                     type="<%= html_field[:type] %>"
+                                     class="<%= html_field[:class] %> local"
+                                     id="<%= html_field[:id] %>"
+                                     value="<%= html_field[:value] %>"
+                              />
+                          <% end %>
+                        </td>
 
-                          <td>
-                            <input type="<%= html_field[:type] %>"
-                                   value="<%= html_field[:value_live] %>"
-                                   class="<%= html_field[:class] %> live_value" disabled=""
-                                   <% if html_field[:type] == 'checkbox' %>
-                                      <% if html_field[:value_live] == "true" %>
-                                        checked
-                                      <% end %>
-                                   <% end %>
-                            />
-                          </td>
+                        <td>
+                          <input type="<%= html_field[:type] %>"
+                                 value="<%= html_field[:value_live] %>"
+                                 class="<%= html_field[:class] %> live_value" disabled=""
+                                 <% if html_field[:type] == 'checkbox' %>
+                                 <% if html_field[:value_live] == "true" %>
+                                 checked
+                                 <% end %>
+                                 <% end %>
+                                 />
+                        </td>
 
-                          <td>
-                            <% if html_field[:error] %>
-                                <span class="field_error"><%= html_field[:error] %></span>
-                            <% end %>
-                          </td>
+                        <td>
+                          <% if html_field[:error] %>
+                              <span class="field_error"><%= html_field[:error] %></span>
+                          <% end %>
+                        </td>
 
-                        </tr>
-                            <% end %>
-                    <% end %>
-                  </table>
-                </div>
-            </div>
-        <% end %>
-
-
-        <div id="cloud_advanced_div" class="hidden">
-            <div >
-              <textarea><%= form_generator.deployment.to_yaml %></textarea>
-            </div>
+                      </tr>
+                  <% end %>
+              <% end %>
+            </table>
+          </div>
         </div>
+    <% end %>
 
-        <div class="bottom_buttons_div">
-            <input name="btn_save" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
-            <input name="btn_save_and_deploy" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
-            <input name="btn_tear_down" type="submit" value="Tear Down" class="tear_down" />
-            <input name="btn_delete" type="submit" value="Delete" class="delete" />
-            <input name="btn_export" type="submit" value="Export" class="export" />
-            <input name="btn_import" type="submit" value="Import" class="import" />
-        </div>
-    </form>
+
+    <div id="cloud_advanced_div" class="hidden">
+      <div >
+        <textarea><%= form_generator.deployment.to_yaml %></textarea>
+      </div>
+    </div>
+
+    <div class="bottom_buttons_div">
+      <input name="btn_save" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
+      <input name="btn_save_and_deploy" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
+      <input name="btn_tear_down" type="submit" value="Tear Down" class="tear_down" />
+      <input name="btn_delete" type="submit" value="Delete" class="delete" />
+      <input name="btn_export" type="submit" value="Export" class="export" />
+      <input name="btn_import" type="submit" value="Import" class="import" />
+    </div>
+  </form>
 
 </div>
 
@@ -147,31 +147,44 @@
 
   <div>
     <form id="virtual_machines_form">
-        <table class="virtual_machines_table">
-          <% vms.each do |vm| %>
+      <table class="virtual_machines_table">
+        <% vms.each do |vm| %>
             <tr>
-                <td><%= vm["agent_id"] %></td>
-                <td><%= vm["job_name"] %></td>
-                <td><%= vm["job_state"] %></td>
-                <td><%= vm["ips"].join("; ") if !vm["ips"].nil? %></td>
-                <td>SSH | Logs</td>
+              <td><%= vm["agent_id"] %></td>
+              <td><%= vm["job_name"] %></td>
+              <td><%= vm["job_state"] %></td>
+              <td><%= vm["ips"].join("; ") if !vm["ips"].nil? %></td>
+              <td>SSH | Logs</td>
             </tr>
-          <%end%>
-        </table>
+        <%end%>
+      </table>
 
-        <div class="bottom_buttons_div">
-          <input name="btn_parameter" type="button" value="Save" id="save_virtual_machines_btn" />
-          <input name="btn_parameter" type="button" value="Save & Deploy" id="saveanddeploy_virtual_machines_btn" />
-          <input name="btn_parameter" type="button" value="Tear Down" />
-          <input name="btn_parameter" type="button" value="Delete" />
-          <input name="btn_parameter" type="button" value="Export" />
-          <input name="btn_parameter" type="button" value="Import" />
-        </div>
+      <div class="bottom_buttons_div">
+        <input name="btn_parameter" type="button" value="Save" id="save_virtual_machines_btn" />
+        <input name="btn_parameter" type="button" value="Save & Deploy" id="saveanddeploy_virtual_machines_btn" />
+        <input name="btn_parameter" type="button" value="Tear Down" />
+        <input name="btn_parameter" type="button" value="Delete" />
+        <input name="btn_parameter" type="button" value="Export" />
+        <input name="btn_parameter" type="button" value="Import" />
+      </div>
     </form>
 
   </div>
 </div>
 
 <div class="tab_divs hidden" id="cloud_tab_summary_div">
-
+  <form id="cloud_summary_form">
+    <table class="cloud_summary_table">
+        <tr><td><%= "Total CPUs used = #{summary["resources"]["total_cpu"]}" %></td></tr>
+      <tr><td><%= "Total RAM used = #{summary["resources"]["total_RAM"]}" %></td></tr>
+      <tr><td><%= "Total RAM used = #{summary["resources"]["total_disk"]}" %></td></tr>
+      <tr><td></td></tr>
+      <tr><td><%= "API Url : #{summary["api_url"]}" %></td></tr>
+      <tr><td><%= "UAA Url : #{summary["uaa_url"]}" if summary["uaa_url"] %></td></tr>
+      <tr><td><%= "Web UI Url : #{summary["web_ui_url"]}" %></td></tr>
+      <tr><td><%= "Admin Email : #{summary["admin_email"]}" %></td></tr>
+      <tr><td><%= "Contact Email : #{summary["contact_email"]}" %></td></tr>
+      <tr><td><%= "Support Url : #{summary["support_url"]}" %></td></tr>
+    </table>
+  </form>
 </div>
