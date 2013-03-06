@@ -265,17 +265,18 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
       form_data = {}
       vms_list = {}
-      deployment_status = nil
+      deployment_status = {}
+      deployment_status["resources"] = {}
       form_generator = nil
       table_errors = {}
       Uhuru::CommanderBoshRunner.execute(session) do
         begin
           form_generator = FormGenerator.new(deployment_name: cloud_name)
-          if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
-            vms = Uhuru::Ucc::Vms.new()
-            vms_list = vms.list(cloud_name)
-          end
-          deployment_status = form_generator.deployment_obj.status
+          #if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
+          #  vms = Uhuru::Ucc::Vms.new()
+          #  vms_list = vms.list(cloud_name)
+          #end
+          #deployment_status = form_generator.deployment_obj.status
         rescue Exception => ex
           puts "#{ex} -> #{ex.backtrace}"
         end
