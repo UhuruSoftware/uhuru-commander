@@ -24,11 +24,6 @@
     <% js_tabs.each do |tab, name| %>
 
         <li><a class="<%= default_tab == tab ? 'tab_focus' : '' %>" href="#" onclick="switchCloudMenu(<%= "['#{js_tabs.keys.join splitter}']" %>, '<%= tab %>');" id="cloud_<%= tab %>" > <%= name %>
-          <% if table_errors != nil %>
-              <% if table_errors[tab] == true %>
-                  <span class="asterix_error">*</span>
-              <% end %>
-          <% end %>
         </a></li>
 
     <% end %>
@@ -36,8 +31,8 @@
 
 
   <form method="post" action="/clouds/configure/<%= cloud_name %>">
-
     <% js_tabs.each do |tab, name| %>
+
         <div id="cloud_<%= tab %>_div" class="<%= default_tab != tab ? 'hidden' : '' %> ">
           <div>
             <table class="settings_table">
@@ -113,11 +108,17 @@
                         <td>
                           <% if html_field[:error] %>
                               <span class="field_error"><%= html_field[:error] %></span>
+
                           <% end %>
                         </td>
 
                       </tr>
                   <% end %>
+              <% end %>
+              <% if form_generator.error_screens[name] == true %>
+                  <script type="text/javascript">
+                      document.getElementById('cloud_'+'<%= tab %>').innerHTML = '<%= name %>' + "<span style = 'color: red;'>&nbsp;*</span>";
+                  </script>
               <% end %>
             </table>
           </div>
@@ -175,7 +176,7 @@
 <div class="tab_divs hidden" id="cloud_tab_summary_div">
   <form id="cloud_summary_form">
     <table class="cloud_summary_table">
-        <tr><td><%= "Total CPUs used = #{summary["resources"]["total_cpu"]}" %></td></tr>
+      <tr><td><%= "Total CPUs used = #{summary["resources"]["total_cpu"]}" %></td></tr>
       <tr><td><%= "Total RAM used = #{summary["resources"]["total_RAM"]}" %></td></tr>
       <tr><td><%= "Total RAM used = #{summary["resources"]["total_disk"]}" %></td></tr>
       <tr><td></td></tr>

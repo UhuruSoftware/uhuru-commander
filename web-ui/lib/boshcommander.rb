@@ -267,11 +267,10 @@ module Uhuru::BoshCommander
       vms_list = {}
       deployment_status = nil
       form_generator = nil
-      table_errors = nil
+      table_errors = {}
       Uhuru::CommanderBoshRunner.execute(session) do
         begin
           form_generator = FormGenerator.new(deployment_name: cloud_name)
-          table_errors = form_generator.get_errors(form_data, "cloud", cloud_js_tabs)
           if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
             vms = Uhuru::Ucc::Vms.new()
             vms_list = vms.list(cloud_name)
@@ -289,7 +288,6 @@ module Uhuru::BoshCommander
                                        :js_tabs => cloud_js_tabs,
                                        :default_tab => :networks,
                                        :error => nil,
-                                       :table_errors => table_errors,
                                        :form_data => {},
                                        :cloud_name => cloud_name,
                                        :vms => vms_list,
@@ -305,7 +303,8 @@ module Uhuru::BoshCommander
       table_errors = nil
       form_generator = nil
       vms_list = {}
-      deployment_status = nil
+      deployment_status = {}
+      deployment_status["resources"] = {}
       if params.has_key?("btn_save")
         params.delete("btn_save")
         Uhuru::CommanderBoshRunner.execute(session) do
@@ -315,15 +314,15 @@ module Uhuru::BoshCommander
             if table_errors.select{|key, value| value==true }.size == 0
               form_generator.save_local_deployment("cloud", params)
             end
-            vms = Uhuru::Ucc::Vms.new()
-            vms_list = vms.list(cloud_name)
-            deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-            deployment_status = deployment.status
+            #vms = Uhuru::Ucc::Vms.new()
+            #vms_list = vms.list(cloud_name)
+            #deployment = Uhuru::Ucc::Deployment.new(cloud_name)
+            #deployment_status = deployment.status
           rescue Exception => ex
             logger.err("#{ex.to_s}: #{ex.backtrace}")
           end
         end
-
+        #redirect "/clouds/configure/#{cloud_name}"
         erb :cloud_configuration, {:locals =>
                                        {
                                            :form_generator => form_generator,
@@ -331,7 +330,6 @@ module Uhuru::BoshCommander
                                            :js_tabs => cloud_js_tabs,
                                            :default_tab => :networks,
                                            :error => nil,
-                                           :table_errors => table_errors,
                                            :form_data => params,
                                            :cloud_name => cloud_name,
                                            :vms => vms_list,
@@ -377,7 +375,6 @@ module Uhuru::BoshCommander
                                            :js_tabs => cloud_js_tabs,
                                            :default_tab => :networks,
                                            :error => nil,
-                                           :table_errors => table_errors,
                                            :form_data => params,
                                            :cloud_name => cloud_name,
                                            :vms => vms_list

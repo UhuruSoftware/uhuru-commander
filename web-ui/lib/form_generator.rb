@@ -12,6 +12,7 @@ module Uhuru::BoshCommander
   class FormGenerator
     attr_accessor :deployment
     attr_accessor :deployment_obj
+    attr_accessor :error_screens
 
 
     def self.get_clouds
@@ -28,6 +29,7 @@ module Uhuru::BoshCommander
     end
 
     def initialize(parameters = {})
+      @error_screens = {}
       @is_infrastructure = parameters[:is_infrastructure]
       if @is_infrastructure
         director_yml = File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
@@ -56,6 +58,7 @@ module Uhuru::BoshCommander
 
       html_fields = []
 
+      is_error = false
       screen['fields'].each do |field|
         html_field = Hash.new
 
@@ -130,11 +133,29 @@ module Uhuru::BoshCommander
           #save_local_deployment(form_data)
         end
         has_error = html_field[:error] == '' ? '' : 'error'
+        if (has_error == 'error' && !is_error)
+          is_error = true
+        end
         html_field[:class] = ['config_field', field['type'], html_field[:type], form, screen_name, field['name'], changed ? 'changed' : '', has_error].join(' ').strip
 
         html_fields << html_field
       end
+      if (is_error)
+        @error_screens[screen_name] = true
+      else
+        @error_screens[screen_name] = false
+      end
       html_fields
+    end
+
+    def get_errors(form_data, page, screens)
+      table_errors = {}
+
+      screens.each do |key, value|
+        table_errors[key] = (generate_form(page, value, form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
+      end
+
+      table_errors
     end
 
 
@@ -173,6 +194,7 @@ module Uhuru::BoshCommander
                 elsif field['type'] == 'numeric'
                   value = value.to_i
                 end
+                puts key
                 eval('@deployment' + key + ' = value')
               end
             else
@@ -258,17 +280,6 @@ module Uhuru::BoshCommander
         @deployment_obj.save(@deployment)
       end
     end
-
-    def get_errors(form_data, page, screens)
-      table_errors = {}
-
-      screens.each do |key, value|
-        table_errors[key] = (generate_form(page, value, form_data).select{|networks_field| networks_field[:error] != ''}).size > 0
-      end
-
-      table_errors
-    end
-
 
     private
 
