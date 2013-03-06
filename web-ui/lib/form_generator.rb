@@ -304,47 +304,27 @@ module Uhuru::BoshCommander
 
       unless form_data == {}
         value = form_data[field_id]
-        if field_id == 'cloud:Networks:static'
+        if field_id == 'cloud:Network:static_ip_range'
           static_ip_needed = @deployment["jobs"].select{|job| job["networks"][0].has_key?("static_ips")}.inject(0){|sum, job| sum += job["instances"].to_i}
-
-          static = form_data["cloud:Networks:static"].split(';')
-          reserved = form_data["cloud:Networks:reserved"].split(';')
-
-          static_ips = 0
-          static.each {|st|
-            if st.include?('-')
-              low = IPAddr.new(st.split('-')[0].strip).to_i
-              high = IPAddr.new(st.split('-')[1].strip).to_i
-              for j in low..high do
-                if ip_in_range?(form_data['cloud:Networks:range'], j)
-                  if ip_not_reserved?(reserved, j)
-                    static_ips += 1
-                  end
-                end
-              end
-            else
-              ip = IPAddr.new(st).to_i
-              if ip_in_range?(form_data['cloud:Networks:range'], ip)
-                if ip_not_reserved?(reserved, ip)
-                  static_ips += 1
-                end
-              end
-            end
-          }
-          if static_ips < static_ip_needed
-            error = "Not enough static IPs! provided: #{static_ips} needed: #{static_ip_needed}"
+          static = form_data["cloud:Network:static_ip_range"].split('-')
+          static_ips_provided = NetworkHelper.get_ip_range(static[0], static[1], true).count
+          if static_ips_provided < static_ip_needed
+            error = "Not enough static IPs! provided: #{static_ips_provided} needed: #{static_ip_needed}"
           end
-        elsif field_id == 'cloud:Networks:range'
-          range = NetAddr::CIDR.create(form_data['cloud:Networks:range'])
-          ip_needed = @deployment["jobs"].inject(0){|sum, job| sum += job["instances"].to_i}
-          if ip_needed > range.enumerate.size
-            error = "Range is too small"
+        elsif field_id == 'cloud:Network:dynamic_ip_range'
+          dynamic_ip_needed = @deployment["jobs"].select{|job| job["networks"][0].has_key?("static_ips") == false}.inject(0){|sum, job| sum += job["instances"].to_i}
+          dynamic = form_data["cloud:Network:dynamic_ip_range"].split('-')
+          dynamic_ips_provided = NetworkHelper.get_ip_range(dynamic[0], dynamic[1], true).count
+          if dynamic_ips_provided < dynamic_ip_needed
+            error = "Not enough dynamic IPs! provided: #{dynamic_ips_provided} needed: #{dynamic_ip_needed}"
           end
         end
       end
-
+      puts error if error != ""
       error
+
     end
+
 
     def get_local_value(form, screen, field)
       if field["yml_key"]
