@@ -347,10 +347,7 @@ module Uhuru::BoshCommander
             table_errors = form_generator.get_errors(params, "cloud", cloud_js_tabs)
             if table_errors.select{|key, value| value==true }.size == 0
               form_generator.save_local_deployment("cloud", params)
-              yaml = load_yaml_file(cloud_config)
-              deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-              deployment.save(yaml)
-              deployment.deploy
+              form_generator.deployment_obj.deploy
             end
           rescue Exception => e
             err e.message.to_s
@@ -378,7 +375,8 @@ module Uhuru::BoshCommander
                                            :error => nil,
                                            :form_data => params,
                                            :cloud_name => cloud_name,
-                                           :vms => vms_list
+                                           :vms => vms_list,
+                                           :summary => deployment_status
                                        },
                                    :layout => :layout}
 
