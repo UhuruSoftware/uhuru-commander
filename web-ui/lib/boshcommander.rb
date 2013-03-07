@@ -347,7 +347,12 @@ module Uhuru::BoshCommander
             table_errors = form_generator.get_errors(params, "cloud", cloud_js_tabs)
             if table_errors.select{|key, value| value==true }.size == 0
               form_generator.save_local_deployment("cloud", params)
-              form_generator.deployment_obj.deploy
+              if form_generator.deployment_obj.get_status["state"] == "Deployed"
+                #form_generator.deployment_obj.update
+                form_generator.deployment_obj.deploy
+              else
+                form_generator.deployment_obj.deploy
+              end
             end
           rescue Exception => e
             err e.message.to_s
@@ -412,7 +417,7 @@ module Uhuru::BoshCommander
         params.delete("btn_export")
 
         content_type 'application/octet-stream'
-        File.read(cloud_config)
+        File.read(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__))
 
       elsif params.has_key?("btn_import")
         params.delete("btn_import")

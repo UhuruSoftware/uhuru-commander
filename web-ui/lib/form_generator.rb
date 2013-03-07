@@ -21,8 +21,8 @@ module Uhuru::BoshCommander
         cloud = {}
         cloud[:name] = cloud_name
         cloud[:status] = get_cloud_status(cloud_name)
-        cloud[:services] = ""
-        cloud[:frameworks] = ""
+        cloud[:services] = get_services(cloud_name)
+        cloud[:stacks] = get_stacks(cloud_name)
         clouds << cloud
       end
       clouds
@@ -194,7 +194,6 @@ module Uhuru::BoshCommander
                 elsif field['type'] == 'numeric'
                   value = value.to_i
                 end
-                puts key
                 eval('@deployment' + key + ' = value')
               end
             else
@@ -273,10 +272,8 @@ module Uhuru::BoshCommander
       end
 
       if @is_infrastructure
-        puts "caca"
         File.open(File.expand_path("../../config/infrastructure.yml", __FILE__), "w+") {|f| f.write(@deployment.to_yaml)}
       else
-        puts @deployment
         @deployment_obj.save(@deployment)
       end
     end
@@ -324,7 +321,6 @@ module Uhuru::BoshCommander
       error
 
     end
-
 
     def get_local_value(form, screen, field)
       if field["yml_key"]
@@ -407,11 +403,18 @@ module Uhuru::BoshCommander
       @deployment["networks"][0]["subnets"][0]["range"] = helper.get_subnet
 
       @deployment["jobs"].select{|job| job["networks"][0].has_key?("static_ips")}.each {|job_with_ip|
-        if job_with_ip["networks"][0]["static_ips"].nil?
-          job_with_ip["networks"][0]["static_ips"] = []
-        end
+        job_with_ip["networks"][0]["static_ips"] = [] if job_with_ip["networks"][0]["static_ips"].nil?
         initial_ips = job_with_ip["networks"][0]["static_ips"].size
         instances = job_with_ip["instances"].to_i
+
+        job_with_ip["networks"][0]["static_ips"].each_with_index {|static_ip, index|
+          unless NetworkHelper.ip_in_range?(form_data["cloud:Network:static_ip_range"].split('-')[0].strip, form_data["cloud:Network:static_ip_range"].split('-')[1].strip, static_ip)
+            ip = ips.first
+            job_with_ip["networks"][0]["static_ips"][index] = ip
+            ips.delete_at(ips.index(ip))
+          end
+        }
+
         if instances > initial_ips
           for i in (initial_ips..instances-1) do
             ip = ips.first
@@ -424,11 +427,6 @@ module Uhuru::BoshCommander
           }
         end
       }
-    end
-
-    def ip_in_range?(range, ip)
-      cidr = NetAddr::CIDR.create(range)
-      cidr.contains?(ip)
     end
 
     def ip_not_reserved?(reserved, ip)
@@ -488,6 +486,38 @@ module Uhuru::BoshCommander
         deployment = Uhuru::Ucc::Deployment.new(cloud_name)
         return deployment.get_status["state"]
       end
+    end
+
+    def self.get_services(cloud_name)
+      deployment = Uhuru::Ucc::Deployment.new(cloud_name)
+      manifest = deployment.get_manifest
+      #manifest = File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)) { |file| YAML.load(file)}
+
+      services = []
+      if manifest
+        ["mysql_node", "mssql_node", "uhurufs_node", "rabbit_node", "postgresql_node", "redis_node", "mongodb_node"].each do |node|
+          if manifest["jobs"].select{|job| job["name"] == node}.first["instances"] > 0
+            services << node
+          end
+        end
+      end
+      services
+    end
+
+    def self.get_stacks(cloud_name)
+      deployment = Uhuru::Ucc::Deployment.new(cloud_name)
+      manifest = deployment.get_manifest
+      #manifest = File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)) { |file| YAML.load(file)}
+
+      stacks = []
+      if manifest
+        ["dea", "win_dea"].each do |stack|
+          if manifest["jobs"].select{|job| job["name"] == stack}.first["instances"] > 0
+            stacks << stack
+          end
+        end
+      end
+      stacks
     end
 
   end

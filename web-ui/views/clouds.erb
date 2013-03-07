@@ -9,8 +9,16 @@
         <tr>
           <td><a href="/clouds/configure/<%= cloud[:name] %>"><%= cloud[:name] %></a></td>
           <td><%= cloud[:status] %></td>
-          <td><%= cloud[:services] %></td>
-          <td><%= cloud[:frameworks] %></td>
+          <td>
+            <% cloud[:services].each do |service| %>
+                <img src="/icons/<%= service %>.png" alt=<%= service %>>
+            <% end %>
+          </td>
+          <td>
+            <% cloud[:stacks].each do |stack| %>
+                <img src="/icons/<%= stack %>.png" alt=<%= stack %>>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>

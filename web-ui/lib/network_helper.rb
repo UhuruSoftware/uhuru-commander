@@ -6,6 +6,14 @@ class NetworkHelper
     @data = parameters[:form_data]
   end
 
+  def self.ip_in_range?(start_ip, end_ip, check_ip)
+    low = IPAddr.new(start_ip).to_i
+    high = IPAddr.new(end_ip).to_i
+    ip = IPAddr.new(check_ip).to_i
+    in_range = (low..high)===ip
+    in_range
+  end
+
   def get_reserved_ip_range
     static_ip_start = @data["cloud:Network:static_ip_range"].split('-')[0].strip
     static_ip_end = @data["cloud:Network:static_ip_range"].split('-')[1].strip

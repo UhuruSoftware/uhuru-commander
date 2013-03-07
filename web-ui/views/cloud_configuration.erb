@@ -125,13 +125,6 @@
         </div>
     <% end %>
 
-
-    <div id="cloud_advanced_div" class="hidden">
-      <div >
-        <textarea><%= form_generator.deployment.to_yaml %></textarea>
-      </div>
-    </div>
-
     <div class="bottom_buttons_div">
       <input name="btn_save" type="submit" value="Save" id="save_cloud_compilation-btn" class="save" />
       <input name="btn_save_and_deploy" type="submit" value="Save & Deploy" id="saveanddeploy_cloud_compilation_btn" class="save_and_deploy" />
@@ -141,13 +134,10 @@
       <input name="btn_import" type="submit" value="Import" class="import" />
     </div>
   </form>
-
 </div>
 
 <div class="tab_divs hidden" id="cloud_tab_virtual_machines_div">
-
   <div>
-    <form id="virtual_machines_form">
       <table class="virtual_machines_table">
         <% vms.each do |vm| %>
             <tr>
@@ -159,17 +149,6 @@
             </tr>
         <%end%>
       </table>
-
-      <div class="bottom_buttons_div">
-        <input name="btn_parameter" type="button" value="Save" id="save_virtual_machines_btn" />
-        <input name="btn_parameter" type="button" value="Save & Deploy" id="saveanddeploy_virtual_machines_btn" />
-        <input name="btn_parameter" type="button" value="Tear Down" />
-        <input name="btn_parameter" type="button" value="Delete" />
-        <input name="btn_parameter" type="button" value="Export" />
-        <input name="btn_parameter" type="button" value="Import" />
-      </div>
-    </form>
-
   </div>
 </div>
 

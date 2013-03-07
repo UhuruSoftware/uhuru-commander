@@ -95,7 +95,7 @@ module Uhuru::Ucc
 
     def update()
       if (!deployment_info)
-        rais "Deployment does not exist"
+        raise "Deployment does not exist"
       end
 
     end
@@ -128,7 +128,11 @@ module Uhuru::Ucc
         end
       end
 
-       YAML.load(deployment["manifest"])
+      if deployment == {}
+        return nil
+      end
+
+      YAML.load(deployment["manifest"])
     end
 
     #delete VMs corresponding to this deployment
@@ -187,7 +191,7 @@ module Uhuru::Ucc
     end
 
     def get_info_steps
-      existing_manifests = Dir['../cf_deployments/cloud-foundry/step_*_*.yml'].map {|entry| File.basename(entry, ".yml") }
+      existing_manifests = Dir["#{@deployment_dir}/step_*_*.yml"].map {|entry| File.basename(entry, ".yml") }
       steps = existing_manifests.map {|entry| entry.match(/(?!step_)(0|[1-9][0-9]*)(?=_)/)[0].to_i}
       return steps.min, steps.max
     end
