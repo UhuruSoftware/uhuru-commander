@@ -1,0 +1,927 @@
+---
+name:           ccng-dev
+director_uuid:  c4c25e8e-f9b7-4519-8b0f-5e695ebb4442
+
+releases:
+- name: appcloud
+  version: latest
+
+networks:
+  - name: default
+    type: manual
+    subnets:
+      - reserved:
+          - 10.0.0.2 - 10.0.7.119
+          - 10.0.7.130 - 10.0.7.139
+          - 10.0.7.170 - 10.0.255.254
+        static:
+          - 10.0.7.120 - 10.0.7.125
+        range: 10.0.0.0/16
+        gateway: 10.0.0.1
+        dns:
+          - 10.0.0.10
+          - 10.0.0.130
+          - 8.8.8.8
+        cloud_properties:
+          name: "VM Network"
+
+compilation:
+  workers: 3
+  reuse_compilation_vms: true
+  network: default
+  cloud_properties:
+    cpu:  2
+    ram:  1500
+    disk: 5000
+
+resource_pools:
+  - name: mini
+    stemcell:
+      name: bosh-stemcell
+      version: 1.5.0.pre2
+    network: default
+    size: 7
+    cloud_properties:
+      cpu: 1
+      ram: 300
+      disk: 1000
+
+  - name: mini_extra_disk
+    stemcell:
+      name: bosh-stemcell
+      version: 1.5.0.pre2
+    network: default
+    size: 3
+    cloud_properties:
+      cpu: 1
+      ram: 300
+      disk: 3000
+
+  - name: normal
+    stemcell:
+      name: bosh-stemcell
+      version: 1.5.0.pre2
+    network: default
+    size: 9
+    cloud_properties:
+      cpu: 2
+      ram: 500
+      disk: 6000
+
+  - name: win_deas
+    stemcell:
+      name: uhuru-windows-2008R2
+      version: 0.9.3
+    network: default
+    size: 1
+    cloud_properties:
+      cpu: 2
+      ram: 1000
+      disk: 15000
+
+update: 
+  canaries: 1
+  canary_watch_time: 3000 - 120000
+  update_watch_time: 3000 - 120000
+  max_in_flight: 5
+
+
+jobs:
+  - name: debian_nfs_server
+    template: 
+      - debian_nfs_server # stateful; static ip or domain name required for internal identification 
+      - syslog_aggregator # stateful; static ip or domain name required for internal identification
+    instances: 1 # farmable
+    resource_pool: mini
+    persistent_disk: 5000
+    networks: 
+      - name: default
+        static_ips: 
+          - 10.0.7.121
+    properties: {}
+
+  - name: services_nfs
+    template: debian_nfs_server
+    instances: 0
+    resource_pool: mini
+    persistent_disk: 5000
+    properties:
+      debian_nfs_server:
+        no_root_squash: true # false by default. set to true to use in service backup and snapshots.
+    networks:
+    - name: default
+      #static_ips:
+      #- 10.0.7.125
+
+  - name: nats
+    template: 
+      - nats # stateless; static ip or domain name required for internal identification
+    instances: 1 # more instances can be running, but not useful for CF
+    resource_pool: mini
+    networks: 
+      - name: default
+        static_ips: 
+          - 10.0.7.122
+    properties: {}
+
+  - name: router
+    template: 
+      - gorouter # stateless, static ip or domain name required for external identification
+    instances: 1 # farmable
+    resource_pool: mini
+    networks:
+      - name: default
+        static_ips:
+          - 10.0.7.120
+    properties: {}
+
+  - name: ccdb_ng
+    template: postgres
+    instances: 0
+    resource_pool: mini
+    persistent_disk: 2048
+    networks:
+    - name: default
+      #static_ips:
+      #- 172.16.214.19
+    properties:
+      db: ccdb_ng
+
+  - name: uaadb
+    release: appcloud
+    template: postgres
+    instances: 0
+    resource_pool: mini
+    persistent_disk: 2048
+    networks:
+    - name: default
+      #static_ips:
+      #- 172.16.214.15
+    properties:
+      db: uaadb
+
+    # ccdb_ng and uaadb consolidated
+  - name: vcap_postgres
+    template: 
+      - postgres # stateful; static ip or domain name required for internal identification
+    instances: 1 
+    resource_pool: mini
+    persistent_disk: 1000 #
+    networks:
+      - name: default
+        static_ips:
+          - 10.0.7.123
+    properties:
+      db: vcap_databases
+
+  - name: vcap_redis # used for ccng faild staging logs and ccng authenticatio token caching
+    template: vcap_redis # stateless if persistance is not activated; static ip or domain name required for internal identification 
+    instances: 1 # more instances can be running, but not useful for CF
+    resource_pool: mini
+    networks:
+      - name: default
+        static_ips:
+          - 10.0.7.124
+    properties: {}
+
+  - name: services_redis # used as a backend for service snapshots.
+    template: vcap_redis # stateful if persistance is activated; static ip or domain name required for internal identification 
+    instances: 0
+    resource_pool: mini
+    persistent_disk: 1024
+    networks:
+    - name: default
+      #static_ips:
+      #- 172.16.214.82
+    properties:
+      vcap_redis:
+        port: 3456
+        password: fksaefblsdf9
+        maxmemory: 200000000 # 200 MB # units in MB
+        persistence: # this will activate redis persistance
+          dir: /var/vcap/store/vcap_redis
+
+
+  - name: uaa
+    template: 
+      - uaa # stateless, dynamically discovered
+    instances: 2 # version 1.4.x can be farmed
+    resource_pool: normal
+    networks:
+      - name: default
+    properties: {}
+
+  - name: login
+    template: 
+      - login # stateless, dynamically discovered
+    instances: 1 # farmable
+    resource_pool: mini_extra_disk
+    networks:
+      - name: default
+    properties: {}
+
+  - name: cloud_controller_ng
+    template: 
+      - cloud_controller_ng # stateless, dynamically discovered
+    instances: 1 # farmable
+    resource_pool: mini_extra_disk
+    networks: 
+      - name: default
+    properties: {}
+
+  - name: dea_next
+    template: 
+      - dea_next # stateless, dynamically discovered
+    instances: 1 # farmable
+    resource_pool: normal
+    update:
+      # canaries: 1
+      max_in_flight: 8
+    networks:
+      - name: default
+    properties: {}
+
+  - name: win_dea
+    template: 
+      - win_dea # stateless, dynamically discovered
+    instances: 0 # farmable
+    resource_pool: win_deas
+    networks:
+      - name: default
+    properties: {}
+
+  ###### Service Nodes ####
+  - name: mysql_node_free
+    template: 
+      - mysql_node_ng # statefull, dynamically discovered by internal components, static IP or domain name requied for serving connections from apps
+    instances: 1 # farmable, NB: evacuate all services when scaling down
+    resource_pool: normal
+    persistent_disk: 5000
+    networks:
+      - name: default
+#        static_ips:
+#          - 10.0.7.125 # static ip required, else FQDN has to be enabled for the service node. 
+    properties:
+      plan: "free"
+
+  - name: mysql_node_wardenized
+    template: mysql_node_ng
+    instances: 1 # farmable, NB: evacuate all services when scaling down
+    resource_pool: normal
+    persistent_disk: 5000
+    networks:
+      - name: default
+#        static_ips:
+#          - 10.0.7.125 # static ip required, else FQDN has to be enabled for the service node. 
+    properties:
+      plan: "wardenized"
+
+  - name: redis_node_free
+    template: redis_node_ng
+    instances: 1 # farmable, NB: evacuate all services when scaling down
+    resource_pool: normal
+    persistent_disk: 5000
+    networks:
+      - name: default
+#        static_ips:
+#          - 10.0.7.125 # static ip required, else FQDN has to be enabled for the service node. 
+    properties:
+      plan: "free"
+
+  - name: mongodb_node_free
+    template: mongodb_node_ng
+    instances: 1 # farmable, NB: evacuate all services when scaling down
+    resource_pool: normal
+    persistent_disk: 5000
+    networks:
+      - name: default
+#        static_ips:
+#          - 10.0.7.125 # static ip required, else FQDN has to be enabled for the service node. 
+    properties:
+      plan: "free"
+
+  - name: rabbit_node_free
+    template: rabbit_node_ng
+    instances: 1 # farmable, NB: evacuate all services when scaling down
+    resource_pool: normal
+    persistent_disk: 5000
+    networks:
+      - name: default
+#        static_ips:
+#          - 10.0.7.125 # static ip required, else FQDN has to be enabled for the service node. 
+    properties:
+      plan: "free"
+
+  - name: postgresql_node_free
+    template: postgresql_node_ng
+    instances: 1 # farmable, NB: evacuate all services when scaling down
+    resource_pool: normal
+    persistent_disk: 5000
+    networks:
+      - name: default
+#        static_ips:
+#          - 10.0.7.125 # static ip required, else FQDN has to be enabled for the service node. 
+    properties:
+      plan: "free"
+
+  #### Service Gateways ####
+  - name: service_gateways
+    template: 
+      - mysql_gateway      # stateless, dynamically discovered
+      - redis_gateway      # stateless, dynamically discovered
+      - mongodb_gateway    # stateless, dynamically discovered
+      - postgresql_gateway # stateless, dynamically discovered
+      - rabbit_gateway     # stateless, dynamically discovered
+    instances: 1 # cannot scale horizontally
+    resource_pool: mini_extra_disk
+    networks:
+      - name: default # static ip not required
+    properties: {}
+
+  - name: health_manager
+    template:
+      - health_manager_next # stateless, dynamically discovered
+    instances: 1 # cannot scale horizontally
+    resource_pool: mini
+    networks:
+      - name: default
+    properties: {}
+
+
+properties:
+  domain: ccng-dev.net
+  env:
+    # Http proxy will be used by cloud_controller, cloud_controller_ng, login, uaa, stager
+    # http_proxy: "http://10.0.0.10:8080"
+    # https_proxy: "http://10.0.0.10:8080"
+    # no_proxy: "cern.ch,ncsa.uiuc.edu,some.host:8080"
+
+  # Info exposed from the cloud_controller_ng to the client
+  # name: vcap # has default "vcap"
+  # build: "\"2222\"" # has  default "\"2222\""  # the backslash quote charachters will make the win bosh agent go belly up.
+  # version: 2 # has default 2
+  support_address: "http://support.uhurusoftware.com" # has default "http://support.cloudfoundry.com"
+  description: "Uhuru Cloud"
+  # api_version: "2.0.0" # has default "2.0.0"
+
+  networks: 
+    apps: default
+    management: default
+
+  nfs_server:
+    address: 10.0.7.121
+    network: 10.0.0.0/16
+    # nfsv4: true # has default nil
+    # idmapd_domain: localdomain # has default 'localdomain'
+
+  debian_nfs_server:
+    no_root_squash: false # false by default. set to true to use in services.
+
+  syslog_aggregator:
+    address: 10.0.7.121
+    port: 54321
+
+  nats: 
+    user: nats
+    password: nats # Security: assign a random value.
+    address: 10.0.7.122
+    port: 4222
+
+  # databases and roles defined to be created in the postgres job
+  # This is artifically created to have only one db deployed.
+  vcap_databases:
+    address: 10.0.7.123
+    port: 2544
+    databases:
+    - tag: cc
+      name: appcloud
+    - tag: cc_ng
+      name: appcloud_ng
+      citext: true
+    - tag: uaa
+      name: uaa
+    roles:
+    - tag: admin
+      name: root
+      password: root # Security: assign a random value.
+    - tag: uaa
+      name: uaa
+      password: uaa # Security: assign a random value.
+
+
+  # ccdb is legacy. required for uaa batch until it is removed
+  ccdb:
+    address: 10.0.7.123
+    port: 2544
+    databases:
+    - tag: cc
+      name: appcloud
+    roles:
+    - tag: admin
+      name: root
+      password: root
+
+  ccdb_ng:
+    address: 10.0.7.123
+    port: 2544
+    databases: 
+    - tag: cc
+      name: appcloud_ng
+      citext: true
+    roles:
+    - tag: admin
+      name: root
+      password: root # Security: assign a random value.
+
+  uaadb:
+    address: 10.0.7.123
+    port: 2544
+    databases:
+    - tag: uaa
+      name: uaa
+    roles:
+    - tag: admin
+      name: uaa
+      password: uaa # Security: assign a random value.
+
+  cc_props: cc # used by old cc and hm
+  cc: # legacy. srv_api_uri still used or api endpoint.
+    srv_api_uri: http://api.ccng-dev.net
+
+  ccng:
+    cc_partition: "default" # has default "ng"
+    bootstrap_admin_email: "sre@vmware.com" # has default "sre@vmware.com"
+    bulk_api_user: bulk_api # has default "bulk_api"
+    bulk_api_password: passwordlonglong # Security: assign a random value.
+    uaa_resource_id: cloud_controller # mirror to cc.uaa.resource_id
+    external_host: api  # has default 'api2'
+    max_staging_runtime: 300 # has default 300
+    staging_upload_user: user
+    staging_upload_password: password
+    # logging_level: debug # has default "info"
+    # db_logging_level: debug2 # has default "debug2"
+    # use_nginx: true # has default true
+    default_quota_definition: "free" # no default
+    quota_definitions:
+      free:
+        non_basic_services_allowed: false
+        total_services: 2
+        memory_limit: 1024 # units in MB
+      paid:
+        non_basic_services_allowed: true
+        total_services: 33
+        memory_limit: 204800 # 200 GB # units in MB
+      #yeti:
+      #  non_basic_services_allowed:
+      #  total_services:
+      #  memory_limit:
+    resource_pool:
+      minimum_size: 0 # ccng default of 0 # units in MB
+      maximum_size: 512  # ccng default of 512 # units in MB
+      resource_directory_key: "cc-resources" # ccng default "cc-resources"
+      #fog_connection:
+      #  provider: "local" # "local" or "AWS"
+      #  local_root: "/var/vcap/shared"  # for 'local' provider
+      #  aws_access_key_id: # for 'AWS' provider
+      #  aws_secret_access_key: # for 'AWS' provider
+    #packages:
+    #  app_package_directory_key: "cc-app-packages" # ccng default "cc-app-packages"
+    #droplets:
+    #  droplet_directory_key: "cc-droplets"  # ccng default "cc-droplets"
+    
+
+
+  router:
+    # offset: 0 # not requried; used to offset index
+    status:
+      port: 8080
+      user: admin
+      password: admin # Security: assign a random value.
+
+  # Used by cloud_controller(_ng) for staging logs cache and uaa caching.
+  # Not necessary to have data persistance.
+  vcap_redis:
+    # bind_address: 0.0.0.0 # has default
+    address: 10.0.7.124
+    port: 3456
+    password: redis # Security: assign a random value.
+    maxmemory: 200000000 # 200 MB # units in MB
+    # persistence:
+      # dir: '/var/vcap/store/vcap_redis/' # has default
+
+  health_manager:
+    cc_partition: "default" # has default "default"
+
+  dea_next:
+    # streaming_timeout: 60 # has default
+    memory_mb: 500 # has default '8000'
+    memory_overcommit_factor: 1 # has default 1
+    disk_mb: 32000 # has default '32000'
+    disk_overcommit_factor: 1 # has default 1
+    # num_instances: 30 # has default '30'
+   
+  win_dea:
+    max_memory: 2000
+    filerport: 12346
+    statusport: 12345
+
+  service_plans:
+    mysql:
+      "free":
+        description: "Shared server, shared VM, 1MB memory, 10MB storage, 10 connections"
+        free: true
+        job_management:
+          high_water: 450
+          low_water: 50
+        configuration:
+          allow_over_provisioning: false
+          capacity: 500
+          max_db_size: 10
+          key_buffer: 512
+          innodb_buffer_pool_size: 512
+          max_allowed_packet: 16
+          thread_cache_size: 128
+          query_cache_size: 128
+          max_long_query: 3
+          max_long_tx: 30
+          max_clients: 10
+          max_connections: 1000
+          table_open_cache: 2000
+          innodb_tables_per_database: 50
+          connection_pool_size:
+            min: 5
+            max: 10
+          backup:
+            enable: false # has default false
+            interval: "0 3 * * *" # has default "0 3 * * *"
+            node_interval: 5 # had default 5
+            first_node_only: false # has default false
+            timeout: 600 # has default 600
+          lifecycle:
+            enable: false # has default false
+            serialization: enable # has default "disable"
+            snapshot:
+              quota: 1 # has default 0
+            worker_count: 5 # has default 1
+          warden:
+            enable: false # has default false
+
+      "wardenized":
+        description: "Dedicated server, shared VM, 1MB memory, 10MB storage, 10 connections"
+        free: false
+        job_management:
+          high_water: 900
+          low_water: 100
+        configuration:
+          allow_over_provisioning: false # has default false
+          capacity: 500
+          max_db_size: 10
+          key_buffer: 512
+          innodb_buffer_pool_size: 512
+          max_allowed_packet: 16
+          thread_cache_size: 128
+          query_cache_size: 128
+          max_long_query: 3
+          max_long_tx: 30
+          max_clients: 10
+          max_connections: 1000
+          table_open_cache: 2000
+          innodb_tables_per_database: 50
+          connection_pool_size:
+            min: 5
+            max: 10
+          backup:
+            enable: false
+          lifecycle:
+            enable: false
+            serialization: enable
+            snapshot:
+              quota: 1
+          warden:
+            enable: true # has default false
+
+    postgresql:
+      "free":
+        description: "Shared server, shared VM, 1MB memory, 10MB storage, 10 connections"
+        free: true
+        job_management:
+          high_water: 900
+          low_water: 100
+        configuration:
+          allow_over_provisioning: false
+          capacity: 500
+          max_db_size: 10
+          max_long_query: 3
+          max_long_tx: 10
+          max_clients: 10
+          max_connections: 1000
+          shared_buffers: 312
+          effective_cache_size: 1115
+          shmmax: 390070272
+          checkpoint_segments: 16
+          checkpoint_segments_max: 50
+          maintenance_work_mem: 30
+          filesystem_quota: false # has default false
+          backup:
+            # 'true' will make periodic snapshots of each service, saved 
+            # on a shared stoarage and used by the cloud admin in case of node failure.
+            enable: false
+          lifecycle:
+            enable: false
+            serialization: enable
+            snapshot:
+              quota: 1
+            worker_count: 5
+          warden:
+            enable: false # has default false. 'true' will create a dedicated service server on the VM, isolated with warden.
+
+    mongodb:
+      "free":
+        description: "Dedicated server, shared VM, 250MB storage, 10 connections"
+        free: true
+        job_management:
+          high_water: 230
+          low_water: 20
+        configuration:
+          allow_over_provisioning: false
+          capacity: 125
+          max_clients: 10
+          quota_files: 4
+          quota_data_size: 240
+          enable_journaling: true
+          backup:
+            enable: false
+          lifecycle:
+            enable: false
+            serialization: enable
+            snapshot:
+              quota: 1
+
+    redis:
+      "free":
+        description: "Dedicated server, shared VM, 20MB memory, 50 connections"
+        free: true
+        job_management:
+          high_water: 410
+          low_water: 40
+        configuration:
+          allow_over_provisioning: false
+          capacity: 220
+          max_memory: 20
+          memory_overhead: 20
+          max_clients: 50
+          persistent: true # has default false
+          filesystem_quota: false # has default false
+          backup:
+            enable: false
+          lifecycle:
+            enable: false
+            serialization: enable
+            snapshot:
+              quota: 1
+
+    rabbit:
+      "free":
+        description: "Dedicated server, shared VM, 1MB messages/day, 10 connections"
+        free: true
+        job_management:
+          high_water: 280
+          low_water: 20
+        configuration:
+          allow_over_provisioning: false
+          capacity: 150
+          max_disk: 10
+          max_clients: 10
+          vm_memory_high_watermark: 0.00587
+          free_disk_low_water: 0.01832
+          bandwidth_quotas:
+            per_day: 1
+            per_second: 0.01
+          filesystem_quota: true # has default false
+
+
+
+  service_migration:
+    nfs_server: 
+      address: 10.0.7.121
+      export_dir: /var/vcap/store/shared
+
+  service_backup:
+    # mount_point: "/var/vcap/services_backup" # has default "/var/vcap/services_backup"
+    nfs_server:
+      address: 10.0.7.121
+      export_dir: /var/vcap/store/shared
+
+  service_backup_manager:
+    # z_interval: 30 # has default 30
+    rotation_max_days: 7 # has default 7
+    rotation_unprovisioned_max_days: 10 # has default 10
+    rotation_interval_secs: 43200 # has default 43200
+    enable: true # has default "false"
+
+  service_snapshot_manager:
+    # z_interval: 30 # has default 30
+    rotation_max_days: 7 # has default 7
+    rotation_unprovisioned_max_days: 10 # has default 10
+    rotation_interval_secs: 43200 # has default 43200
+    enable: true # has default "false"
+
+  serialization_data_server:
+    upload_token: token
+    use_nginx: true
+    upload_timeout: 10
+    port: 8080
+    upload_file_expire_time: 600
+    purge_expired_interval: 30
+  
+  service_lifecycle:
+    download_url: service-serialization.ccng-dev.net
+    mount_point: /var/vcap/service_lifecycle
+    tmp_dir: /var/vcap/service_lifecycle/tmp_dir
+    resque:
+      host: 10.0.7.124
+      port: 3456
+      password: redis
+    nfs_server:
+      address: 10.0.7.121
+      export_dir: /var/vcap/store/shared
+    serialization_data_server:
+    - 10.0.7.127
+
+  # uaa_ is used by the service gateways to authenticate to cc_api_version v2
+  uaa_endpoint: http://uaa.ccng-dev.net
+  uaa_client_id: vmc # has default 'vmc'
+  uaa_client_auth_credentials:
+    username: sre@vmware.com
+    password: password1234!
+
+  mysql_gateway:
+    supported_versions: ["5.5"]
+    version_aliases:
+      current: "5.5"
+    token: mysqltoken # Security: assign a random value.
+    cc_api_version: v2
+    check_orphan_interval: 7200 # has default '-1'
+    # double_check_orphan_interval: 300 # has default 300
+    service_timeout: 70 # has default 10
+    node_timeout: 60 # has default 8
+    default_plan: "free" # has default 'free'
+  mysql_node:
+    supported_versions: ["5.5"]
+    default_version: "5.5"
+    z_interval: 30 # has default 30
+    service_start_timeout: 30 # has default 3
+    op_time_limit: 50 # has default 6
+    m_interval: 10 # has default 10
+    password: mysql # Security: assign a random value.
+    max_tmp: 1024 # has default 2048 # units in MB
+
+  redis_gateway:
+    supported_versions: ["2.6"]
+    version_aliases: 
+      current: "2.6"
+    token: redistoken # Security: assign a random value.
+    cc_api_version: v2
+    check_orphan_interval: 7200 # has default '-1'
+    # double_check_orphan_interval: 300 # has default 300
+    service_timeout: 70 # has default 10
+    node_timeout: 60 # has default 8
+    default_plan: "free" # has default 'free'
+  redis_node:
+    supported_versions: ["2.6"]
+    default_versions: "2.6"
+    z_interval: 30 # has default 30
+    service_start_timeout: 30 # has default 3
+    op_time_limit: 50 # has default 6
+    m_interval: 10 # has default 10
+    #m_actions: ["restart"]
+
+  mongodb_gateway:
+    supported_versions: ["2.2"]
+    version_aliases: 
+      current: "2.2"
+    token: mongodbtoken # Security: assign a random value.
+    cc_api_version: v2
+    check_orphan_interval: 7200 # has default '-1'
+    # double_check_orphan_interval: 300 # has default 300
+    service_timeout: 70 # has default 10
+    node_timeout: 60 # has default 8
+    default_plan: "free" # has default 'free'
+  mongodb_node:
+    supported_versions: ["2.2"]
+    default_versions: "2.2"
+    z_interval: 30 # has default 30
+    service_start_timeout: 30 # has default 3
+    op_time_limit: 50 # has default 6
+    m_interval: 10 # has default 10
+    max_tmp: 900 # has default 10240 # units in MB
+
+  rabbit_gateway:
+    supported_versions: ["2.8"]
+    version_aliases: 
+      current: "2.8"
+    token: rabbitmqtoken # Security: assign a random value.
+    cc_api_version: v2
+    check_orphan_interval: 7200 # has default '-1'
+    # double_check_orphan_interval: 300 # has default 300
+    service_timeout: 70 # has default 10
+    node_timeout: 60 # has default 8
+    default_plan: "free" # has default 'free'
+  rabbit_node:
+    supported_versions: ["2.8"]
+    default_version: "2.8"
+    z_interval: 30 # has default 30
+    service_start_timeout: 30 # has default 3
+    op_time_limit: 50 # has default 6
+    m_interval: 10 # has default 10
+
+  postgresql_gateway:
+    supported_versions: ["9.1"]
+    version_aliases: 
+      current: "9.1"
+    token: postgresqltoken # Security: assign a random value.
+    cc_api_version: v2
+    check_orphan_interval: 7200 # has default '-1'
+    # double_check_orphan_interval: 300 # has default 300
+    service_timeou      t: 70 # has default 10
+    node_timeout: 60 # has default 8
+    default_plan: "free" # has default 'free'
+    # admin_user: psql_admin
+    # admin_passwd_hash:
+  postgresql_node:
+    supported_versions: ["9.1"]
+    default_version: "9.1"
+    z_interval: 30 # has default 30
+    service_start_timeout: 30 # has default 3
+    op_time_limit: 50 # has default 6
+    m_interval: 10 # has default 10
+    password: postgresql # Security: assign a random value.
+    # admin_user: psql_admin
+    # admin_passwd_hash:
+  #postgresql_server:
+  #  listen_address: '*' # has default '*'
+
+  uaa:
+    require_https: false
+    no_ssl: true
+    dump_requests: true # has default false
+    catalina_opts: -Xmx128m -Xms30m -XX:MaxPermSize=128m
+    #jwt:
+      #signing_key: |
+      #  -----BEGIN RSA PRIVATE KEY-----
+      #  MIIBOQIBAAJBAOTA+ZpPU3J/kTY0IDGCiBXlkBCTSeUKha8Asa6aetBuXsSaf4j1
+      #  hjZWZaF8TdlptmxE2o9MExb67xlp2ws1kkcCAwEAAQJAD6Tq7RSzvkbfJXfXI8ur
+      #  huPWQGvyR8m6bsd7X1eNQqfIjF7GY1Z5Ny0dulUJdS+X28G/ExM0rOghkTbrRg0h
+      #  AQIhAP20XhUeYUIiLc9bMW2BPBFidZSlcboB5TfHiR4mI08HAiEA5tLQ/eMMLkeo
+      #  0ipC5FR2d37sPcGDFj+l96vd9+YTksECID2p7kghxy/k0M+acawVAj2TedK0V60H
+      #  MuhY1kn+qQxXAiAKTUxwmGqZwi8Buksj/7UN3kdS9kkQfCS/KheNEeK7wQIgTpcQ
+      #  bgeG1jomPl8DS4ptrj8Cc4Xr0MQR+VLrIaBMjEw=
+      #  -----END RSA PRIVATE KEY-----
+      #verification_key: |
+      #  -----BEGIN PUBLIC KEY-----
+      #  MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOTA+ZpPU3J/kTY0IDGCiBXlkBCTSeUK
+      #  ha8Asa6aetBuXsSaf4j1hjZWZaF8TdlptmxE2o9MExb67xlp2ws1kkcCAwEAAQ==
+      #  -----END PUBLIC KEY-----
+
+    cc:
+      client_secret: cc # Security: assign a random value.
+      token_secret: token # symetric secret with uaa. will mirror jwt.signing_key # Security: assign a random value.
+    admin:
+      client_secret:  admin # Security: assign a random value.
+    login:
+      client_secret: login # Security: assign a random value.
+    batch:
+      username: batch
+      password: batch # Security: assign a random value.
+
+    #client:
+    #  autoapprove:
+    #    - vmc
+
+    clients:
+      vmc:
+        override: true
+        authorized-grant-types: implicit
+        scope: cloud_controller.read,cloud_controller.write,openid,password.write,cloud_controller.admin,scim.read,scim.write
+        authorities: uaa.none
+        id: vmc
+        # redirect_uri: # not intended to be changed for vmc oauth client; see here: https://github.com/cloudfoundry/cf-uaa-lib/blob/master/lib/uaa/token_issuer.rb#L132
+      dashboard:
+        secret: dash  # Security: assign a random value.
+        scope: openid,dashboard.user
+        authorities: uaa.admin,uaa.resource,tokens.read,scim.read,scim.write
+        authorized-grant-types: client_credentials,authorization_code,refresh_token
+
+    scim:
+      # userids_enabled: true # has default false
+      user:
+        override: true # has default true
+      users:
+      - sre@vmware.com|password1234!|openid,dashboard.user,uaa.user
+
+  login:
+    protocol: http # has default "http"
+    # uaa_base: http://uaa.test.com # auto-generated
+
+
+
