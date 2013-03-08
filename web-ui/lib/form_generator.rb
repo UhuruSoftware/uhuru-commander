@@ -216,12 +216,13 @@ module Uhuru::BoshCommander
       }
 
       if page == "cloud"
+        configure_service_gateways(form_data)
+
         @deployment["resource_pools"].each {|pool|
-          pool["size"] = @deployment["jobs"].select{|job| job["resource_pool"] == pool["name"]}.size
+          pool["size"] = @deployment["jobs"].select{|job| job["resource_pool"] == pool["name"]}.inject(0){|sum, job| sum += job["instances"].to_i}
         }
 
         set_ips(form_data)
-        configure_service_gateways(form_data)
 
         if !@deployment_live
           @deployment["properties"]["nfs_server"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("debian_nfs_server") == true }.first["networks"][0]["static_ips"][0]

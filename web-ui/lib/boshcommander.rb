@@ -198,31 +198,7 @@ module Uhuru::BoshCommander
 
       tables = { :cpi => "CPI" }                                          # a hash for each table in this page
 
-      if params.has_key?("btn_save")
-        params.delete("btn_save")
-
-        form_generator = FormGenerator.new(is_infrastructure: true)
-
-        table_errors = form_generator.get_errors(params, "infrastructure", tables)
-
-        if table_errors.select{|key, value| value==true }.size == 0
-          form_generator.save_local_deployment("infrastructure", params)
-        end
-
-        erb :infrastructure, {:locals =>
-                                  {
-                                      :form_generator => form_generator,
-                                      :form => "infrastructure",
-                                      :table => tables,
-                                      :form_data => params
-                                  },
-                              :layout => :layout}
-
-      elsif params.has_key?("btn_test")
-        params.delete("btn_test")
-        form_generator.generate_form("infrastructure", tables[:cpi], params)
-
-      elsif params.has_key?("btn_update")
+      if params.has_key?("btn_update")
         params.delete("btn_update")
 
         infrastructure_yml = File.expand_path("../../config/infrastructure.yml", __FILE__)
@@ -256,6 +232,17 @@ module Uhuru::BoshCommander
                                     },
                                 :layout => :layout}
         end
+      elsif params.has_key?("btn_test")
+        params.delete("btn_test")
+        form_generator = FormGenerator.new(is_infrastructure: true)
+        erb :infrastructure, {:locals =>
+                                  {
+                                      :form_generator => form_generator,
+                                      :form => "infrastructure",
+                                      :table => tables,
+                                      :form_data => params
+                                  },
+                              :layout => :layout}
       end
     end
 
