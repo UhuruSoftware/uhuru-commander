@@ -146,46 +146,46 @@ jobs:
   - name: default
     static_ips:
 
-- name: hbase_master
-  template: hbase_master
-  instances: 0
-  resource_pool: medium
-  persistent_disk: 2048
-  networks:
-  - name: default
-    static_ips:
+#- name: hbase_master
+#  template: hbase_master
+#  instances: 0
+#  resource_pool: medium
+#  persistent_disk: 2048
+#  networks:
+#  - name: default
+#    static_ips:
 
-- name: hbase_slave
-  template: hbase_slave
-  instances: 0
-  resource_pool: medium
-  persistent_disk: 2048
-  networks:
-  - name: default
-    static_ips:
+#- name: hbase_slave
+#  template: hbase_slave
+#  instances: 0
+#  resource_pool: medium
+#  persistent_disk: 2048
+#  networks:
+#  - name: default
+#    static_ips:
 
-- name: opentsdb
-  template: opentsdb
-  instances: 0
-  resource_pool: medium
-  persistent_disk: 16384
-  networks:
-  - name: default
-    static_ips:
+#- name: opentsdb
+#  template: opentsdb
+#  instances: 0
+#  resource_pool: medium
+#  persistent_disk: 16384
+#  networks:
+#  - name: default
+#    static_ips:
 
-- name: collector
-  template: collector
-  instances: 0
-  resource_pool: medium
-  networks:
-  - name: default
+#- name: collector
+#  template: collector
+#  instances: 0
+#  resource_pool: medium
+#  networks:
+#  - name: default
 
-- name: dashboard
-  template: dashboard
-  instances: 0
-  resource_pool: medium
-  networks:
-  - name: default
+#- name: dashboard
+#  template: dashboard
+#  instances: 0
+#  resource_pool: medium
+#  networks:
+#  - name: default
 
 - name: ccdb
   template: postgres
@@ -198,16 +198,16 @@ jobs:
   properties:
     db: ccdb
 
-- name: uaadb
-  template: postgres
-  instances: 1
-  resource_pool: small
-  persistent_disk: 1000
-  networks:
-  - name: default
-    static_ips:
-  properties:
-    db: uaadb
+#- name: uaadb
+#  template: postgres
+#  instances: 1
+#  resource_pool: small
+#  persistent_disk: 1000
+#  networks:
+#  - name: default
+#    static_ips:
+#  properties:
+#    db: uaadb
 
 - name: vcap_redis
   template: vcap_redis
@@ -218,12 +218,12 @@ jobs:
   - name: default
     static_ips:
 
-- name: uaa
-  template: uaa
-  instances: 1
-  resource_pool: small
-  networks:
-  - name: default
+#- name: uaa
+#  template: uaa
+#  instances: 1
+#  resource_pool: small
+#  networks:
+#  - name: default
 
 - name: cloud_controller
   template: cloud_controller

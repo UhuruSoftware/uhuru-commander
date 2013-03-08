@@ -248,9 +248,9 @@ module Uhuru::BoshCommander
           @deployment["properties"]["router"]["status"]["password"] = SecureRandom.hex
           @deployment["properties"]["router"]["redirect_parent_domain_to"] = "www.#{@deployment['properties']['domain']}"
           @deployment["properties"]["dea"]["maxmemory"] = @deployment["resource_pools"].select{|pool| pool["name"] == "deas" }.first["cloud_properties"]["ram"]
-          @deployment["properties"]["hbase_master"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("hbase_master") == true }.first["networks"][0]["static_ips"][0]
-          @deployment["properties"]["hbase_slave"]["addresses"][0] = @deployment["jobs"].select{|job| job["template"].include?("hbase_slave") == true }.first["networks"][0]["static_ips"][0]
-          @deployment["properties"]["opentsdb"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("opentsdb") == true }.first["networks"][0]["static_ips"][0]
+          #@deployment["properties"]["hbase_master"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("hbase_master") == true }.first["networks"][0]["static_ips"][0]
+          #@deployment["properties"]["hbase_slave"]["addresses"][0] = @deployment["jobs"].select{|job| job["template"].include?("hbase_slave") == true }.first["networks"][0]["static_ips"][0]
+          #@deployment["properties"]["opentsdb"]["address"] = @deployment["jobs"].select{|job| job["template"].include?("opentsdb") == true }.first["networks"][0]["static_ips"][0]
           @deployment["properties"]["uaa"]["cc"]["token_secret"] = SecureRandom.hex
           @deployment["properties"]["uaa"]["cc"]["client_secret"] = SecureRandom.hex
           @deployment["properties"]["uaa"]["admin"]["client_secret"] = SecureRandom.hex
@@ -490,7 +490,11 @@ module Uhuru::BoshCommander
 
     def self.get_services(cloud_name)
       deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-      manifest = deployment.get_manifest
+      begin
+        manifest = deployment.get_manifest
+      rescue
+      end
+
       #manifest = File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)) { |file| YAML.load(file)}
 
       services = []
@@ -506,7 +510,11 @@ module Uhuru::BoshCommander
 
     def self.get_stacks(cloud_name)
       deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-      manifest = deployment.get_manifest
+      begin
+        manifest = deployment.get_manifest
+      rescue
+      end
+
       #manifest = File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)) { |file| YAML.load(file)}
 
       stacks = []

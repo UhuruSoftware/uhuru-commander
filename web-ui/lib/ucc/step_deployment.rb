@@ -35,8 +35,8 @@ ERROR
           'windows' => %w(win_dea uhuru_tunnel uhurufs_node),
           'sqlserver' => %w(mssql_node),
           'tiny' => %w(simple_webui mysql_gateway mongodb_gateway redis_gateway rabbit_gateway postgresql_gateway mssql_gateway uhurufs_gateway),
-          'small' => %w(debian_nfs_server nats uaadb uaa health_manager),
-          'medium' => %w(syslog_aggregator ccdb vcap_redis cloud_controller stager router mysql_node mongodb_node rabbit_node postgresql_node hbase_master hbase_slave opentsdb collector dashboard),
+          'small' => %w(debian_nfs_server nats health_manager),
+          'medium' => %w(syslog_aggregator ccdb vcap_redis cloud_controller stager router mysql_node mongodb_node rabbit_node postgresql_node),
           'large' => %w(redis_node),
           'deas' => %w(dea),
       }
@@ -72,9 +72,11 @@ ERROR
       end
 
 
-      core_jobs = %w(debian_nfs_server syslog_aggregator nats ccdb uaadb vcap_redis uaa cloud_controller stager
+      core_jobs = %w(debian_nfs_server syslog_aggregator nats ccdb vcap_redis cloud_controller stager
 router health_manager simple_webui mysql_gateway mongodb_gateway redis_gateway rabbit_gateway postgresql_gateway
-mssql_gateway uhurufs_gateway hbase_master hbase_slave opentsdb collector dashboard uhuru_tunnel)
+mssql_gateway uhurufs_gateway uhuru_tunnel)
+
+      #uaadb uaa hbase_master hbase_slave opentsdb collector dashboard
 
       dea_jobs = %w(dea win_dea)
 
