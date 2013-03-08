@@ -42,6 +42,11 @@ module Uhuru::Ucc
     #start the deployment process
     def deploy()
       info = deployment_info
+      if info["state"] == "Deployed"
+        update
+        say "Deployment #{@deployment_name} updated".green
+        return
+      end
       if info["state"] != "Saved"
         raise "Cannot deploy, current state is #{info["state"]}"
       end
@@ -69,6 +74,9 @@ module Uhuru::Ucc
       current_manifest = nil
       if (state == "Deployed")
         current_manifest = get_manifest()
+        if current_manifest == nil
+          return {}
+        end
       else
         if (state == "Saved")
           current_manifest = load_yaml_file(@deployment_manifest_path)
@@ -79,6 +87,22 @@ module Uhuru::Ucc
       end
       stats = {}
       stats["resources"] = get_resources(current_manifest)
+
+      #get router ips
+      #i = 1
+      current_manifest["jobs"].each do |job|
+        if (job["name"] == "router")
+          stats["router_ips"] = []
+          static_ips = []
+          job["networks"].each do |network|
+            network["static_ips"].each do |ip|
+              static_ips << ip
+            end
+          end
+          stats["router_ips"] << static_ips
+          #i = i + 1
+        end
+      end
 
       properties = current_manifest["properties"]
       stats["api_url"] = properties["cc"]["srv_api_uri"]
@@ -94,9 +118,10 @@ module Uhuru::Ucc
 
 
     def update()
-      if (!deployment_info)
-        raise "Deployment does not exist"
-      end
+      command = deployment_command
+      current_file = File.join(@deployment_dir, "#{@deployment_name}.yml")
+      command.set_current(current_file)
+      command.perform
 
     end
 
@@ -128,7 +153,7 @@ module Uhuru::Ucc
         end
       end
 
-      if deployment == {}
+      if deployment["manifest"] == nil
         return nil
       end
 
@@ -261,6 +286,4 @@ module Uhuru::Ucc
       end
     end
   end
-
-
 end

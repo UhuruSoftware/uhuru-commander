@@ -266,7 +266,6 @@ module Uhuru::BoshCommander
       form_data = {}
       vms_list = {}
       deployment_status = {}
-      deployment_status["resources"] = {}
       form_generator = nil
       table_errors = {}
       Uhuru::CommanderBoshRunner.execute(session) do
@@ -276,7 +275,7 @@ module Uhuru::BoshCommander
           #  vms = Uhuru::Ucc::Vms.new()
           #  vms_list = vms.list(cloud_name)
           #end
-          #deployment_status = form_generator.deployment_obj.status
+          deployment_status = form_generator.deployment_obj.status
         rescue Exception => ex
           puts "#{ex} -> #{ex.backtrace}"
         end
@@ -305,7 +304,6 @@ module Uhuru::BoshCommander
       form_generator = nil
       vms_list = {}
       deployment_status = {}
-      deployment_status["resources"] = {}
       if params.has_key?("btn_save")
         params.delete("btn_save")
         Uhuru::CommanderBoshRunner.execute(session) do
@@ -317,8 +315,7 @@ module Uhuru::BoshCommander
             end
             #vms = Uhuru::Ucc::Vms.new()
             #vms_list = vms.list(cloud_name)
-            #deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-            #deployment_status = deployment.status
+            deployment_status = form_generator.deployment_obj.status
           rescue Exception => ex
             logger.err("#{ex.to_s}: #{ex.backtrace}")
           end
