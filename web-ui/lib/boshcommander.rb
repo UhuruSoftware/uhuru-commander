@@ -51,6 +51,10 @@ module Uhuru::BoshCommander
     #enable :sessions
 
     get '/login' do
+      monit = Uhuru::Ucc::Monit.new
+      unless monit.service_group_state == "running"
+        redirect '/offline'
+      end
       erb :login, {
           :locals => {
               :error_message => ""
@@ -179,6 +183,16 @@ module Uhuru::BoshCommander
 
     get '/' do
       redirect '/infrastructure'
+    end
+
+    get '/offline' do
+      erb :monit_offline, {:layout => :monit_offline}
+    end
+
+    get '/monit_status' do
+      monit = Uhuru::Ucc::Monit.new
+      state = monit.service_group_state
+      state
     end
 
     get '/infrastructure' do
@@ -527,7 +541,6 @@ module Uhuru::BoshCommander
               :layout => :layout
           }
     end
-
 
     post '/deployment_status' do
       deployment_status = nil

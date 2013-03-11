@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<script type="text/javascript" src="../../scripts/cloud_tabs.js" ></script>
+<script type="text/javascript" src="../../scripts/jquery-1.5.js"></script>
+<head>
+  <title>Uhuru Cloud Commander</title>
+  <link rel="stylesheet" href="../../css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/views.css" type="text/css" />
+  <meta charset="utf-8" />
+</head>
+
+<body>
+<div id="wrapper">
+  <div id="header"><h1>Uhuru Cloud Commander</h1></div>
+  <div class="actual_body">
+      <div class="offline" id="logDiv">Uhuru Cloud Commander is starting. Please wait...
+        <img src="/loading.gif" alt="Loading..." />
+      </div>
+  </div>
+  <div class="actual_body_footer">Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved</div>
+</div>
+
+<script type="text/javascript">
+    refreshMonitStatus();
+    setInterval(refreshMonitStatus, 2000);
+</script>
+
+</body>
+</html>
