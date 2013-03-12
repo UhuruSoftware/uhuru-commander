@@ -1,1 +1,0 @@
-this folder contains manifest files for micro bosh and for bosh

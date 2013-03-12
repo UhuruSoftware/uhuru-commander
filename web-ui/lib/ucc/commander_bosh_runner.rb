@@ -75,6 +75,6 @@ end
 #
 #sleep 1
 #
-#Uhuru::CommanderBoshRunner.status_streamer(session).create_screen(newid, "test")
-#puts Uhuru::CommanderBoshRunner.status_streamer(session).read_screen("test")
-#Uhuru::CommanderBoshRunner.status_streamer(session).close_screen("test")
+#Uhuru::CommanderBoshRunner.status_streamer(session).create_screen(newid, "spec")
+#puts Uhuru::CommanderBoshRunner.status_streamer(session).read_screen("spec")
+#Uhuru::CommanderBoshRunner.status_streamer(session).close_screen("spec")

@@ -1,4 +1,11 @@
 require 'ip_admin'
+require 'ipaddr'
+
+class IPAddrWithMask < IPAddr
+  def mask_to_i
+    @mask_addr
+  end
+end
 
 class NetworkHelper
   def initialize(parameters = {})
@@ -126,10 +133,33 @@ class NetworkHelper
     IPAdmin.range :Boundaries => [IPAdmin::CIDR.new(:CIDR => ip_start.strip), IPAdmin::CIDR.new(:CIDR => ip_end.strip)], :Inclusive => inclusive
   end
 
-  private
+  #private
 
   def get_ips_in_subnet(ip_with_subnet)
-    IPAdmin::CIDR.new(ip_with_subnet).enumerate
+    ipaddr = IPAddrWithMask.new(ip_with_subnet)
+    ip = ipaddr.to_i
+    mask = ipaddr.mask_to_i
+
+    count = 1
+    temp = mask
+
+    while (temp & 1) == 0 do
+      count *= 2
+      temp >>= 1
+    end
+
+    result = []
+
+    (0..count - 1).each do |index|
+      newIP = ((ip & mask) | index) & 0xFFFFFFFF;
+      d = newIP & 0xFF
+      c = (newIP / 256) & 0xFF
+      b = (newIP / 65536) & 0xFF
+      a = (newIP / 16777216) & 0xFF
+      result[index] = "#{a}.#{b}.#{c}.#{d}";
+    end
+
+    result
   end
 
   def get_subnet_bits(subnet)

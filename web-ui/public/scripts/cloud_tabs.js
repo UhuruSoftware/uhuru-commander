@@ -23,5 +23,24 @@ function switchCloudMenu(menus, selectedMenu)
     focusCloudMenu(selectedMenu);
 }
 
+function check_services() {
+    $.get("/monit_status", function(data){
+        if (data != "running") {
+            var answer = confirm("Uhuru Cloud Commander services are restarting. You will not be able to login again until they are back online. Continue?")
+            if (answer){
+                window.location = "/logout"
+            }
+        }
+        else{
+            window.location = "/logout"
+        }
+    });
+}
 
-
+function refreshMonitStatus() {
+    $.get("/monit_status", function(data){
+        if (data == "running") {
+            window.location = "/login"
+        }
+    });
+}

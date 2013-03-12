@@ -29,7 +29,7 @@ module Uhuru::BoshCommander
             end
           end
         end
-        File.open("../config/test.yaml", "w") {|f|  f.write(YAML.dump(form))}
+        File.open("../config/spec.yaml", "w") {|f|  f.write(YAML.dump(form))}
       else
         form['infrastructures'].each do |infrastructure|
           infrastructure['fields'].each do |field|
