@@ -74,7 +74,7 @@ module Uhuru::BoshCommander
 
       #we do not care about local user
       tmpdir = Dir.mktmpdir
-      puts tmpdir
+
       config = File.join(tmpdir, "bosh_config")
       cache = File.join(tmpdir, "bosh_cache")
 
@@ -153,7 +153,7 @@ module Uhuru::BoshCommander
     end
 
     error 404 do
-      ex = "The page was not found, please try again later!"
+      ex = "Sorry, page not found."
       erb :error404, {:locals => {:ex => ex}, :layout => :layout_error}
     end
 
@@ -229,8 +229,7 @@ module Uhuru::BoshCommander
               infrastructure.setup(infrastructure_yml)
             rescue Exception => e
               err e.message.to_s
-              $stdout.puts(e)
-              $stdout.puts(e.backtrace)
+              logger.err("#{e.to_s}: #{e.backtrace}")
             end
 
           end
@@ -260,25 +259,22 @@ module Uhuru::BoshCommander
       end
     end
 
+
+
     get '/clouds/configure/:cloud_name' do
       check_first_run!
 
       cloud_name = params[:cloud_name]
       form_data = {}
-      vms_list = {}
       deployment_status = {}
       form_generator = nil
       table_errors = {}
       Uhuru::CommanderBoshRunner.execute(session) do
         begin
           form_generator = FormGenerator.new(deployment_name: cloud_name)
-          #if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
-          #  vms = Uhuru::Ucc::Vms.new()
-          #  vms_list = vms.list(cloud_name)
-          #end
           deployment_status = form_generator.deployment_obj.status
         rescue Exception => ex
-          puts "#{ex} -> #{ex.backtrace}"
+          logger.err("#{ex.to_s}: #{ex.backtrace}")
         end
       end
 
@@ -291,11 +287,32 @@ module Uhuru::BoshCommander
                                        :error => nil,
                                        :form_data => {},
                                        :cloud_name => cloud_name,
-                                       :vms => vms_list,
                                        :summary => deployment_status
                                    },
                                :layout => :layout}
     end
+
+    get '/clouds/configure/:cloud_name/vms' do
+      vms_list = {}
+
+      cloud_name = params[:cloud_name]
+      form_generator = FormGenerator.new(deployment_name: cloud_name)
+
+      Uhuru::CommanderBoshRunner.execute(session) do
+        begin
+
+          if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
+            vms = Uhuru::Ucc::Vms.new()
+            vms_list = vms.list(cloud_name)
+          end
+        rescue Exception => ex
+          logger.err("#{ex.to_s}: #{ex.backtrace}")
+        end
+      end
+
+      vms_list.to_json
+    end
+
 
     post '/clouds/configure/:cloud_name' do
       check_first_run!
@@ -354,8 +371,7 @@ module Uhuru::BoshCommander
             end
           rescue Exception => e
             err e.message.to_s
-            $stdout.puts(e)
-            $stdout.puts(e.backtrace)
+            logger.err("#{e.to_s}: #{e.backtrace}")
           end
         end
         redirect "logs/#{request_id}"
@@ -391,8 +407,7 @@ module Uhuru::BoshCommander
             deployment.tear_down
           rescue Exception => e
             err e.message.to_s
-            $stdout.puts(e)
-            $stdout.puts(e.backtrace)
+            logger.err("#{e.to_s}: #{e.backtrace}")
           end
         end
         redirect "logs/#{request_id}"
@@ -405,8 +420,7 @@ module Uhuru::BoshCommander
             deployment.delete
           rescue Exception => e
             err e.message.to_s
-            $stdout.puts(e)
-            $stdout.puts(e.backtrace)
+            logger.err("#{e.to_s}: #{e.backtrace}")
           end
         end
         redirect "logs/#{request_id}"
@@ -505,8 +519,6 @@ module Uhuru::BoshCommander
       begin
         if params.has_key?("btn_create_user")
           if params["create_user_name"] != '' && params["create_user_password"] != '' && Validations.validate_field(params["create_user_password"], "password") == ""
-            puts params["create_user_name"]
-            puts params["create_user_password"]
             Uhuru::Ucc::User.create(params["create_user_name"], params["create_user_password"])
           else
             message = "Invalid username/password"

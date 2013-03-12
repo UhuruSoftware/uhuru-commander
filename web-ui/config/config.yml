@@ -8,7 +8,7 @@ bosh_commander:
 
 bosh:
   target: "10.0.21.22"
-  base_dir: "/home/florind/tmp/testing/assets/vcap"
+  base_dir: "/home/vladi/tmp/testing/assets/vcap"
 #  base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:

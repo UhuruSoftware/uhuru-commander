@@ -10,8 +10,7 @@
 %>
 
 
-
-<ul class="cloud_menu">
+<ul class="cloud_menu" xmlns="http://www.w3.org/1999/html">
 
   <% cloud_tabs.each do |tab, name| %>
       <li><a href="#" class="<%= cloud_tab_default == tab ? 'tab_focus' : '' %>" onclick="switchCloudMenu(<%= "['#{cloud_tabs.keys.join splitter}']" %>, '<%= tab %>');" id="cloud_<%= tab %>" ><%= name %></a></li>
@@ -138,17 +137,82 @@
 
 <div class="tab_divs hidden" id="cloud_tab_virtual_machines_div">
   <div>
-    <table class="virtual_machines_table">
-      <% vms.each do |vm| %>
-          <tr>
-            <td><%= vm["agent_id"] %></td>
-            <td><%= vm["job_name"] %></td>
-            <td><%= vm["job_state"] %></td>
-            <td><%= vm["ips"].join("; ") if !vm["ips"].nil? %></td>
-            <td>SSH | Logs</td>
-          </tr>
-      <%end%>
+    <div id="div_loading_vms_message">
+      <img src="/loading.gif" alt="Loading... Please wait." />
+      <div>
+          <span>
+            Loading VM list...<br />
+            Please wait.
+          </span>
+      </div>
+    </div>
+
+    <table id="vm_list" class="virtual_machines_table hidden">
+      <tr class="settings_table_header">
+        <td>Name</td>
+        <td>State</td>
+        <td>IPs</td>
+        <td>Agent Id</td>
+        <td>SSH and Logs</td>
+      </tr>
     </table>
+
+    <script type="text/javascript">
+        function createCell(row, index)
+        {
+            var cell = row.insertCell(index);
+            cell.className = "cell_border";
+            return cell;
+        }
+
+        var divLoadingMessage = document.getElementById("div_loading_vms_message");
+        var tableVMList = document.getElementById("vm_list");
+
+        $.getJSON('/clouds/configure/<%= cloud_name %>/vms', function(data) {
+
+            var items = [];
+
+            $.each(data, function(vm_index, vm) {
+                var rowCount = tableVMList.rows.length;
+                var newRow = tableVMList.insertRow(rowCount);
+
+                var cellJobName = createCell(newRow, 0);
+                var cellJobState = createCell(newRow, 1);
+                var cellIPs = createCell(newRow, 2);
+                var cellAgentId = createCell(newRow, 3);
+                var cellSSHAndLogs = createCell(newRow, 4);
+
+                var divAgentId = document.createElement("div");
+                var divJobName = document.createElement("div");
+                var divJobState = document.createElement("div");
+                var divIPs = document.createElement("div");
+                var divSSHAndLogs = document.createElement("div");
+
+                divAgentId.innerHTML = vm["agent_id"];
+
+                divJobName.innerHTML = vm["job_name"];
+                divJobName.className = "bold";
+
+                divJobState.innerHTML = vm["job_state"];
+                divJobState.className = "job_state_" + vm["job_state"].downcase.gsub(/\w/, '_');
+
+                $.each(vm["ips"], function(ip_index, ip) {
+                    divIPs.innerHTML += ip + "<br/>";
+                });
+
+                divSSHAndLogs.innerHTML = "<a href='#'>SSH</a>&nbsp;<a href='#'>Logs</a>"
+
+                cellAgentId.appendChild(divAgentId);
+                cellJobName.appendChild(divJobName);
+                cellJobState.appendChild(divJobState);
+                cellIPs.appendChild(divIPs);
+                cellSSHAndLogs.appendChild(divSSHAndLogs);
+            });
+            $("#vm_list").show();
+            $("#div_loading_vms_message").hide();
+        });
+    </script>
+
   </div>
 </div>
 

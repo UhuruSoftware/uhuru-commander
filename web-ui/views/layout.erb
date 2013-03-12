@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-<script type="text/javascript" src="../../scripts/jquery-1.5.js"></script>
-<script type="text/javascript" src="../../scripts/jquery_ui.js"></script>
-<script type="text/javascript" src="../../scripts/cloud_tabs.js" ></script>
 
 <head>
   <title>Uhuru Cloud Commander</title>
   <link rel="stylesheet" href="../../css/layout.css" type="text/css" />
   <link rel="stylesheet" href="../../css/views.css" type="text/css" />
   <meta charset="utf-8" />
+  <script type="text/javascript" src="../../scripts/jquery-1.5.js"></script>
+  <script type="text/javascript" src="../../scripts/jquery_ui.js"></script>
+  <script type="text/javascript" src="../../scripts/cloud_tabs.js" ></script>
 </head>
 
 <body>
@@ -28,7 +28,7 @@
                 <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks">Tasks</a></li>
                 <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
               <% end %>
-                <li onclick="check_services()" style="float: right; margin-right: 15px;"><a href="#">Logout</a></li>
+                <li style="float: right; margin-right: 15px;"><a onclick="check_services()" href="#">Logout</a></li>
                 <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
             </ul>
         </div>
@@ -59,7 +59,6 @@
         Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved
       </div>
     </div>
-
 
 </body>
 

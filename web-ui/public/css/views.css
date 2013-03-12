@@ -106,11 +106,48 @@
     vertical-align: bottom;
 }
 
+td.cell_border
+{
+    border-left: 1px solid #ccc;
+    padding: 2px;
+}
+
 .separator
 {
     padding-top: 20px;
     font-weight: bold;
 }
+
+/************************************************************************/
+/*Tab Content DIVs
+/************************************************************************/
+
+.tab_divs
+{
+    margin-top: 10px;
+    margin-left: 10px;
+    position: relative;
+}
+
+/************************************************************************/
+/*VM State DIV
+/************************************************************************/
+.job_state_running
+{
+    font-weight: bold;
+    color: #13A12C;
+}
+
+.job_state_failing
+.job_state_unresponsive_agent
+{
+    font-weight: bold;
+    color: #D22719;
+}
+
+/************************************************************************/
+/*Offline Services Page
+/************************************************************************/
 
 .offline
 {
@@ -119,228 +156,6 @@
     font-size: 25px;
     color: #0A3660;
 }
-/*.tab_divs*/
-/*{*/
-    /*margin-top: 10px;*/
-    /*position: relative;*/
-/*}*/
-
-
-
-/*.middle_div*/
-/*{*/
-    /*position: relative;*/
-    /*display: block;*/
-
-	/*margin-left: 5px;*/
-    /*width: 776px;*/
-
-	/*padding-top: 10px;*/
-	/*padding-bottom: 10px;*/
-
-	/*background-color: transparent;*/
-/*}*/
-
-/*.hidden_divs,*/
-/*.method_name*/
-/*{*/
-    /*display: none;*/
-/*}*/
-
-
-
-/*.help_header*/
-/*{*/
-    /*display: block;*/
-    /*padding-left: 5px;*/
-    /*width: 195px;*/
-    /*height: 26px;*/
-    /*font-size: 18px;*/
-    /*font-weight: 100;*/
-    /*background-color: #1C4D90;*/
-/*}*/
-/*.help_paragraph*/
-/*{*/
-    /*margin-top: 20px;*/
-    /*font-size: 12px;*/
-    /*margin-left: 5px;*/
-/*}*/
-/*.span_notes*/
-/*{*/
-    /*font-size: 16px;*/
-    /*font-weight: 700;*/
-    /*color: #052148;*/
-/*}*/
-
-
-/*  FROM HERE ALL THE TABLES ARE FORMATTED  */
-
-
-
-/*table.infrastructure_table,*/
-/*table.infrastructure_table tbody,*/
-/*table.clouds_table,*/
-/*table.clouds_table tbody,*/
-/*table.cloud_configuration_tables,*/
-/*table.cloud_configuration_tables tbody,*/
-/*table.virtual_machines_table,*/
-/*table.virtual_machines_table tbody,*/
-/*table.tasks_table,*/
-/*table.tasks_table tbody*/
-/*{*/
-	/*display: block;*/
-	/*width: 700px;*/
-	/*margin-left: auto;*/
-	/*margin-right: auto;*/
-/*}*/
-
-/*td*/
-/*{*/
-    /*width: 20%;*/
-    /*padding: 2px;*/
-/*}*/
-/*td:nth-child(4)*/
-/*{*/
-    /*width: 25%;*/
-    /*  the errors td  */
-/*}*/
-
-
-/*.infrastructure_table label,*/
-/*.cloud_configuration_tables label,*/
-/*{*/
-	/*margin-right: 10px;*/
-/*}*/
-/*.cloud_configuration_tables td,*/
-/*table.infrastructure_table td*/
-/*{*/
-	/*text-align: right;*/
-/*}*/
-
-
-/*.clouds_table .first_row,*/
-/*.tasks_table .first_row*/
-/*{*/
-	/*background-color: #023C55;*/
-/*}*/
-/*table.clouds_table,*/
-/*table.virtual_machines_table,*/
-/*table.tasks_table*/
-/*{*/
-	/*width: 100%;*/
-/*}*/
-/*table.clouds_table td,*/
-/*table.virtual_machines_table td,*/
-/*table.tasks_table td*/
-/*{*/
-	/*text-align: center;*/
-	/*width: 250px;*/
-	/*border: 1px solid white;*/
-/*}*/
-/*table.virtual_machines_table td*/
-/*{*/
-    /*border: 0 solid #000000;*/
-/*}*/
-
-/*.table_header > td*/
-/*{*/
-    /*color: #fff;*/
-    /*font-weight: normal;*/
-    /*border-style: solid;*/
-    /*border-width: .09em;*/
-    /*border-color: #ccc #666 #666 #ccc;*/
-    /*text-align: left;*/
-    /*padding: .09em .543em;*/
-    /*background: #999;*/
-    /*vertical-align: bottom;*/
-/*}*/
-
-/*label.config_field*/
-/*{*/
-    /*font-size: 13px;*/
-    /*width: 200px;*/
-/*}*/
-
- /*.config_field.local.changed*/
- /*{*/
-     /*border: 2px solid red;*/
- /*}*/
-
-
- /*.config_field.boolean*/
- /*{*/
-     /*display: block;*/
-     /*padding: 0;*/
-     /*margin: auto;*/
- /*}*/
-
- /*.config_field.separator*/
- /*{*/
-     /*text-align: left;*/
-     /*color: #30519c;*/
-     /*font-weight: bold;*/
-     /*background: #fff;*/
-     /*font-size: 10px;*/
- /*}*/
-
- /*.config_field.error*/
- /*{*/
-     /*background-color: #111;*/
-     /*border: 2px solid red;*/
-     /*color: red;*/
- /*}*/
-
- /*.config_field.live_value*/
- /*{*/
- /*}*/
-
- /*.asterix_error*/
- /*{*/
-     /*padding-left: 5px;*/
-     /*font-weight: 800;*/
-     /*color: red;*/
- /*}*/
-
- /*.field_error*/
- /*{*/
-     /*color: red;*/
-     /*font-size: 12px;*/
-     /*font-weight: 200;*/
-     /*float: left;*/
-     /*margin-left: 3px;*/
- /*}*/
-
-
- /*    HERE ARE ALL THE MODALS   */
-
-
- /*#black_screen*/
- /*{*/
-     /*position: absolute;*/
-     /*top: 0;*/
-     /*left: 0;*/
-     /*width: 5000px;*/
-     /*height: 5000px;*/
-     /*background-color: #000000;*/
-     /*opacity: 0.8;*/
-     /*z-index: 5;*/
-     /*display: none;*/
- /*}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
