@@ -132,8 +132,10 @@ module Uhuru::BoshCommander
     use LoginScreen
 
     before do
-      unless session['user_name']
-        redirect '/login'
+      unless request.path_info == '/offline' || request.path_info == '/monit_status'
+        unless session['user_name']
+          redirect '/login'
+        end
       end
     end
 
