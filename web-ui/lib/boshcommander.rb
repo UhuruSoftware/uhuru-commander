@@ -35,6 +35,8 @@ require "ucc/step_deployment"
 require "ucc/event_log_renderer_web"
 require "ucc/user"
 require "ucc/vms"
+require "ucc/task"
+require "ucc/task_log_renderer_web"
 
 autoload :HTTPClient, "httpclient"
 
@@ -264,23 +266,23 @@ module Uhuru::BoshCommander
           #end
           deployment_status = form_generator.deployment_obj.status
         rescue Exception => ex
-          puts "#{ex} -> #{ex.backtrace}"
+          logger.err "#{ex} -> #{ex.backtrace}"
         end
       end
 
       erb :cloud_configuration, {:locals =>
-                                   {
-                                       :form_generator => form_generator,
-                                       :form => "cloud",
-                                       :js_tabs => cloud_js_tabs,
-                                       :default_tab => :networks,
-                                       :error => nil,
-                                       :form_data => {},
-                                       :cloud_name => cloud_name,
-                                       :vms => vms_list,
-                                       :summary => deployment_status
-                                   },
-                               :layout => :layout}
+                                     {
+                                         :form_generator => form_generator,
+                                         :form => "cloud",
+                                         :js_tabs => cloud_js_tabs,
+                                         :default_tab => :networks,
+                                         :error => nil,
+                                         :form_data => {},
+                                         :cloud_name => cloud_name,
+                                         :vms => vms_list,
+                                         :summary => deployment_status
+                                     },
+                                 :layout => :layout}
     end
 
     post '/clouds/configure/:cloud_name' do
@@ -422,9 +424,35 @@ module Uhuru::BoshCommander
                     :layout => :layout}
     end
 
-    get '/tasks' do
+    get '/tasks/:count' do
       check_first_run!
-      erb :tasks, {:layout => :layout}
+      tasks_html = nil
+      count = params["count"].to_i if params["count"]
+      Uhuru::CommanderBoshRunner.execute(session) do
+        tasks = Bosh::Cli::Command::Task.new()
+        tasks_html = tasks.list_recent(count)
+      end
+      erb :tasks, {:locals =>
+                       {
+                           :tasks => tasks_html,
+                           :count => count
+                       },
+                   :layout => :layout}
+    end
+
+    get '/task/:id' do
+      task_id = params["id"]
+      request_id = Uhuru::CommanderBoshRunner.execute_background(session) do
+        begin
+          task = Bosh::Cli::Command::Task.new()
+          task.options[:event] = "true"
+          #task.options[:debug] = "true"
+          task.track(task_id)
+        rescue Exception => ex
+         puts "#{ex.to_s}: #{ex.backtrace}"
+        end
+      end
+      redirect "logs/#{request_id}"
     end
 
     post '/clouds' do

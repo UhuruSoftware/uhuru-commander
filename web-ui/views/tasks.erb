@@ -1,32 +1,29 @@
 <div class="tab_divs">
-
   <div class="middle_div">
-
-    <table class="tasks_table">
-      <tr class="first_row">
-        <td>Task ID</td>
-        <td>Status</td>
-      </tr>
-
+    <div class="separator">Filter</div>
+    <hr>
+    <table>
       <tr>
-        <td>1234567</td>
-        <td>Running</td>
-      </tr>
-      <tr>
-        <td>1234566</td>
-        <td>Done</td>
-      </tr>
-      <tr>
-        <td>1234565</td>
-        <td>Failed</td>
-      </tr>
-      <tr>
-        <td>1234564</td>
-        <td>Done</td>
+        <td>Number of tasks <input name="count" type="text" id="count" value="<%=count%>"/></td>
+        <td>Include all task types (ssh, logs,vms) <input name="include_all" type="checkbox" id="include_all" value="<%=count%>" /> </td>
+        <td><a href="/tasks/<%=count%>"> <input name="filter" id="filter" type="submit" value="Filter"/> </a></td>
       </tr>
     </table>
+    <div class="separator">Task</div>
+    <hr>
+    <td>Task Id <input name="id_task" type="text" id="id_task" value=""/></td>
+    <td><a href="/task/<%=count%>"> <input name="open_task" id="open_task" type="submit" value="Open"/> </a></td>
 
-    </div>
-
+    <div class="separator">Tasks</div>
+    <hr>
+    <table>
+      <tr>
+        <td>
+          <%= tasks %>
+        </td>
+      </tr>
+      <tr><td><a href="/tasks/<%=count=count+10%>">More...</a></td></tr>
+    </table>
+  </div>
 </div>
 

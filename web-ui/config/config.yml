@@ -1,5 +1,5 @@
 pid_filename: /tmp/boshcommander.pid
-local_route: 10.0.0.3
+local_route: 192.168.1.111
 port: 8000
 dev-mode: true
 
@@ -7,23 +7,27 @@ bosh_commander:
   domain: "localhost"
 
 bosh:
-  target: "10.0.21.22"
-  base_dir: "/home/florind/tmp/testing/assets/vcap"
+  target: "10.134.0.73"
+  base_dir: "/home/mitza/testing/assets/vcap"
 #  base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:
     linux_stemcell:
       name: "bosh-stemcell"
-      version: "0.6.7"
+      version: "0.7.0"
+      system_disk: "1500"
     linux_php_stemcell:
       name: "bosh-stemcell-php"
       version: "0.6.4.3"
+      system_disk: "1000"
     windows_stemcell:
       name: "uhuru-windows-2008R2"
       version: "0.9.3"
+      system_disk: "2000"
     mssql_stemcell:
       name: "uhuru-windows-2008R2-sqlserver"
       version: "0.9.4"
+      system_disk: "2000"
 
 logging:
   level: debug
