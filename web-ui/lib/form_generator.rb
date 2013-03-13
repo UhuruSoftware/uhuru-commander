@@ -32,7 +32,7 @@ module Uhuru::BoshCommander
       @error_screens = {}
       @is_infrastructure = parameters[:is_infrastructure]
       if @is_infrastructure
-        director_yml = File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
+        director_yml = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
         if File.exists?(File.expand_path('../../config/infrastructure.yml', __FILE__))
           @deployment = File.open(File.expand_path('../../config/infrastructure.yml', __FILE__)) { |file| YAML.load(file)}
         else

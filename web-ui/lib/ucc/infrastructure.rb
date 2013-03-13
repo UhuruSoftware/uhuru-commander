@@ -4,7 +4,7 @@ module Uhuru
 
       def setup(new_config)
         say('Moving director config')
-        @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
+        @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
         @is_update = is_update
         setup_micro(new_config)
         say('Restarting services')
@@ -68,7 +68,7 @@ module Uhuru
       end
 
       def setup_nats()
-        nats_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','nats','config','nats.yml')
+        nats_file =  File.join($config[:bosh][:base_dir], 'jobs','nats','config','nats.yml')
         nats_yml = load_yaml_file(nats_file)
         nats_yml["net"] = @nats_info[:ip]
         nats_yml["port"] = @nats_info[:port]
@@ -82,11 +82,11 @@ module Uhuru
       end
 
       def setup_postgres()
-        postgres_file = File.join($config[:bosh][:base_dir],'jobs','micro_vsphere', 'postgres', 'bin', 'postgres_ctl')
+        postgres_file = File.join($config[:bosh][:base_dir],'jobs','postgres', 'bin', 'postgres_ctl')
       end
 
       def setup_health_monitor()
-        hm_file =  File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','health_monitor','config','health_monitor.yml')
+        hm_file =  File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
 
         hm_yml =  load_yaml_file(hm_file)
         hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"

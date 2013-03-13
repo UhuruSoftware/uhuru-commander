@@ -48,7 +48,7 @@ module Uhuru::Ucc
     private
 
     def self.get_db
-      director_config_file = File.join($config[:bosh][:base_dir], 'jobs','micro_vsphere','director','config','director.yml.erb')
+      director_config_file = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
       director_yaml = YAML.load_file(director_config_file)
       db_config = director_yaml["db"]
       connection_options = {
