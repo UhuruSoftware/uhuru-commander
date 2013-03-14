@@ -44,3 +44,10 @@ function refreshMonitStatus() {
         }
     });
 }
+
+function importSettings(){
+    $('#file_upload_field').click();
+    $("#file_upload_field").change(function(e){
+        document.cloud_config_form.submit();
+    });
+}

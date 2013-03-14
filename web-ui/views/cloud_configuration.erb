@@ -29,7 +29,7 @@
   </ul>
 
 
-  <form method="post" action="/clouds/configure/<%= cloud_name %>">
+  <form id="cloud_config_form" name="cloud_config_form" enctype="multipart/form-data" method="post" action="/clouds/configure/<%= cloud_name %>">
     <% js_tabs.each do |tab, name| %>
 
         <div id="cloud_<%= tab %>_div" class="<%= default_tab != tab ? 'hidden' : '' %> ">
@@ -130,7 +130,8 @@
       <input name="btn_tear_down" type="submit" value="Tear Down" class="tear_down" />
       <input name="btn_delete" type="submit" value="Delete" class="delete" />
       <input name="btn_export" type="submit" value="Export" class="export" />
-      <input name="btn_import" type="submit" value="Import" class="import" />
+      <input name="btn_import" type="button" value="Import" class="import" onclick="importSettings()" />
+      <input type="file" name="file_input" id="file_upload_field" class="file_upload_field" />
     </div>
   </form>
 </div>

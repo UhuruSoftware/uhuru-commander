@@ -53,10 +53,10 @@ module Uhuru::BoshCommander
     #enable :sessions
 
     get '/login' do
-      monit = Uhuru::Ucc::Monit.new
-      unless monit.service_group_state == "running"
-        redirect '/offline'
-      end
+      #monit = Uhuru::Ucc::Monit.new
+      #unless monit.service_group_state == "running"
+      #  redirect '/offline'
+      #end
       erb :login, {
           :locals => {
               :error_message => ""
@@ -432,11 +432,18 @@ module Uhuru::BoshCommander
       elsif params.has_key?("btn_export")
         params.delete("btn_export")
 
-        content_type 'application/octet-stream'
-        File.read(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__))
+        send_file File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__), :filename => "#{cloud_name}.yml", :type => 'Application/octet-stream'
 
-      elsif params.has_key?("btn_import")
-        params.delete("btn_import")
+      elsif params.has_key?("file_input")
+        tempfile = params['file_input'][:tempfile]
+
+        manifest = File.open(tempfile.path) { |file| YAML.load(file)}
+        File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__), 'w') do |out|
+          YAML.dump(manifest, out)
+        end
+
+        redirect "/clouds/configure/#{cloud_name}"
+
       end
 
     end

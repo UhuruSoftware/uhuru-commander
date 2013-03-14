@@ -57,6 +57,10 @@ module Uhuru::BoshCommander
       screen = @forms[form].find { |item| item['screen'] == screen_name }
 
       html_fields = []
+      if @is_infrastructure && form_data != {}
+        require "vsphere_checker"
+        infrastructure_errors = VSphereChecker.check(form_data)
+      end
 
       is_error = false
       screen['fields'].each do |field|
@@ -128,10 +132,16 @@ module Uhuru::BoshCommander
           html_field[:error] = [validate_type(local_value, field['type']), validate_value(html_field[:id], form_data)].join("\n").strip
         end
 
-        changed = html_field[:value] != html_field[:value_live]
-        if changed
-          #save_local_deployment(form_data)
+        if @is_infrastructure && infrastructure_errors != nil
+          if html_field[:error] == '' && infrastructure_errors.has_key?(html_field[:id])
+            html_field[:error] = infrastructure_errors[html_field[:id]]
+          end
         end
+
+        changed = html_field[:value] != html_field[:value_live]
+        #if changed
+        #  #save_local_deployment(form_data)
+        #end
         has_error = html_field[:error] == '' ? '' : 'error'
         if (has_error == 'error' && !is_error)
           is_error = true
