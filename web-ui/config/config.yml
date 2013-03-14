@@ -5,6 +5,7 @@ dev-mode: true
 
 bosh_commander:
   domain: "localhost"
+  skip_check_monit: true
 
 bosh:
   target: "10.0.21.22"

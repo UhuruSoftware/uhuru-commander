@@ -53,10 +53,13 @@ module Uhuru::BoshCommander
     #enable :sessions
 
     get '/login' do
-      #monit = Uhuru::Ucc::Monit.new
-      #unless monit.service_group_state == "running"
-      #  redirect '/offline'
-      #end
+      if $config['skip_check_monit'] == true
+        monit = Uhuru::Ucc::Monit.new
+        unless monit.service_group_state == "running"
+          redirect '/offline'
+        end
+      end
+      
       erb :login, {
           :locals => {
               :error_message => ""
@@ -291,6 +294,7 @@ module Uhuru::BoshCommander
                                        :error => nil,
                                        :form_data => {},
                                        :cloud_name => cloud_name,
+                                       :help => form_generator.help,
                                        :summary => deployment_status
                                    },
                                :layout => :layout}
@@ -454,9 +458,26 @@ module Uhuru::BoshCommander
       Uhuru::CommanderBoshRunner.execute(session) do
         clouds = FormGenerator.get_clouds
       end
+      
+      clouds_help = <<CLOUDS
+Here you have a list of all clouds.
+Click on the name of any one of them for configuration, monitoring and deployment options.
+The status of a cloud can have one of the following values:<br>
+<i>'Not Saved'</i> - the cloud has not been configured yet<br>
+<i>'Saved'</i> - the cloud has been configured<br>
+<i>'Deploying'</i> - the cloud is being deployed right now<br>
+<i>'Deployed'</i> - the cloud has been deployed and can be used<br>
+<i>'Error'</i> - there was an error while deploying the cloud<br>
+CLOUDS
+
       erb :clouds, {:locals =>
                         {
-                            :clouds => clouds
+                            :clouds => clouds,
+                            :help =>
+                                [
+                                    ["Clouds",  clouds_help],
+                                    ["Creating a new cloud", "Just type in a cloud name in the 'Cloud Name' text field and click the 'Create Cloud' button - a new configuration will be created."]
+                                ]
                         },
                     :layout => :layout}
     end

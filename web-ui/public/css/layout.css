@@ -43,7 +43,7 @@ body
     margin-top: 10px;
     position: relative;
     float: right;
-    width: 150px;
+    width: 200px;
     top: 0px;
     padding: 3px;
 }
@@ -71,6 +71,8 @@ body
     background-color: #ffffff;
     color: #000000;
     min-height: 400px;
+    width: 100%;
+    overflow: auto;
 }
 
 .actual_body_header
@@ -223,6 +225,7 @@ input[type=button]:hover
 /************************************************************************/
 
 input[type=text],
+input[type=password],
 textarea
 {
     border: 1px solid #dddddd;
@@ -242,4 +245,51 @@ textarea
 {
     font-weight: bold;
 }
+
+/************************************************************************/
+/*Login Page*/
+/************************************************************************/
+
+.login_div
+{
+    margin: 100px auto;
+    display: table;
+}
+
+.login_content
+{
+    border: 1px solid #306DA7;
+    padding: 5px 10px 5px 10px;
+    overflow: auto;
+}
+
+.login_footer
+{
+    text-align: right;
+    color: red;
+}
+
+
+.login_div input[type=text],
+.login_div input[type=password]
+{
+    font-size: 12px;
+    width: 250px;
+    padding: 5px;
+}
+
+.login_div label
+{
+    display: block;
+    font-size: 15px;
+
+}
+
+.login_button
+{
+    margin-top: 10px;
+    float: right;
+}
+
+
 

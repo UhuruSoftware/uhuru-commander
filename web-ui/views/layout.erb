@@ -1,64 +1,71 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
   <title>Uhuru Cloud Commander</title>
-  <link rel="stylesheet" href="../../css/layout.css" type="text/css" />
-  <link rel="stylesheet" href="../../css/views.css" type="text/css" />
+  <link rel="stylesheet" href="/css/layout.css" type="text/css" />
+  <link rel="stylesheet" href="/css/views.css" type="text/css" />
   <meta charset="utf-8" />
-  <script type="text/javascript" src="../../scripts/jquery-1.5.js"></script>
-  <script type="text/javascript" src="../../scripts/jquery_ui.js"></script>
-  <script type="text/javascript" src="../../scripts/cloud_tabs.js" ></script>
+  <script type="text/javascript" src="/scripts/jquery-1.5.js"></script>
+  <script type="text/javascript" src="/scripts/jquery_ui.js"></script>
+  <script type="text/javascript" src="/scripts/cloud_tabs.js" ></script>
 </head>
 
 <body>
-    <div id="black_screen">x</div>
-    <div id="wrapper">
+<div id="black_screen">x</div>
+<div id="wrapper">
 
-		<div id="header">
-			<h1>Uhuru Cloud Commander</h1>
-		</div>	
+  <div id="header">
+    <h1>Uhuru Cloud Commander</h1>
+  </div>
 
-        <div id="main_menu">
-            <ul class="main_menu">
-                <li><a class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
-              <% unless first_run? %>
-                <li><a class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
-                <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
-                <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30">Tasks</a></li>
-                <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
-              <% end %>
-                <li style="float: right; margin-right: 15px;"><a onclick="check_services()" href="#">Logout</a></li>
-                <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
-            </ul>
-        </div>
+  <div id="main_menu">
+    <ul class="main_menu">
+      <li><a class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
+      <% unless first_run? %>
+          <li><a class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
+          <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
+          <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks">Tasks</a></li>
+          <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
+      <% end %>
+      <li style="float: right; margin-right: 15px;"><a onclick="check_services()" href="#">Logout</a></li>
+      <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
+    </ul>
+  </div>
 
-      <div class="actual_body">
-        <div class="actual_body_header">
-          <div class="actual_body_header_user">
-            Logged in as: <%= session['user_name'] %>
-          </div>
-        </div>
-
-        <div class="help_div">
-          <div class="help_header">Help</div>
-          <h4>Lorem Ipsum</h4>
-          <p>
-            This is the Infrastructure tab the CPI sub tab. Here you can set up the Ip DNS and the VCenter Network Name.
-          </p>
-          <h4>Node</h4>
-          <p>
-            If you switch between sub tabs to another sub tab you wont lose form data you already completed!
-          </p>
-        </div>
-
-
-        <%= yield %>
-      </div>
-      <div class="actual_body_footer">
-        Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved
+  <div class="actual_body">
+    <div class="actual_body_header">
+      <div class="actual_body_header_user">
+        Logged in as: <%= session['user_name'] %>
       </div>
     </div>
+
+    <div id="help_div" class="help_div">
+      <% if defined? help %>
+          <div class="help_header">Help</div>
+          <% help.each do |title, description, relation| %>
+              <% if relation %>
+                  <label class="hidden" for="<%= relation %>">
+                    <p><h4><%= title %></h4></p>
+                    <p>
+                      <%= description %>
+                    </p>
+                  </label>
+              <% else %>
+                  <p><h4><%= title %></h4></p>
+                  <p>
+                    <%= description %>
+                  </p>
+              <% end %>
+          <% end %>
+      <% end %>
+    </div>
+    <%= yield %>
+  </div>
+  <div class="actual_body_footer">
+    Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved
+  </div>
+</div>
 
 </body>
 

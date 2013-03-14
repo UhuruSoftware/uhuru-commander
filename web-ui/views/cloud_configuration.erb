@@ -39,7 +39,6 @@
                 <td>Description</td>
                 <td>Local value</td>
                 <td>Live value</td>
-                <td>Error</td>
               </tr>
               <% form_generator.generate_form(form, name, form_data).each do |html_field| %>
                   <% if html_field[:type] == 'separator' %>
@@ -170,7 +169,6 @@
         var tableVMList = document.getElementById("vm_list");
 
         $.getJSON('/clouds/configure/<%= cloud_name %>/vms', function(data) {
-
             var items = [];
 
             $.each(data, function(vm_index, vm) {
@@ -195,7 +193,7 @@
                 divJobName.className = "bold";
 
                 divJobState.innerHTML = vm["job_state"];
-                divJobState.className = "job_state_" + vm["job_state"].downcase.gsub(/\w/, '_');
+                divJobState.className = "job_state_" + vm["job_state"].toLowerCase().replace(/\s/g, '_');
 
                 $.each(vm["ips"], function(ip_index, ip) {
                     divIPs.innerHTML += ip + "<br/>";
@@ -242,3 +240,5 @@
     </table>
   </form>
 </div>
+
+<script type="text/javascript">update_help_items()</script>

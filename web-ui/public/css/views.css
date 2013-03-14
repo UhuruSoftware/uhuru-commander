@@ -138,7 +138,7 @@ td.cell_border
     color: #13A12C;
 }
 
-.job_state_failing
+.job_state_failing,
 .job_state_unresponsive_agent
 {
     font-weight: bold;

@@ -1,4 +1,28 @@
 
+function update_help_items()
+{
+    var help_div = document.getElementById("help_div")
+    var all_help_items = help_div.getElementsByTagName('label');
+
+    $.each(all_help_items, function(label_index, label)
+    {
+        $(label).hide();
+    });
+
+    $.each(all_help_items, function(label_index, label)
+    {
+        var element = document.getElementById(label.htmlFor);
+
+        if (element != null)
+        {
+            if ($(element).is(":visible"))
+            {
+                $(label).show();
+            }
+        }
+    });
+}
+
 function focusCloudMenu(id)
 {
     $('#cloud_' + id).addClass("tab_focus");
@@ -13,14 +37,16 @@ function unfocusCloudMenu(id)
 
 function switchCloudMenu(menus, selectedMenu)
 {
+
     var length = menus.length,
-    element = null;
+        element = null;
     for (var i = 0; i < length; i++) {
         element = menus[i];
         unfocusCloudMenu(element)
     }
 
     focusCloudMenu(selectedMenu);
+    update_help_items();
 }
 
 function check_services() {

@@ -2,79 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-ui/config/clouds/dev" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-ui/config/clouds/live/dev" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/dictionaries/root.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/scopes/scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/web.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.bundle/config" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/UCC_Web.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/scopes/scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/Gemfile" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/Gemfile.lock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/bin/uhuru-cloud-commander" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/cf_deployments/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/config/uhuru-cloud-commander.yml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/infrastructure/info.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/config.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/runner.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/sinatra/vcap.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/test/rrr.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/test/sss.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/test/ttt.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/commander_bosh_runner.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/core_ext.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/deployment.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/event_log_renderer_web.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/file_with_progress_bar_web.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/infrastructure.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/monit.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/stage_progressbar.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/status_streamer.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/step_deployment.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/lib/ucc/user.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/public/error.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/public/favicon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/public/loading.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/public/success.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/public/warning.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/resources/.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/display/event_log.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/display/event_log_script.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/display/file_progressbar.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/display/file_progressbar_script.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/display/stage_progressbar.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/display/stage_progressbar_script.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/index.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/layout.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/login.erb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web/uhuru/views/logs.erb" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/bin/test.rb" afterPath="$PROJECT_DIR$/web-ui/bin/test.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/config.yml" afterPath="$PROJECT_DIR$/web-ui/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/bosh_methods.rb" afterPath="$PROJECT_DIR$/web-ui/lib/bosh_methods.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/boshcommander.rb" afterPath="$PROJECT_DIR$/web-ui/lib/boshcommander.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/network_helper.rb" afterPath="$PROJECT_DIR$/web-ui/lib/network_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/ucc/commander_bosh_runner.rb" afterPath="$PROJECT_DIR$/web-ui/lib/ucc/commander_bosh_runner.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/form_generator.rb" afterPath="$PROJECT_DIR$/web-ui/lib/form_generator.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/public/css/layout.css" afterPath="$PROJECT_DIR$/web-ui/public/css/layout.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/public/css/views.css" afterPath="$PROJECT_DIR$/web-ui/public/css/views.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/public/scripts/jquery-1.5.js" afterPath="$PROJECT_DIR$/web-ui/public/scripts/jquery-1.5.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/public/scripts/jquery_ui.js" afterPath="$PROJECT_DIR$/web-ui/public/scripts/jquery_ui.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js" afterPath="$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/cloud_configuration.erb" afterPath="$PROJECT_DIR$/web-ui/views/cloud_configuration.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/infrastructure.erb" afterPath="$PROJECT_DIR$/web-ui/views/infrastructure.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/display/event_log_script.erb" afterPath="$PROJECT_DIR$/web-ui/views/display/event_log_script.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/display/file_progressbar_script.erb" afterPath="$PROJECT_DIR$/web-ui/views/display/file_progressbar_script.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/display/stage_progressbar_script.erb" afterPath="$PROJECT_DIR$/web-ui/views/display/stage_progressbar_script.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/layout.erb" afterPath="$PROJECT_DIR$/web-ui/views/layout.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/login.erb" afterPath="$PROJECT_DIR$/web-ui/views/login.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/logs.erb" afterPath="$PROJECT_DIR$/web-ui/views/logs.erb" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,21 +34,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="cloud_configuration.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/views/cloud_configuration.erb">
+      <file leaf-file-name="layout.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="203" column="136" selection-start="8568" selection-end="8568" vertical-scroll-proportion="-38.125">
+            <state line="52" column="34" selection-start="2303" selection-end="2303" vertical-scroll-proportion="-11.958333">
               <folding>
-                <marker date="1363088008000" expanded="false" signature="5440:5451" placeholder="..." />
+                <element signature="n#style#0;n#li#5;n#ul#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#li#6;n#ul#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layout.css" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="layout.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="127" column="40" selection-start="2464" selection-end="2464" vertical-scroll-proportion="0.0">
+            <state line="275" column="106" selection-start="5095" selection-end="5095" vertical-scroll-proportion="0.5218121">
               <folding />
             </state>
           </provider>
@@ -116,17 +58,30 @@
       <file leaf-file-name="views.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="29" selection-start="2867" selection-end="2867" vertical-scroll-proportion="0.0">
+            <state line="6" column="10" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="form_generator.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/form_generator.rb">
+      <file leaf-file-name="cloud_configuration.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/cloud_configuration.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="333" column="37" selection-start="15206" selection-end="15221" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="41" column="0" selection-start="1337" selection-end="1337" vertical-scroll-proportion="-5.2040815">
+              <folding>
+                <marker date="1363262301000" expanded="false" signature="5409:5420" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/login.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="0" selection-start="504" selection-end="504" vertical-scroll-proportion="-10.0">
+              <folding>
+                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,52 +89,103 @@
       <file leaf-file-name="boshcommander.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/boshcommander.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="292" column="57" selection-start="8595" selection-end="8595" vertical-scroll-proportion="0.0">
+            <state line="470" column="60" selection-start="15319" selection-end="15319" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#1209#1296#0" expanded="false" />
+                <element signature="e#1441#2226#0" expanded="false" />
+                <element signature="e#1458#1561#0" expanded="false" />
+                <element signature="e#1994#2181#0" expanded="false" />
+                <element signature="e#2246#3022#0" expanded="false" />
+                <element signature="e#2413#3003#0" expanded="false" />
+                <element signature="e#3278#3287#0" expanded="false" />
+                <element signature="e#3400#3581#0" expanded="false" />
+                <element signature="e#3409#3573#1" expanded="false" />
+                <element signature="e#3496#3563#1" expanded="false" />
+                <element signature="e#3587#3870#0" expanded="false" />
+                <element signature="e#3876#3914#0" expanded="false" />
+                <element signature="e#3930#4048#0" expanded="false" />
+                <element signature="e#4060#4245#0" expanded="false" />
+                <element signature="e#4251#4290#0" expanded="false" />
+                <element signature="e#4304#4609#0" expanded="false" />
+                <element signature="e#4313#4422#0" expanded="false" />
+                <element signature="e#4430#4509#0" expanded="false" />
+                <element signature="e#4517#4601#0" expanded="false" />
+                <element signature="e#4623#4666#0" expanded="false" />
+                <element signature="e#4687#4751#0" expanded="false" />
+                <element signature="e#4777#4875#0" expanded="false" />
+                <element signature="e#4903#5409#0" expanded="false" />
+                <element signature="e#5438#7459#0" expanded="false" />
+                <element signature="e#5560#7451#0" expanded="false" />
+                <element signature="e#5882#6882#0" expanded="false" />
+                <element signature="e#5904#5931#0" expanded="false" />
+                <element signature="e#6094#6383#0" expanded="false" />
+                <element signature="e#6109#6368#1" expanded="false" />
+                <element signature="e#8785#9302#0" expanded="false" />
+                <element signature="e#8969#9270#0" expanded="false" />
+                <element signature="e#8980#9260#1" expanded="false" />
+                <element signature="e#8997#9165#1" expanded="false" />
+                <element signature="e#9346#14313#0" expanded="false" />
+                <element signature="e#9519#14304#0" expanded="false" />
+                <element signature="e#9636#10239#0" expanded="false" />
+                <element signature="e#9649#10227#1" expanded="false" />
+                <element signature="e#9828#9971#0" expanded="false" />
+                <element signature="e#9850#9877#0" expanded="false" />
+                <element signature="e#9667#10126#0" expanded="false" />
+                <element signature="e#11256#12010#0" expanded="false" />
+                <element signature="e#11269#11998#1" expanded="false" />
+                <element signature="e#11448#11869#0" expanded="false" />
+                <element signature="e#11470#11497#0" expanded="false" />
+                <element signature="e#11590#11853#0" expanded="false" />
+                <element signature="e#12058#12291#0" expanded="false" />
+                <element signature="e#12118#12218#0" expanded="false" />
+                <element signature="e#13244#13500#0" expanded="false" />
+                <element signature="e#13257#13488#1" expanded="false" />
+                <element signature="e#13694#13947#0" expanded="false" />
+                <element signature="e#13707#13935#1" expanded="false" />
+                <element signature="e#15582#15654#0" expanded="false" />
+                <element signature="e#15675#16301#0" expanded="false" />
+                <element signature="e#16321#16482#0" expanded="false" />
+                <element signature="e#16511#16864#0" expanded="false" />
+                <element signature="e#16895#16995#0" expanded="false" />
+                <element signature="e#17014#17301#0" expanded="false" />
+                <element signature="e#17321#18933#0" expanded="false" />
+                <element signature="e#18965#19198#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="form_generator.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/form_generator.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="21" selection-start="1600" selection-end="1600" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="network_helper.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/network_helper.rb">
+      <file leaf-file-name="cloud_tabs.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="50" selection-start="3389" selection-end="3389" vertical-scroll-proportion="0.63484085">
+            <state line="3" column="118" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/bin/test.rb">
+      <file leaf-file-name="bosh_display.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/bosh_display.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="20" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
+            <state line="21" column="38" selection-start="989" selection-end="989" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ipaddr.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/ipaddr.rb">
+      <file leaf-file-name="forms.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="159" column="49" selection-start="4337" selection-end="4337" vertical-scroll-proportion="-6.4">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/cf_deployments/test/test.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="23" selection-start="550" selection-end="560" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="custom_require.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="0" selection-start="1040" selection-end="1040" vertical-scroll-proportion="0.0">
+            <state line="17" column="42" selection-start="2220" selection-end="2220" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -198,16 +204,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/config/infrastructure.yml" />
         <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
+        <option value="$PROJECT_DIR$/web-ui/public/css/views.css" />
+        <option value="$PROJECT_DIR$/ssh_proxy/Gemfile" />
+        <option value="$PROJECT_DIR$/ssh_proxy/run_ssh_proxy.rb" />
+        <option value="$PROJECT_DIR$/web-ui/views/logs.erb" />
+        <option value="$PROJECT_DIR$/web-ui/views/display/stage_progressbar_script.erb" />
+        <option value="$PROJECT_DIR$/web-ui/public/scripts/bosh_display.js" />
+        <option value="$PROJECT_DIR$/web-ui/views/display/event_log_script.erb" />
+        <option value="$PROJECT_DIR$/web-ui/views/display/file_progressbar_script.erb" />
+        <option value="$PROJECT_DIR$/web-ui/lib/form_generator.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/boshcommander.rb" />
         <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
-        <option value="$PROJECT_DIR$/web-ui/public/css/layout.css" />
-        <option value="$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/ipaddr.rb" />
-        <option value="$PROJECT_DIR$/web-ui/bin/test.rb" />
+        <option value="$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js" />
         <option value="$PROJECT_DIR$/web-ui/views/cloud_configuration.erb" />
-        <option value="$PROJECT_DIR$/web-ui/public/css/views.css" />
-        <option value="$PROJECT_DIR$/web-ui/lib/network_helper.rb" />
+        <option value="$PROJECT_DIR$/web-ui/views/login.erb" />
+        <option value="$PROJECT_DIR$/web-ui/public/css/layout.css" />
       </list>
     </option>
   </component>
@@ -424,65 +436,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cf_deployments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cf_deployments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bosh_checker" />
+              <option name="myItemId" value="ssh_proxy" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -494,7 +448,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/web-ui/bin" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RunManager" selected="Ruby.web-ui">
     <configuration default="true" type="RSpecRunConfigurationType" factoryName="RSpec">
@@ -629,14 +583,14 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32901832" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32901832" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21184632" sideWeight="0.67206043" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21184632" sideWeight="0.67098165" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.399137" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3279396" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279396" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -699,110 +653,187 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/core_ext.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/display/event_log.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="6" selection-start="628" selection-end="628" vertical-scroll-proportion="0.33221477" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/public/loading.gif">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="17" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="43" selection-start="1953" selection-end="1953" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/display/file_progressbar.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="49" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0">
+        <state line="3" column="32" selection-start="552" selection-end="552" vertical-scroll-proportion="-1.875">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/advanced.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="19" selection-start="335" selection-end="335" vertical-scroll-proportion="-6.25">
+          <folding>
+            <marker date="1363011559000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1363011559000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1363011559000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/display/event_log_script.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="52" selection-start="52" selection-end="52" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/views/clouds.erb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/display/file_progressbar_script.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="40" selection-start="54" selection-end="75" vertical-scroll-proportion="0.0">
+        <state line="0" column="49" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/boshcommander.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/display/stage_progressbar_script.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="292" column="57" selection-start="8595" selection-end="8595" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/form_generator.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="333" column="37" selection-start="15206" selection-end="15221" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/site_ruby/1.9.1/rubygems/custom_require.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1040" selection-end="1040" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/cf_deployments/test/test.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="23" selection-start="550" selection-end="560" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/ipaddr.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="159" column="49" selection-start="4337" selection-end="4337" vertical-scroll-proportion="-6.4">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/bin/test.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="20" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
+        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="-0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="29" selection-start="2867" selection-end="2867" vertical-scroll-proportion="0.0">
+        <state line="6" column="10" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
+    <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="127" column="40" selection-start="2464" selection-end="2464" vertical-scroll-proportion="0.0">
+        <state line="17" column="42" selection-start="2220" selection-end="2220" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/bosh_display.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="38" selection-start="989" selection-end="989" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/form_generator.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="21" selection-start="1600" selection-end="1600" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="118" selection-start="86" selection-end="86" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/boshcommander.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="470" column="60" selection-start="15319" selection-end="15319" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#1209#1296#0" expanded="false" />
+            <element signature="e#1441#2226#0" expanded="false" />
+            <element signature="e#1458#1561#0" expanded="false" />
+            <element signature="e#1994#2181#0" expanded="false" />
+            <element signature="e#2246#3022#0" expanded="false" />
+            <element signature="e#2413#3003#0" expanded="false" />
+            <element signature="e#3278#3287#0" expanded="false" />
+            <element signature="e#3400#3581#0" expanded="false" />
+            <element signature="e#3409#3573#1" expanded="false" />
+            <element signature="e#3496#3563#1" expanded="false" />
+            <element signature="e#3587#3870#0" expanded="false" />
+            <element signature="e#3876#3914#0" expanded="false" />
+            <element signature="e#3930#4048#0" expanded="false" />
+            <element signature="e#4060#4245#0" expanded="false" />
+            <element signature="e#4251#4290#0" expanded="false" />
+            <element signature="e#4304#4609#0" expanded="false" />
+            <element signature="e#4313#4422#0" expanded="false" />
+            <element signature="e#4430#4509#0" expanded="false" />
+            <element signature="e#4517#4601#0" expanded="false" />
+            <element signature="e#4623#4666#0" expanded="false" />
+            <element signature="e#4687#4751#0" expanded="false" />
+            <element signature="e#4777#4875#0" expanded="false" />
+            <element signature="e#4903#5409#0" expanded="false" />
+            <element signature="e#5438#7459#0" expanded="false" />
+            <element signature="e#5560#7451#0" expanded="false" />
+            <element signature="e#5882#6882#0" expanded="false" />
+            <element signature="e#5904#5931#0" expanded="false" />
+            <element signature="e#6094#6383#0" expanded="false" />
+            <element signature="e#6109#6368#1" expanded="false" />
+            <element signature="e#8785#9302#0" expanded="false" />
+            <element signature="e#8969#9270#0" expanded="false" />
+            <element signature="e#8980#9260#1" expanded="false" />
+            <element signature="e#8997#9165#1" expanded="false" />
+            <element signature="e#9346#14313#0" expanded="false" />
+            <element signature="e#9519#14304#0" expanded="false" />
+            <element signature="e#9636#10239#0" expanded="false" />
+            <element signature="e#9649#10227#1" expanded="false" />
+            <element signature="e#9828#9971#0" expanded="false" />
+            <element signature="e#9850#9877#0" expanded="false" />
+            <element signature="e#9667#10126#0" expanded="false" />
+            <element signature="e#11256#12010#0" expanded="false" />
+            <element signature="e#11269#11998#1" expanded="false" />
+            <element signature="e#11448#11869#0" expanded="false" />
+            <element signature="e#11470#11497#0" expanded="false" />
+            <element signature="e#11590#11853#0" expanded="false" />
+            <element signature="e#12058#12291#0" expanded="false" />
+            <element signature="e#12118#12218#0" expanded="false" />
+            <element signature="e#13244#13500#0" expanded="false" />
+            <element signature="e#13257#13488#1" expanded="false" />
+            <element signature="e#13694#13947#0" expanded="false" />
+            <element signature="e#13707#13935#1" expanded="false" />
+            <element signature="e#15582#15654#0" expanded="false" />
+            <element signature="e#15675#16301#0" expanded="false" />
+            <element signature="e#16321#16482#0" expanded="false" />
+            <element signature="e#16511#16864#0" expanded="false" />
+            <element signature="e#16895#16995#0" expanded="false" />
+            <element signature="e#17014#17301#0" expanded="false" />
+            <element signature="e#17321#18933#0" expanded="false" />
+            <element signature="e#18965#19198#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/views/cloud_configuration.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="136" selection-start="8568" selection-end="8568" vertical-scroll-proportion="-38.125">
+        <state line="41" column="0" selection-start="1337" selection-end="1337" vertical-scroll-proportion="-5.2040815">
           <folding>
-            <marker date="1363088008000" expanded="false" signature="5440:5451" placeholder="..." />
+            <marker date="1363262301000" expanded="false" signature="5409:5420" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/network_helper.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="50" selection-start="3389" selection-end="3389" vertical-scroll-proportion="0.63484085">
+        <state line="52" column="34" selection-start="2303" selection-end="2303" vertical-scroll-proportion="-11.958333">
+          <folding>
+            <element signature="n#style#0;n#li#5;n#ul#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#li#6;n#ul#0;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/login.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="504" selection-end="504" vertical-scroll-proportion="-10.0">
+          <folding>
+            <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="275" column="106" selection-start="5095" selection-end="5095" vertical-scroll-proportion="0.5218121">
           <folding />
         </state>
       </provider>

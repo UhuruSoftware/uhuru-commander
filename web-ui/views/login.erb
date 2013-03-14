@@ -8,32 +8,28 @@
   <meta charset="utf-8" />
 </head>
 
-<body>
+<body style="text-align: center;">
 <div id="wrapper">
   <div id="header"><h1>Uhuru Cloud Commander</h1></div>
   <div class="actual_body">
     <form action="/login" method="post">
-      <span class="field_error"><%= error_message %></span>
-      <table class="settings_table">
-        <tr>
-          <td>
-            <label for="username">Username:</label>
-          </td>
-          <td>
+      <div class="login_div">
+        <div class="login_content">
+          <div>
+            <label for="username">Username</label>
             <input type="text" name="username" id="username"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="password">Password:</label>
-          </td>
-          <td>
+          </div>
+          <div>
+            <label for="password">Password</label>
             <input type="password" name="password" id="password"/>
-          </td>
-        </tr>
-      </table>
-      <div class="bottom_buttons_div">
-        <input type="submit" name="Submit" value="Login">
+          </div>
+          <div>
+            <input class="login_button" type="submit" name="Submit" value="Login" />
+          </div>
+        </div>
+        <div class="login_footer">
+          <%= error_message %>
+        </div>
       </div>
     </form>
   </div>

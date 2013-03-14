@@ -1,5 +1,1 @@
-<script type="text/javascript">
-    value = <%= percentage_done.to_i %>;
-    document.getElementById("progressbar<%= @pb_id %>_label").innerText = value + "%";
-    document.getElementById("progressbar<%= @pb_id %>_value").style["width"] = value + "px";
-</script>
+<script type="text/javascript">b("<%= @pb_id %>","<%= percentage_done.to_i %>")</script>

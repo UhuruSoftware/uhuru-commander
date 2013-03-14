@@ -53,6 +53,20 @@ module Uhuru::BoshCommander
       @forms = File.open(File.expand_path("../../config/forms.yml", __FILE__)) { |file| YAML.load(file)}
     end
 
+    def help()
+      help_items = []
+
+      @forms.each do |form_name, form|
+        form.each do |screen|
+          screen['fields'].each do |field|
+            help_items << [field['label'], field['description'], "#{form_name}:#{screen['screen']}:#{field['name']}"]
+          end
+        end
+      end
+
+      help_items
+    end
+
     def generate_form(form, screen_name, form_data = {} )
       screen = @forms[form].find { |item| item['screen'] == screen_name }
 
