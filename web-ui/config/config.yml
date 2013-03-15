@@ -5,11 +5,11 @@ dev-mode: true
 
 bosh_commander:
   domain: "localhost"
-  skip_check_monit: true
+  skip_check_monit: false
 
 bosh:
   target: "10.0.21.22"
-#  base_dir: "/home/mitza/testing/assets/vcap"
+#  base_dir: "/home/florind/tmp/testing/assets/vcap"
   base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:
