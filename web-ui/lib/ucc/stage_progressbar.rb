@@ -7,17 +7,17 @@ class StageProgressBar
 
   def refresh
     if (!@isprogress)
+
       @isprogress = true
       template = ERB.new(File.read("../views/display/stage_progressbar.erb"))
       mssg = template.result(binding)
       say(mssg, "")
     end
     @filler = "x"
-    clear_line
     label = ""
     label = " #{@label}" if @label
     current_percent = (@finished_steps.to_f / @total.to_f) * 100.00
-    @output.print " #{@label}" if @label
+    bar_visible = @bar_visible
     template = ERB.new(File.read("../views/display/stage_progressbar_script.erb"))
     mssg = template.result(binding)
     say(mssg, "")

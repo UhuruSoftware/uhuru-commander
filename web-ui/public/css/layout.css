@@ -78,7 +78,7 @@ body
 .actual_body_header
 {
     background: #0A3660;
-    color: #fff;
+    color: #fff;                        style="border:1px solid #033E6B"
     text-align: right;
     height: 28px;
 }
@@ -295,18 +295,43 @@ textarea
 /*BOSH Log Output Text Effects*/
 /************************************************************************/
 
-.isa_success, .isa_warning, .isa_error {
+.isa_success,
+.isa_warning,
+.isa_error
+{
     border: 1px solid;
 }
-.isa_success {
+.isa_success
+{
     color: #4F8A10;
     background-color: #DFF2BF;
 }
-.isa_warning {
+.isa_warning
+{
     color: #9F6000;
     background-color: #FEEFB3;
 }
-.isa_error {
+.isa_error
+{
     color: #D8000C;
     background-color: #FFBABA;
+}
+
+.log_box
+{
+    border:1px solid #033E6B
+}
+
+.log_div
+{
+    overflow:auto;
+    height:300px;
+    font-size:11px;
+}
+
+.log_div div,
+.log_div span
+{
+    font-family: Courier New;
+    line-height: 18px;
 }

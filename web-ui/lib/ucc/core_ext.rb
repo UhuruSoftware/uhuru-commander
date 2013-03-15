@@ -5,7 +5,7 @@ require 'cgi'
 
 module UccExtensions
 
-  def say(message, sep = "<br />")
+  def say(message, sep = "<br>")
     message = message.dup.to_s
     sep = "" if message[-1..-1] == sep
     request_id = Thread.current.request_id
@@ -130,14 +130,7 @@ module UccStringExtensions
   end
 
   def truncate(limit = 30)
-    return "" if self.blank?
-    etc = "..."
-    stripped = self.strip[0..limit]
-    if stripped.length > limit
-      stripped.gsub(/\s+?(\S+)?$/, "") + etc
-    else
-      stripped
-    end
+    self
   end
 
   def columnize(width = 80, left_margin = 0)

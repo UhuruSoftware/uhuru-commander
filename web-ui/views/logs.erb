@@ -1,6 +1,6 @@
 ﻿
-<div style="border:1px solid #033E6B">
-  <div id="logDiv" style="overflow:auto; height:300px; font-family:Courier New; font-size:11px">
+<div class="log_box">
+  <div id="logDiv" class="log_div">
   </div>
   <img src="/loading.gif" alt="Loading..." />
 </div>
@@ -33,14 +33,32 @@
 
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var newContent = document.createElement('div');
-                newContent.innerHTML = xmlhttp.responseText;
-                logDiv.appendChild(newContent);
 
-                var newScripts = newContent.getElementsByTagName('script');
-                for (var ix = 0; ix < newScripts.length; ix++) {
-                    eval(newScripts[ix].text);
+                var existingText = logDiv.innerHTML;
+                var newText = xmlhttp.responseText;
+
+                existingText = existingText + newText;
+                var replacedText = "";
+
+                while (existingText !== replacedText)
+                {
+                    replacedText = existingText;
+                    existingText = existingText.replace(/\n[^\n\r]*\r/g, "<br>\n");
                 }
+                replacedText = replacedText.replace(/(<br>)+/g, "<br>");
+//                replacedText = replacedText.replace(/<br\/>\n/g, "____PLACEHOLDER_EXISTING_BREAKS____");
+//                replacedText = replacedText.replace(/\n/g, "<br />\n");
+//                replacedText = replacedText.replace("____PLACEHOLDER_EXISTING_BREAKS____", "<br />");
+
+
+//                var newContent = document.createElement('div');
+//                newContent.innerHTML = xmlhttp.responseText;
+                logDiv.innerHTML = replacedText;
+
+//                var newScripts = newContent.getElementsByTagName('script');
+//                for (var ix = 0; ix < newScripts.length; ix++) {
+//                    eval(newScripts[ix].text);
+//                }
 
 
                 var currentHeight = logDiv.scrollHeight;

@@ -54,6 +54,12 @@ module Uhuru
       if chunk
         chunk = chunk.match(/.*(<!-- WRITE_BLOCK_END -->)/m).to_s
         @screens[screen_name][1] = read_bytes + chunk.length
+        chunk.gsub! /<!-- WRITE_BLOCK_END -->/, ''
+        # while chunk.gsub!(/\n[^\n\r]*\r/, "\n") != nil do end
+
+        # make html like
+        #chunk.gsub! /\n/, '<br />'
+
       end
 
       chunk
