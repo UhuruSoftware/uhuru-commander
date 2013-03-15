@@ -105,6 +105,8 @@ module Uhuru::BoshCommander
                                 'text'
                               when 'array_string'
                                 'text'
+                              when 'password'
+                                'password'
                             end
 
         html_field[:id] = "#{form}:#{screen_name}:#{field['name']}"

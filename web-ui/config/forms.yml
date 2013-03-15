@@ -11,7 +11,7 @@ infrastructure:
     fields:
       - {name: vcenter,    label: vCenter Host,        type: ip,    yml_key: '["cloud"]["properties"]["vcenters"][0]["host"]',      description: 'vCenter Host IP Address' }
       - {name: vcenter_user,    label: vCenter User,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["user"]',      description: 'vCenter Host User' }
-      - {name: vcenter_password,    label: vCenter Password,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["password"]',      description: 'vCenter Host User Password' }
+      - {name: vcenter_password,    label: vCenter Password,        type: password,    yml_key: '["cloud"]["properties"]["vcenters"][0]["password"]',      description: 'vCenter Host User Password' }
       - {name: vcenter_datacenter,   label: vCenter DataCenter,        type: string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["name"]',      description: 'Datacenter name inside vCenter to be used for deployments' }
       - {name: vcenter_clusters,   label: vCenter Clusters,        type: array_string,    yml_key: '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["clusters"]',      description: 'Cluster name inside the datacenter' }
       - {name: vcenter_datastore,   label: vCenter Datastores,        type: string,    yml_key: [ '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["datastore_pattern"]', '["cloud"]["properties"]["vcenters"][0]["datacenters"][0]["persistent_datastore_pattern"]' ],      description: 'Name of the datastore used for storing VMs and persistent disks' }
@@ -90,7 +90,7 @@ cloud:
     fields:
       - {name: admin_sep,    label: Administrator Settings,       type: separator }
       - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_email"]', '["properties"]["cc"]["admins"][0]', '["properties"]["cc"]["bootstrap_users"][0]["email"]'],   description: '' }
-      - {name: admin_password,    label: Administrator Password,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_password"]', '["properties"]["cc"]["bootstrap_users"][0]["password"]'],   description: '' }
+      - {name: admin_password,    label: Administrator Password,       type: password,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_password"]', '["properties"]["cc"]["bootstrap_users"][0]["password"]'],   description: '' }
 
       - {name: cloud_info_sep,    label: Cloud Information,       type: separator }
       - {name: name,    label: Name,       type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_name"]',   description: '' }

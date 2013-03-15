@@ -159,7 +159,7 @@ td.cell_border
 
 .file_upload_field
 {
-    opacity: 0;
+    display:none;
     position:absolute;
     top:0;
     left:0;
