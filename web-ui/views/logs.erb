@@ -1,27 +1,4 @@
-﻿﻿<html>
-<head>
-  <style type="text/css">
-      .isa_success, .isa_warning, .isa_error {
-          border: 1px solid;
-      }
-      .isa_success {
-          color: #4F8A10;
-          background-color: #DFF2BF;
-      }
-      .isa_warning {
-          color: #9F6000;
-          background-color: #FEEFB3;
-      }
-      .isa_error {
-          color: #D8000C;
-          background-color: #FFBABA;
-      }
-  </style>
-  <script type="text/javascript" src="/scripts/bosh_display.js"
-</head>
-<body>
-
-
+﻿
 <div style="border:1px solid #033E6B">
   <div id="logDiv" style="overflow:auto; height:300px; font-family:Courier New; font-size:11px">
   </div>
@@ -43,6 +20,7 @@
             }
         }
     }
+
 
     function loadXMLDoc(url) {
         var xmlhttp;
@@ -81,7 +59,3 @@
         loadXMLDoc("/screen/<%= screen_id %>");
     }, 1000);
 </script>
-
-</body>
-
-</html>

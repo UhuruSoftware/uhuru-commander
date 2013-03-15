@@ -1,4 +1,7 @@
 # Copyright (c) 2009-2012 VMware, Inc.
+# Copyright (c) 2011-2013 Uhuru Software, Inc.
+
+require 'cgi'
 
 module UccExtensions
 
@@ -115,7 +118,7 @@ module UccStringExtensions
   end
 
   def colorize(color_code)
-    "<span class='#{COLOR_CODES[color_code]}'> #{self}</span>"
+    "<span class='#{COLOR_CODES[color_code]}'> #{CGI::escape_html self}</span>"
   end
 
   def blank?

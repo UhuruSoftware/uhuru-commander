@@ -53,7 +53,7 @@ module Uhuru::BoshCommander
     #enable :sessions
 
     get '/login' do
-      if $config['skip_check_monit'] == true
+      if $config[:bosh_commander][:skip_check_monit] == false
         monit = Uhuru::Ucc::Monit.new
         unless monit.service_group_state == "running"
           redirect '/offline'

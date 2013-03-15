@@ -291,5 +291,22 @@ textarea
     float: right;
 }
 
+/************************************************************************/
+/*BOSH Log Output Text Effects*/
+/************************************************************************/
 
-
+.isa_success, .isa_warning, .isa_error {
+    border: 1px solid;
+}
+.isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.isa_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.isa_error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
