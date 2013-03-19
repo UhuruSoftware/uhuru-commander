@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ssh_proxy/Gemfile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ssh_proxy/Gemfile.lock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ssh_proxy/readme.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ssh_proxy/run_ssh_proxy.rb" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" afterPath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/Gemfile.lock" afterPath="$PROJECT_DIR$/web-ui/Gemfile.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/Gemfile" afterPath="$PROJECT_DIR$/web-ui/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/boshcommander.rb" afterPath="$PROJECT_DIR$/web-ui/lib/boshcommander.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/runner.rb" afterPath="$PROJECT_DIR$/web-ui/lib/runner.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb" afterPath="$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,7 +27,26 @@
     <disable_hints />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="Gemfile" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="34" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Gemfile.lock" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web-ui/Gemfile.lock">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="160" column="0" selection-start="3513" selection-end="3513" vertical-scroll-proportion="0.5782074">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -39,7 +59,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/views/display/file_progressbar_script.erb" />
         <option value="$PROJECT_DIR$/web-ui/lib/form_generator.rb" />
         <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
         <option value="$PROJECT_DIR$/web-ui/public/scripts/cloud_tabs.js" />
@@ -50,11 +69,12 @@
         <option value="$PROJECT_DIR$/web-ui/bin/frontend.rb" />
         <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
         <option value="$PROJECT_DIR$/web-ui/lib/ssh_helper.rb" />
-        <option value="$PROJECT_DIR$/web-ui/Gemfile" />
         <option value="$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/extended_rack_pool.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/runner.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/boshcommander.rb" />
+        <option value="$PROJECT_DIR$/web-ui/Gemfile" />
+        <option value="$PROJECT_DIR$/web-ui/Gemfile.lock" />
       </list>
     </option>
   </component>
@@ -120,96 +140,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sinatra" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ssh_proxy" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -426,13 +356,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-10" width="1934" height="1062" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2139808" sideWeight="0.6418554" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2139808" sideWeight="0.6418554" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43365696" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -503,20 +433,6 @@
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.2-p320/gems/rack-reverse-proxy-0.4.4/lib/rack/reverse_proxy.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="31" selection-start="72" selection-end="72" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ssh_helper.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="72" selection-start="383" selection-end="383" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="23" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -600,6 +516,20 @@
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.2-p320/gems/sinatra-1.3.3/lib/sinatra/base.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="881" column="64" selection-start="28620" selection-end="28620" vertical-scroll-proportion="0.47627416">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="34" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/Gemfile.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="160" column="0" selection-start="3513" selection-end="3513" vertical-scroll-proportion="0.5782074">
           <folding />
         </state>
       </provider>
