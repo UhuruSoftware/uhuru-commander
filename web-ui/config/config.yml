@@ -9,7 +9,7 @@ bosh_commander:
 
 ttyjs:
   host: 127.0.0.1
-  port: 8080
+  port: 9090
 
 bosh:
   target: "10.0.21.22"
