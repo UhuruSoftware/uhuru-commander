@@ -150,6 +150,7 @@
     <table id="vm_list" class="virtual_machines_table hidden">
       <tr class="settings_table_header">
         <td>Name</td>
+        <td>#</td>
         <td>State</td>
         <td>IPs</td>
         <td>Agent Id</td>
@@ -176,13 +177,15 @@
                 var newRow = tableVMList.insertRow(rowCount);
 
                 var cellJobName = createCell(newRow, 0);
-                var cellJobState = createCell(newRow, 1);
-                var cellIPs = createCell(newRow, 2);
-                var cellAgentId = createCell(newRow, 3);
-                var cellSSHAndLogs = createCell(newRow, 4);
+                var cellJobIndex = createCell(newRow, 1);
+                var cellJobState = createCell(newRow, 2);
+                var cellIPs = createCell(newRow, 3);
+                var cellAgentId = createCell(newRow, 4);
+                var cellSSHAndLogs = createCell(newRow, 5);
 
                 var divAgentId = document.createElement("div");
                 var divJobName = document.createElement("div");
+                var divJobIndex = document.createElement("div");
                 var divJobState = document.createElement("div");
                 var divIPs = document.createElement("div");
                 var divSSHAndLogs = document.createElement("div");
@@ -192,6 +195,9 @@
                 divJobName.innerHTML = vm["job_name"];
                 divJobName.className = "bold";
 
+                divJobIndex.innerHTML = vm["index"];
+                divJobIndex.className = "bold";
+
                 divJobState.innerHTML = vm["job_state"];
                 divJobState.className = "job_state_" + vm["job_state"].toLowerCase().replace(/\s/g, '_');
 
@@ -199,10 +205,13 @@
                     divIPs.innerHTML += ip + "<br/>";
                 });
 
-                divSSHAndLogs.innerHTML = "<a href='#'>SSH</a>&nbsp;<a href='#'>Logs</a>"
+                var sshUrl = "/ssh_connect/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
+
+                divSSHAndLogs.innerHTML = "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;<a href='#'>Logs</a>"
 
                 cellAgentId.appendChild(divAgentId);
                 cellJobName.appendChild(divJobName);
+                cellJobIndex.appendChild(divJobIndex);
                 cellJobState.appendChild(divJobState);
                 cellIPs.appendChild(divIPs);
                 cellSSHAndLogs.appendChild(divSSHAndLogs);

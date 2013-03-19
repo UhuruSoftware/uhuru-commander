@@ -307,7 +307,7 @@ module Uhuru::BoshCommander
       Uhuru::CommanderBoshRunner.execute(session) do
         begin
 
-          if (form_generator.deployment_obj.get_status()["state"] == "Deployed")
+          if form_generator.deployment_obj.get_status()["state"] == "Deployed"
             vms = Uhuru::Ucc::Vms.new()
             vms_list = vms.list(cloud_name)
           end
@@ -636,8 +636,9 @@ CLOUDS
       result = 403
 
       if request.ip == '127.0.0.1'
-        unless session.store == nil
-          _, target_session = session.instance_variable_get("@store").get_session(env, params[:token])
+        store = session.instance_variable_get("@store")
+        unless store == nil
+          _, target_session = store.get_session(env, params[:token])
 
           unless target_session['command'] == nil
             config_file = target_session['command'].instance_variable_get("@config").instance_variable_get("@filename")
