@@ -1,3 +1,4 @@
+require 'rack/reverse_proxy'
 require "steno"
 require "config"
 require "boshcommander"
@@ -76,11 +77,29 @@ module Uhuru::BoshCommander
         use Rack::CommonLogger
         use Rack::Session::Pool
 
+        use Rack::ReverseProxy do
+          # Set :preserve_host to true globally (default is true already)
+          reverse_proxy_options :preserve_host => true
+
+          # Forward the path /test* to http://example.com/test*
+
+          tty_js_location = "http://#{$config[:ttyjs][:host]}:#{$config[:ttyjs][:port]}"
+
+          reverse_proxy "/user.js", "#{tty_js_location}/user.js"
+          reverse_proxy "/user.css", "#{tty_js_location}/user.css"
+          reverse_proxy "/style.css", "#{tty_js_location}/style.css"
+          reverse_proxy "/tty.js", "#{tty_js_location}/tty.js"
+          reverse_proxy "/term.js", "#{tty_js_location}/term.js"
+          reverse_proxy "/options.js", "#{tty_js_location}/options.js"
+          reverse_proxy '/socket.io', "#{tty_js_location}/"
+          reverse_proxy /^\/ssh(\/.*)$/, "#{tty_js_location}/$1"
+        end
+
         map "/" do
           run Uhuru::BoshCommander::BoshCommander
         end
       end
-      @thin_server = Thin::Server.new($config[:bind_address], $config[:port])
+      @thin_server = Thin::Server.new('0.0.0.0', $config[:port])
       @thin_server.app = app
 
       trap_signals

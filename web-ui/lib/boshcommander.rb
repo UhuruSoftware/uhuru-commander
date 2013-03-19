@@ -5,7 +5,7 @@ require 'exceptions'
 require 'validations'
 require 'bosh_methods'
 require 'form_generator'
-
+require 'cgi'
 
 
 #require "yaml"
@@ -59,7 +59,7 @@ module Uhuru::BoshCommander
           redirect '/offline'
         end
       end
-      
+
       erb :login, {
           :locals => {
               :error_message => ""
@@ -98,7 +98,6 @@ module Uhuru::BoshCommander
 
     post '/login' do
       message = ""
-      #Uhuru::CommanderBoshRunner.execute(session) do
       session['user_name'] = params[:username]
       command, config, cache = login
 
@@ -121,7 +120,6 @@ module Uhuru::BoshCommander
                 :layout => :login
             }
       end
-      #end
     end
   end
 
@@ -137,7 +135,7 @@ module Uhuru::BoshCommander
     use LoginScreen
 
     before do
-      unless request.path_info == '/offline' || request.path_info == '/monit_status'
+      unless request.path_info == '/offline' || request.path_info == '/monit_status' || request.path_info == '/ssh_config'
         unless session['user_name']
           redirect '/login'
         end
@@ -281,23 +279,23 @@ module Uhuru::BoshCommander
           form_generator = FormGenerator.new(deployment_name: cloud_name)
           deployment_status = form_generator.deployment_obj.status
         rescue Exception => ex
-		  logger.err("#{ex.to_s}: #{ex.backtrace}")
+          logger.err("#{ex.to_s}: #{ex.backtrace}")
         end
       end
 
       erb :cloud_configuration, {:locals =>
-                                   {
-                                       :form_generator => form_generator,
-                                       :form => "cloud",
-                                       :js_tabs => cloud_js_tabs,
-                                       :default_tab => :networks,
-                                       :error => nil,
-                                       :form_data => {},
-                                       :cloud_name => cloud_name,
-                                       :help => form_generator.help,
-                                       :summary => deployment_status
-                                   },
-                               :layout => :layout}
+                                     {
+                                         :form_generator => form_generator,
+                                         :form => "cloud",
+                                         :js_tabs => cloud_js_tabs,
+                                         :default_tab => :networks,
+                                         :error => nil,
+                                         :form_data => {},
+                                         :cloud_name => cloud_name,
+                                         :help => form_generator.help,
+                                         :summary => deployment_status
+                                     },
+                                 :layout => :layout}
     end
 
     get '/clouds/configure/:cloud_name/vms' do
@@ -458,7 +456,7 @@ module Uhuru::BoshCommander
       Uhuru::CommanderBoshRunner.execute(session) do
         clouds = FormGenerator.get_clouds
       end
-      
+
       clouds_help = <<CLOUDS
 Here you have a list of all clouds.
 Click on the name of any one of them for configuration, monitoring and deployment options.
@@ -507,7 +505,7 @@ CLOUDS
           #task.options[:debug] = "true"
           task.track(task_id)
         rescue Exception => ex
-         puts "#{ex.to_s}: #{ex.backtrace}"
+          puts "#{ex.to_s}: #{ex.backtrace}"
         end
       end
       redirect "logs/#{request_id}"
@@ -621,7 +619,35 @@ CLOUDS
       deployment_status
     end
 
+    get '/ssh_connect/:deployment/:job/:index' do
 
+      ssh_data = {}
+      ssh_data[:deployment] = Uhuru::Ucc::Deployment.new(params[:deployment]).deployment_manifest_path
+      ssh_data[:job] = params[:job]
+      ssh_data[:index] = params[:index]
+      ssh_data[:token] = session.id
+
+      tty_js_param = CGI::escape(Base64.encode64(ssh_data.to_json))
+      redirect "/ssh/?connectionData=#{tty_js_param}"
+    end
+
+    get '/ssh_config' do
+
+      result = 403
+
+      if request.ip == '127.0.0.1'
+        unless session.store == nil
+          _, target_session = session.instance_variable_get("@store").get_session(env, params[:token])
+
+          unless target_session['command'] == nil
+            config_file = target_session['command'].instance_variable_get("@config").instance_variable_get("@filename")
+            result = config_file
+          end
+        end
+      end
+
+      result
+    end
   end
-
 end
+

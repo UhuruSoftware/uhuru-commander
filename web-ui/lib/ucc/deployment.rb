@@ -3,10 +3,15 @@ module Uhuru::Ucc
   class Deployment
 
     attr_reader :deployment_name
+    attr_reader :deployment_dir
+    attr_reader :deployment_manifest_path
+
 
     def initialize(deployment_name)
       @deployment_name = deployment_name
-      @deployment_dir = "../cf_deployments/#{deployment_name}"
+
+      @deployment_dir = File.expand_path("../../../cf_deployments/#{deployment_name}", __FILE__)
+
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
 
       #create deployment folder

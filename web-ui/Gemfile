@@ -21,3 +21,4 @@ gem "pg"
 gem "bcrypt-ruby"
 
 gem 'rbvmomi'
+gem "rack-reverse-proxy", :require => "rack/reverse_proxy"

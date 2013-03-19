@@ -158,6 +158,7 @@ DEPENDENCIES
   monit_api
   netaddr
   pg
+  rack-reverse-proxy
   rbvmomi
   sequel
   sinatra
