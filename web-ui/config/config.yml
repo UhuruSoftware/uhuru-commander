@@ -6,15 +6,15 @@ dev-mode: true
 bosh_commander:
   domain: "localhost"
   skip_check_monit: true
+  check_infrastructure_timeout: 10
 
 ttyjs:
   host: 127.0.0.1
   port: 9090
 
 bosh:
-  target: "10.0.21.22"
-  #base_dir: "/home/florind/tmp/testing/assets/vcap"
-  base_dir: "/home/vladi/tmp/testing/assets/vcap"
+  target: "10.134.0.73"
+  base_dir: "/home/mitza/testing/assets/vcap"
   #base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:

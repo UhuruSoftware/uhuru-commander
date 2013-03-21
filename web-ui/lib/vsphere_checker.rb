@@ -1,7 +1,15 @@
 require 'rbvmomi'
 
 class VSphereChecker
+
+
   def self.check(form_data)
+    vim = nil
+    if ($config)
+      timeout = $config[:bosh_commander][:check_infrastructure_timeout]
+    else
+      timeout = 20
+    end
 
     errors = {
         "infrastructure:CPI:vcenter" => "",
@@ -23,11 +31,26 @@ class VSphereChecker
     vm_folder = form_data["infrastructure:CPI:vcenter_vm_folder"]
     template_folder = form_data["infrastructure:CPI:vcenter_template_folder"]
 
-    begin
-      vim = RbVmomi::VIM.connect host: address, user: user, password: password, insecure: true
-    rescue Exception => e
+    thr = Thread.new {
+      begin
+        vim = RbVmomi::VIM.connect host: address, user: user, password: password, insecure: true
+      rescue Exception => e
+        errors["infrastructure:CPI:vcenter"] = "Could not login to '#{address}' using the provided credentials"
+      end
+    }
+
+    for i in 1 .. timeout
+      if vim
+         break
+      end
+      sleep 1
+    end
+
+    if (thr.status != false)
+      Thread.kill(thr)
       errors["infrastructure:CPI:vcenter"] = "Could not login to '#{address}' using the provided credentials"
     end
+
 
     if vim
       rootFolder = vim.serviceInstance.content.rootFolder
