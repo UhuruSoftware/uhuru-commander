@@ -5,11 +5,11 @@ require 'cgi'
 
 module UccExtensions
 
-  def say(message, sep = "<br>")
+  def say(message, sep = "\n")
     message = message.dup.to_s
     sep = "" if message[-1..-1] == sep
     request_id = Thread.current.request_id
-    Thread.current.streamer.write_stream(request_id, "#{message} #{sep}")
+    Thread.current.streamer.write_stream(request_id, "#{$indent}#{message}#{sep}")
     $stdout.puts "#{message}"
   end
 
@@ -100,9 +100,9 @@ end
 module UccStringExtensions
 
   COLOR_CODES = {
-    :red => "isa_error",
-    :green => "isa_success",
-    :yellow => "isa_warning"
+    :red => "***color_out_start_red***",
+    :green => "***color_out_start_green***",
+    :yellow => "***color_out_start_yellow***"
   }
 
   def red
@@ -118,7 +118,7 @@ module UccStringExtensions
   end
 
   def colorize(color_code)
-    "<span class='#{COLOR_CODES[color_code]}'> #{CGI::escape_html self}</span>"
+    "#{COLOR_CODES[color_code]}#{CGI.escape_html self}***color_out_end***"
   end
 
   def blank?
@@ -150,7 +150,7 @@ module UccStringExtensions
 
   def indent(margin = 2)
     self.split("\n").map { |line|
-      '&nbsp;' * margin + line
+      ' ' * margin + line
     }.join("\n")
   end
 

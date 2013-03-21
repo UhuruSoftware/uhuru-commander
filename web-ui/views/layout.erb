@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
 
 <head>
   <title>Uhuru Cloud Commander</title>
@@ -16,29 +17,32 @@
 <div id="black_screen"></div>
 <div id="wrapper">
 
-  <div id="header">
+  <div id="header" class="header">
     <h1>Uhuru Cloud Commander</h1>
+    <div class="header_user">
+      Logged in as: <%= session['user_name'] %>
+    </div>
   </div>
 
   <div id="main_menu">
     <ul class="main_menu">
-      <li><a class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
+      <li><a onclick="showPageLoading()" class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
       <% unless first_run? %>
-          <li><a class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
-          <li><a class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
-          <li><a class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30">Tasks</a></li>
-          <li><a class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="#">Monitoring</a></li>
+          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
+          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
+          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
       <% end %>
-      <li style="float: right; margin-right: 15px;"><a onclick="check_services()" href="#">Logout</a></li>
-      <li style="float: right; margin-right: 4px;"><a class="<%= request.path_info.start_with?('/help') ? 'selected' : ''  %>" href="#">Help</a></li>
+      <li class="right"><a onclick="check_services()" href="#">Logout</a></li>
+      <li class="right"><a onclick="showPageLoading()" href="/nagios/">Monitoring</a></li>
     </ul>
   </div>
 
   <div class="actual_body">
     <div class="actual_body_header">
-      <div class="actual_body_header_user">
-        Logged in as: <%= session['user_name'] %>
-      </div>
+        <div id="page_loading" class="page_loading hidden">
+          <span>Loading ...</span>
+          <img src="/images/page_loading.gif"/>
+        </div>
     </div>
 
     <div id="help_div" class="help_div">
@@ -67,7 +71,5 @@
     Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved
   </div>
 </div>
-
 </body>
-
 </html>

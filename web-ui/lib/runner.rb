@@ -5,6 +5,35 @@ require "boshcommander"
 require "thin"
 require 'optparse'
 require "../lib/ucc/status_streamer"
+require 'yaml'
+require 'cgi'
+
+
+class Rack::Session::Pool
+  def initialize app,options={}
+    super
+
+    unless $pool != nil
+      $pool = Hash.new()
+    end
+
+    @pool=$pool
+    @mutex=Mutex.new
+  end
+end
+
+class Rack::AuthenticatedReverseProxy < Rack::ReverseProxy
+  def call(env)
+    rackreq = Rack::Request.new(env)
+    matcher = get_matcher rackreq.fullpath
+
+    unless matcher.nil? || env['rack.session']['user_name']
+      return [302, {'Location' => '/login/'}, ['Not authenticated - you are being redirected to the login page.']]
+    end
+
+    super
+  end
+end
 
 module Uhuru::BoshCommander
   class Runner
@@ -15,10 +44,23 @@ module Uhuru::BoshCommander
       ENV["RACK_ENV"] = "production"
       # default config path. this may be overriden during opts parsing
       @config_file = File.expand_path("../../config/config.yml", __FILE__)
+      help_file = File.expand_path("../../config/help.yml", __FILE__)
 
       parse_options!
 
       $config = Uhuru::BoshCommander::Config.from_file(@config_file)
+      help = File.open(help_file) { |file| YAML.load(file)}
+
+      help.each_key do |key|
+        help_items = help[key]
+
+        help[key] = help_items.map do |help_item|
+          [help_item['help_item'], help_item['content']]
+        end
+      end
+
+      $config[:help] = help
+      $config[:blank_cf_manifest] = File.expand_path("../../config/blank_cf.yml", __FILE__)
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
 
       create_pidfile
@@ -74,16 +116,18 @@ module Uhuru::BoshCommander
       app = Rack::Builder.new do
         # TODO: we really should put these bootstrapping into a place other
         # than Rack::Builder
+
         use Rack::CommonLogger
         use Rack::Session::Pool
 
-        use Rack::ReverseProxy do
+        use Rack::AuthenticatedReverseProxy do
           # Set :preserve_host to true globally (default is true already)
           reverse_proxy_options :preserve_host => true
 
           # Forward the path /test* to http://example.com/test*
 
           tty_js_location = "http://#{$config[:ttyjs][:host]}:#{$config[:ttyjs][:port]}"
+          nagios_location = "http://#{$config[:nagios][:host]}:#{$config[:nagios][:port]}"
 
           reverse_proxy "/user.js", "#{tty_js_location}/user.js"
           reverse_proxy "/user.css", "#{tty_js_location}/user.css"
@@ -93,6 +137,13 @@ module Uhuru::BoshCommander
           reverse_proxy "/options.js", "#{tty_js_location}/options.js"
           reverse_proxy '/socket.io', "#{tty_js_location}/"
           reverse_proxy /^\/ssh(\/.*)$/, "#{tty_js_location}/$1"
+
+          reverse_proxy '/nagios/', "#{nagios_location}/"
+          reverse_proxy '/pnp4nagios/', "#{nagios_location}"
+        end
+
+        map "/nagios" do
+          run Proc.new {|env| [302, {'Location' => '/nagios/'}, ['You are being redirected.']]}
         end
 
         map "/" do

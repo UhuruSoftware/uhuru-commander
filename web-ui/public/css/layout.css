@@ -57,7 +57,7 @@ body
     padding: 5px;
 }
 
-.help_div > h4
+.help_div h4
 {
     padding-top: 10px;
 }
@@ -78,16 +78,15 @@ body
 .actual_body_header
 {
     background: #0A3660;
-    color: #fff;                        style="border:1px solid #033E6B"
+    color: #fff;
+    border:1px solid #033E6B;
     text-align: right;
     height: 28px;
 }
 
-.actual_body_header_user
+.actual_body_header span
 {
-    color: inherit;
-    padding-top: 5px;
-    padding-right: 5px;
+    color: #fff;
 }
 
 .actual_body_footer
@@ -118,17 +117,45 @@ body
     color: #D22719;
 }
 
+/************************************************************************/
+/*Page Loading Spinner*/
+/************************************************************************/
+
+.page_loading
+{
+    padding-top: 3px;
+    padding-right: 5px;
+}
+
+.page_loading span
+{
+    vertical-align: top;
+}
 
 /************************************************************************/
 /*Header (Title) text*/
 /************************************************************************/
+
+.header
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 h1
 {
     color: white;
     font-weight: normal;
     font-size: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.header_user
+{
+    vertical-align: bottom;
+    display: inline-block;
+    float: right;
+    color: #ffffff;
 }
 
 /************************************************************************/
@@ -142,7 +169,7 @@ h1
 
 .main_menu
 {
-    padding: 0px;
+    padding: 0 15px 0 0;
     list-style: none;
     z-index: 1;
 }
@@ -153,6 +180,13 @@ h1
     display: inline-block;
     margin-left: 5px;
 }
+
+.main_menu > li.right
+{
+    float: right;
+    margin-left: 5px;
+}
+
 
 .main_menu > li > a
 {
@@ -246,6 +280,11 @@ textarea
     font-weight: bold;
 }
 
+.highlight
+{
+    color: #306DA7;
+}
+
 /************************************************************************/
 /*Login Page*/
 /************************************************************************/
@@ -317,21 +356,76 @@ textarea
     background-color: #FFBABA;
 }
 
-.log_box
-{
-    border:1px solid #033E6B
-}
-
 .log_div
 {
-    overflow:auto;
+    border:1px solid #cccccc;
+    border-bottom: none;
+    border-right: none;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    width: 750px;
     height:300px;
-    font-size:11px;
+    padding: 5px;
 }
 
+.log_div,
 .log_div div,
 .log_div span
 {
+    font-size:11px;
     font-family: Courier New;
     line-height: 18px;
 }
+
+.log_status
+{
+    line-height: 32px;
+}
+
+.log_status span
+{
+    padding-left: 5px;
+    font-size: 16px;
+    vertical-align: top;
+}
+
+/************************************************************************/
+/*BOSH Progress Bar Effects*/
+/************************************************************************/
+.progress_out
+{
+    width: 80px;
+    height: 16px;
+    border: 1px solid #0A3660;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.progress_in
+{
+    height: 16px;
+    background: #306DA7;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.progress_in.p0 { width: 4px; }
+.progress_in.p1 { width: 8px; }
+.progress_in.p2 { width: 12px; }
+.progress_in.p3 { width: 16px; }
+.progress_in.p4 { width: 20px; }
+.progress_in.p5 { width: 24px; }
+.progress_in.p6 { width: 28px; }
+.progress_in.p7 { width: 32px; }
+.progress_in.p8 { width: 36px; }
+.progress_in.p9 { width: 40px; }
+.progress_in.p10 { width: 44px; }
+.progress_in.p11 { width: 48px; }
+.progress_in.p12 { width: 52px; }
+.progress_in.p13 { width: 56px; }
+.progress_in.p14 { width: 60px; }
+.progress_in.p15 { width: 64px; }
+.progress_in.p16 { width: 68px; }
+.progress_in.p17 { width: 72px; }
+.progress_in.p18 { width: 76px; }
+.progress_in.p19 { width: 80px; }

@@ -19,6 +19,7 @@ module Uhuru
         Thread.current.streamer = status_streamer(session)
         Thread.current.current_session = session
         code.call
+        Thread.current.streamer.set_stream_done id
       }.join
 
       id
@@ -34,6 +35,7 @@ module Uhuru
         Thread.current.streamer = status_streamer(session)
         Thread.current.current_session = session
         code.call
+        Thread.current.streamer.set_stream_done id
       }
 
       id

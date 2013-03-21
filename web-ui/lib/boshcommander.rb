@@ -201,6 +201,7 @@ module Uhuru::BoshCommander
     end
 
     get '/infrastructure' do
+
       form_generator = FormGenerator.new(is_infrastructure: true)
       tables = { :cpi => "CPI" }
       erb :infrastructure, {:locals =>
@@ -208,6 +209,7 @@ module Uhuru::BoshCommander
                                     :form_generator => form_generator,
                                     :form => "infrastructure",
                                     :table => tables,
+                                    :help => form_generator.help('infrastructure', false),
                                     :form_data => {}
                                 },
                             :layout => :layout}
@@ -283,6 +285,8 @@ module Uhuru::BoshCommander
         end
       end
 
+      cloud_summary_help = $config[:help]['cloud_summary'].map { |help_item| help_item << 'cloud_tab_summary_div' }
+
       erb :cloud_configuration, {:locals =>
                                      {
                                          :form_generator => form_generator,
@@ -292,7 +296,7 @@ module Uhuru::BoshCommander
                                          :error => nil,
                                          :form_data => {},
                                          :cloud_name => cloud_name,
-                                         :help => form_generator.help,
+                                         :help => form_generator.help('cloud') + cloud_summary_help,
                                          :summary => deployment_status
                                      },
                                  :layout => :layout}
@@ -450,48 +454,21 @@ module Uhuru::BoshCommander
 
     end
 
-    get '/clouds' do
+    get '/tasks/:count/:include_all' do
       check_first_run!
-      clouds = {}
-      Uhuru::CommanderBoshRunner.execute(session) do
-        clouds = FormGenerator.get_clouds
-      end
-
-      clouds_help = <<CLOUDS
-Here you have a list of all clouds.
-Click on the name of any one of them for configuration, monitoring and deployment options.
-The status of a cloud can have one of the following values:<br>
-<i>'Not Saved'</i> - the cloud has not been configured yet<br>
-<i>'Saved'</i> - the cloud has been configured<br>
-<i>'Deploying'</i> - the cloud is being deployed right now<br>
-<i>'Deployed'</i> - the cloud has been deployed and can be used<br>
-<i>'Error'</i> - there was an error while deploying the cloud<br>
-CLOUDS
-
-      erb :clouds, {:locals =>
-                        {
-                            :clouds => clouds,
-                            :help =>
-                                [
-                                    ["Clouds",  clouds_help],
-                                    ["Creating a new cloud", "Just type in a cloud name in the 'Cloud Name' text field and click the 'Create Cloud' button - a new configuration will be created."]
-                                ]
-                        },
-                    :layout => :layout}
-    end
-
-    get '/tasks/:count' do
-      check_first_run!
-      tasks_html = nil
-      count = params["count"].to_i if params["count"]
+      tasks_list = nil
+      count = params["count"] ? params["count"].to_i : 30
+      include_all = params["include_all"] ? params["include_all"] == 'true' : true
       Uhuru::CommanderBoshRunner.execute(session) do
         tasks = Bosh::Cli::Command::Task.new()
-        tasks_html = tasks.list_recent(count)
+        tasks_list = tasks.list_recent(count, include_all ? 2 : 1)
       end
       erb :tasks, {:locals =>
                        {
-                           :tasks => tasks_html,
-                           :count => count
+                           :tasks => tasks_list,
+                           :count => count,
+                           :include_all => include_all,
+                           :help => $config[:help]['tasks']
                        },
                    :layout => :layout}
     end
@@ -511,20 +488,42 @@ CLOUDS
       redirect "logs/#{request_id}"
     end
 
-    post '/clouds' do
+    get '/clouds' do
       check_first_run!
-      clouds = {}
-      if params["create_cloud_name"] != ''
-        Uhuru::CommanderBoshRunner.execute(session) do
-          deployment = Uhuru::Ucc::Deployment.new(params["create_cloud_name"])
-          blank_manifest = File.open(File.expand_path("../../config/blank_cf.yml", __FILE__)) { |file| YAML.load(file)}
-          deployment.save(blank_manifest)
-          clouds = FormGenerator.get_clouds
+      clouds = []
+      Uhuru::CommanderBoshRunner.execute(session) do
+        Uhuru::Ucc::Deployment.deployments_obj.each do |deployment|
+          clouds << deployment.status
         end
       end
+
       erb :clouds, {:locals =>
                         {
-                            :clouds => clouds
+                            :clouds => clouds,
+                            :help => $config[:help]['clouds']
+                        },
+                    :layout => :layout}
+    end
+
+    post '/clouds' do
+      check_first_run!
+      clouds = []
+      if params["create_cloud_name"] != ''
+        Uhuru::CommanderBoshRunner.execute(session) do
+
+          deployment = Uhuru::Ucc::Deployment.new(params["create_cloud_name"])
+          blank_manifest = File.open($config[:blank_cf_manifest]) { |file| YAML.load(file)}
+          deployment.save(blank_manifest)
+
+          Uhuru::Ucc::Deployment.deployments_obj.each do |deployment|
+            clouds << deployment.status
+          end        end
+      end
+
+      erb :clouds, {:locals =>
+                        {
+                            :clouds => clouds,
+                            :help => $config[:help]['clouds']
                         },
                     :layout => :layout}
     end
@@ -545,14 +544,28 @@ CLOUDS
           {
               :locals =>
                   {
-                      :screen_id => screen_id
+                      :screen_id => screen_id,
+                      :help => $config[:help]['logs']
                   },
               :layout => :layout
           }
     end
 
     get '/screen/:screen_id' do
-      Uhuru::CommanderBoshRunner.status_streamer(session).read_screen(params[:screen_id])
+      status_streamer = Uhuru::CommanderBoshRunner.status_streamer(session)
+      screen_id = params[:screen_id]
+
+      if status_streamer.screen_exists? screen_id
+        if status_streamer.screen_done? screen_id
+          headers 'X-Commander-Log-Instructions' => 'stop'
+          Uhuru::CommanderBoshRunner.status_streamer(session).read_screen(screen_id)
+        else
+          headers 'X-Commander-Log-Instructions' => 'continue'
+          Uhuru::CommanderBoshRunner.status_streamer(session).read_screen(screen_id)
+        end
+      else
+        headers 'X-Commander-Log-Instructions' => 'missing'
+      end
     end
 
     get '/users' do
@@ -563,6 +576,7 @@ CLOUDS
               :locals =>
                   {
                       :users => users,
+                      :help => $config[:help]['users'],
                       :message => ""
                   },
               :layout => :layout

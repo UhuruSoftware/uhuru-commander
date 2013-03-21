@@ -77,3 +77,7 @@ function importSettings(){
         document.cloud_config_form.submit();
     });
 }
+
+function showPageLoading() {
+    $('#page_loading').show();
+}

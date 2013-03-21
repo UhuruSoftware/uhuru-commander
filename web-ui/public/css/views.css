@@ -11,7 +11,7 @@
     margin-left: 5px;
     position: relative;
     top: -24px;
-    height: 0px;
+    height: 0;
 }
 
 .cloud_menu > li
@@ -56,12 +56,26 @@
 /*Cloud sub-menu CSS - Network/Resource Pools/etc. */
 /************************************************************************/
 
+.left_cloud_menu
+{
+    display: inline-block;
+    width: 130px;
+    vertical-align: top;
+}
+
+.cloud_configuration_form
+{
+    display: inline-block;
+    width: auto;
+    vertical-align: top;
+}
+
 .cloud_menu.sub_menu
 {
-    top: 0px;
-    margin-left: 5px;
-    z-index: 1;
-    display: inline;
+    top: 0;
+    height: auto;
+    display: block;
+    margin-left: 0;
 }
 
 .cloud_menu.sub_menu > li
@@ -72,12 +86,80 @@
 }
 
 /************************************************************************/
-/*Cloud Management div
+/*Simple page content div
+/************************************************************************/
+.simple_page_content_div
+{
+    width: 770px;
+    float: left;
+    vertical-align: top;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.content_with_form_header
+{
+    display: inline-block;
+    width: 750px;
+}
+
+.content_with_form_header div
+{
+    padding: 5px;
+    vertical-align: bottom;
+}
+
+.content_with_form_header form,
+{
+    padding: 5px;
+}
+
+/************************************************************************/
+/*Clouds List Tab
 /************************************************************************/
 
-.cloud_tab_manage_div
+.content_with_form_header > #create_cloud_form
 {
+    width: 750px;
+}
 
+.settings_table.clouds
+{
+    width: 750px;
+    padding-top: 20px;
+}
+
+.cloud_state
+{
+    border: 1px solid;
+    padding: 2px;
+    text-align: center;
+}
+
+.cloud_state.deployed
+{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.cloud_state.saved
+{
+    color: #195289;
+    background-color: #AED0EF;
+}
+
+
+.cloud_state.deploying
+{
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
+.cloud_state.not_configured,
+.cloud_state.error
+{
+    color: #D8000C;
+    background-color: #FFBABA;
 }
 
 /************************************************************************/
@@ -86,20 +168,19 @@
 
 .settings_table
 {
-    padding-top: 20px;
-    display: block;
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 620px;
+}
+
+.settings_table tr:hover
+{
+    background: #eeeeee;
 }
 
 .settings_table_header > td
 {
     color: #fff;
     font-weight: normal;
-    border-style: solid;
-    border-width: .09em;
-    border-color: #ccc;
+    border: 1px solid #ccc;
     text-align: left;
     padding: .09em .543em;
     background: #999;
@@ -112,6 +193,16 @@ td.cell_border
     padding: 2px;
 }
 
+td.cell_border.cell_border_bottom
+{
+    border-bottom: 1px solid #ccc;
+}
+
+td.border_right
+{
+    border-right: 1px solid #ccc;
+}
+
 .separator
 {
     padding-top: 20px;
@@ -119,31 +210,135 @@ td.cell_border
 }
 
 /************************************************************************/
-/*Tab Content DIVs
+/*Cloud Summary*/
 /************************************************************************/
 
-.tab_divs
+.cloud_summary h2
 {
-    margin-top: 10px;
-    margin-left: 10px;
-    position: relative;
+    font-size: 16px;
+    font-weight: normal;
+    padding-bottom: 5px;
 }
+
+.cloud_summary h3
+{
+    font-size: 14px;
+    font-weight: normal;
+    padding-bottom: 3px;
+}
+
+.cloud_summary hr
+{
+    margin-bottom: 10px;
+    color: #ccc;
+    background-color: #ccc;
+    border: none;
+    height: 1px;
+}
+
+/************************************************************************/
+/*BOSH Tasks
+/************************************************************************/
+.bosh_state
+{
+    border: 1px solid;
+    padding: 2px;
+    text-align: center;
+}
+
+.bosh_state.done
+{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.bosh_state.processing
+{
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
+.bosh_state.timeout,
+.bosh_state.error
+{
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.settings_table.tasks
+{
+    width: 750px;
+    padding-top: 0;
+    margin-left: 0;
+}
+
+.tasks_overflow_div
+{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+#open_task_id
+{
+    width: 150px;
+}
+
+.content_with_form_header > #form_task_jump,
+.content_with_form_header > #form_tasks_filter
+{
+    float: left;
+    width: 370px;
+    margin-right: 5px;
+}
+
+.more_tasks_button_footer
+{
+    padding: 5px;
+    float: right;
+}
+
 
 /************************************************************************/
 /*VM State DIV
 /************************************************************************/
-.job_state_running
+
+.job_state
 {
-    font-weight: bold;
-    color: #13A12C;
+    border: 1px solid;
+    padding: 2px;
+    text-align: center;
 }
 
-.job_state_failing,
-.job_state_unresponsive_agent
+.job_state.running
 {
-    font-weight: bold;
-    color: #D22719;
+    color: #4F8A10;
+    background-color: #DFF2BF;
 }
+
+.job_state.failing,
+.job_state.unresponsive_agent
+{
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+/************************************************************************/
+/*Infrastructure Page
+/************************************************************************/
+.settings_table.infrastructure
+{
+    width: 750px;
+}
+
+/************************************************************************/
+/*Users Page
+/************************************************************************/
+.settings_table.users
+{
+    width: 750px;
+    padding-top: 20px;
+}
+
 
 /************************************************************************/
 /*Offline Services Page

@@ -12,6 +12,10 @@ ttyjs:
   host: 127.0.0.1
   port: 9090
 
+nagios:
+  host: 10.0.5.117
+  port: 80
+
 bosh:
   target: "10.134.0.73"
   base_dir: "/home/mitza/testing/assets/vcap"

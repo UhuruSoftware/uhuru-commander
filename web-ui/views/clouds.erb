@@ -1,31 +1,62 @@
-    <table class="settings_table">
-        <tr class="settings_table_header">
-          <td>Name</td>
-          <td>Status</td>
-          <td>Services</td>
-          <td>Frameworks</td>
-        </tr>
-      <% clouds.each do |cloud| %>
-        <tr>
-          <td><a href="/clouds/configure/<%= cloud[:name] %>"><%= cloud[:name] %></a></td>
-          <td><%= cloud[:status] %></td>
-          <td>
-            <% cloud[:services].each do |service| %>
-                <img src="/icons/<%= service %>.png" alt=<%= service %>>
-            <% end %>
-          </td>
-          <td>
-            <% cloud[:stacks].each do |stack| %>
-                <img src="/icons/<%= stack %>.png" alt=<%= stack %>>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
+<div class="simple_page_content_div">
+  <div class="content_with_form_header">
+    <form action="/clouds" method="post" id="create_cloud_form">
+      <fieldset>
+        <legend>Create a new cloud configuration</legend>
+        <div>
+          <label for="create_cloud_name">Cloud Name</label>
+          <input name="create_cloud_name" type="text" id="create_cloud_name" />
+          <input name="btn_create_cloud" type="submit" value="Create Cloud" id="create_cloud" class="create" />
+        </div>
+      </fieldset>
+    </form>
+  </div>
 
-    <div class="bottom_buttons_div">
-      <form action="/clouds" method="post">
-        <input name="create_cloud_name" type="text" id="create_cloud_name" />
-        <input name="btn_create_cloud" type="submit" value="Create Cloud" id="create_cloud" class="create" />
-      </form>
-    </div>
+  <table class="settings_table clouds">
+    <tr class="settings_table_header">
+      <td>Cloud</td>
+      <td>Status</td>
+      <td>Endpoints</td>
+      <td>Resources</td>
+      <td>Services</td>
+      <td>Stacks</td>
+    </tr>
+    <% clouds.each do |cloud| %>
+        <tr>
+          <td class="cell_border cell_border_bottom bold"><a onclick="showPageLoading()" href="/clouds/configure/<%= cloud['name'] %>"><%= cloud['name'] %></a></td>
+          <td class="cloud_state <%= cloud['state'].downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
+          <td class="cell_border cell_border_bottom ">
+            Web Interface: <a href="<%= cloud['web_ui_url'] %>"><%= cloud['web_ui_url'] %></a><br />
+            API Endpoint: <a href="<%= cloud['api_url'] %>"><%= cloud['api_url'] %></a>
+          </td>
+          <td class="cell_border cell_border_bottom ">
+            <% if cloud['resources'] != nil %>
+                <%= cloud['resources']['total_cpu'] %> Virtual Cores<br />
+                <%= (cloud['resources']['total_RAM'] / 1024.0).round(2) %> GB of RAM<br />
+                <%= (cloud['resources']['total_disk'] / 1024.0).round(2) %> GB of Storage<br />
+            <% else %>
+                <img src="/icons/none.png" alt="No services available">
+            <% end %>
+          </td>
+          <td class="cell_border cell_border_bottom ">
+            <% if cloud['services'].size > 0 %>
+                <% cloud['services'].each do |service| %>
+                    <img src="/icons/<%= service %>.png" alt=<%= service %>>
+                <% end %>
+            <% else %>
+                <img src="/icons/none.png" alt="No services available">
+            <% end %>
+          </td>
+          <td class="cell_border cell_border_bottom border_right">
+            <% if cloud['stacks'].size > 0 %>
+                <% cloud['stacks'].each do |stack| %>
+                    <img src="/icons/<%= stack %>.png" alt=<%= stack %>>
+                <% end %>
+            <% else %>
+                <img src="/icons/none.png" alt='No stacks available'>
+            <% end %>
+          </td>
+        </tr>
+    <% end %>
+  </table>
+</div>

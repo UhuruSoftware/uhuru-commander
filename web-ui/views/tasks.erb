@@ -1,29 +1,59 @@
-<div class="tab_divs">
-  <div class="middle_div">
-    <div class="separator">Filter</div>
-    <hr>
-    <table>
-      <tr>
-        <td>Number of tasks <input name="count" type="text" id="count" value="<%=count%>"/></td>
-        <td>Include all task types (ssh, logs,vms) <input name="include_all" type="checkbox" id="include_all" value="<%=count%>" /> </td>
-        <td><a href="/tasks/<%=count%>"> <input name="filter" id="filter" type="submit" value="Filter"/> </a></td>
-      </tr>
-    </table>
-    <div class="separator">Task</div>
-    <hr>
-    <td>Task Id <input name="id_task" type="text" id="id_task" value=""/></td>
-    <td><a href="/task/<%=count%>"> <input name="open_task" id="open_task" type="submit" value="Open"/> </a></td>
 
-    <div class="separator">Tasks</div>
-    <hr>
-    <table>
-      <tr>
-        <td>
-          <%= tasks %>
-        </td>
+<div class="simple_page_content_div">
+  <div class="content_with_form_header">
+    <form id="form_tasks_filter">
+      <fieldset>
+        <legend>Task filtering</legend>
+        <div>
+          <input type="checkbox" id="include_all_tasks" name="include_all_tasks" <%= include_all ? 'checked' : '' %> />
+          <label for="include_all_tasks">Include all task types (ssh, logs, vms)</label>
+          <input type="button" value="Refresh" onclick="showPageLoading(); window.location='/tasks/<%= count %>/' + document.getElementById('include_all_tasks').checked"/>
+        </div>
+        <div>
+        </div>
+      </fieldset>
+    </form>
+
+    <form id="form_task_jump">
+      <fieldset>
+        <legend>Jump to a specific task</legend>
+        <div>
+          <label for="open_task_id">Task Id</label>
+          <input id="open_task_id" type="text" name="task_id" />
+          <input type="button" name="OpenTask" value="Open Task" onclick="window.location='/task/' + document.getElementById('open_task_id').value" />
+        </div>
+        <div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <div id="tasks_overflow_div" class="tasks_overflow_div">
+    <table class="settings_table tasks">
+      <tr class="settings_table_header">
+        <td id="task_id">Task ID</td>
+        <td id="task_state">State</td>
+        <td id="task_timestamp">Timestamp</td>
+        <td id="task_description">Description</td>
+        <td id="task_user">User</td>
+        <td id="task_result">Result</td>
       </tr>
-      <tr><td><a href="/tasks/<%=count=count+10%>">More...</a></td></tr>
+      <% tasks.each do |task| %>
+          <tr>
+            <td class="cell_border cell_border_bottom bold"><a href="/task/<%= task['id'].to_s %>"><%= task["id"] %></a> </td>
+            <td class="bosh_state <%= task['state'] %>"><%= task['state'] %></td>
+            <td class="cell_border cell_border_bottom"><%= Time.at(task["timestamp"]).utc %></td>
+            <td class="cell_border cell_border_bottom"><%= task["description"] %></td>
+            <td class="cell_border cell_border_bottom"><%= task["user"] %></td>
+            <td class="cell_border cell_border_bottom"><%= task["result"] %></td>
+          </tr>
+      <% end%>
     </table>
+    <a name="bottom">&nbsp;</a>
+  </div>
+  <div class="more_tasks_button_footer">
+    <input type="button" value="Jump to top" onclick="$('#tasks_overflow_div').scrollTop(0)"/>
+    <input type="button" value="Jump to bottom" onclick="$('#tasks_overflow_div').scrollTop($('#tasks_overflow_div')[0].scrollHeight)"/>
+    <input type="button" value="More..." onclick="showPageLoading(); window.location='/tasks/<%= count + 10 %>/' + document.getElementById('include_all_tasks').checked + '#bottom'"/>
   </div>
 </div>
-

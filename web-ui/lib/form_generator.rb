@@ -14,20 +14,6 @@ module Uhuru::BoshCommander
     attr_accessor :deployment_obj
     attr_accessor :error_screens
 
-
-    def self.get_clouds
-      clouds = []
-      Uhuru::Ucc::Deployment.deployments.each do |cloud_name|
-        cloud = {}
-        cloud[:name] = cloud_name
-        cloud[:status] = get_cloud_status(cloud_name)
-        cloud[:services] = get_services(cloud_name)
-        cloud[:stacks] = get_stacks(cloud_name)
-        clouds << cloud
-      end
-      clouds
-    end
-
     def initialize(parameters = {})
       @error_screens = {}
       @is_infrastructure = parameters[:is_infrastructure]
@@ -53,14 +39,18 @@ module Uhuru::BoshCommander
       @forms = File.open(File.expand_path("../../config/forms.yml", __FILE__)) { |file| YAML.load(file)}
     end
 
-    def help()
+    def help(form_name, use_visibility_link = true)
       help_items = []
 
-      @forms.each do |form_name, form|
-        form.each do |screen|
-          screen['fields'].each do |field|
-            help_items << [field['label'], field['description'], "#{form_name}:#{screen['screen']}:#{field['name']}"]
+      @forms[form_name].each do |screen|
+        screen['fields'].each do |field|
+          help_item = [field['label'], field['description']]
+          if use_visibility_link
+            visibility_link = "#{form_name}:#{screen['screen']}:#{field['name']}"
+            help_item << visibility_link
           end
+
+          help_items << help_item
         end
       end
 
@@ -505,56 +495,6 @@ module Uhuru::BoshCommander
       #  }
       #@deployment["jobs"].select{|job| job["name"] == "service_gateways"}.first["templates"] = gateways
     end
-
-    def self.get_cloud_status(cloud_name)
-      if !File.exist?(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__))
-        return "Not Configured"
-      else
-        deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-        return deployment.get_status["state"]
-      end
-    end
-
-    def self.get_services(cloud_name)
-      deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-      begin
-        manifest = deployment.get_manifest
-      rescue
-      end
-
-      #manifest = File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)) { |file| YAML.load(file)}
-
-      services = []
-      if manifest
-        ["mysql_node", "mssql_node", "uhurufs_node", "rabbit_node", "postgresql_node", "redis_node", "mongodb_node"].each do |node|
-          if manifest["jobs"].select{|job| job["name"] == node}.first["instances"] > 0
-            services << node
-          end
-        end
-      end
-      services
-    end
-
-    def self.get_stacks(cloud_name)
-      deployment = Uhuru::Ucc::Deployment.new(cloud_name)
-      begin
-        manifest = deployment.get_manifest
-      rescue
-      end
-
-      #manifest = File.open(File.expand_path("../../cf_deployments/#{cloud_name}/#{cloud_name}.yml", __FILE__)) { |file| YAML.load(file)}
-
-      stacks = []
-      if manifest
-        ["dea", "win_dea"].each do |stack|
-          if manifest["jobs"].select{|job| job["name"] == stack}.first["instances"] > 0
-            stacks << stack
-          end
-        end
-      end
-      stacks
-    end
-
   end
 end
 

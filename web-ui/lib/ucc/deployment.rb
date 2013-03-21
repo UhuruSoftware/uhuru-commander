@@ -2,10 +2,15 @@ module Uhuru::Ucc
 
   class Deployment
 
+    STATE_DEPLOYING = "Deploying"
+    STATE_ERROR = "Error"
+    STATE_DEPLOYED = "Deployed"
+    STATE_SAVED = "Saved"
+    STATE_NOT_CONFIGURED = "Not Configured"
+
     attr_reader :deployment_name
     attr_reader :deployment_dir
     attr_reader :deployment_manifest_path
-
 
     def initialize(deployment_name)
       @deployment_name = deployment_name
@@ -18,7 +23,6 @@ module Uhuru::Ucc
       if (Dir["#{@deployment_dir}"].empty?)
         Dir.mkdir @deployment_dir
       end
-
     end
 
     #saves the deployment manifest
@@ -44,15 +48,21 @@ module Uhuru::Ucc
       folders
     end
 
+    def self.deployments_obj
+      deployments.map do |deployment|
+        Deployment.new(deployment)
+      end
+    end
+
     #start the deployment process
     def deploy()
       info = deployment_info
-      if info["state"] == "Deployed"
+      if info["state"] == STATE_DEPLOYED
         update
         say "Deployment #{@deployment_name} updated".green
         return
       end
-      if info["state"] != "Saved"
+      if info["state"] != STATE_SAVED
         raise "Cannot deploy, current state is #{info["state"]}"
       end
 
@@ -77,48 +87,48 @@ module Uhuru::Ucc
     def status
       state = get_state
       current_manifest = nil
-      if (state == "Deployed")
+      if state == STATE_DEPLOYED
         current_manifest = get_manifest()
-        if current_manifest == nil
-          return {}
-        end
+      elsif state == STATE_ERROR
+        return {}
       else
-        if (state == "Saved")
-          current_manifest = load_yaml_file(@deployment_manifest_path)
-        else
-          raise "Cannot get status, current state is #{state}"
-        end
-
+        current_manifest = load_yaml_file(@deployment_manifest_path)
       end
-      stats = {}
-      stats["resources"] = get_resources(current_manifest)
 
-      #get router ips
-      #i = 1
-      current_manifest["jobs"].each do |job|
-        if (job["name"] == "router")
-          stats["router_ips"] = []
-          static_ips = []
-          job["networks"].each do |network|
-            network["static_ips"].each do |ip|
-              static_ips << ip
+      stats = {}
+
+      unless (state == STATE_ERROR) || (state == STATE_NOT_CONFIGURED)
+        stats["resources"] = get_resources(current_manifest)
+
+        current_manifest["jobs"].each do |job|
+          if job["name"] == "router"
+            stats["router_ips"] = []
+            static_ips = []
+            job["networks"].each do |network|
+              network["static_ips"].each do |ip|
+                static_ips << ip
+              end
             end
+            stats["router_ips"] << static_ips
           end
-          stats["router_ips"] << static_ips
-          #i = i + 1
         end
       end
 
       properties = current_manifest["properties"]
+      stats["name"] = self.deployment_name
+      stats["state"] = state
       stats["api_url"] = properties["cc"]["srv_api_uri"]
       stats["uaa_url"] = properties["uaa_endpoint"]
       stats["web_ui_url"] = "www.#{properties["domain"]}"
       stats["admin_email"] = properties["uhuru"]["simple_webui"]["admin_email"]
       stats["contact_email"] = properties["uhuru"]["simple_webui"]["contact"]["email"]
       stats["support_url"] = properties["support_address"]
+      stats["services"] = ["mysql_node", "mssql_node", "uhurufs_node", "rabbit_node", "postgresql_node", "redis_node", "mongodb_node"].map { |node|
+        current_manifest["jobs"] != nil && current_manifest["jobs"].select{|job| job["name"] == node}.first["instances"] > 0 ? node : nil }.compact
+      stats["stacks"] = ["dea", "win_dea"].map { |stack|
+        current_manifest["jobs"] != nil && current_manifest["jobs"].select{|job| job["name"] == stack}.first["instances"] > 0 ? stack : nil }.compact
 
       stats
-
     end
 
 
@@ -133,7 +143,7 @@ module Uhuru::Ucc
     #the VMs and deployment manifests are deleted.
     def delete()
       info = deployment_info
-      if (info["state"] != "Saved")
+      if info["state"] != STATE_SAVED
         tear_down
       end
 
@@ -145,7 +155,7 @@ module Uhuru::Ucc
     #returns the deployment manifest. If save_as is provided, also saves the deployment manifest to a flie
     def get_manifest(save_as = nil)
       info = deployment_info
-      if (info["state"] != "Deployed")
+      if (info["state"] != STATE_DEPLOYED)
         raise "Cannot get deployment manifest, current deployment state is #{info["state"]}"
       end
 
@@ -202,7 +212,7 @@ module Uhuru::Ucc
 
     def get_stemcell_disk(stemcell)
       $config[:bosh][:stemcells].each do |stemcell_type, config_stemcell|
-        if (config_stemcell[:name] == stemcell["name"] && config_stemcell[:version] == stemcell["version"])
+        if config_stemcell[:name] == stemcell["name"] && config_stemcell[:version] == stemcell["version"]
           return config_stemcell[:system_disk].to_i
         end
       end
@@ -221,7 +231,7 @@ module Uhuru::Ucc
     end
 
     def get_info_steps
-      existing_manifests = Dir["#{@deployment_dir}/step_*_*.yml"].map {|entry| File.basename(entry, ".yml") }
+      existing_manifests = Dir["#{ @deployment_dir }/step_*_*.yml"].map {|entry| File.basename(entry, ".yml") }
       steps = existing_manifests.map {|entry| entry.match(/(?!step_)(0|[1-9][0-9]*)(?=_)/)[0].to_i}
       return steps.min, steps.max
     end
@@ -232,21 +242,26 @@ module Uhuru::Ucc
       current_step = 0
       total_steps = 0
 
-      if (state == "Deployed" || state == "Saved")
+      if state == STATE_DEPLOYED || state == STATE_SAVED
         current_step, total_steps = get_info_steps
       end
 
-      info = { "current_step" => current_step,
-               "total_steps" => total_steps,
-               "state" => state }
-
-      info
+      { "current_step" => current_step,
+        "total_steps" => total_steps,
+        "state" => state }
     end
 
     def get_state
-      state = "Not Saved"
+
+      unless File.exist?(File.expand_path("../../../cf_deployments/#{ self.deployment_name }/#{ self.deployment_name }.yml", __FILE__))
+        return STATE_ERROR
+      end
+
       deployments = Thread.current.current_session[:command].instance_variable_get("@director").list_deployments
-      existing_manifests = Dir['../cf_deployments/cloud-foundry/step_*_*.yml']
+
+      split_files_wildcard = File.expand_path("../../../cf_deployments/#{self.deployment_name}/step_*_*.yml", __FILE__)
+
+      existing_manifests = Dir[split_files_wildcard]
 
       split_files = false
       split_files = true if (existing_manifests.length > 0)
@@ -256,37 +271,43 @@ module Uhuru::Ucc
 
       #determine if director contains the deployment
       director_deployment = false
-      if (!deployments.empty?)
+      unless deployments.empty?
         deployments.each do |d|
-          if (d["name"] == @deployment_name)
+          if d["name"] == @deployment_name
             director_deployment = true
             break
           end
         end
       end
 
-      if (split_files)
-        if (director_deployment)
-          if (local_manifest)
-            "Deploying"
+      if split_files
+        if director_deployment
+          if local_manifest
+            STATE_DEPLOYING
           else
-            "Error"
+            STATE_ERROR
           end
         else
-          "Error"
+          STATE_ERROR
         end
       end
-      if (director_deployment)
-        if (local_manifest)
-          "Deployed"
+      if director_deployment
+        if local_manifest
+          STATE_DEPLOYED
         else
-          "Error"
+          STATE_ERROR
         end
       else
-        if (local_manifest)
-          "Saved"
+        if local_manifest
+          manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
+          gateway = manifest['networks'][0]['subnets'][0]['gateway']
+          if (gateway == nil) || (gateway.strip == '')
+            STATE_NOT_CONFIGURED
+          else
+            STATE_SAVED
+          end
         else
-          "Not Saved"
+          STATE_ERROR
         end
       end
     end
