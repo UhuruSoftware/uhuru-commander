@@ -1,0 +1,28 @@
+
+<div class="simple_page_content_div">
+
+  <div id="tasks_overflow_div" class="tasks_overflow_div">
+    <table class="settings_table internal_logs">
+      <tr class="settings_table_header">
+        <td>#</td>
+        <td>Time</td>
+        <td>Log Level</td>
+        <td>Message</td>
+      </tr>
+      <% i = logs.size %>
+      <% logs.reverse.each do |log| %>
+          <tr>
+            <td class="cell_border cell_border_bottom"><%= i %></td>
+            <td class="cell_border cell_border_bottom bold"><%= Time.at(log["timestamp"]) %></td>
+            <td class="log_level <%= log['log_level'] %>"><%= log['log_level'] %></td>
+            <td class="cell_border cell_border_bottom"><textarea><%= log["message"] %></textarea></td>
+          </tr>
+          <% i = i - 1 %>
+      <% end%>
+    </table>
+  </div>
+  <div class="more_tasks_button_footer">
+    <input type="button" value="Jump to top" onclick="$('#tasks_overflow_div').scrollTop(0)"/>
+    <input type="button" value="Jump to bottom" onclick="$('#tasks_overflow_div').scrollTop($('#tasks_overflow_div')[0].scrollHeight)"/>
+  </div>
+</div>

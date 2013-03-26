@@ -83,6 +83,18 @@
     clear: both;
     display: block;
     margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.cloud_menu.sub_menu > li a
+{
+    display: inline;
+}
+
+.cloud_menu.sub_menu > li span
+{
+    display: inline-block;
+    width: 15px
 }
 
 /************************************************************************/
@@ -234,6 +246,47 @@ td.border_right
     background-color: #ccc;
     border: none;
     height: 1px;
+}
+
+/************************************************************************/
+/*Internal Logs
+/************************************************************************/
+.settings_table.internal_logs
+{
+    width: 750px;
+}
+
+.settings_table.internal_logs textarea
+{
+    width: 350px;
+    height: 30px;
+}
+
+.log_level
+{
+    border: 1px solid;
+    padding: 2px;
+    text-align: center;
+}
+
+.log_level.trace,
+.log_level.info
+{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+
+.log_level.warn
+{
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+
+.log_level.fatal,
+.log_level.error
+{
+    color: #D8000C;
+    background-color: #FFBABA;
 }
 
 /************************************************************************/

@@ -1,9 +1,8 @@
-
 require 'fileutils'
 require "uuidtools"
 require 'tmpdir'
 
-module Uhuru
+module Uhuru::BoshCommander
   class StatusStreamer
     MAX_BYTES_TO_READ = 1024 * 100
 
@@ -34,11 +33,19 @@ module Uhuru
     end
 
     def create_screen(stream_name, screen_name)
-      if @screens[screen_name]
-        raise "Screen already exists"
-      end
+      if stream_exists? stream_name
+        if @screens[screen_name]
+          raise "Screen already exists"
+        end
 
-      @screens[screen_name] = [stream_name, 0]
+        @screens[screen_name] = [stream_name, 0]
+      end
+    end
+
+    def stream_exists?(stream_name)
+      file_name = File.join(@streams_dir, stream_name.to_s + ".data")
+
+      File.exist?(file_name)
     end
 
     def stream_done?(stream_name)
@@ -66,11 +73,11 @@ module Uhuru
 
       stream_name, read_bytes = @screens[screen_name]
 
-      file_name = File.join(@streams_dir, stream_name.to_s + ".data")
-
-      unless File.exist?(file_name)
+      unless stream_exists? stream_name
        return ""
       end
+
+      file_name = File.join(@streams_dir, stream_name.to_s + ".data")
 
       chunk = IO::read(file_name, MAX_BYTES_TO_READ, read_bytes)
 

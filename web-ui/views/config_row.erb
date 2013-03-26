@@ -1,0 +1,101 @@
+<% if field.get_html_type == 'separator' %>
+    <tr>
+      <td colspan="3">
+        <div class="<%= field.get_css_class %> separator"><%= field.get_label %></div>
+        <hr/>
+      </td>
+      <td />
+    </tr>
+<% else %>
+    <tr>
+      <td>
+        <label class="<%= field.get_css_class %> local" for="<%= field.html_form_id %>">
+          <%= field.get_label + ":" %>
+        </label>
+      </td>
+
+      <td>
+        <% if field.get_html_type == 'select' %>
+            <select name="<%= field.html_form_id %>"
+                    type="<%= field.get_html_type %>"
+                    class="<%= field.get_css_class %> local"
+                    id="<%= field.html_form_id %>">
+              <% field.get_list_items.each do |key, value| %>
+                  <option <%= value == field.get_value(value_type) ? 'selected' : '' %> value="<%= value %>" ><%= key %></option>
+              <% end %>
+            </select>
+        <% elsif field.get_html_type == 'textarea' %>
+            <textarea name="<%= field.html_form_id %>"
+                      class="<%= field.get_css_class %> local"
+                      id="<%= field.html_form_id %>"><%= field.get_value(value_type) %></textarea>
+        <% elsif field.get_html_type == 'checkbox' %>
+            <input name="<%= field.html_form_id %>"
+                   type="<%= field.get_html_type %>"
+                   class="<%= field.get_css_class %> local"
+                   id="<%= field.html_form_id %>"
+                   value="true"
+                   <% if field.get_value(value_type) == true %>
+                   checked
+                   <% end %>
+                   />
+        <% else %>
+            <input name="<%= field.html_form_id %>"
+                   type="<%= field.get_html_type %>"
+                   class="<%= field.get_css_class %> local"
+                   <% if field.get_html_type == 'password' %>
+                   autocomplete="off"
+                   <% end %>
+                   id="<%= field.html_form_id %>"
+                   value="<%= field.get_value(value_type) %>"
+            />
+        <% end %>
+      </td>
+
+      <td>
+        <% if field.get_html_type == 'select' %>
+            <select name="<%= field.html_form_id %>"
+                    disabled=""
+                    type="<%= field.get_html_type %>"
+                    class="<%= field.get_css_class %> local"
+                    id="<%= field.html_form_id %>">
+              <% field.get_list_items.each do |key, value| %>
+                  <option <%= value == field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) ? 'selected' : '' %> value="<%= value %>" ><%= key %></option>
+              <% end %>
+            </select>
+        <% elsif field.get_html_type == 'textarea' %>
+            <textarea name="<%= field.html_form_id %>"
+                      disabled=""
+                      class="<%= field.get_css_class %> local"
+                      id="<%= field.html_form_id %>"><%= field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) %></textarea>
+        <% elsif field.get_html_type == 'checkbox' %>
+            <input name="<%= field.html_form_id %>"
+                   disabled=""
+                   type="<%= field.get_html_type %>"
+                   class="<%= field.get_css_class %> local"
+                   id="<%= field.html_form_id %>"
+                   value="true"
+                   <% if field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) == true %>
+                   checked
+                   <% end %>
+                   />
+        <% else %>
+            <input name="<%= field.html_form_id %>"
+                   type="<%= field.get_html_type %>"
+                   <% if field.get_html_type == 'password' %>
+                    autocomplete="off"
+                   <% end %>
+                   class="<%= field.get_css_class %> local"
+                   id="<%= field.html_form_id %>"
+                   disabled=""
+                   value="<%= field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) %>"
+            />
+        <% end %>
+      </td>
+
+      <td>
+        <% if field.error != '' %>
+            <span class="error"><%= field.error %></span>
+        <% end %>
+      </td>
+    </tr>
+<% end %>

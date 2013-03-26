@@ -10,7 +10,6 @@ module UccExtensions
     sep = "" if message[-1..-1] == sep
     request_id = Thread.current.request_id
     Thread.current.streamer.write_stream(request_id, "#{$indent}#{message}#{sep}")
-    $stdout.puts "#{message}"
   end
 
   def with_indent(indent)
@@ -32,7 +31,7 @@ module UccExtensions
 
   def err(message)
     say("ERROR : #{message.to_s.red}")
-    puts "This is err : #{message}"
+    $logger.error "This is err : #{message}"
   end
 
   def quit(message = nil)

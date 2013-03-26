@@ -39,3 +39,8 @@ logs:
   - help_item: 'Task logs'
     content: |
       This page contains information about a Commander task. If the task is running, this page will stream events and display them in real-time.
+internal_logs:
+  - help_item: 'Internal Logs'
+    content: |
+      This page contains a list of Commander internal events.
+

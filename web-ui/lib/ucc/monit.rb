@@ -1,5 +1,5 @@
 
-module Uhuru::Ucc
+module Uhuru::BoshCommander
 
   class Monit
 

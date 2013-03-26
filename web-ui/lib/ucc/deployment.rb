@@ -1,4 +1,4 @@
-module Uhuru::Ucc
+module Uhuru::BoshCommander
 
   class Deployment
 
@@ -14,9 +14,7 @@ module Uhuru::Ucc
 
     def initialize(deployment_name)
       @deployment_name = deployment_name
-
-      @deployment_dir = File.expand_path("../../../cf_deployments/#{deployment_name}", __FILE__)
-
+      @deployment_dir = File.join($config[:deployments_dir], deployment_name)
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
 
       #create deployment folder
@@ -42,9 +40,10 @@ module Uhuru::Ucc
 
     #Returns an array of all the deployments
     def self.deployments
-      folders = Dir.entries('../cf_deployments').select {|entry|
-        !(entry =='.' || entry == '..' || File.file?(File.join("../cf_deployments/",entry)))
-      }
+      folders = Dir.entries($config[:deployments_dir]).select do |entry|
+        !(entry == '.' || entry == '..' || File.file?(File.join($config[:deployments_dir], entry))) &&
+            (File.file?(File.join($config[:deployments_dir], entry, "#{entry}.yml")))
+      end
       folders
     end
 
@@ -52,6 +51,14 @@ module Uhuru::Ucc
       deployments.map do |deployment|
         Deployment.new(deployment)
       end
+    end
+
+    def self.get_deployment_path(deployment_name)
+      File.join($config[:deployments_dir], deployment_name)
+    end
+
+    def self.get_deployment_yml_path(deployment_name)
+      File.join(get_deployment_path(deployment_name), "#{deployment_name}.yml")
     end
 
     #start the deployment process
@@ -155,8 +162,8 @@ module Uhuru::Ucc
     #returns the deployment manifest. If save_as is provided, also saves the deployment manifest to a flie
     def get_manifest(save_as = nil)
       info = deployment_info
-      if (info["state"] != STATE_DEPLOYED)
-        raise "Cannot get deployment manifest, current deployment state is #{info["state"]}"
+      if info["state"] != STATE_DEPLOYED
+        return nil
       end
 
       director = Thread.current.current_session[:command].instance_variable_get("@director")
@@ -177,11 +184,9 @@ module Uhuru::Ucc
 
     #delete VMs corresponding to this deployment
     def tear_down()
-
       #delete deployment
       command = deployment_command
       command.delete(@deployment_name)
-
     end
 
     # returns the status of the current deployment
@@ -194,18 +199,18 @@ module Uhuru::Ucc
     def get_resources(deployment_manifest)
       result = {}
       total_cpu = 0
-      total_RAM = 0
+      total_ram = 0
       total_disk = 0
       deployment_manifest["resource_pools"].each do |resource_pool|
         total_cpu +=  resource_pool["cloud_properties"]["cpu"].to_i * resource_pool["size"].to_i
-        total_RAM += resource_pool["cloud_properties"]["ram"].to_i * resource_pool["size"].to_i
+        total_ram += resource_pool["cloud_properties"]["ram"].to_i * resource_pool["size"].to_i
         total_disk += (get_stemcell_disk(resource_pool["stemcell"]) + resource_pool["cloud_properties"]["disk"].to_i) * resource_pool["size"].to_i
       end
       deployment_manifest["jobs"].each do |job|
         total_disk += job["persistent_disk"].to_i * job["instances"].to_i
       end
       result["total_cpu"] = total_cpu
-      result["total_RAM"] = total_RAM
+      result["total_RAM"] = total_ram
       result["total_disk"] = total_disk
       result
     end

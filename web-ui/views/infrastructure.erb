@@ -1,6 +1,6 @@
 <div class="simple_page_content_div">
 
-  <form method="post" action="/infrastructure">
+  <form method="post" action="/infrastructure" onsubmit="return confirmForm()">
 
     <div id="cpi_div">
       <table class="settings_table infrastructure">
@@ -9,43 +9,22 @@
           <td>Local value</td>
           <td>Live value</td>
         </tr>
-        <% form_generator.generate_form(form, table[:cpi], form_data).each do |html_field| %>
-            <tr>
-              <td>
-                <label for="<%= html_field[:input_name] %>">
-                  <%= html_field[:name] + ":" %>
-                </label>
-              </td>
 
-              <td>
-                <input name="<%= html_field[:input_name] %>"
-                       type="<%= html_field[:type] %>"
-                       class="<%= html_field[:class] %> local"
-                       id="<%= html_field[:id] %>"
-                       value="<%= html_field[:value] %>" />
-              </td>
-
-              <td>
-                <input type="<%= html_field[:type] %>"
-                       value="<%= html_field[:value_live] %>"
-                       class="<%= html_field[:class] %> disabled" disabled="" />
-              </td>
-
-              <td>
-                <% if html_field[:error] %>
-                    <span class="field_error"><%= html_field[:error] %></span>
-                <% end %>
-              </td>
-            </tr>
+        <% form.screens.each do |screen| %>
+            <% screen.fields.each do |field| %>
+                <%= erb(:config_row, :layout => false, :locals => {:field => field, :value_type => value_type}) %>
+            <% end %>
         <% end %>
       </table>
     </div>
 
-    <!--DIV FROM SAME CLASS THE ONE ABOVE-->
-
     <div class="bottom_buttons_div">
-      <!--<input name="btn_test" type="submit" value="Test" id="test_networking_btn" class="spec" />-->
-      <input name="btn_update" type="submit" value="Update" id="update_networking_btn" class="update" onclick="showPageLoading()" />
+      <input name="btn_update"
+             type="submit"
+             value="Update"
+             id="update_networking_btn"
+             class="update"
+             onclick="setConfirm('Are you sure you want to update the infrastructure? This operation may take a few hours.'); showPageLoading();" />
     </div>
 
   </form>

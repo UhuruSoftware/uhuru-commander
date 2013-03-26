@@ -9,6 +9,7 @@ gem "ipadmin"
 gem "ipaddress"
 gem "netaddr"
 
+gem "sinatra-contrib"
 gem "sinatra-session"
 gem "steno", "~>1.0.2"
 gem "cfoundry"

@@ -1,5 +1,4 @@
-
-module Uhuru
+module Uhuru::BoshCommander
   class CommanderBoshRunner
 
     def self.status_streamer(session)
@@ -15,11 +14,21 @@ module Uhuru
       end
 
       BoshThread.new {
-        Thread.current.request_id = id
-        Thread.current.streamer = status_streamer(session)
-        Thread.current.current_session = session
-        code.call
-        Thread.current.streamer.set_stream_done id
+        begin
+          Thread.current.request_id = id
+          Thread.current.streamer = status_streamer(session)
+          Thread.current.current_session = session
+          code.call
+        rescue Exception => ex
+          $logger.error("#{ex.message}: #{ex.backtrace}")
+          raise
+        ensure
+          if Thread.current.streamer == nil
+            $logger.error("Detected a BOSH thread without a streamer - #{caller}")
+          else
+            Thread.current.streamer.set_stream_done id
+          end
+        end
       }.join
 
       id
@@ -31,11 +40,22 @@ module Uhuru
       end
 
       BoshThread.new {
-        Thread.current.request_id = id
-        Thread.current.streamer = status_streamer(session)
-        Thread.current.current_session = session
-        code.call
-        Thread.current.streamer.set_stream_done id
+        begin
+          Thread.current.request_id = id
+          Thread.current.streamer = status_streamer(session)
+          Thread.current.current_session = session
+          code.call
+          Thread.current.streamer.set_stream_done id
+        rescue Exception => ex
+          $logger.error("#{ex.message}: #{ex.backtrace}")
+          raise
+        ensure
+          if Thread.current.streamer == nil
+            $logger.error("Detected a BOSH thread without a streamer - #{caller}")
+          else
+            Thread.current.streamer.set_stream_done id
+          end
+        end
       }
 
       id
@@ -48,35 +68,3 @@ module Uhuru
     attr_accessor :current_session
   end
 end
-
-#
-#class Sayer
-#  def say(something)
-#    request_id = Thread.current.request_id
-#    Thread.current.streamer.write_stream(request_id, something)
-#  end
-#end
-
-#
-#session = Hash.new()
-#
-#newid = Uhuru::CommanderBoshRunner.execute(session) do
-#  sleep 1
-#  Sayer.new().say("1")
-#end
-#
-#Uhuru::CommanderBoshRunner.execute_background(session, newid) do
-#  Sayer.new().say("2")
-#  sleep 1
-#  Sayer.new().say("4")
-#end
-#
-#Uhuru::CommanderBoshRunner.execute(session, newid) do
-#  Sayer.new().say("3")
-#end
-#
-#sleep 1
-#
-#Uhuru::CommanderBoshRunner.status_streamer(session).create_screen(newid, "spec")
-#puts Uhuru::CommanderBoshRunner.status_streamer(session).read_screen("spec")
-#Uhuru::CommanderBoshRunner.status_streamer(session).close_screen("spec")

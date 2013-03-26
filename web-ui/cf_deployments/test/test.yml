@@ -336,7 +336,7 @@ properties:
       signup_message: Host your web applications in minutes. We support apps written in PHP, Node.js, Ruby, Java and .NET.
       copyright_message: Copyright Uhuru Software 2012
       welcome_message: Welcome to your PAAS cloud
-      color_theme: Simple
+      color_theme: uhuru
       recaptcha_public_key: <enter your recaptcha public key>
       recaptcha_private_key: <enter your recaptcha private key>
       activation_link_secret: m8oS8D1Jvw8K

@@ -21,14 +21,17 @@ networks:
 - name: default
   subnets: 
   - reserved: 
-    - 10.0.0.2-10.0.5.9
-    - 10.0.5.71-10.0.255.254
+    - 10.0.0.2-10.0.5.99
+    - 10.0.5.141-10.0.5.149
+    - 10.0.5.151-10.0.77.9
+    - 10.0.77.101-10.0.255.254
     static: 
-    - 10.0.5.10-10.0.5.50
+    - 10.0.77.10-10.0.77.100
     range: 10.0.0.0/16
     gateway: 10.0.0.1
-    dns: []
-
+    dns: 
+    - 123.0.0.1
+    - 8.8.8.8
     cloud_properties: 
       name: ""
 resource_pools: 
@@ -47,7 +50,7 @@ resource_pools:
       product_key: 00000-00000-00000-00000-00000
 - name: sqlserver
   network: default
-  size: 0
+  size: 20
   stemcell: 
     name: uhuru-windows-2008R2-sqlserver
     version: 0.9.4
@@ -60,7 +63,7 @@ resource_pools:
       product_key: 00000-00000-00000-00000-00000
 - name: tiny
   network: default
-  size: 6
+  size: 7
   stemcell: 
     name: bosh-stemcell
     version: 0.6.7
@@ -117,7 +120,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.10
+    - 10.0.77.10
 - name: syslog_aggregator
   template: syslog_aggregator
   instances: 1
@@ -126,7 +129,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.11
+    - 10.0.77.11
 - name: nats
   template: nats
   instances: 1
@@ -134,7 +137,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.12
+    - 10.0.77.12
 - name: ccdb
   template: postgres
   instances: 1
@@ -143,7 +146,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.13
+    - 10.0.77.13
   properties: 
     db: ccdb
 - name: vcap_redis
@@ -154,7 +157,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.14
+    - 10.0.77.14
 - name: cloud_controller
   template: cloud_controller
   instances: 1
@@ -177,7 +180,7 @@ jobs:
     - dns
     - gateway
     static_ips: 
-    - 10.0.5.15
+    - 10.0.77.15
 - name: health_manager
   template: health_manager
   instances: 1
@@ -198,7 +201,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.16
+    - 10.0.77.16
 - name: mongodb_node
   template: mongodb_node
   instances: 1
@@ -207,7 +210,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.17
+    - 10.0.77.17
 - name: mongodb_gateway
   template: mongodb_gateway
   instances: 1
@@ -222,7 +225,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.18
+    - 10.0.77.18
 - name: redis_gateway
   template: redis_gateway
   instances: 1
@@ -243,7 +246,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.19
+    - 10.0.77.19
 - name: rabbit_gateway
   template: rabbit_gateway
   instances: 1
@@ -258,7 +261,7 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.20
+    - 10.0.77.20
 - name: postgresql_gateway
   template: postgresql_gateway
   instances: 1
@@ -272,10 +275,10 @@ jobs:
   networks: 
   - name: default
     static_ips: 
-    - 10.0.5.21
+    - 10.0.77.21
 - name: mssql_gateway
   template: mssql_gateway
-  instances: 0
+  instances: 1
   resource_pool: tiny
   networks: 
   - name: default
@@ -308,13 +311,32 @@ jobs:
 
 - name: mssql_node
   template: mssql_node
-  instances: 0
+  instances: 20
   persistent_disk: 75000
   resource_pool: sqlserver
   networks: 
   - name: default
-    static_ips: []
-
+    static_ips: 
+    - 10.0.77.22
+    - 10.0.77.23
+    - 10.0.77.24
+    - 10.0.77.25
+    - 10.0.77.26
+    - 10.0.77.27
+    - 10.0.77.28
+    - 10.0.77.29
+    - 10.0.77.30
+    - 10.0.77.31
+    - 10.0.77.32
+    - 10.0.77.33
+    - 10.0.77.34
+    - 10.0.77.35
+    - 10.0.77.36
+    - 10.0.77.37
+    - 10.0.77.38
+    - 10.0.77.39
+    - 10.0.77.40
+    - 10.0.77.41
 properties: 
   domain: mydomain.net
   description: Cloud application platform
@@ -335,7 +357,7 @@ properties:
       signup_message: Host your web applications in minutes. We support apps written in PHP, Node.js, Ruby, Java and .NET.
       copyright_message: Copyright Uhuru Software 2012
       welcome_message: Welcome to your PAAS cloud
-      color_theme: Simple
+      color_theme: simple_white
       recaptcha_public_key: <enter your recaptcha public key>
       recaptcha_private_key: <enter your recaptcha private key>
       activation_link_secret: m8oS8D1Jvw8K
@@ -396,32 +418,32 @@ properties:
     statusport: 12345
     product_key: 00000-00000-00000-00000-00000
   nats: 
-    user: c9ef2d0a888a7bd412a27bd8fef85cc4
-    password: 39e59c004d8db07df8462a9841f07240
-    address: 10.0.5.12
+    user: 6f043d8d56593361630ae54ac8d43f7f
+    password: c04a5971c61d599617d9a3eed9db95b9
+    address: 10.0.77.12
     port: 4222
   ccdb: 
     user: root
-    password: 383c8f76451bccb00e103c6cbcb4f627
-    address: 10.0.5.13
+    password: c6b4a84b1da20ba623169651e1611dcf
+    address: 10.0.77.13
     port: 5432
     pool_size: 10
-    dbname: 2c1aae18895b17c1e52e67b7c67e797f
+    dbname: 8dc5691cadff8184343e8b4ed10a9c9f
     databases: 
     - tag: cc
-      name: 2c1aae18895b17c1e52e67b7c67e797f
+      name: 8dc5691cadff8184343e8b4ed10a9c9f
     roles: 
     - tag: admin
       name: root
-      password: 383c8f76451bccb00e103c6cbcb4f627
+      password: c6b4a84b1da20ba623169651e1611dcf
   cc: 
     srv_api_uri: api.mydomain.net
-    password: c85ae6d901d9de0e8d25b2e89c76498d
-    token: 6199cbe60224f3fdff3689c69f983d89
+    password: 9c484ef026e644caffd28ceaee8d62f2
+    token: a5e56ba82ae46b4986c15f59b6b07093
     use_nginx: true
     new_stager_percent: 100
-    staging_upload_user: 6b3f411cfd673e116a4fdb2dde73e54c
-    staging_upload_password: 79d2e3c1d429c12d040490eb930045cf
+    staging_upload_user: 32cba53310f5ad21ea9076b1fd3a538b
+    staging_upload_password: d0e3436e2f01f8750193db7b53f22e2f
     allow_registration: false
     allow_external_app_uris: true
     bootstrap_users: 
@@ -437,17 +459,17 @@ properties:
       services: "4"
       apps: 4
   vcap_redis: 
-    address: 10.0.5.14
+    address: 10.0.77.14
     port: 5454
-    password: 032b80041ad837824bde7dccd2fdbf90
+    password: f29161d01185fd995a1d47177d2f4e06
     maxmemory: 1024
   router: 
     client_inactivity_timeout: 120
     app_inactivity_timeout: 120
     status: 
       port: 8080
-      user: a698d9b31a3f02e844d251f6e4dfe899
-      password: 764eb2b4f2c79cb81f6510233bdc89c4
+      user: 02eed0068a14df350ad61b7d70dbe1a7
+      password: 7da744813cec0b9727ad37cb749d6790
     redirect_parent_domain_to: www.mydomain.net
   dashboard: 
     uaa: 
@@ -457,7 +479,7 @@ properties:
     max_memory: 6144
     maxmemory: 1024
   nfs_server: 
-    address: 10.0.5.10
+    address: 10.0.77.10
     network: 10.0.0.0/16
   hbase_master: 
     address: 10.134.0.155
@@ -636,7 +658,7 @@ properties:
     - "9.0"
     default_version: "9.0"
   syslog_aggregator: 
-    address: 10.0.5.11
+    address: 10.0.77.11
     port: 54321
   report_processor: 
     syslog_aggregator: 
@@ -659,16 +681,16 @@ properties:
       name: uaa
   uaa: 
     cc: 
-      token_secret: add79d81e6300855ebd5475d96f0ee17
-      client_secret: 9f8850458daf5bd85988e6ea969e5ad9
+      token_secret: 57d3836fba249373e2275e9c0fef5608
+      client_secret: 6a305c64d51804d162c679741a505255
     admin: 
-      client_secret: 1645a8344e094f7fae7bba73c1c24f68
+      client_secret: 9ede20841d45ec59bdd46eaf6a77e222
     login: 
-      client_secret: 6fcd6e8126a80715398f0fec8419260a
+      client_secret: 27296fe862358c0fa3ad1b76ca0b7c8f
     clients: 
       dashboard: 
         id: dashboard
-        secret: 43f126ab0543cf5a98afda5db7271321
+        secret: 0fc8bb78c992dfeedef672efde8d03a6
         authorized-grant-types: authorization_code,refresh_token
         scope: openid,dashboard.user
         authorities: uaa.resource,tokens.read,tokens.write

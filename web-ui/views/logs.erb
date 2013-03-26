@@ -4,19 +4,23 @@
   </div>
   <div class="log_status">
     <div id="log_loading">
-      <img src="/images/loading.gif" alt="Loading..." /><span>Loading...</span>
+      <img src="/images/loading.gif" alt="Processing ..." /><span>Processing ...</span>
     </div>
     <div id="log_missing" class="hidden">
       <img src="/images/missing.png" alt="Log source does not exist anymore." /><span>Log source does not exist anymore.</span>
     </div>
     <div id="log_stop" class="hidden">
-      <img src="/images/completed.png" alt="Task completed." /><span>Task completed.</span>
+      <img src="/images/completed.png" alt="Task completed." />
+      <span>Task completed.</span>
+      <span id="log_stop_action" />
     </div>
     <div id="log_paused" class="hidden">
       <img src="/images/broken.png" alt="Can't reach server." /><span>Can't grab data from server - check your connection.</span>
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="/scripts/base64.js" ></script>
 
 <script type="text/javascript">
     var logDiv = document.getElementById("logDiv");
@@ -112,6 +116,7 @@
                             if (instructions == 'stop')
                             {
                                 setLogStatusVisible("log_stop");
+                                document.getElementById("log_stop_action").innerHTML = Base64.decode(getParameterByName("done"));
                                 clearInterval(timerId);
                             }
                         }

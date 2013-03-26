@@ -12,12 +12,15 @@
 <div id="wrapper">
   <div id="header"><h1>Uhuru Cloud Commander</h1></div>
   <div class="actual_body">
-    <form action="/login" method="post">
+    <form action='/login' method="post">
+      <% if (defined? path) && (path != nil) %>
+        <input type="hidden" name="path" value="<%= path%>" />
+      <% end %>
       <div class="login_div">
         <div class="login_content">
           <div>
             <label for="username">Username</label>
-            <input type="text" name="username" id="username"/>
+            <input type="text" name="username" id="username" autofocus=""/>
           </div>
           <div>
             <label for="password">Password</label>

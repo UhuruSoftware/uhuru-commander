@@ -1,4 +1,4 @@
-module Uhuru::Ucc
+module Uhuru::BoshCommander
   class Vms
 
     def list(deployment_name)

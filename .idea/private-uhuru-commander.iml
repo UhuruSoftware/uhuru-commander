@@ -12,7 +12,6 @@
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.2.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cf-uaa-lib (v1.3.7, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="cfoundry (v0.5.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="colorize (v0.5.8, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="crack (v0.3.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="daemons (v1.1.9, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="em-http-request (v1.0.0.beta.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
@@ -44,11 +43,13 @@
     <orderEntry type="library" scope="PROVIDED" name="rack-mount (v0.8.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-protection (v1.3.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-reverse-proxy (v0.4.4, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack-test (v0.6.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rake (v10.0.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rbvmomi (v1.6.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubyzip (v0.9.9, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sequel (v3.44.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sinatra (v1.3.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sinatra-contrib (v1.3.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sinatra-session (v1.0.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="steno (v1.0.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thin (v1.5.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />

@@ -81,3 +81,22 @@ function importSettings(){
 function showPageLoading() {
     $('#page_loading').show();
 }
+
+var confirmation_message = null;
+
+function setConfirm(message)
+{
+    confirmation_message = message;
+}
+
+function confirmForm()
+{
+    if (confirmation_message != null)
+    {
+        var confirmation_result = confirm(confirmation_message);
+        confirmation_message = null;
+        return confirmation_result;
+    }
+
+    return true;
+}

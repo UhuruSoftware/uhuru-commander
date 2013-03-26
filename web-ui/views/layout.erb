@@ -11,6 +11,7 @@
   <script type="text/javascript" src="/scripts/jquery_ui.js"></script>
   <script type="text/javascript" src="/scripts/cloud_tabs.js" ></script>
   <script type="text/javascript" src="/scripts/bosh_display.js" ></script>
+  <script type="text/javascript" src="/scripts/query_strings.js" ></script>
 </head>
 
 <body>
@@ -27,13 +28,16 @@
   <div id="main_menu">
     <ul class="main_menu">
       <li><a onclick="showPageLoading()" class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
-      <% unless first_run? %>
+      <% unless first_run? || updating_infrastructure? %>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
       <% end %>
       <li class="right"><a onclick="check_services()" href="#">Logout</a></li>
-      <li class="right"><a onclick="showPageLoading()" href="/nagios/">Monitoring</a></li>
+      <li class="right"><a onclick="showPageLoading()" href="/internal_logs">Internal Logs</a></li>
+      <% unless first_run? || updating_infrastructure? %>
+        <li class="right"><a onclick="showPageLoading()" href="/nagios/">Monitoring</a></li>
+      <% end %>
     </ul>
   </div>
 
@@ -65,6 +69,7 @@
           <% end %>
       <% end %>
     </div>
+
     <%= yield %>
   </div>
   <div class="actual_body_footer">

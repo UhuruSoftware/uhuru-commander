@@ -1,4 +1,4 @@
-module Uhuru::Ucc
+module Uhuru::BoshCommander
 
   class StepDeploymentGenerator
 
@@ -135,15 +135,4 @@ mssql_gateway uhurufs_gateway uhuru_tunnel)
     end
   end
 end
-
-
-
-#
-#cf_file = ARGV[0]
-#out_dir = ARGV[1]
-#
-#puts "CF file is '#{cf_file}'"
-#puts "Output dir is '#{out_dir}'"
-#
-#Uhuru::StepDeploymentGenerator.generate_step_deployment(cf_file, out_dir)
 

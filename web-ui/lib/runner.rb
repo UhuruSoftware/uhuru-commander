@@ -1,7 +1,7 @@
 require 'rack/reverse_proxy'
 require "steno"
 require "config"
-require "boshcommander"
+require "bosh_commander"
 require "thin"
 require 'optparse'
 require "../lib/ucc/status_streamer"
@@ -45,6 +45,7 @@ module Uhuru::BoshCommander
       # default config path. this may be overriden during opts parsing
       @config_file = File.expand_path("../../config/config.yml", __FILE__)
       help_file = File.expand_path("../../config/help.yml", __FILE__)
+      forms_file = File.expand_path("../../config/forms.yml", __FILE__)
 
       parse_options!
 
@@ -58,10 +59,15 @@ module Uhuru::BoshCommander
           [help_item['help_item'], help_item['content']]
         end
       end
-
       $config[:help] = help
-      $config[:blank_cf_manifest] = File.expand_path("../../config/blank_cf.yml", __FILE__)
+
+      $config[:forms] = File.open(forms_file) { |file| YAML.load(file)}
+      $config[:blank_cf_template] = File.expand_path('../../config/blank_cf.yml.erb', __FILE__)
+      $config[:infrastructure_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
+      $config[:deployments_dir] = File.expand_path('../../cf_deployments/', __FILE__)
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
+      $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
+      $config[:form_row_template] =
 
       create_pidfile
       setup_logging
@@ -69,7 +75,7 @@ module Uhuru::BoshCommander
     end
 
     def logger
-      @logger ||= Steno.logger("uhuru-cloud-commander.runner")
+      $logger ||= @logger ||= Steno.logger("uhuru-cloud-commander.runner")
     end
 
     def options_parser

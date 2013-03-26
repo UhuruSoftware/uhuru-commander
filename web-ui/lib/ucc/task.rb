@@ -2,9 +2,13 @@ module Bosh::Cli::Command
   class Task
     undef_method :list_recent
 
+    def initialize
+      @director = director
+      super
+    end
+
     def list_recent(count = 30, filter = 2)
-      tasks = director.list_recent_tasks(count, filter)
-      tasks
+      director.list_recent_tasks(count, filter)
     end
 
     private
@@ -19,6 +23,22 @@ module Bosh::Cli::Command
 
     def director
       Thread.current.current_session[:command].instance_variable_get("@director")
+    end
+
+    def target
+      Thread.current.current_session[:command].target
+    end
+
+    def deployment
+      Thread.current.current_session[:command].deployment
+    end
+
+    def username
+      Thread.current.current_session[:command].username
+    end
+
+    def password
+      Thread.current.current_session[:command].password
     end
   end
 end
