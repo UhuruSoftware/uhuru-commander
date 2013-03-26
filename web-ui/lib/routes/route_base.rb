@@ -64,7 +64,7 @@ module Uhuru::BoshCommander
     end
 
     before do
-      unless request.path_info == '/login' || request.path_info == '/offline' || request.path_info == '/monit_status' || request.path_info == '/ssh_config'
+      unless request.path_info == '/login' || request.path_info == '/offline' || request.path_info == '/monit_status' || request.path_info == '/ssh_config' || request.path_info.start_with?('/screen')
         unless session['user_name']
           redirect "/login?path=#{CGI.escape request.path_info}"
         end
