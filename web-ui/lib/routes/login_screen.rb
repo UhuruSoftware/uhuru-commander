@@ -30,13 +30,6 @@ module Uhuru::BoshCommander
     end
 
     get '/login' do
-      unless $config[:bosh_commander][:skip_check_monit]
-        monit = Monit.new
-        unless monit.service_group_state == "running"
-          redirect '/offline'
-        end
-      end
-
       path = params['path']
 
       render_erb do

@@ -64,6 +64,15 @@ module Uhuru::BoshCommander
     end
 
     before do
+      unless ($config[:bosh_commander][:skip_check_monit]) ||
+          (request.path_info == '/offline') ||
+          (request.path_info == '/monit_status')
+        monit = Monit.new
+        unless monit.service_group_state == "running"
+          redirect '/offline'
+        end
+      end
+
       unless request.path_info == '/login' ||
           request.path_info == '/offline' ||
           request.path_info == '/monit_status' ||
@@ -73,11 +82,11 @@ module Uhuru::BoshCommander
           redirect "/login?path=#{CGI.escape request.path_info}"
         end
 
-        unless request.path_info.start_with? '/logs' || request.path_info.start_with?('/screen')
+        unless (request.path_info.start_with?('/logs')) || (request.path_info.start_with?('/screen'))
           check_updating_infrastructure!
         end
 
-        unless request.path_info == '/infrastructure'
+        unless (request.path_info == '/infrastructure') || (request.path_info.start_with?('/screen'))
           check_first_run!
         end
       end
@@ -123,7 +132,7 @@ module Uhuru::BoshCommander
       end
 
       def forms_yml
-        File.expand_path('../../../config/forms.yml', __FILE__)
+        $config[:forms_yml]
       end
     end
   end

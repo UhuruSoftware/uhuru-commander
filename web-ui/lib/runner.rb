@@ -61,13 +61,13 @@ module Uhuru::BoshCommander
       end
       $config[:help] = help
 
+      $config[:forms_yml] = forms_file
       $config[:forms] = File.open(forms_file) { |file| YAML.load(file)}
       $config[:blank_cf_template] = File.expand_path('../../config/blank_cf.yml.erb', __FILE__)
       $config[:infrastructure_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
       $config[:deployments_dir] = File.expand_path('../../cf_deployments/', __FILE__)
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
       $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      $config[:form_row_template] =
 
       create_pidfile
       setup_logging
