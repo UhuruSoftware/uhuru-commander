@@ -25,7 +25,7 @@
       <file leaf-file-name="route_base.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/route_base.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="188" selection-start="1521" selection-end="1521" vertical-scroll-proportion="0.11960133">
+            <state line="55" column="61" selection-start="1138" selection-end="1138" vertical-scroll-proportion="0.28239202">
               <folding />
             </state>
           </provider>
@@ -855,7 +855,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/route_base.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="188" selection-start="1521" selection-end="1521" vertical-scroll-proportion="0.11960133">
+        <state line="55" column="61" selection-start="1138" selection-end="1138" vertical-scroll-proportion="0.28239202">
           <folding />
         </state>
       </provider>
