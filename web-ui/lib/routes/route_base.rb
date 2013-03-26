@@ -69,7 +69,7 @@ module Uhuru::BoshCommander
           redirect "/login?path=#{CGI.escape request.path_info}"
         end
 
-        unless request.path_info == '/logs'
+        unless request.path_info.start_with? '/logs'
           check_updating_infrastructure!
         end
 
