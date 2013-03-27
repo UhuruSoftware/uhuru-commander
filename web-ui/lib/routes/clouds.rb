@@ -125,7 +125,7 @@ module Uhuru::BoshCommander
         elsif params.has_key?("btn_save_and_deploy")
           request_id = CommanderBoshRunner.execute_background(session) do
             begin
-              form_.deployment.deploy
+              form.deployment.deploy
             rescue Exception => e
               err e.message.to_s
             end
