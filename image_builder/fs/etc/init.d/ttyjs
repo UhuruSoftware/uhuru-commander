@@ -1,0 +1,64 @@
+#!/bin/bash
+
+pidfile="/var/run/ttyjs.pid"
+
+function start()
+{
+  echo "Starting tty.js ..."
+  cd /var/vcap/store/ucc/tty.js
+  ./bin/tty.js --config config/config.json &
+  echo $! >$pidfile
+}
+
+function stop()
+{
+  [ ! -e $pidfile ] &&
+    {
+    echo "Cant find pid file. Are you sure tty.js is running ?"
+    } ||
+    {
+    echo "Stopping tty.js ..."
+    kill -9 `cat $pidfile`
+    rm -f $pidfile
+    }
+}
+
+function restart()
+{
+  stop
+  start
+}
+
+function status()
+{
+  [ -e $pidfile ] &&
+    {
+    ps `cat $pidfile` 1>/dev/null 2>/dev/null &&
+      {
+      echo "tty.js appears to be running with pid `cat $pidfile` ..."
+      exit 0
+      } || {
+      echo "tty.js is not running although there is a pid file $pidfile. You can remove it..."
+      exit 1
+      }
+    } ||
+    {
+    echo "tty.js doesent appear to be running"
+    exit 1
+    }
+}
+
+function help()
+{
+  echo "Usage:"
+  echo "$0 {start|stop|restart|status}"
+  exit 0
+}
+
+case $1 in
+  "start") start ;;
+  "stop") stop ;;
+  "restart") restart ;;
+  "status") status ;;
+  *) help ;;
+esac

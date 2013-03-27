@@ -1,0 +1,65 @@
+#!/bin/bash
+
+pidfile="/var/run/ucc.pid"
+
+function start()
+{
+  echo "Starting UCC ..."
+  cd /var/vcap/store/ucc/web-ui/bin
+  rm -f /tmp/boshcommander.pid
+  HOME=/root PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/ruby/bin" /var/vcap/bosh/bin/ruby boshcommander 1>/dev/null 2>/dev/null &
+  echo $! >$pidfile
+}
+
+function stop()
+{
+  [ ! -e $pidfile ] &&
+    {
+    echo "Cant find pid file. Are you sure UCC is running ?"
+    } ||
+    {
+    echo "Stopping UCC ..."
+    kill -9 `cat $pidfile`
+    rm -f $pidfile
+    }
+}
+
+function restart()
+{
+  stop
+  start
+}
+
+function status()
+{
+  [ -e $pidfile ] &&
+    {
+    ps `cat $pidfile` 1>/dev/null 2>/dev/null &&
+      {
+      echo "UCC appears to be running with pid `cat $pidfile` ..."
+      exit 0
+      } || {
+      echo "UCC is not running although there is a pid file $pidfile. You can remove it..."
+      exit 1
+      }
+    } ||
+    {
+    echo "UCC doesent appear to be running"
+    exit 1
+    }
+}
+
+function help()
+{
+  echo "Usage:"
+  echo "$0 {start|stop|restart|status}"
+  exit 0
+}
+
+case $1 in
+  "start") start ;;
+  "stop") stop ;;
+  "restart") restart ;;
+  "status") status ;;
+  *) help ;;
+esac

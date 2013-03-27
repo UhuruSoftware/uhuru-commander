@@ -128,10 +128,15 @@ module Uhuru::BoshCommander
       result = nil
 
       if value_type == GenericForm::VALUE_TYPE_LIVE || value_type == GenericForm::VALUE_TYPE_SAVED || value_type == GenericForm::VALUE_TYPE_VOLATILE
-        if get_field_config["yml_key"].kind_of?(Array)
-          value = eval("data" + get_field_config["yml_key"][0])
-        else
-          value = eval("data" + get_field_config["yml_key"])
+        begin
+          if get_field_config["yml_key"].kind_of?(Array)
+            value = eval("data" + get_field_config["yml_key"][0])
+          else
+            value = eval("data" + get_field_config["yml_key"])
+          end
+        rescue => e
+          $logger.error("Error evaluating field '#{html_form_id}' - #{e.message}: #{e.backtrace}")
+          raise "Error evaluating field '#{html_form_id}'"
         end
         exotic_value = get_exotic_value(value, value_type)
         result = exotic_value != nil ? exotic_value : value
@@ -263,7 +268,88 @@ module Uhuru::BoshCommander
           end
         end
       elsif @form.name == 'infrastructure'
+        if @screen.name == 'CPI'
+          if @name == 'vcenter_template_folder'
+            vcenter = @screen.fields.find {|field| field.name == 'vcenter' }
+            vcenter_user = @screen.fields.find {|field| field.name == 'vcenter_user' }
+            vcenter_password = @screen.fields.find {|field| field.name == 'vcenter_password' }
+            vcenter_datacenter = @screen.fields.find {|field| field.name == 'vcenter_datacenter' }
+            vcenter_clusters = @screen.fields.find {|field| field.name == 'vcenter_clusters' }
+            vcenter_datastore = @screen.fields.find {|field| field.name == 'vcenter_datastore' }
+            vcenter_vm_folder = @screen.fields.find {|field| field.name == 'vcenter_vm_folder' }
 
+            address = vcenter.get_value(value_type)
+            user = vcenter_user.get_value(value_type)
+            password = vcenter_password.get_value(value_type)
+            datacenter = vcenter_datacenter.get_value(value_type)
+            cluster = vcenter_clusters.get_value(value_type)
+            datastore = vcenter_datastore.get_value(value_type)
+            vm_folder = vcenter_vm_folder.get_value(value_type)
+            template_folder = value
+
+            vim = nil
+            thr = Thread.new do
+              begin
+                vim = RbVmomi::VIM.connect host: address, user: user, password: password, insecure: true
+              rescue Exception => e
+                if e.message.include? 'incorrect user name or password'
+                  vcenter_user.error = "User may be incorrect"
+                  vcenter_password.error = "Password may be incorrect"
+                  error = 'Please rectify incorrect settings'
+                else
+                  vcenter.error = "Could not connect to '#{address}'"
+                  error = 'Please rectify incorrect settings'
+                end
+              end
+            end
+
+            $config[:bosh_commander][:check_infrastructure_timeout].times do
+              break if vim
+              sleep 1
+            end
+
+            unless thr.status == false
+              Thread.kill(thr)
+              vcenter.error = "Timed out while connecting to '#{address}'"
+              error = 'Please rectify incorrect settings'
+            end
+
+            if vim
+              root_folder = vim.serviceInstance.content.rootFolder
+              dc = root_folder.childEntity.grep(RbVmomi::VIM::Datacenter).find { |x| x.name == datacenter }
+              if dc == nil
+                vcenter_datacenter.error = "Datacenter '#{datacenter}' not found."
+                error = 'Please rectify incorrect settings'
+              else
+                cl = dc.hostFolder.children.find { |clus| clus.name == cluster }
+                if cl == nil
+                  vcenter_clusters.error = "Cluster '#{cluster}' not found."
+                  error = 'Please rectify incorrect settings'
+                else
+                  datastores = cl.datastore.find_all { |ds| !!(ds.name =~ Regexp.new(datastore)) }
+
+                  if datastores == nil || datastores.size == 0
+                    vcenter_datastore.error = "Could not find any datastores matching '#{ datastore }'."
+                    error = 'Please rectify incorrect settings'
+                  end
+                end
+
+                dc_vmf = dc.vmFolder.children.find{ |x| x.name ==  vm_folder}
+
+                if dc_vmf == nil
+                  vcenter_vm_folder.error = "Could not find a folder for VMs named '#{ vm_folder }' in datacenter '#{ datacenter }'."
+                  error = 'Please rectify incorrect settings'
+                end
+
+                dc_tf = dc.vmFolder.children.find{ |x| x.name ==  template_folder}
+
+                if dc_tf == nil
+                  error = "Could not find a folder for templates named '#{ template_folder }' in datacenter '#{ datacenter }'."
+                end
+              end
+            end
+          end
+        end
       end
 
       error

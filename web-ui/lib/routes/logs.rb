@@ -53,5 +53,23 @@ module Uhuru::BoshCommander
         help 'internal_logs'
       end
     end
+
+    get '/vmlog/:deployment/:job/:index' do
+      deployment = params[:deployment]
+      job = params[:job]
+      index = params[:index]
+
+      request_id = CommanderBoshRunner.execute_background(session) do
+        begin
+          deployment = Deployment.new(deployment)
+          deployment.get
+        rescue Exception => e
+          err e.message.to_s
+        end
+      end
+
+      action_on_done = "/director_log/"
+      redirect Logs.log_url(request_id, action_on_done)
+    end
   end
 end

@@ -3,6 +3,7 @@ require 'sinatra'
 require 'sinatra/content_for'
 require 'yaml'
 require 'cgi'
+require 'rbvmomi'
 
 require "config"
 require "date"

@@ -4,15 +4,15 @@ module Uhuru::BoshCommander
     def setup(new_config)
       say('Moving director config')
       @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      @is_update = is_update
+      @is_update = true#is_update
       setup_micro(new_config)
       say('Restarting services')
       restart_monit
-      if (!@is_update)
+      unless @is_update
         say('Uploading stemcells')
-        upload_stemcells
+        #upload_stemcells
         say('Configuring database')
-        configure_database
+        #configure_database
       end
 
       say ('Infrastructure configured')
@@ -33,12 +33,11 @@ module Uhuru::BoshCommander
     def is_update
       db = get_database
       first_name = db[:stemcells].select(:name).first()[:name]
-      if (first_name.start_with?("empty-"))
+      if first_name.start_with?("empty-")
         return false
       end
       true
     end
-
 
     def build_info(director_yml)
       nats_hash = director_yml["mbus"].scan(/(nats):\/\/(\S+):(\S+)@(\S+):(\S+)?/).first
@@ -56,13 +55,43 @@ module Uhuru::BoshCommander
       @director_info[:hm_user] = "hm_user"
       @director_info[:hm_password] = (0...8).map{ ('a'..'z').to_a[rand(26)] }.join.to_s
 
+      pg_uri = URI(director_yml['db']['database'])
+      @postgres_info = {}
+      @postgres_info[:host] = pg_uri.host
+      @postgres_info[:user] = pg_uri.user
+      @postgres_info[:password] = pg_uri.password
+      @postgres_info[:port] = pg_uri.port
+      @postgres_info[:db] = pg_uri.path
+      @postgres_info[:db][0] = ''
     end
 
     def create_users()
       #we need to created the default admin user
-      if (!@is_update)
+      unless @is_update
         User.create("admin", "admin")
         User.create(@director_info[:hm_user], @director_info[:hm_password])
+      end
+    end
+
+    def setup_nagios()
+      monitoring_file = $config[:monitoring_yml]
+      monitoring_yml = YAML.load_file(monitoring_file)
+
+      monitoring_yml[:nats] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
+
+      monitoring_yml[:bosh_db][:user] = @postgres_info[:user]
+      monitoring_yml[:bosh_db][:password] = @postgres_info[:password]
+      monitoring_yml[:bosh_db][:address] = @postgres_info[:host]
+      monitoring_yml[:bosh_db][:port] = @postgres_info[:port]
+      monitoring_yml[:bosh_db][:database] = @postgres_info[:db]
+
+      monitoring_yml[:director][:address] = @director_info[:hostname]
+      monitoring_yml[:director][:port] = @director_info[:port]
+      monitoring_yml[:director][:user] = @director_info[:hm_user]
+      monitoring_yml[:director][:password] = @director_info[:hm_password]
+
+      File.open(monitoring_file, 'w') do |file|
+        dump_yaml_to_file(monitoring_yml, file )
       end
     end
 
@@ -81,7 +110,15 @@ module Uhuru::BoshCommander
     end
 
     def setup_postgres()
-      postgres_file = File.join($config[:bosh][:base_dir],'jobs','postgres', 'bin', 'postgres_ctl')
+      postgres_ctl_file = File.join($config[:bosh][:base_dir],'jobs','postgres', 'bin', 'postgres_ctl')
+      postgres_ctl = File.read(postgres_ctl_file)
+
+      postgres_ctl.gsub!(/^HOST=.+$/, "HOST=#{@postgres_info[:host]}")
+      postgres_ctl.gsub!(/^PASSWORD='.+'$/, "PASSWORD='#{@postgres_info[:password]}'")
+
+      File.open(postgres_ctl_file, 'w') do |file|
+        dump_yaml_to_file(postgres_ctl, file )
+      end
     end
 
     def setup_health_monitor()

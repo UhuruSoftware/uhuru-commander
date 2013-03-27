@@ -1,0 +1,35 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+sv exit agent
+sv kill agent
+sv stop agent
+
+mount /dev/sdb2 /var/vcap/data
+mount /dev/sdc1 /var/vcap/store
+
+/usr/sbin/change_ips
+
+#/usr/sbin/delayed_mount &
+mount -o bind /var/vcap/data/tmp /tmp
+chmod 777 /tmp
+
+service ucc start
+service ttyjs start
+
+/var/vcap/bosh/bin/monit -I -c /var/vcap/bosh/etc/monitrc 1>/dev/null 2>/dev/null &
+
+sleep 3
+/var/vcap/bosh/bin/monit start all
+
+exit 0

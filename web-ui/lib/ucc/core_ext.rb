@@ -30,8 +30,14 @@ module UccExtensions
   end
 
   def err(message)
+    stack = caller
+    if message.is_a? Exception
+      stack = message.backtrace
+      message = message.message
+    end
+
     say("ERROR : #{message.to_s.red}")
-    $logger.error "This is err : #{message}"
+    $logger.error "This is err : #{message} - #{stack}"
   end
 
   def quit(message = nil)

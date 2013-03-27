@@ -3,7 +3,6 @@ module Uhuru::BoshCommander
     get '/infrastructure' do
 
       form = InfrastructureForm.from_config(nil)
-      form.validate? GenericForm::VALUE_TYPE_SAVED
 
       render_erb do
         template :infrastructure
@@ -38,8 +37,8 @@ module Uhuru::BoshCommander
             begin
               infrastructure = BoshInfrastructure.new
               infrastructure.setup(infrastructure_yml)
-            rescue Exception => e
-              err e.message.to_s
+            rescue => e
+              err e
             end
             $infrastructure_update_request = nil
           end

@@ -1,0 +1,1 @@
+update stemcells set name='empty-' || name

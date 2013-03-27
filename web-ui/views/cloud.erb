@@ -172,7 +172,10 @@
 
                 var sshUrl = "/ssh_connect/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
 
-                divSSHAndLogs.innerHTML = "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;<a href='#'>Logs</a>"
+                divSSHAndLogs.innerHTML =
+                        "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;" +
+                        "<a href='#'>Logs</a>"
+
                 cellSSHAndLogs.className += " border_right"
 
                 cellAgentId.appendChild(divAgentId);

@@ -5,7 +5,7 @@ dev-mode: true
 
 bosh_commander:
   domain: "localhost"
-  skip_check_monit: false
+  skip_check_monit: true
   check_infrastructure_timeout: 10
 
 ttyjs:

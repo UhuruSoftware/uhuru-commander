@@ -1,6 +1,8 @@
 <component name="ProjectDictionaryState">
   <dictionary name="vladi">
     <words>
+      <w>datacenter</w>
+      <w>datastore</w>
       <w>monit</w>
       <w>nagios</w>
       <w>netmask</w>
@@ -9,6 +11,8 @@
       <w>subnet</w>
       <w>subnets</w>
       <w>ttyjs</w>
+      <w>vcenter</w>
+      <w>vmlog</w>
     </words>
   </dictionary>
 </component>
