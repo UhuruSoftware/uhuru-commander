@@ -7,8 +7,16 @@ fi
 
 . config.sh
 
-alias as_root='sudo'
-alias as_user="sudo -u ${SUDO_USER}"
+function as_root()
+{
+    sudo $*
+}
+
+
+function as_user()
+{
+    sudo -u ${SUDO_USER} $*
+}
 
 function packages()
 {
