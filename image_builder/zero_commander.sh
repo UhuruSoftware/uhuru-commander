@@ -53,7 +53,7 @@ function prerequisites()
 function micro_bosh_stemcell()
 {
     as_user mkdir ~/sources
-    as_user rm -rf ~/sources/private-bosh
+    as_root rm -rf ~/sources/private-bosh
     cd ~/sources
     as_user git clone ${git_bosh_repo}
     cd private-bosh
