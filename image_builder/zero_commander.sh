@@ -81,8 +81,9 @@ function deployer()
     # run install.sh
     cd ${original_dir}
     as_user cp -f config.sh ~/sources/private-uhuru-commander/image_builder/
+    export BUNDLE_GEMFILE=~/sources/private-bosh/Gemfile
     cd ~/sources/private-uhuru-commander/image_builder
-    as_root bash ./install.sh $*
+    as_root bundle exec bash ./install.sh $*
 }
 
 function create_ovf()

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/install.sh" afterPath="$PROJECT_DIR$/image_builder/install.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/zero_commander.sh" afterPath="$PROJECT_DIR$/image_builder/zero_commander.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
@@ -45,7 +44,7 @@
           <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="84" column="76" selection-start="2069" selection-end="2069" vertical-scroll-proportion="0.52474105">
+                <state line="84" column="58" selection-start="2093" selection-end="2093" vertical-scroll-proportion="0.52474105">
                   <folding />
                 </state>
               </provider>
@@ -103,7 +102,7 @@
           <file leaf-file-name="install.sh" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="89" column="60" selection-start="5797" selection-end="5797" vertical-scroll-proportion="0.8786127">
+                <state line="72" column="89" selection-start="4574" selection-end="4574" vertical-scroll-proportion="0.58381504">
                   <folding />
                 </state>
               </provider>
@@ -147,8 +146,8 @@
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
-        <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
+        <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
       </list>
     </option>
   </component>
@@ -858,14 +857,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="60" selection-start="5797" selection-end="5797" vertical-scroll-proportion="0.8786127">
+        <state line="72" column="89" selection-start="4574" selection-end="4574" vertical-scroll-proportion="0.58381504">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="76" selection-start="2069" selection-end="2069" vertical-scroll-proportion="0.52474105">
+        <state line="84" column="58" selection-start="2093" selection-end="2093" vertical-scroll-proportion="0.52474105">
           <folding />
         </state>
       </provider>
