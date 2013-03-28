@@ -31,6 +31,7 @@ function packages()
       sqlite3 libsqlite3-dev \
       libxslt-dev libxml2-dev \
       ftp \
+      genisoimage \
       curl wget git-core
 }
 
