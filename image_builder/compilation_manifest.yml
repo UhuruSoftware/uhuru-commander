@@ -1,8 +1,8 @@
 ---
-name: ion
+name: compilation_manifest
 director_uuid: REPLACEME
 release:
-  name: app-cloud
+  name: cloud-foundry
   version: 122.1-dev
 compilation:
   workers: 1

@@ -18,6 +18,11 @@ resources:
     disk: 102400
     cpu: 2
 
+mbus: nats://nats:nats@127.0.0.1:4222
+
+db:
+  database: postgres://postgres:postgres@127.0.0.1/bosh
+
 cloud:
   plugin: vsphere
   properties:
