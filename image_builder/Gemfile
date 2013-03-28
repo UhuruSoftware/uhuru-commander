@@ -1,7 +1,3 @@
 source :rubygems
 
 gem "bosh_cli", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => 'c90efd7de741f3720a536ac636ef2f363a635b81'
-gem "rake", "~> 10.0.3"
-gem "addressable", "~> 2.3.2"
-gem "mime-types", "~> 1.20.1"
-gem "json_pure", "~> 1.7.6"

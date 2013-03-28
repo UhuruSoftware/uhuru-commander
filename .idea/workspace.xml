@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" afterPath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/Gemfile" afterPath="$PROJECT_DIR$/image_builder/Gemfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/zero_commander.sh" afterPath="$PROJECT_DIR$/image_builder/zero_commander.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
@@ -35,7 +38,7 @@
           <file leaf-file-name="Gemfile" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="64" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0">
+                <state line="3" column="0" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -44,7 +47,7 @@
           <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="84" column="58" selection-start="2093" selection-end="2093" vertical-scroll-proportion="0.52474105">
+                <state line="85" column="26" selection-start="2064" selection-end="2064" vertical-scroll-proportion="0.5420023">
                   <folding />
                 </state>
               </provider>
@@ -141,12 +144,12 @@
         <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/change_ips.sh" />
         <option value="$PROJECT_DIR$/web-ui/config/blank_cf.yml.erb" />
         <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" />
-        <option value="$PROJECT_DIR$/image_builder/Gemfile" />
         <option value="$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml" />
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
+        <option value="$PROJECT_DIR$/image_builder/Gemfile" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
       </list>
     </option>
@@ -813,13 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="64" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="287" column="43" selection-start="9077" selection-end="9077" vertical-scroll-proportion="0.5493562">
@@ -862,9 +858,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="58" selection-start="2093" selection-end="2093" vertical-scroll-proportion="0.52474105">
+        <state line="85" column="26" selection-start="2064" selection-end="2064" vertical-scroll-proportion="0.5420023">
           <folding />
         </state>
       </provider>

@@ -28,7 +28,7 @@
     <orderEntry type="library" scope="PROVIDED" name="ipadmin (v0.4.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="json_pure (v1.7.7, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="membrane (v0.0.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="mime-types (v1.20.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mime-types (v1.21, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="monit_api (v1.0.2@1b33ce, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.7.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_xml (v0.5.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
