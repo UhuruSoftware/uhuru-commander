@@ -40,12 +40,6 @@ end
 "
 
   cd deployments
-  echo "Downloading BOSH micro stemcell"
-
-  [ -e ${micro_stemcell} ] ||
-    {
-    bosh download public stemcell ${micro_stemcell}
-    }
 
   echo "Running: bosh micro deployment micro_bosh"
   bosh micro deployment micro_bosh

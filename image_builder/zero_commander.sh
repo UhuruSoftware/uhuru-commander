@@ -73,7 +73,7 @@ function deployer()
     as_user git reset --hard ${git_commander_commit}
 
     micro_bosh_tarball=`ls ~/sources/private-bosh/release/dev_releases/*.tgz`
-    as_root mv ${micro_bosh_tarball} ~/sources/private-uhuru-commander/image_builder/deployments/micro-bosh.tgz
+    as_root mv ${micro_bosh_tarball} ~/sources/private-uhuru-commander/image_builder/deployments/${micro_stemcell}
 
     # run install.sh
     cd ~/sources/private-uhuru-commander/image_builder
