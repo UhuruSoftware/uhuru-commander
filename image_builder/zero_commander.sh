@@ -77,7 +77,7 @@ function deployer()
 
     # run install.sh
     cd ~/sources/private-uhuru-commander/image_builder
-    ./install.sh $*
+    as_user ./install.sh $*
 }
 
 function create_ovf()
