@@ -108,7 +108,7 @@ function create_ovf()
 
 # delete deployment
 
-[ $1 -eq "help" ] &&
+[[ $1 == "help" ]] &&
 {
     echo "
 local_packages
