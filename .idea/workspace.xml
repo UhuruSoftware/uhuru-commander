@@ -44,7 +44,7 @@
           <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="68" column="46" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.21800947">
+                <state line="78" column="17" selection-start="1759" selection-end="1759" vertical-scroll-proportion="0.3957346">
                   <folding />
                 </state>
               </provider>
@@ -864,7 +864,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="46" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.21800947">
+        <state line="78" column="17" selection-start="1759" selection-end="1759" vertical-scroll-proportion="0.3957346">
           <folding />
         </state>
       </provider>
