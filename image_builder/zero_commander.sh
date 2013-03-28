@@ -105,5 +105,5 @@ original_dir=`pwd`
 param_present 'local_packages'       $* && packages
 param_present 'local_prerequisites'  $* && prerequisites
 param_present 'local_create_micro'   $* && micro_bosh_stemcell
-param_present 'local_run_deployer'   $* && deployer
+param_present 'local_run_deployer'   $* && deployer $*
 param_present 'local_create_ovf'     $* && create_ovf

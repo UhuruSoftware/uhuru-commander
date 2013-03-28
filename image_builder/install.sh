@@ -87,4 +87,4 @@ function start_stuff()
 
 param_present 'deployer_setup_vm'       $* && deploy_micro
 param_present 'deployer_upload'         $* && upload_files
-param_present 'deployer_start_build'    $* && start_stuff
+param_present 'deployer_start_build'    $* && start_stuff $*
