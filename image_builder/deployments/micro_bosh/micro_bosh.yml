@@ -62,6 +62,8 @@ apply_spec:
     blobstore: {}
     nats: {}
   properties:
+    director:
+      max_threads: 1
     ntp:
      - 0.pool.ntp.org    # Specify any NTP servers for deployments
      - 1.pool.ntp.org
