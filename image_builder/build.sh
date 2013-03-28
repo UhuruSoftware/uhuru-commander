@@ -194,11 +194,6 @@ function zero_free()
     zerofree /dev/sdb2
 }
 
-[ $# -eq 1 ] &&
-  {
-  $1
-  exit
-  }
 
 param_present 'micro_packages'          $* && install_packages
 param_present 'micro_commander'         $* && get_commander
