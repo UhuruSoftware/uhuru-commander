@@ -44,7 +44,7 @@
           <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="80" column="40" selection-start="1840" selection-end="1840" vertical-scroll-proportion="0.48459715">
+                <state line="81" column="48" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.50236964">
                   <folding />
                 </state>
               </provider>
@@ -102,7 +102,7 @@
           <file leaf-file-name="install.sh" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="14" column="30" selection-start="275" selection-end="275" vertical-scroll-proportion="0.10982659">
+                <state line="85" column="45" selection-start="5617" selection-end="5617" vertical-scroll-proportion="0.80924857">
                   <folding />
                 </state>
               </provider>
@@ -857,14 +857,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="30" selection-start="275" selection-end="275" vertical-scroll-proportion="0.10982659">
+        <state line="85" column="45" selection-start="5617" selection-end="5617" vertical-scroll-proportion="0.80924857">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="40" selection-start="1840" selection-end="1840" vertical-scroll-proportion="0.48459715">
+        <state line="81" column="48" selection-start="1846" selection-end="1846" vertical-scroll-proportion="0.50236964">
           <folding />
         </state>
       </provider>
