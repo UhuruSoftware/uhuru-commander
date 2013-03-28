@@ -83,6 +83,7 @@ function deployer()
     as_user cp -f config.sh ~/sources/private-uhuru-commander/image_builder/
 
     cd ~/sources/private-uhuru-commander/image_builder
+    as_user sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g" Gemfile
     as_root bundle install
     as_root bundle exec bash ./install.sh $*
 }
