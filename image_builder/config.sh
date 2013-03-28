@@ -1,14 +1,16 @@
 #!/bin/bash
 
+echo "Loading configuration"
+
 micro_bosh_vm_user="vcap"
 micro_bosh_vm_password="c1oudc0w"
-micro_bosh_vm_ip="10.150.0.150"
+micro_bosh_vm_ip="10.151.0.150"
 micro_stemcell="micro-bosh.tgz"
 
-micro_reserved_ips="10.150.0.2-10.150.88.2;10.150.88.201-10.150.255.254"
-micro_static_ips="10.150.88.3-10.150.88.125"
-micro_network_range="10.150.0.0/16"
-micro_gateway="10.150.0.1"
+micro_reserved_ips="10.151.0.2-10.151.88.2;10.151.88.201-10.151.255.254"
+micro_static_ips="10.151.88.3-10.151.88.125"
+micro_network_range="10.151.0.0/16"
+micro_gateway="10.151.0.1"
 micro_dns="10.0.0.130;8.8.8.8;192.168.1.130"
 micro_vm_network="VM Network"
 
