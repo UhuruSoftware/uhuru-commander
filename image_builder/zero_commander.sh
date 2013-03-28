@@ -32,6 +32,7 @@ function packages()
       libxslt-dev libxml2-dev \
       ftp \
       genisoimage \
+      kpartx \
       debootstrap \
       curl wget git-core
 }
@@ -107,6 +108,7 @@ function create_ovf()
 
 # delete deployment
 original_dir=`pwd`
+chmod 1777 /tmp
 param_present 'local_packages'       $* && packages
 param_present 'local_prerequisites'  $* && prerequisites
 param_present 'local_create_micro'   $* && micro_bosh_stemcell
