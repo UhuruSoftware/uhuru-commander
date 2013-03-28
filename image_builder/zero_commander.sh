@@ -32,6 +32,7 @@ function packages()
       libxslt-dev libxml2-dev \
       ftp \
       genisoimage \
+      debootstrap \
       curl wget git-core
 }
 

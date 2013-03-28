@@ -44,7 +44,7 @@
           <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="33" column="33" selection-start="518" selection-end="518" vertical-scroll-proportion="0.56962025">
+                <state line="28" column="24" selection-start="405" selection-end="405" vertical-scroll-proportion="0.14810427">
                   <folding />
                 </state>
               </provider>
@@ -93,7 +93,7 @@
           <file leaf-file-name="zero_commander.sh" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="43" column="23" selection-start="775" selection-end="775" vertical-scroll-proportion="0.0">
+                <state line="44" column="23" selection-start="795" selection-end="795" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -102,7 +102,7 @@
           <file leaf-file-name="install.sh" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="72" column="89" selection-start="4574" selection-end="4574" vertical-scroll-proportion="0.58381504">
+                <state line="69" column="30" selection-start="3919" selection-end="3919" vertical-scroll-proportion="0.5317919">
                   <folding />
                 </state>
               </provider>
@@ -145,8 +145,8 @@
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
-        <option value="$PROJECT_DIR$/image_builder/install.sh" />
         <option value="$PROJECT_DIR$/image_builder/Gemfile" />
+        <option value="$PROJECT_DIR$/image_builder/install.sh" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
       </list>
     </option>
@@ -841,13 +841,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="89" selection-start="4574" selection-end="4574" vertical-scroll-proportion="0.58381504">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="18" selection-start="307" selection-end="307" vertical-scroll-proportion="0.0">
@@ -862,9 +855,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="30" selection-start="3919" selection-end="3919" vertical-scroll-proportion="0.5317919">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="33" selection-start="518" selection-end="518" vertical-scroll-proportion="0.56962025">
+        <state line="28" column="24" selection-start="405" selection-end="405" vertical-scroll-proportion="0.14810427">
           <folding />
         </state>
       </provider>
