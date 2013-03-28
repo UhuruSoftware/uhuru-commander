@@ -79,6 +79,8 @@ function deployer()
     as_root cp -f ${micro_bosh_tarball} ~/sources/private-uhuru-commander/image_builder/deployments/${micro_stemcell}
 
     # run install.sh
+    cd ${original_dir}
+    as_user cp -f config.sh ~/sources/private-uhuru-commander/image_builder/
     cd ~/sources/private-uhuru-commander/image_builder
     as_root bash ./install.sh $*
 }
@@ -99,7 +101,7 @@ function create_ovf()
 }
 
 # delete deployment
-
+original_dir=`pwd`
 param_present 'local_packages'       $* && packages
 param_present 'local_prerequisites'  $* && prerequisites
 param_present 'local_create_micro'   $* && micro_bosh_stemcell

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 micro_bosh_vm_user="vcap"
 micro_bosh_vm_password="c1oudc0w"
