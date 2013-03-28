@@ -107,10 +107,35 @@ function create_ovf()
 }
 
 # delete deployment
-original_dir=`pwd`
-chmod 1777 /tmp
-param_present 'local_packages'       $* && packages
-param_present 'local_prerequisites'  $* && prerequisites
-param_present 'local_create_micro'   $* && micro_bosh_stemcell
-param_present 'local_run_deployer'   $* && deployer $*
-param_present 'local_create_ovf'     $* && create_ovf
+
+[ $1 -eq "help" ] &&
+{
+    echo "
+local_packages
+local_prerequisites
+local_create_micro
+local_run_deployer
+local_create_ovf
+deployer_setup_vm
+deployer_upload
+deployer_start_build
+micro_packages
+micro_commander
+micro_stemcells
+micro_create_release
+micro_config_daemons
+micro_ttyjs
+micro_compile
+micro_cleanup
+micro_zero_free
+"
+} ||
+{
+    original_dir=`pwd`
+    chmod 1777 /tmp
+    param_present 'local_packages'       $* && packages
+    param_present 'local_prerequisites'  $* && prerequisites
+    param_present 'local_create_micro'   $* && micro_bosh_stemcell
+    param_present 'local_run_deployer'   $* && deployer $*
+    param_present 'local_create_ovf'     $* && create_ovf
+}
