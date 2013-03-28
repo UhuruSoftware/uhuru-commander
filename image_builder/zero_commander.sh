@@ -35,6 +35,7 @@ function packages()
       kpartx \
       debootstrap \
       curl wget git-core
+
 }
 
 function prerequisites()
@@ -49,12 +50,17 @@ function prerequisites()
     as_root make install
 
     as_root gem install bundler
+
+    cd ~/prerequisites
+    as_user wget http://ubuntu.wikimedia.org/ubuntu//pool/main/m/multipath-tools/kpartx_0.4.9-3ubuntu5_amd64.deb
+    as_root dpkg -i kpartx_0.4.9-3ubuntu5_amd64.deb
 }
 
 function micro_bosh_stemcell()
 {
     as_user mkdir ~/sources
     as_root rm -rf ~/sources/private-bosh
+    as_root rm -rf /var/tmp/bosh/bosh_agent
     cd ~/sources
     as_user git clone ${git_bosh_repo}
     cd private-bosh
@@ -78,7 +84,7 @@ function deployer()
     cd private-uhuru-commander
     as_user git reset --hard ${git_commander_commit}
 
-    micro_bosh_tarball=`ls ~/sources/private-bosh/release/dev_releases/*.tgz`
+    micro_bosh_tarball=`ls /var/tmp/bosh/bosh_agent*/work/work/*.tgz`
     as_root cp -f ${micro_bosh_tarball} ~/sources/private-uhuru-commander/image_builder/deployments/${micro_stemcell}
 
     # run install.sh
