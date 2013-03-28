@@ -67,6 +67,7 @@ function micro_bosh_stemcell()
 
 function deployer()
 {
+    rm -rf ~/sources/private-uhuru-commander
     cd ~/sources
     as_user git clone ${git_commander_repo}
     cd private-uhuru-commander
