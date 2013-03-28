@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/zero_commander.sh" afterPath="$PROJECT_DIR$/image_builder/zero_commander.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/Gemfile" afterPath="$PROJECT_DIR$/image_builder/Gemfile" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,19 +33,19 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Gemfile" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="Gemfile" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="3" column="41" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
+                <state line="4" column="18" selection-start="307" selection-end="307" vertical-scroll-proportion="0.06904488">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="zero_commander.sh" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="86" column="99" selection-start="2164" selection-end="2164" vertical-scroll-proportion="0.75949365">
+                <state line="47" column="32" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -147,8 +147,8 @@
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
-        <option value="$PROJECT_DIR$/image_builder/Gemfile" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
+        <option value="$PROJECT_DIR$/image_builder/Gemfile" />
       </list>
     </option>
   </component>
@@ -856,16 +856,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
+    <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="41" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
+        <state line="47" column="32" selection-start="854" selection-end="854" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
+    <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="99" selection-start="2164" selection-end="2164" vertical-scroll-proportion="0.75949365">
+        <state line="4" column="18" selection-start="307" selection-end="307" vertical-scroll-proportion="0.06904488">
           <folding />
         </state>
       </provider>
