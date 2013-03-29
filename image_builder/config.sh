@@ -65,6 +65,22 @@ color_light_gray="\e[0;37m"
 color_white="\e[1;37m"
 color_normal="\e[00m"
 
+function log_zero()
+{
+    echo -e "${color_purple}#UCC ZERO COMMANDER:${color_white}$*${color_normal}"
+}
+
+function log_deployer()
+{
+    echo -e "${color_cyan}      #UCC DEPLOYER:${color_white}$*${color_normal}"
+}
+
+function log_builder()
+{
+    echo -e "${color_light_blue}       #UCC BUILDER:${color_white}$*${color_normal}"
+}
+
+
 function param_present()
 {
     echo ${@:2} | grep $1 >> /dev/null && return 0 || return 1

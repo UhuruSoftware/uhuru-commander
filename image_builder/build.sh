@@ -15,29 +15,39 @@ function switch_to_http_sub_modules()
 
 function install_packages()
 {
+    log_builder "Installing needed packages on micro bosh"
     apt-get update
     apt-get -y install git-core ftp zerofree postgresql-client gpm dialog ipcalc libsqlite3-dev
 
     cd /root/
+    log_builder "Installing bundler"
     gem install -r bundler
+    log_builder "Installing ruby gems"
     bundle install --system
+
+    log_builder "Done installing packages on micro bosh"
 }
 
 function get_commander()
 {
+    log_builder "Setting up Commander on micro bosh"
+
     rm -rf /var/vcap/store/ucc
 
     pwd=`pwd`
     cd /root
+    log_builder "Cloning commander git repo"
     git clone ${git_commander_repo}
     cd private-uhuru-commander
     git reset --hard ${git_commander_commit}
     switch_to_http_sub_modules
 
     mkdir /var/vcap/store/ucc
+    log_builder "Moving Commander files to '/var/vcap/store/ucc/'"
     mv private-uhuru-commander/* /var/vcap/store/ucc/
     rm -rf private-uhuru-commander
 
+    log_builder "Linking stemcells from '/var/vcap/store/ucc_stemcells/'"
     ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/resources/${windows_stemcell}
     ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/resources/${windows_sql_stemcell}
     ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/resources/${linux_stemcell}
@@ -46,14 +56,18 @@ function get_commander()
     cd /var/vcap/store/ucc/web-ui/config
     rm -f /var/vcap/store/ucc/web-ui/config/infrastructure.yml
 
-    cd /var/vcap/store/ucc/web-ui/bin
+    log_builder "Installing Commander ruby gems"
+    cd /var/vcap/store/ucc/web-ui/
     bundle install
     cd ${pwd}
+
+    log_builder "Done settting up commander"
 }
 
 
 function stemcells()
 {
+    log_builder "Setting up stemcells in micro bosh"
     rm -rf /var/vcap/store/ucc_stemcells
 
     pwd=`pwd`
@@ -61,6 +75,7 @@ function stemcells()
     bundle exec bosh --user admin --password admin target localhost
     bundle exec bosh login admin admin
 
+    log_builder "Removing existing stemcells from bosh"
     bundle exec bosh stemcells | grep -v Name | grep \| | tr -d \| | awk '{print $1,$2}'| while read line;do echo "bundle exec bosh delete stemcell ${line}";done | bash
 
     mkdir /var/vcap/data/permanenttmp
@@ -70,38 +85,51 @@ function stemcells()
 
     mkdir -p /var/vcap/store/ucc_stemcells
 
+    log_builder "Downloading stemcells from ftp"
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_stemcell}" -o /var/vcap/store/ucc_stemcells/${windows_stemcell}
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_sql_stemcell}" -o /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_stemcell}
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_php_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
+    log_builder "Uploading stemcells to bosh"
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_stemcell}
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_stemcell}
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
     cd ${pwd}
+    log_builder "Done setting up stemcells"
 }
 
 function create_release()
 {
+    log_builder "Creating cloud foundry release"
+
     rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases
     pwd=`pwd`
+    log_builder "Cloning cloud foundry release git repo"
     git clone ${git_cf_release}
     cd private-cf-release
     git reset --hard ${git_cf_release_commit}
     switch_to_http_sub_modules
+    log_builder "Updating git submodules"
     ./update
 
+    log_builder "Executing bosh create release with tarball"
     bundle exec bosh --non-interactive create release --with-tarball
     release_tarball=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.tgz`
+    log_builder "Uploading release to bosh"
     bundle exec bosh upload release ${release_tarball}
     cd ${pwd}
     rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release
+
+    log_builder "Done creating cloud foundry release"
 }
 
 function cleanup()
 {
+    log_builder "Cleaning up micro bosh VM"
+
     rm -f /root/.bash_history
     rm -f /root/.ssh/*
     rm -f /root/build.sh
@@ -113,10 +141,12 @@ function cleanup()
 
     passwd -d vcap
     chage -d 0 vcap
+    log_builder "Done cleaning up micro bosh VM"
 }
 
 function configure_init()
 {
+    log_builder "Configuring daemons and crontab"
     chmod 1777 /tmp
 
     update-rc.d ucc defaults 99
@@ -129,15 +159,19 @@ function configure_init()
     echo "*/1 * * * * service ucc status || service ucc restart" >/var/spool/cron/crontabs/vcap
     echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/vcap
     chown vcap.vcap /var/spool/cron/crontabs/vcap
+    log_builder "Done configuring daemons and crontab"
 }
 
 function deploy_cf()
 {
+    log_builder "Compiling cloud foundry packages"
+
     echo "update stemcells set name=replace(name, 'empty-', '')" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
 
     uuid=`bundle exec bosh status|grep UUID|awk '{print $2}'`
     sed -i s/REPLACEME/${uuid}/g /root/compilation_manifest.yml
     release_yml=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.yml | grep -v index.yml`
+    log_builder "Updating cloud foundry deployment yml"
 
   ruby -e "
 require 'yaml'
@@ -172,6 +206,7 @@ File.open('/root/compilation_manifest.yml', 'w') do |file|
 end
 "
 
+    log_builder "Executing bosh deployment"
     bundle exec bosh deployment /root/compilation_manifest.yml
 
     for i in `seq 1 10` ;
@@ -182,14 +217,20 @@ end
             echo "update stemcells set name='empty-' || name" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
             break
         }
+
+        log_builder "Retrying bosh deployment"
     done
+
+    log_builder "Done compiling cloud foundry"
 }
 
 function install_tty_js()
 {
+    log_builder "Setting up tty.js"
     cwd=`pwd`
     rm -rf /var/vcap/store/ucc/tty.js
 
+    log_builder "Installing node.js"
     cd /tmp
     mkdir nodejs
     cd nodejs
@@ -198,6 +239,7 @@ function install_tty_js()
     ./configure
     make install
 
+    log_builder "Installing npm"
     cd ..
     mkdir npm
     cd npm
@@ -205,6 +247,7 @@ function install_tty_js()
     bash install.sh
     cd ..
 
+    log_builder "Cloning tty.js repo"
     git clone ${git_ttyjs}
     cd private-ttyjs
     git reset --hard ${git_ttyjs_commit}
@@ -215,14 +258,17 @@ function install_tty_js()
 
     rm -rf private-tty.js npm nodejs
 
+    log_builder "Installing tty.js dependencies"
     cd /var/vcap/store/ucc/tty.js/
     npm install
 
     cd ${cwd}
+    log_builder "Done setting up tty.js"
 }
 
 function zero_free()
 {
+    log_builder "Running zerofree"
     cd /root
     monit stop all
     sleep 60
@@ -234,6 +280,7 @@ function zero_free()
     umount /dev/loop0
     umount /dev/sdb2
     zerofree /dev/sdb2
+    log_builder "Done running zerofree"
 }
 
 
