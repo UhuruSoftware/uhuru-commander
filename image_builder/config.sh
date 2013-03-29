@@ -47,24 +47,27 @@ windows_sql_stemcell="uhuru-windows-2008R2-sqlserver-vsphere-0.9.5.tgz"
 linux_stemcell="bosh-stemcell-vsphere-1.5.0.pre.3.tgz"
 linux_php_stemcell="bosh-stemcell-php-vsphere-1.5.0.pre.3.tgz"
 
+color_black="\e[0;30m"
+color_dark_gray="\e[1;30m"
+color_blue="\e[0;34m"
+color_light_blue="\e[1;34m"
+color_green="\e[0;32m"
+color_light_green="\e[1;32m"
+color_cyan="\e[0;36m"
+color_light_cyan="\e[1;36m"
+color_red="\e[0;31m"
+color_light_red="\e[1;31m"
+color_purple="\e[0;35m"
+color_light_purple="\e[1;35m"
+color_brown="\e[0;33m"
+color_yellow="\e[1;33m"
+color_light_gray="\e[0;37m"
+color_white="\e[1;37m"
+color_normal="\e[00m"
+
 function param_present()
 {
     echo ${@:2} | grep $1 >> /dev/null && return 0 || return 1
 }
 
 
-color_black="\Z0"
-color_red="\Z1"
-color_green="\Z2"
-color_yellow="\Z3"
-color_blue="\Z4"
-color_magenta="\Z5"
-color_cyan="\Z6"
-color_white="\Z7"
-color_normal="\Zn"
-color_bold="\Zb"
-color_no_bold="\ZB"
-color_reverse="\Zr"
-color_no_reverse="\ZR"
-color_underline="\Zu"
-color_no_underline="\ZU"

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/config.sh" afterPath="$PROJECT_DIR$/image_builder/config.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/install.sh" afterPath="$PROJECT_DIR$/image_builder/install.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
@@ -78,7 +79,7 @@
       <file leaf-file-name="install.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="104" selection-start="5727" selection-end="5727" vertical-scroll-proportion="0.83388704">
+            <state line="52" column="79" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.269103">
               <folding />
             </state>
           </provider>
@@ -88,6 +89,15 @@
         <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/change_ips.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state line="7" column="83" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="63" column="35" selection-start="1894" selection-end="1894" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -865,13 +875,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="24" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.73421925">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="50" selection-start="424" selection-end="424" vertical-scroll-proportion="0.40449437">
@@ -886,9 +889,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="35" selection-start="1894" selection-end="1894" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="104" selection-start="5727" selection-end="5727" vertical-scroll-proportion="0.83388704">
+        <state line="52" column="79" selection-start="1782" selection-end="1782" vertical-scroll-proportion="0.269103">
           <folding />
         </state>
       </provider>
