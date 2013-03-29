@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-ui/config/infrastructure.yml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/vladi.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/vladi.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/config.yml" afterPath="$PROJECT_DIR$/web-ui/config/config.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" afterPath="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb" afterPath="$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/configuration_forms/infrastructure_form.rb" afterPath="$PROJECT_DIR$/web-ui/lib/configuration_forms/infrastructure_form.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb" afterPath="$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" afterPath="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/runner.rb" afterPath="$PROJECT_DIR$/web-ui/lib/runner.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/ucc/core_ext.rb" afterPath="$PROJECT_DIR$/web-ui/lib/ucc/core_ext.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" afterPath="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/cloud.erb" afterPath="$PROJECT_DIR$/web-ui/views/cloud.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,91 +21,73 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="infrastructure.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb">
+      <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="105" column="39" selection-start="3632" selection-end="3632" vertical-scroll-proportion="0.0">
+            <state line="17" column="91" selection-start="501" selection-end="501" vertical-scroll-proportion="0.28239202">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vsphere_checker.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/vsphere_checker.rb">
+      <file leaf-file-name="Gemfile" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="6" selection-start="107" selection-end="172" vertical-scroll-proportion="0.0">
+            <state line="4" column="67" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bosh_commander.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/bosh_commander.rb">
+      <file leaf-file-name="micro_bosh.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="96" selection-end="96" vertical-scroll-proportion="0.0">
+            <state line="27" column="52" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="infrastructure.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb">
+      <file leaf-file-name="zero_commander.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="31" selection-start="443" selection-end="443" vertical-scroll-proportion="0.53571427">
+            <state line="15" column="94" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
+      <file leaf-file-name="net_conf.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="88" selection-start="2119" selection-end="2119" vertical-scroll-proportion="0.0">
+            <state line="164" column="37" selection-start="3136" selection-end="3136" vertical-scroll-proportion="-11.52">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="field.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+      <file leaf-file-name="install.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="347" column="30" selection-start="11696" selection-end="11696" vertical-scroll-proportion="0.0">
+            <state line="86" column="78" selection-start="5872" selection-end="5872" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
+      <file leaf-file-name="change_ips.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/change_ips.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="37" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0">
+            <state line="7" column="83" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="timeout.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/timeout.rb">
+      <file leaf-file-name="config.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="0" selection-start="2595" selection-end="2595" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="runner.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/runner.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="60" selection-start="3003" selection-end="3003" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="infrastructure.yml.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/config/infrastructure.yml.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="74" selection-start="482" selection-end="482" vertical-scroll-proportion="8.125">
+            <state line="12" column="0" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -136,30 +106,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/image_builder/deployments/rc.local" />
-        <option value="$PROJECT_DIR$/image_builder/deployments/initial_step.yml" />
-        <option value="$PROJECT_DIR$/image_builder/deployments/daemons/ttyjs" />
-        <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc" />
-        <option value="$PROJECT_DIR$/image_builder/install.sh" />
-        <option value="$PROJECT_DIR$/image_builder/setup.sh" />
-        <option value="$PROJECT_DIR$/web-ui/config/monitoring.yml" />
-        <option value="$PROJECT_DIR$/web-ui/lib/runner.rb" />
-        <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
-        <option value="$PROJECT_DIR$/web-ui/lib/configuration_forms/infrastructure_form.rb" />
-        <option value="$PROJECT_DIR$/web-ui/config/infrastructure.yml.erb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/ucc/core_ext.rb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb" />
+        <option value="$PROJECT_DIR$/image_builder/fs/etc/rc.local" />
+        <option value="$PROJECT_DIR$/web-ui/config/infrastructure.yml.erb" />
+        <option value="$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml.orig" />
+        <option value="$PROJECT_DIR$/image_builder/test.sh" />
+        <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
+        <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/change_ips.sh" />
+        <option value="$PROJECT_DIR$/web-ui/config/blank_cf.yml.erb" />
+        <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" />
+        <option value="$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml" />
+        <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
+        <option value="$PROJECT_DIR$/image_builder/config.sh" />
+        <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
+        <option value="$PROJECT_DIR$/image_builder/install.sh" />
+        <option value="$PROJECT_DIR$/image_builder/Gemfile" />
+        <option value="$PROJECT_DIR$/image_builder/build.sh" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="y" value="-12" />
-    <option name="width" value="1934" />
-    <option name="height" value="1064" />
+    <option name="x" value="-4" />
+    <option name="y" value="-6" />
+    <option name="width" value="1928" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -187,6 +157,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -397,6 +368,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="fs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="etc" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="init.d" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="image_builder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="deployments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -405,9 +402,22 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="functions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -425,16 +435,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../private-bosh" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="92" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="911" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="951" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="911" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="86" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="82" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -449,27 +459,7 @@
       <recent name="$PROJECT_DIR$/image_builder/deployments/etc" />
     </key>
   </component>
-  <component name="RunManager" selected="Ruby.web-ui">
-    <configuration default="false" name="config" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
-      <module name="private-uhuru-commander" />
-      <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$PROJECT_DIR$/web-ui/lib" />
-      <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
-      <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
-      <RUBY_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
-      <envs />
-      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
-      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
-        <COVERAGE_PATTERN ENABLED="true">
-          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
-        </COVERAGE_PATTERN>
-      </EXTENSION>
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$PROJECT_DIR$/web-ui/lib/config.rb" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
-      <RunnerSettings RunnerId="RubyRunner" />
-      <ConfigurationWrapper RunnerId="RubyRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Bash.build.sh">
     <configuration default="false" name="ssh_helper" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
       <module name="private-uhuru-commander" />
       <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -530,6 +520,43 @@
       <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
       <RunnerSettings RunnerId="RubyRunner" />
       <ConfigurationWrapper RunnerId="RubyRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_builder" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <module name="private-uhuru-commander" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_builder/test.sh" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="BashRunner" />
+      <ConfigurationWrapper RunnerId="BashRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="build.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_builder" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <module name="private-uhuru-commander" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_builder/build.sh" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="BashRunner" />
+      <ConfigurationWrapper RunnerId="BashRunner" />
+      <method />
+    </configuration>
+    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <module name="private-uhuru-commander" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
       <method />
     </configuration>
     <configuration default="true" type="RSpecRunConfigurationType" factoryName="RSpec">
@@ -646,20 +673,22 @@
       <ConfigurationWrapper RunnerId="RubyRunner" />
       <method />
     </configuration>
-    <list size="6">
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Ruby.web-ui" />
       <item index="1" class="java.lang.String" itemvalue="Ruby.ip_helper" />
-      <item index="2" class="java.lang.String" itemvalue="Ruby.config" />
-      <item index="3" class="java.lang.String" itemvalue="Ruby.ssh_helper" />
-      <item index="4" class="java.lang.String" itemvalue="Ruby.frontend" />
-      <item index="5" class="java.lang.String" itemvalue="Ruby.user" />
+      <item index="2" class="java.lang.String" itemvalue="Ruby.ssh_helper" />
+      <item index="3" class="java.lang.String" itemvalue="Ruby.frontend" />
+      <item index="4" class="java.lang.String" itemvalue="Ruby.user" />
+      <item index="5" class="java.lang.String" itemvalue="Bash.test.sh" />
+      <item index="6" class="java.lang.String" itemvalue="Bash.build.sh" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Ruby.user" />
-        <item index="1" class="java.lang.String" itemvalue="Ruby.ssh_helper" />
-        <item index="2" class="java.lang.String" itemvalue="Ruby.frontend" />
-        <item index="3" class="java.lang.String" itemvalue="Ruby.config" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Bash.build.sh" />
+        <item index="1" class="java.lang.String" itemvalue="Bash.build.sh" />
+        <item index="2" class="java.lang.String" itemvalue="Bash.test.sh" />
+        <item index="3" class="java.lang.String" itemvalue="Ruby.user" />
+        <item index="4" class="java.lang.String" itemvalue="Ruby.ssh_helper" />
       </list>
     </recent_temporary>
   </component>
@@ -711,18 +740,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-12" width="1934" height="1064" extended-state="6" />
+    <frame x="-4" y="-6" width="1928" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938644" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17502668" sideWeight="0.5705059" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42949408" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1814301" sideWeight="0.7944026" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42872116" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46824542" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20545073" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921174" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -786,114 +815,108 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/user.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/bosh_commander.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="36" selection-start="694" selection-end="694" vertical-scroll-proportion="0.0">
+        <state line="25" column="37" selection-start="440" selection-end="440" vertical-scroll-proportion="0.8680556" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/config/blank_cf.yml.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="37" selection-start="274" selection-end="274" vertical-scroll-proportion="0.6835443" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="16" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="287" column="43" selection-start="9077" selection-end="9077" vertical-scroll-proportion="0.5493562">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/compilation_manifest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="95" selection-start="398" selection-end="398" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/Gemfile.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="25" selection-start="750" selection-end="751" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="52" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/ip_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="33" selection-start="3771" selection-end="3771" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/monitoring.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="56" selection-start="328" selection-end="328" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/screen.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="389" selection-end="389" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/core_ext.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="53" selection-start="893" selection-end="893" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/infrastructure_form.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="38" selection-start="371" selection-end="371" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="39" selection-start="3632" selection-end="3632" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/infrastructure.yml.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="74" selection-start="482" selection-end="482" vertical-scroll-proportion="8.125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/bosh_commander.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="96" selection-end="96" vertical-scroll-proportion="0.0">
+        <state line="189" column="51" selection-start="4285" selection-end="4285" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/runner.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="60" selection-start="3003" selection-end="3003" vertical-scroll-proportion="0.0">
+        <state line="35" column="30" selection-start="723" selection-end="723" vertical-scroll-proportion="0.3820598">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/timeout.rb">
+    <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="2595" selection-end="2595" vertical-scroll-proportion="0.0">
+        <state line="12" column="0" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/vsphere_checker.rb">
+    <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="6" selection-start="107" selection-end="172" vertical-scroll-proportion="0.0">
+        <state line="164" column="37" selection-start="3136" selection-end="3136" vertical-scroll-proportion="-11.52">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
+    <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/change_ips.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="37" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0">
+        <state line="7" column="83" selection-start="231" selection-end="231" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
+    <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="88" selection-start="2119" selection-end="2119" vertical-scroll-proportion="0.0">
+        <state line="15" column="94" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+    <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="347" column="30" selection-start="11696" selection-end="11696" vertical-scroll-proportion="0.0">
+        <state line="86" column="78" selection-start="5872" selection-end="5872" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb">
+    <entry file="file://$PROJECT_DIR$/image_builder/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="31" selection-start="443" selection-end="443" vertical-scroll-proportion="0.53571427">
+        <state line="4" column="67" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="91" selection-start="501" selection-end="501" vertical-scroll-proportion="0.28239202">
           <folding />
         </state>
       </provider>

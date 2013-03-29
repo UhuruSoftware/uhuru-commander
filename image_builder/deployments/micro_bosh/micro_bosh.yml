@@ -18,6 +18,11 @@ resources:
     disk: 102400
     cpu: 2
 
+mbus: nats://nats:nats@127.0.0.1:4222
+
+db:
+  database: postgres://postgres:postgres@127.0.0.1/bosh
+
 cloud:
   plugin: vsphere
   properties:
@@ -57,6 +62,8 @@ apply_spec:
     blobstore: {}
     nats: {}
   properties:
+    director:
+      max_threads: 1
     ntp:
      - 0.pool.ntp.org    # Specify any NTP servers for deployments
      - 1.pool.ntp.org

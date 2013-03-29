@@ -18,11 +18,10 @@ sv stop agent
 mount /dev/sdb2 /var/vcap/data
 mount /dev/sdc1 /var/vcap/store
 
-/usr/sbin/change_ips
+mount -o bind /var/vcap/data/permanenttmp /tmp
+chmod 1777 /tmp
 
-#/usr/sbin/delayed_mount &
-mount -o bind /var/vcap/data/tmp /tmp
-chmod 777 /tmp
+/usr/sbin/change_ips
 
 service ucc start
 service ttyjs start

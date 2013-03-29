@@ -1,8 +1,8 @@
 ---
-name: ion
+name: compilation_manifest
 director_uuid: REPLACEME
 release:
-  name: app-cloud
+  name: cloud-foundry
   version: 122.1-dev
 compilation:
   workers: 1
@@ -118,8 +118,6 @@ jobs:
   persistent_disk: 50000
   networks:
   - name: default
-    static_ips:
-    - 10.150.88.3
 - name: syslog_aggregator
   template: syslog_aggregator
   instances: 0
