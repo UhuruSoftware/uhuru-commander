@@ -1,3 +1,6 @@
+require 'net/smtp'
+require 'openssl'
+
 module Uhuru::BoshCommander
   class Field
 
@@ -266,6 +269,40 @@ module Uhuru::BoshCommander
               error = "Not enough dynamic IPs! provided: #{dynamic_ips_provided} needed: #{dynamic_ip_needed}"
             end
           end
+        elsif @screen.name == 'Properties'
+          if @name == 'email_server'
+            email_server =  @screen.fields.find {|field| field.name == 'email_server' }.get_value(value_type)
+            email_port = @screen.fields.find {|field| field.name == 'email_server_port' }.get_value(value_type)
+            email_server_enable_tls = @screen.fields.find {|field| field.name == 'email_server_enable_tls' }.get_value(value_type)
+            email_server_user = @screen.fields.find {|field| field.name == 'email_server_user' }.get_value(value_type)
+            email_server_secret = @screen.fields.find {|field| field.name == 'email_server_secret' }.get_value(value_type)
+            email_server_auth_method = @screen.fields.find {|field| field.name == 'email_server_auth_method' }.get_value(value_type)
+            domain = @screen.fields.find {|field| field.name == 'domain' }.get_value(value_type)
+            admin_email = @screen.fields.find {|field| field.name == 'admin_email' }.get_value(value_type)
+
+            client = Net::SMTP.new( email_server,email_port)
+
+            if (email_server_enable_tls)
+              context =   Net::SMTP.default_ssl_context
+              context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+              client.enable_starttls(context)
+            end
+            begin
+              msg = "Test email for #{domain} deployment"
+              client.open_timeout = 10
+                client.start(
+                  "localhost",
+                  email_server_user,
+                  email_server_secret,
+                  eval(email_server_auth_method)) do
+                client.send_message msg, admin_email, admin_email
+
+                end
+            rescue Exception => e
+              error = "Cannot connect to email server, please verify settings"
+            end
+
+          end
         end
       elsif @form.name == 'infrastructure'
         if @screen.name == 'CPI'
@@ -459,6 +496,11 @@ module Uhuru::BoshCommander
             range = IPHelper.get_subnet_limits("#{form_data['cloud:Network:gateway']}/#{subnet_short}")
             range = IPHelper.ip_to_string(IPHelper.ip_to_int(range[0]) - 1)
             result = "#{range}/#{subnet_short}"
+          end
+        elsif @screen.name == 'Properties'
+          if @name == 'domain'
+            form_data = @form.get_data GenericForm::VALUE_TYPE_FORM
+            result = form_data['cloud:Properties:domain'].downcase
           end
         end
       end
