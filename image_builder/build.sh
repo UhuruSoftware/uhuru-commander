@@ -61,6 +61,8 @@ function stemcells()
     bundle exec bosh --user admin --password admin target localhost
     bundle exec bosh login admin admin
 
+    bundle exec bosh stemcells | grep -v Name | grep \| | tr -d \| | awk '{print $1,$2}'| while read line;do echo "bundle exec bosh delete stemcell ${line}";done | bash
+
     mkdir /var/vcap/data/permanenttmp
 
     mount -o bind /var/vcap/data/permanenttmp /tmp
