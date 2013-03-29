@@ -40,9 +40,9 @@ module Uhuru::BoshCommander
     def initialize(argv)
       @argv = argv
 
-      # default to production. this may be overriden during opts parsing
+      # default to production. this may be overridden during opts parsing
       ENV["RACK_ENV"] = "production"
-      # default config path. this may be overriden during opts parsing
+      # default config path. this may be overridden during opts parsing
       @config_file = File.expand_path("../../config/config.yml", __FILE__)
       help_file = File.expand_path("../../config/help.yml", __FILE__)
       forms_file = File.expand_path("../../config/forms.yml", __FILE__)
@@ -71,7 +71,7 @@ module Uhuru::BoshCommander
       $config[:deployments_dir] = File.expand_path('../../cf_deployments/', __FILE__)
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
       $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      $config[:monitoring_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
+
       $config[:nagios][:config_path] = File.join($config[:bosh][:base_dir], 'jobs', 'nagios_dashboard', 'config', 'uhuru-dashboard.yml')
 
       create_pidfile

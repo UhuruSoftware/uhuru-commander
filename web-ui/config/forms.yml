@@ -120,3 +120,21 @@ cloud:
       - {name: free_sep, label: Free Accounts, type: separator }
       - {name: free_app_memory, label: Maximum App Memory, type: number,   yml_key: '["properties"]["cc"]["default_account_capacity"]["memory"]',   description: ''}
       - {name: free_services, label: Maximum Services, type: number,   yml_key: '["properties"]["cc"]["default_account_capacity"]["services"]',   description: ''}
+monitoring:
+  - screen: Nagios
+    id: nagios
+    fields:
+      - {name: nagios_sep, label: Nagios Monitoring Settings, type: separator }
+      - {name: nagios_warn_level, label: Warning Level (%), type: number,   yml_key: '["default_warn_level"]',   description: ''}
+      - {name: nagios_critical_level, label: Critical Level (%), type: number,   yml_key: '["default_critical_level"]',   description: ''}
+      - {name: nagios_email_to, label: Send E-mail Alerts To, type: string,   yml_key: '["alerts"]["email_to"]',   description: ''}
+
+      - {name: nagios_email_sep,    label: E-mail Settings,       type: separator }
+      - {name: nagios_email_from, label: From Address, type: string,   yml_key: '["email"]["from"]',   description: ''}
+      - {name: nagios_email_from_alias, label: From Alias, type: string,   yml_key: '["email"]["from_alias"]',   description: ''}
+      - {name: nagios_email_server, label: Server, type: string,   yml_key: '["email"]["server"]',   description: ''}
+      - {name: nagios_email_server_port, label: SMTP Port, type: string,   yml_key: '["email"]["port"]',   description: ''}
+      - {name: nagios_email_server_user, label: Username, type: string,   yml_key: '["email"]["user"]',   description: ''}
+      - {name: nagios_email_server_secret, label: Password, type: string,   yml_key: '["email"]["secret"]',   description: ''}
+      - {name: nagios_email_server_auth_method, label: Authentication Method, type: list, items: {'Plain': ':plain', 'Login': ':login', 'CRAM-MD5': ':cram_md5'},   yml_key: '["email"]["auth_method"]',   description: ''}
+      - {name: nagios_email_server_enable_tls, label: Use TLS, type: boolean,   yml_key: '["email"]["enable_tls"]',   description: ''}

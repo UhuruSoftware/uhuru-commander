@@ -87,6 +87,8 @@ function upload_files()
   mv -f ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
   mv -f /root/.ssh/known_hosts.bk /root/.ssh/known_hosts
 
+  echo ""
+
   log_deployer "Done uploading resources to micro VM"
 }
 

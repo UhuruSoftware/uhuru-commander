@@ -18,6 +18,21 @@ color_no_reverse="\ZR"
 color_underline="\Zu"
 color_no_underline="\ZU"
 
+[ -e /var/lock/passwd ] &&
+{
+    clear
+    echo "Please input a new password for user 'vcap':"
+    passwd vcap &&
+    {
+        rm /var/lock/passwd
+    } ||
+    {
+        echo -n "Press ENTER to continue"
+        read
+        exit 1
+    }
+}
+
 function validate_ip()
 {
   local ret=1

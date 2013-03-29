@@ -105,8 +105,13 @@ function create_release()
 {
     log_builder "Creating cloud foundry release"
 
-    rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases
     pwd=`pwd`
+
+    rm -rf /var/vcap/store/ucc_release/
+    mkdir -p /var/vcap/store/ucc_release/
+
+    cd /var/vcap/store/ucc_release/
+
     log_builder "Cloning cloud foundry release git repo"
     git clone ${git_cf_release}
     cd private-cf-release
@@ -117,11 +122,12 @@ function create_release()
 
     log_builder "Executing bosh create release with tarball"
     bundle exec bosh --non-interactive create release --with-tarball
-    release_tarball=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.tgz`
+    release_tarball=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.tgz`
     log_builder "Uploading release to bosh"
     bundle exec bosh upload release ${release_tarball}
     cd ${pwd}
-    rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release
+
+    rm -rf /var/vcap/store/ucc_release/
 
     log_builder "Done creating cloud foundry release"
 }
@@ -138,6 +144,8 @@ function cleanup()
     rm -f /root/compilation_manifest.yml
     rm -f /root/Gemfile
     rm -f /root/Gemfile.lock
+
+    touch /var/lock/passwd
 
     passwd -d vcap
     chage -d 0 vcap

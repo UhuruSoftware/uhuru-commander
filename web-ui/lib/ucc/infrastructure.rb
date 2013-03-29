@@ -74,7 +74,7 @@ module Uhuru::BoshCommander
     end
 
     def setup_nagios()
-      monitoring_file = $config[:monitoring_yml]
+      monitoring_file = $config[:nagios][:config_path]
       monitoring_yml = YAML.load_file(monitoring_file)
 
       monitoring_yml[:nats] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
