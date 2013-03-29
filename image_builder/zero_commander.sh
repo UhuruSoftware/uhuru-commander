@@ -75,7 +75,7 @@ function micro_bosh_stemcell()
     as_root bundle exec rake stemcell:micro[vsphere]
 }
 
-function deployer()
+function deployer_update()
 {
     as_user mkdir ~/sources
     as_user rm -rf ~/sources/private-uhuru-commander
@@ -94,8 +94,14 @@ function deployer()
     cd ~/sources/private-uhuru-commander/image_builder
     as_user sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g" Gemfile
     as_root bundle install
+}
+
+function deployer_run()
+{
+    cd ~/sources/private-uhuru-commander/image_builder
     as_root bundle exec bash ./install.sh $*
 }
+
 
 function create_ovf()
 {
@@ -120,6 +126,7 @@ function create_ovf()
 local_packages
 local_prerequisites
 local_create_micro
+local_update_deployer
 local_run_deployer
 local_create_ovf
 deployer_setup_vm
@@ -138,10 +145,11 @@ micro_zero_free
 } ||
 {
     original_dir=`pwd`
-    chmod 1777 /tmp
-    param_present 'local_packages'       $* && packages
-    param_present 'local_prerequisites'  $* && prerequisites
-    param_present 'local_create_micro'   $* && micro_bosh_stemcell
-    param_present 'local_run_deployer'   $* && deployer $*
-    param_present 'local_create_ovf'     $* && create_ovf
+    as_root chmod 1777 /tmp
+    param_present 'local_packages'          $* && packages
+    param_present 'local_prerequisites'     $* && prerequisites
+    param_present 'local_create_micro'      $* && micro_bosh_stemcell
+    param_present 'local_run_deployer'      $* && deployer_run $*
+    param_present 'local_update_deployer'   $* && deployer_update $*
+    param_present 'local_create_ovf'        $* && create_ovf
 }
