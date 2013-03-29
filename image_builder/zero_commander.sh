@@ -22,22 +22,26 @@ function packages()
 {
     as_root aptitude install -y \
       sshpass \
-      build-essential zlib1g-dev \
-      libssl-dev openssl \
+      build-essential \
+      zlib1g-dev \
+      libssl-dev \
+      openssl \
       libreadline-dev \
       libyaml-dev \
       libyaml-ruby \
       libpq-dev \
-      sqlite3 libsqlite3-dev \
-      libxslt-dev libxml2-dev \
+      sqlite3 \
+      libsqlite3-dev \
+      libxslt-dev \
+      libxml2-dev \
       ftp \
       genisoimage \
       kpartx \
       debootstrap \
-      ipcalc
-
-      curl wget git-core
-
+      ipcalc \
+      curl \
+      wget \
+      git-core
 }
 
 function prerequisites()
