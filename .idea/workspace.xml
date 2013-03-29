@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
@@ -24,7 +25,16 @@
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="91" selection-start="501" selection-end="501" vertical-scroll-proportion="0.28239202">
+            <state line="221" column="68" selection-start="7191" selection-end="7191" vertical-scroll-proportion="0.5899772">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="field.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="260" column="29" selection-start="7308" selection-end="7308" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -815,11 +825,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/bosh_commander.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="37" selection-start="440" selection-end="440" vertical-scroll-proportion="0.8680556" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/config/blank_cf.yml.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="37" selection-start="274" selection-end="274" vertical-scroll-proportion="0.6835443" />
@@ -914,9 +919,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="260" column="29" selection-start="7308" selection-end="7308" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="91" selection-start="501" selection-end="501" vertical-scroll-proportion="0.28239202">
+        <state line="221" column="68" selection-start="7191" selection-end="7191" vertical-scroll-proportion="0.5899772">
           <folding />
         </state>
       </provider>

@@ -3,6 +3,7 @@
 local_ip=`ifconfig eth0|grep -w inet|cut -f 2 -d ":"|cut -f 1 -d " "`
 PATH="/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin"
 TERM="xterm"
+export BUNDLE_GEMFILE=/root/Gemfile
 
 cd /root/
 . config.sh
@@ -50,8 +51,8 @@ function stemcells()
 {
     pwd=`pwd`
 
-    bosh --user admin --password admin target localhost
-    bosh login admin admin
+    bundle exec bosh --user admin --password admin target localhost
+    bundle exec bosh login admin admin
 
     mkdir /var/vcap/data/permanenttmp
 
@@ -60,22 +61,15 @@ function stemcells()
 
     cd /var/vcap/store/ucc/web-ui/resources
 
-    ftp -inv ${ftp_host}<<END_FTP
-user ${ftp_user} ${ftp_password}
-cd bosh/stemcells
-binary
-passive
-get ${windows_stemcell}
-get ${windows_sql_stemcell}
-get ${linux_stemcell}
-get ${linux_php_stemcell}
-bye
-END_FTP
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_stemcell}" -o ./${windows_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_sql_stemcell}" -o ./${windows_sql_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_stemcell}" -o ./${linux_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_php_stemcell}" -o ./${linux_php_stemcell}
 
-    bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${windows_stemcell}
-    bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${windows_sql_stemcell}
-    bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${linux_stemcell}
-    bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${linux_php_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${windows_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${windows_sql_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${linux_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${linux_php_stemcell}
 
     cd ${pwd}
 }
@@ -90,9 +84,9 @@ function create_release()
     switch_to_http_sub_modules
     ./update
 
-    bosh --non-interactive create release --with-tarball
+    bundle exec bosh --non-interactive create release --with-tarball
     release_tarball=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.tgz`
-    bosh upload release ${release_tarball}
+    bundle exec bosh upload release ${release_tarball}
     cd ${pwd}
     rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release
 }
@@ -132,7 +126,7 @@ function deploy_cf()
 {
     echo "update stemcells set name=replace(name, 'empty-', '')" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
 
-    uuid=`bosh status|grep UUID|awk '{print $2}'`
+    uuid=`bundle exec bosh status|grep UUID|awk '{print $2}'`
     sed -i s/REPLACEME/${uuid}/g /root/compilation_manifest.yml
     release_yml=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.yml | grep -v index.yml`
 
@@ -169,11 +163,11 @@ File.open('/root/compilation_manifest.yml', 'w') do |file|
 end
 "
 
-    bosh deployment /root/compilation_manifest.yml
+    bundle exec bosh deployment /root/compilation_manifest.yml
 
     for i in `seq 1 10` ;
     do
-        bosh --non-interactive deploy
+        bundle exec bosh --non-interactive deploy
         [ $? -eq 0 ] &&
         {
             echo "update stemcells set name='empty-' || name" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
@@ -232,6 +226,7 @@ function zero_free()
     umount /dev/sdb2
     zerofree /dev/sdb2
 }
+
 
 param_present 'micro_packages'          $* && install_packages
 param_present 'micro_commander'         $* && get_commander
