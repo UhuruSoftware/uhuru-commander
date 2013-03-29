@@ -4,10 +4,6 @@
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/zero_commander.sh" afterPath="$PROJECT_DIR$/image_builder/zero_commander.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" afterPath="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/runner.rb" afterPath="$PROJECT_DIR$/web-ui/lib/runner.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" afterPath="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,7 +79,7 @@
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="126" column="38" selection-start="4712" selection-end="4712" vertical-scroll-proportion="0.6354167">
+            <state line="213" column="39" selection-start="8486" selection-end="8486" vertical-scroll-proportion="0.46875">
               <folding />
             </state>
           </provider>
@@ -92,7 +88,7 @@
       <file leaf-file-name="zero_commander.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="132" column="109" selection-start="3675" selection-end="3675" vertical-scroll-proportion="0.0">
+            <state line="92" column="57" selection-start="2089" selection-end="2089" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1006,14 +1002,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="109" selection-start="3675" selection-end="3675" vertical-scroll-proportion="0.0">
+        <state line="92" column="57" selection-start="2089" selection-end="2089" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="126" column="38" selection-start="4712" selection-end="4712" vertical-scroll-proportion="0.6354167">
+        <state line="213" column="39" selection-start="8486" selection-end="8486" vertical-scroll-proportion="0.46875">
           <folding />
         </state>
       </provider>

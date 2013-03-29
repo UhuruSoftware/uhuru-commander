@@ -181,7 +181,7 @@ function deploy_cf()
 
     uuid=`bundle exec bosh status|grep UUID|awk '{print $2}'`
     sed -i s/REPLACEME/${uuid}/g /root/compilation_manifest.yml
-    release_yml=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.yml | grep -v index.yml`
+    release_yml=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`
     log_builder "Updating cloud foundry deployment yml"
 
   ruby -e "
