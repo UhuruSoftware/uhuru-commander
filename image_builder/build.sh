@@ -198,18 +198,6 @@ config['networks'][0]['subnets'][0]['gateway'] = '${micro_gateway}'
 config['networks'][0]['subnets'][0]['dns'] = '${micro_dns}'.split(';')
 config['networks'][0]['subnets'][0]['cloud_properties']['name'] = '${micro_vm_network}'
 
-config['cloud']['properties']['vcenters'][0]['host'] = '${vsphere_host}'
-config['cloud']['properties']['vcenters'][0]['address'] = '${vsphere_host}'
-config['cloud']['properties']['vcenters'][0]['user'] = '${vsphere_user}'
-config['cloud']['properties']['vcenters'][0]['password'] = '${vsphere_password}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['name'] = '${datacenter}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['vm_folder'] = '${vm_folder}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['template_folder'] = '${template_folder}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['disk_path'] = '${disk_path}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['datastore_pattern'] = '${datastore}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['persistent_datastore_pattern'] = '${datastore}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['clusters'][0] = '${cluster}'
-
 File.open('/root/compilation_manifest.yml', 'w') do |file|
  yaml = YAML.dump(config)
  file.write(yaml.gsub(\" \n\", \"\n\"))
