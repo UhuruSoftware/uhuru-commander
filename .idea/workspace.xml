@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/compilation_manifest.yml" afterPath="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,19 +76,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="build.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="190" column="64" selection-start="6890" selection-end="6890" vertical-scroll-proportion="0.3125">
+            <state line="197" column="45" selection-start="7277" selection-end="7277" vertical-scroll-proportion="-24.6">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="compilation_manifest.yml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="compilation_manifest.yml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/compilation_manifest.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="57" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
+            <state line="45" column="53" selection-start="844" selection-end="844" vertical-scroll-proportion="0.45544556">
               <folding />
             </state>
           </provider>
@@ -124,7 +125,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/lib/configuration_forms/monitoring_form.rb" />
         <option value="$PROJECT_DIR$/web-ui/views/monitoring.erb" />
         <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb" />
@@ -140,6 +140,7 @@
         <option value="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
+        <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
       </list>
     </option>
   </component>
@@ -1008,16 +1009,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/compilation_manifest.yml">
+    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="57" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
+        <state line="197" column="45" selection-start="7277" selection-end="7277" vertical-scroll-proportion="-24.6">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
+    <entry file="file://$PROJECT_DIR$/image_builder/compilation_manifest.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="190" column="64" selection-start="6890" selection-end="6890" vertical-scroll-proportion="0.3125">
+        <state line="45" column="53" selection-start="844" selection-end="844" vertical-scroll-proportion="0.45544556">
           <folding />
         </state>
       </provider>
