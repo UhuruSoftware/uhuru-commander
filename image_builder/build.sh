@@ -102,10 +102,14 @@ function cleanup()
     rm -f /root/.bash_history
     rm -f /root/.ssh/*
     rm -f /root/build.sh
-    rm -f /var/vcap/data/tmp/private-cf-release/dev_releases/bosh-release-122.1-dev.tgz
+    rm -f /root/config.sh
+    rm -rf /var/vcap/data/tmp/private-cf-release/dev_releases
     rm -f /root/compilation_manifest.yml
     rm -f /root/Gemfile
     rm -f /root/Gemfile.lock
+
+    passwd -d vcap
+    chage -d 0 vcap
 }
 
 function configure_init()

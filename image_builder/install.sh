@@ -56,6 +56,7 @@ end
 function upload_files()
 {
   mv ~/.ssh/known_hosts ~/.ssh/known_hosts.bk
+  mv /root/.ssh/known_hosts /root/.ssh/known_hosts.bk
 
   echo -e "${color_cyan}Uploading resources to micro VM ${color_white}'${micro_bosh_vm_ip}'${color_normal}"
 
@@ -81,7 +82,8 @@ function upload_files()
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/Gemfile                    /root/"
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/Gemfile.lock               /root/"
 
-  mv ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
+  mv -f ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
+  mv -f /root/.ssh/known_hosts.bk /root/.ssh/known_hosts
 
   echo -e "${color_cyan}Done uploading resources to micro VM${color_normal}"
 }
