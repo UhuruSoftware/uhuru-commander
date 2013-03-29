@@ -15,7 +15,7 @@ function switch_to_http_sub_modules()
 function install_packages()
 {
     apt-get update
-    apt-get -y install git-core ftp zerofree postgresql-client gpm dialog ipcalc
+    apt-get -y install git-core ftp zerofree postgresql-client gpm dialog ipcalc libsqlite0-dev
 
     cd /root/
     gem install -r bundler
