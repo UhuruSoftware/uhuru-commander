@@ -122,7 +122,7 @@ module Uhuru::BoshCommander
     end
 
     def setup_health_monitor()
-      hm_file =  File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
+      hm_file =  $config[:health_monitor_yml]
 
       hm_yml =  load_yaml_file(hm_file)
       hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"

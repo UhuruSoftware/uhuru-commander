@@ -120,8 +120,10 @@ function create_release()
     log_builder "Updating git submodules"
     ./update
 
-    find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com\//g"
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
     find . -name Gemfile -print0 | xargs -0 sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
+    find . -name Gemfile.lock -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
+
 
     log_builder "Executing bosh create release with tarball"
     bundle exec bosh --non-interactive create release --with-tarball --force

@@ -31,6 +31,13 @@ class Rack::AuthenticatedReverseProxy < Rack::ReverseProxy
       return [302, {'Location' => '/login/'}, ['Not authenticated - you are being redirected to the login page.']]
     end
 
+    if rackreq.path_info.start_with? '/vmlog-dl/'
+      user = env['rack.session']['command'].instance_variable_get('@director').user
+      password = env['rack.session']['command'].instance_variable_get('@director').password
+
+      env['HTTP_AUTHORIZATION'] = 'Basic ' + Base64.encode64("#{user}:#{password}").strip
+    end
+
     super
   end
 end
@@ -71,6 +78,7 @@ module Uhuru::BoshCommander
       $config[:deployments_dir] = File.expand_path('../../cf_deployments/', __FILE__)
       $config[:bind_address] = VCAP.local_ip($config[:local_route])
       $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
+      $config[:health_monitor_yml] = File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
 
       $config[:nagios][:config_path] = File.join($config[:bosh][:base_dir], 'jobs', 'nagios_dashboard', 'config', 'uhuru-dashboard.yml')
 
@@ -141,7 +149,7 @@ module Uhuru::BoshCommander
           nagios_location = "http://#{$config[:nagios][:host]}:#{$config[:nagios][:port]}"
 
           director_port = YAML.load_file($config[:director_yml])['port']
-          director_location = "http://#{$config[:bind_address]}:#{director_port}/resources"
+          director_location = "http://#{$config[:bosh][:target]}:#{director_port}/resources"
 
           reverse_proxy "/user.js", "#{tty_js_location}/user.js"
           reverse_proxy "/user.css", "#{tty_js_location}/user.css"
@@ -152,7 +160,7 @@ module Uhuru::BoshCommander
           reverse_proxy '/socket.io', "#{tty_js_location}/"
           reverse_proxy /^\/ssh(\/.*)$/, "#{tty_js_location}/$1"
 
-          reverse_proxy /^\/vmlog-dl(\/.*)$/, "#{director_location}/$1"
+          reverse_proxy /^\/vmlog-dl(\/.*)$/, "#{director_location}$1"
           reverse_proxy '/nagios/', "#{nagios_location}/"
           reverse_proxy '/pnp4nagios/', "#{nagios_location}"
         end
