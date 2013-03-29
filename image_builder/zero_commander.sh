@@ -20,6 +20,8 @@ function as_user()
 
 function packages()
 {
+    as_root apt-get update
+
     as_root aptitude install -y \
       sshpass \
       build-essential \
@@ -155,7 +157,7 @@ micro_zero_free
     param_present 'local_packages'          $* && packages
     param_present 'local_prerequisites'     $* && prerequisites
     param_present 'local_create_micro'      $* && micro_bosh_stemcell
-    param_present 'local_run_deployer'      $* && deployer_run $*
     param_present 'local_update_deployer'   $* && deployer_update $*
+    param_present 'local_run_deployer'      $* && deployer_run $*
     param_present 'local_create_ovf'        $* && create_ovf
 }
