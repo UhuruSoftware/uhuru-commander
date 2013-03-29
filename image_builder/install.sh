@@ -53,6 +53,8 @@ function upload_files()
 {
   mv ~/.ssh/known_hosts ~/.ssh/known_hosts.bk
 
+  echo "${color_green}Uploading resources to micro VM ${color_reverse}'${micro_bosh_vm_ip}'${color_normal}"
+
   sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no build.sh                     ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp
   sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no compilation_manifest.yml     ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp
   sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no fs/etc/init.d/ucc            ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp

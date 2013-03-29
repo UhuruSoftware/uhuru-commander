@@ -51,3 +51,20 @@ function param_present()
 {
     echo ${@:2} | grep $1 >> /dev/null && return 0 || return 1
 }
+
+
+color_black="\Z0"
+color_red="\Z1"
+color_green="\Z2"
+color_yellow="\Z3"
+color_blue="\Z4"
+color_magenta="\Z5"
+color_cyan="\Z6"
+color_white="\Z7"
+color_normal="\Zn"
+color_bold="\Zb"
+color_no_bold="\ZB"
+color_reverse="\Zr"
+color_no_reverse="\ZR"
+color_underline="\Zu"
+color_no_underline="\ZU"
