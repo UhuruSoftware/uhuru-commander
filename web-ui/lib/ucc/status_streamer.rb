@@ -22,8 +22,12 @@ module Uhuru::BoshCommander
 
     def write_stream(stream_name, data)
       file_name = File.join(@streams_dir, stream_name.to_s + ".data")
-      File.open(file_name, "a") do |file|
-        file.write("#{data}<!-- WRITE_BLOCK_END -->")
+      if data == nil
+        FileUtils.touch file_name
+      else
+        File.open(file_name, "a") do |file|
+          file.write("#{data}<!-- WRITE_BLOCK_END -->")
+        end
       end
     end
 

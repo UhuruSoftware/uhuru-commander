@@ -39,10 +39,13 @@ module Uhuru::BoshCommander
         id = UUIDTools::UUID.random_create
       end
 
+      streamer = status_streamer(session)
+      streamer.write_stream(id, nil)
+
       BoshThread.new {
         begin
           Thread.current.request_id = id
-          Thread.current.streamer = status_streamer(session)
+          Thread.current.streamer = streamer
           Thread.current.current_session = session
           code.call
           Thread.current.streamer.set_stream_done id
