@@ -38,6 +38,11 @@ function get_commander()
     mv private-uhuru-commander/* /var/vcap/store/ucc/
     rm -rf private-uhuru-commander
 
+    ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/resources/${windows_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/resources/${windows_sql_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/resources/${linux_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${linux_php_stemcell}   /var/vcap/store/ucc/resources/${linux_php_stemcell}
+
     cd /var/vcap/store/ucc/web-ui/config
     rm -f /var/vcap/store/ucc/web-ui/config/infrastructure.yml
 
@@ -49,6 +54,8 @@ function get_commander()
 
 function stemcells()
 {
+    rm -rf /var/vcap/store/ucc_stemcells
+
     pwd=`pwd`
 
     bundle exec bosh --user admin --password admin target localhost
@@ -59,17 +66,17 @@ function stemcells()
     mount -o bind /var/vcap/data/permanenttmp /tmp
     chmod 1777 /tmp
 
-    cd /var/vcap/store/ucc/web-ui/resources
+    mkdir -p /var/vcap/store/ucc_stemcells
 
-    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_stemcell}" -o ./${windows_stemcell}
-    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_sql_stemcell}" -o ./${windows_sql_stemcell}
-    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_stemcell}" -o ./${linux_stemcell}
-    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_php_stemcell}" -o ./${linux_php_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_stemcell}" -o /var/vcap/store/ucc_stemcells/${windows_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_sql_stemcell}" -o /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_stemcell}
+    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_php_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
-    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${windows_stemcell}
-    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${windows_sql_stemcell}
-    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${linux_stemcell}
-    bundle exec bosh upload stemcell /var/vcap/store/ucc/web-ui/resources/${linux_php_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_stemcell}
+    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
     cd ${pwd}
 }
@@ -229,8 +236,8 @@ function zero_free()
 
 
 param_present 'micro_packages'          $* && install_packages
-param_present 'micro_commander'         $* && get_commander
 param_present 'micro_stemcells'         $* && stemcells
+param_present 'micro_commander'         $* && get_commander
 param_present 'micro_create_release'    $* && create_release
 param_present 'micro_config_daemons'    $* && configure_init
 param_present 'micro_ttyjs'             $* && install_tty_js
