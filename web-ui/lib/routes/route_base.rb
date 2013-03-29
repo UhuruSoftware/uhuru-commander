@@ -64,14 +64,7 @@ module Uhuru::BoshCommander
     end
 
     before do
-      unless ($config[:bosh_commander][:skip_check_monit]) ||
-          (request.path_info == '/offline') ||
-          (request.path_info == '/monit_status')
-        monit = Monit.new
-        unless monit.service_group_state == "running"
-          redirect '/offline'
-        end
-      end
+      check_updating_infrastructure!
 
       unless request.path_info == '/login' ||
           request.path_info == '/offline' ||
@@ -80,10 +73,6 @@ module Uhuru::BoshCommander
           request.path_info == '/logout'
         unless session['user_name']
           redirect "/login?path=#{CGI.escape request.path_info}"
-        end
-
-        unless (request.path_info.start_with?('/logs')) || (request.path_info.start_with?('/screen'))
-          check_updating_infrastructure!
         end
 
         unless (request.path_info == '/infrastructure') || (request.path_info.start_with?('/screen'))
@@ -123,8 +112,21 @@ module Uhuru::BoshCommander
       end
 
       def check_updating_infrastructure!
-        action_on_done = "Click <a href='/'>here</a> to reload the commander interface."
-        redirect Logs.log_url($infrastructure_update_request, action_on_done) if updating_infrastructure?
+        unless ($config[:bosh_commander][:skip_check_monit])
+          unless session["user_name"]
+            unless (request.path_info == '/offline') || (request.path_info == '/monit_status')
+              monit = Monit.new
+              unless monit.service_group_state == "running"
+                redirect '/offline'
+              end
+            end
+          else
+            unless (request.path_info.start_with?('/logs')) || (request.path_info.start_with?('/screen')) || (request.path_info == '/logout')
+              action_on_done = "Click <a href='/'>here</a> to reload the commander interface."
+              redirect Logs.log_url($infrastructure_update_request, action_on_done) if updating_infrastructure?
+            end
+          end
+        end
       end
 
       def check_first_run!
