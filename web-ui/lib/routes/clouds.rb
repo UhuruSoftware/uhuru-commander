@@ -178,7 +178,7 @@ module Uhuru::BoshCommander
 
       CommanderBoshRunner.execute(session) do
         form = CloudForm.from_cloud_name(cloud_name, nil)
-        if form.deployment.get_status()["state"] == Deployment::STATE_DEPLOYED
+        if form.deployment.get_state() == Deployment::STATE_DEPLOYED
           vms = Vms.new()
           vms_list = vms.list(cloud_name)
         end

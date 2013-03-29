@@ -16,7 +16,7 @@ module Uhuru::BoshCommander
       @deployment_name = deployment_name
       @deployment_dir = File.join($config[:deployments_dir], deployment_name)
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
-
+      @lock_file = File.join("#{@deployment_dir}","deployment.lock")
       #create deployment folder
       if (Dir["#{@deployment_dir}"].empty?)
         Dir.mkdir @deployment_dir
@@ -63,29 +63,20 @@ module Uhuru::BoshCommander
 
     #start the deployment process
     def deploy()
-      info = deployment_info
-      if info["state"] == STATE_DEPLOYED
-        update
-        say "Deployment #{@deployment_name} updated".green
+
+      if File.exists? @lock_file
+         say "Deployment in process, please check tasks"
         return
       end
-      if info["state"] != STATE_SAVED
-        raise "Cannot deploy, current state is #{info["state"]}"
-      end
 
-      split_manifest
-
-      info = deployment_info
-      total_steps = info["total_steps"]
-
-      #deploy
+      File.open(@lock_file, 'w') {|f| f.write("locked") }
       command = deployment_command
-      for i in 0 .. total_steps.to_i
-        current_file = File.join(@deployment_dir, "step_#{i}_#{@deployment_name}.yml")
-        command.set_current(current_file)
-        command.perform
-        File.delete(current_file)
-      end
+      current_file = File.join(@deployment_dir, "#{@deployment_name}.yml")
+      command.set_current(current_file)
+      command.perform
+
+      File.delete(@lock_file)
+
       say "Deployment finished".green
 
     end
@@ -139,18 +130,10 @@ module Uhuru::BoshCommander
     end
 
 
-    def update()
-      command = deployment_command
-      current_file = File.join(@deployment_dir, "#{@deployment_name}.yml")
-      command.set_current(current_file)
-      command.perform
-
-    end
-
     #the VMs and deployment manifests are deleted.
     def delete()
-      info = deployment_info
-      if info["state"] != STATE_SAVED
+      state = get_state
+      if state != STATE_SAVED
         tear_down
       end
 
@@ -161,8 +144,8 @@ module Uhuru::BoshCommander
 
     #returns the deployment manifest. If save_as is provided, also saves the deployment manifest to a flie
     def get_manifest(save_as = nil)
-      info = deployment_info
-      if info["state"] != STATE_DEPLOYED
+      state = get_state
+      if state != STATE_DEPLOYED
         return nil
       end
 
@@ -189,9 +172,61 @@ module Uhuru::BoshCommander
       command.delete(@deployment_name)
     end
 
-    # returns the status of the current deployment
-    def get_status()
-      deployment_info
+    def get_state
+
+      unless File.exist?(File.expand_path("../../../cf_deployments/#{ self.deployment_name }/#{ self.deployment_name }.yml", __FILE__))
+        return STATE_ERROR
+      end
+
+      director =  Thread.current.current_session[:command].instance_variable_get("@director")
+      deployments = director.list_deployments
+
+      local_manifest = false
+      local_manifest = true if (File.exist? @deployment_manifest_path)
+
+      remote_manifest = nil
+
+      deployment_locked = true if (File.exist? @lock_file)
+
+      #determine if director contains the deployment
+      director_deployment = false
+      unless deployments.empty?
+        deployments.each do |d|
+          if d["name"] == @deployment_name
+            director_deployment = true
+            remote_manifest = director.get_deployment(@deployment_name)["manifest"]
+            break
+          end
+        end
+      end
+
+      if director_deployment
+        if local_manifest
+          if (deployment_locked)
+            STATE_DEPLOYING
+          else
+            if (remote_manifest)
+              STATE_DEPLOYED
+            else
+              STATE_ERROR
+            end
+          end
+        else
+          STATE_ERROR
+        end
+      else
+        if local_manifest
+          manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
+          gateway = manifest['networks'][0]['subnets'][0]['gateway']
+          if (gateway == nil) || (gateway.strip == '')
+            STATE_NOT_CONFIGURED
+          else
+            STATE_SAVED
+          end
+        else
+          STATE_ERROR
+        end
+      end
     end
 
     private
@@ -229,92 +264,6 @@ module Uhuru::BoshCommander
       deployment_cmd = Bosh::Cli::Command::Deployment.new
       deployment_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
       deployment_cmd
-    end
-
-    def split_manifest
-      StepDeploymentGenerator.generate_step_deployment(@deployment_manifest_path, @deployment_dir)
-    end
-
-    def get_info_steps
-      existing_manifests = Dir["#{ @deployment_dir }/step_*_*.yml"].map {|entry| File.basename(entry, ".yml") }
-      steps = existing_manifests.map {|entry| entry.match(/(?!step_)(0|[1-9][0-9]*)(?=_)/)[0].to_i}
-      return steps.min, steps.max
-    end
-
-
-    def deployment_info
-      state = get_state
-      current_step = 0
-      total_steps = 0
-
-      if state == STATE_DEPLOYED || state == STATE_SAVED
-        current_step, total_steps = get_info_steps
-      end
-
-      { "current_step" => current_step,
-        "total_steps" => total_steps,
-        "state" => state }
-    end
-
-    def get_state
-
-      unless File.exist?(File.expand_path("../../../cf_deployments/#{ self.deployment_name }/#{ self.deployment_name }.yml", __FILE__))
-        return STATE_ERROR
-      end
-
-      deployments = Thread.current.current_session[:command].instance_variable_get("@director").list_deployments
-
-      split_files_wildcard = File.expand_path("../../../cf_deployments/#{self.deployment_name}/step_*_*.yml", __FILE__)
-
-      existing_manifests = Dir[split_files_wildcard]
-
-      split_files = false
-      split_files = true if (existing_manifests.length > 0)
-
-      local_manifest = false
-      local_manifest = true if (File.exist? @deployment_manifest_path)
-
-      #determine if director contains the deployment
-      director_deployment = false
-      unless deployments.empty?
-        deployments.each do |d|
-          if d["name"] == @deployment_name
-            director_deployment = true
-            break
-          end
-        end
-      end
-
-      if split_files
-        if director_deployment
-          if local_manifest
-            STATE_DEPLOYING
-          else
-            STATE_ERROR
-          end
-        else
-          STATE_ERROR
-        end
-      end
-      if director_deployment
-        if local_manifest
-          STATE_DEPLOYED
-        else
-          STATE_ERROR
-        end
-      else
-        if local_manifest
-          manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
-          gateway = manifest['networks'][0]['subnets'][0]['gateway']
-          if (gateway == nil) || (gateway.strip == '')
-            STATE_NOT_CONFIGURED
-          else
-            STATE_SAVED
-          end
-        else
-          STATE_ERROR
-        end
-      end
     end
   end
 end
