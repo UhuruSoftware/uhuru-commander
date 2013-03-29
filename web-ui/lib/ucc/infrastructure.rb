@@ -4,15 +4,15 @@ module Uhuru::BoshCommander
     def setup(new_config)
       say('Moving director config')
       @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      @is_update = true#is_update
+      @is_update = is_update
       setup_micro(new_config)
       say('Restarting services')
       restart_monit
       unless @is_update
         say('Uploading stemcells')
-        #upload_stemcells
+        upload_stemcells
         say('Configuring database')
-        #configure_database
+        configure_database
       end
 
       say ('Infrastructure configured')
@@ -117,7 +117,7 @@ module Uhuru::BoshCommander
       postgres_ctl.gsub!(/^PASSWORD='.+'$/, "PASSWORD='#{@postgres_info[:password]}'")
 
       File.open(postgres_ctl_file, 'w') do |file|
-        dump_yaml_to_file(postgres_ctl, file )
+        file.write(postgres_ctl)
       end
     end
 
