@@ -72,6 +72,8 @@ function upload_files()
   sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no Gemfile                      ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp
   sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no Gemfile.lock                 ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp
   sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no config.sh                    ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp
+  sshpass -p ${micro_bosh_vm_password} scp -o StrictHostKeyChecking=no fs/etc/init/tty1.conf        ${micro_bosh_vm_user}@${micro_bosh_vm_ip}:/tmp
+
 
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/config.sh                  /root/"
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/build.sh                   /root/"
@@ -83,6 +85,7 @@ function upload_files()
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/net_conf.sh                /usr/sbin/"
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/Gemfile                    /root/"
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/Gemfile.lock               /root/"
+  sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S mv -f /tmp/tty1.conf                  /etc/init/"
 
   mv -f ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
   mv -f /root/.ssh/known_hosts.bk /root/.ssh/known_hosts

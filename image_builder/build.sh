@@ -120,14 +120,15 @@ function create_release()
     log_builder "Updating git submodules"
     ./update
 
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
+    find . -name Gemfile -print0 | xargs -0 sed -i 's/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g'
+
     log_builder "Executing bosh create release with tarball"
     bundle exec bosh --non-interactive create release --with-tarball --force
     release_tarball=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.tgz`
     log_builder "Uploading release to bosh"
     bundle exec bosh upload release ${release_tarball}
     cd ${pwd}
-
-    rm -rf /var/vcap/store/ucc_release/
 
     log_builder "Done creating cloud foundry release"
 }
@@ -136,11 +137,11 @@ function cleanup()
 {
     log_builder "Cleaning up micro bosh VM"
 
+    rm -rf /var/vcap/store/ucc_release/
     rm -f /root/.bash_history
     rm -f /root/.ssh/*
     rm -f /root/build.sh
     rm -f /root/config.sh
-    rm -rf /var/vcap/data/tmp/private-cf-release/dev_releases
     rm -f /root/compilation_manifest.yml
     rm -f /root/Gemfile
     rm -f /root/Gemfile.lock
