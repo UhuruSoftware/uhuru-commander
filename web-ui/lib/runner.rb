@@ -140,6 +140,9 @@ module Uhuru::BoshCommander
           tty_js_location = "http://#{$config[:ttyjs][:host]}:#{$config[:ttyjs][:port]}"
           nagios_location = "http://#{$config[:nagios][:host]}:#{$config[:nagios][:port]}"
 
+          director_port = YAML.load_file($config[:director_yml])['port']
+          director_location = "http://#{$config[:bind_address]}:#{director_port}/resources"
+
           reverse_proxy "/user.js", "#{tty_js_location}/user.js"
           reverse_proxy "/user.css", "#{tty_js_location}/user.css"
           reverse_proxy "/style.css", "#{tty_js_location}/style.css"
@@ -149,6 +152,7 @@ module Uhuru::BoshCommander
           reverse_proxy '/socket.io', "#{tty_js_location}/"
           reverse_proxy /^\/ssh(\/.*)$/, "#{tty_js_location}/$1"
 
+          reverse_proxy /^\/vmlog-dl(\/.*)$/, "#{director_location}/$1"
           reverse_proxy '/nagios/', "#{nagios_location}/"
           reverse_proxy '/pnp4nagios/', "#{nagios_location}"
         end

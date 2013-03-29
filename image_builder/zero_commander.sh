@@ -127,7 +127,7 @@ function deployer_update()
 
     cd ~/sources/private-uhuru-commander/image_builder
     log_zero "Installing gems"
-    as_user sed -i "s/ssh:\/\/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
+    as_user sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com\//g" Gemfile
     as_user sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g" Gemfile
     as_root bundle install
 
