@@ -7,6 +7,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v3.2.9, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.3.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="backports (v2.6.5, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="backports (v3.1.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt-ruby (v3.0.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.2.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
@@ -17,7 +18,7 @@
     <orderEntry type="library" scope="PROVIDED" name="em-http-request (v1.0.0.beta.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="em-socksify (v0.2.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="eventmachine (v0.12.10, RVM: ruby-1.9.2-p320) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="eventmachine (v1.0.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="eventmachine (v1.0.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="grape (v0.2.2, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="hashie (v1.2.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="http_parser.rb (v0.5.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
@@ -52,8 +53,8 @@
     <orderEntry type="library" scope="PROVIDED" name="sinatra-contrib (v1.3.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sinatra-session (v1.0.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="steno (v1.0.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="thin (v1.5.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="tilt (v1.3.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="thin (v1.5.1, RVM: ruby-1.9.2-p320) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="tilt (v1.3.6, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="trollop (v2.0, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="uuidtools (v2.1.3, RVM: ruby-1.9.2-p320) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="vcap_common (v2.0.10@055964, RVM: ruby-1.9.2-p320) [gem]" level="application" />
