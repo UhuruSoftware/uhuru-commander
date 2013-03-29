@@ -190,6 +190,7 @@ release_yml = YAML.load_file('${release_yml}')
 config = YAML.load_file('/root/compilation_manifest.yml')
 
 config['release']['version'] = release_yml['version']
+config['release']['name'] = release_yml['name']
 
 config['networks'][0]['subnets'][0]['reserved'] = '${micro_reserved_ips}'.split(';')
 config['networks'][0]['subnets'][0]['static'] = '${micro_static_ips}'.split(';')

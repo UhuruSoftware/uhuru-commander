@@ -78,7 +78,7 @@
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="201" column="20" selection-start="7491" selection-end="7491" vertical-scroll-proportion="0.46875">
+            <state line="190" column="64" selection-start="6890" selection-end="6890" vertical-scroll-proportion="0.3125">
               <folding />
             </state>
           </provider>
@@ -87,7 +87,7 @@
       <file leaf-file-name="compilation_manifest.yml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/compilation_manifest.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="35" selection-start="506" selection-end="506" vertical-scroll-proportion="0.0">
+            <state line="10" column="57" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1010,14 +1010,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/compilation_manifest.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="35" selection-start="506" selection-end="506" vertical-scroll-proportion="0.0">
+        <state line="10" column="57" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="20" selection-start="7491" selection-end="7491" vertical-scroll-proportion="0.46875">
+        <state line="190" column="64" selection-start="6890" selection-end="6890" vertical-scroll-proportion="0.3125">
           <folding />
         </state>
       </provider>
