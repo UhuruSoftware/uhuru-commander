@@ -17,8 +17,9 @@ module Uhuru::BoshCommander
       params.delete("btn_update")
 
       values_to_show = GenericForm::VALUE_TYPE_FORM
-      infrastructure_yml = $config[:infrastructure_yml]
-      form = InfrastructureForm.from_config(params)
+      monitoring_yml = $config[:nagios][:config_path]
+
+      form = MonitoringForm.from_config(params)
       is_ok = form.validate? GenericForm::VALUE_TYPE_FORM
 
       if is_ok
@@ -29,27 +30,17 @@ module Uhuru::BoshCommander
 
           volatile_data = form.get_data(GenericForm::VALUE_TYPE_VOLATILE)
 
-          File.open(infrastructure_yml, "w") do |file|
+          File.open(monitoring_yml, "w") do |file|
             file.write(volatile_data.to_yaml)
           end
 
-          $infrastructure_update_request = CommanderBoshRunner.execute_background(session) do
-            begin
-              infrastructure = BoshInfrastructure.new
-              infrastructure.setup(infrastructure_yml)
-            rescue => e
-              err e
-            end
-            $infrastructure_update_request = nil
-          end
-
-          redirect '/'
+          redirect '/monitoring'
         end
       end
 
       unless is_ok
         render_erb do
-          template :infrastructure
+          template :monitoring
           layout :layout
           var :form, form
           var :value_type, values_to_show
