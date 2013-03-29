@@ -42,12 +42,14 @@ require "routes/route_base"
 require "routes/ssh"
 require "routes/tasks"
 require "routes/users"
+require "routes/monitoring"
 
 require "configuration_forms/field"
 require "configuration_forms/screen"
 require "configuration_forms/generic_form"
 require "configuration_forms/infrastructure_form"
 require "configuration_forms/cloud_form"
+require "configuration_forms/monitoring_form"
 
 autoload :HTTPClient, "httpclient"
 
@@ -60,6 +62,7 @@ module Uhuru::BoshCommander
     use Ssh
     use Tasks
     use Users
+    use Monitoring
 
     get '/' do
       redirect '/infrastructure'

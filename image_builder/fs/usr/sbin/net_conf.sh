@@ -18,13 +18,13 @@ color_no_reverse="\ZR"
 color_underline="\Zu"
 color_no_underline="\ZU"
 
-[ -e /var/lock/passwd ] &&
+[ -e /root/passwd.lock ] &&
 {
     clear
     echo "Please input a new password for user 'vcap':"
     passwd vcap &&
     {
-        rm /var/lock/passwd
+        rm /root/passwd.lock
     } ||
     {
         echo -n "Press ENTER to continue"

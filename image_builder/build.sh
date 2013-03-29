@@ -121,7 +121,7 @@ function create_release()
     ./update
 
     log_builder "Executing bosh create release with tarball"
-    bundle exec bosh --non-interactive create release --with-tarball
+    bundle exec bosh --non-interactive create release --with-tarball --force
     release_tarball=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.tgz`
     log_builder "Uploading release to bosh"
     bundle exec bosh upload release ${release_tarball}
@@ -145,7 +145,7 @@ function cleanup()
     rm -f /root/Gemfile
     rm -f /root/Gemfile.lock
 
-    touch /var/lock/passwd
+    touch /root/passwd.lock
 
     passwd -d vcap
     chage -d 0 vcap

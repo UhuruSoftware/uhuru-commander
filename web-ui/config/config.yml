@@ -17,7 +17,7 @@ nagios:
   port: 80
 
 bosh:
-  target: "10.0.21.22"
+  target: "10.134.0.5"
   #base_dir: "/home/mitza/testing/assets/vcap"
   base_dir: "/home/vladi/tmp/testing/assets/vcap"
   #base_dir: "/var/vcap"

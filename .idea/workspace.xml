@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/web-ui/config/monitoring.yml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" afterPath="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/install.sh" afterPath="$PROJECT_DIR$/image_builder/install.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/config.yml" afterPath="$PROJECT_DIR$/web-ui/config/config.yml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/forms.yml" afterPath="$PROJECT_DIR$/web-ui/config/forms.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/runner.rb" afterPath="$PROJECT_DIR$/web-ui/lib/runner.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" afterPath="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/views/layout.erb" afterPath="$PROJECT_DIR$/web-ui/views/layout.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" afterPath="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb" afterPath="$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,37 +27,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="monitoring_form.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/monitoring_form.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="infrastructure.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="26" selection-start="672" selection-end="672" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="monitoring.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/monitoring.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="20" selection-start="302" selection-end="302" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="monitoring.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/views/monitoring.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="47" selection-start="439" selection-end="439" vertical-scroll-proportion="-8.125">
+            <state line="4" column="0" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -74,37 +45,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="net_conf.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="48" selection-start="187" selection-end="187" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="119" column="77" selection-start="4309" selection-end="4309" vertical-scroll-proportion="0.56802243">
+            <state line="121" column="82" selection-start="4323" selection-end="4323" vertical-scroll-proportion="0.7363254">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="runner.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/runner.rb">
+      <file leaf-file-name="login_screen.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="47" selection-start="2455" selection-end="2455" vertical-scroll-proportion="0.0">
+            <state line="24" column="62" selection-start="726" selection-end="726" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="infrastructure.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb">
+      <file leaf-file-name="config.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="59" selection-start="2303" selection-end="2303" vertical-scroll-proportion="0.0">
+            <state line="19" column="17" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bosh_commander.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/bosh_commander.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="60" column="135" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -113,7 +84,34 @@
       <file leaf-file-name="forms.yml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="45" selection-start="2119" selection-end="2119" vertical-scroll-proportion="0.0">
+            <state line="130" column="61" selection-start="16233" selection-end="16233" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config_row.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/config_row.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="0" selection-start="1652" selection-end="1652" vertical-scroll-proportion="-21.208334">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="field.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="26" selection-start="502" selection-end="506" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="net_conf.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="22" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -132,21 +130,21 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml" />
-        <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
-        <option value="$PROJECT_DIR$/image_builder/Gemfile" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
         <option value="$PROJECT_DIR$/web-ui/config/monitoring.yml" />
-        <option value="$PROJECT_DIR$/web-ui/config/forms.yml" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
         <option value="$PROJECT_DIR$/web-ui/lib/runner.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
-        <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" />
         <option value="$PROJECT_DIR$/web-ui/lib/configuration_forms/monitoring_form.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/monitoring.rb" />
         <option value="$PROJECT_DIR$/web-ui/views/monitoring.erb" />
         <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
+        <option value="$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb" />
+        <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
+        <option value="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
+        <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" />
+        <option value="$PROJECT_DIR$/web-ui/config/forms.yml" />
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
       </list>
     </option>
@@ -892,34 +890,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="154" column="90" selection-start="4251" selection-end="4251" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="59" selection-start="1789" selection-end="1789" vertical-scroll-proportion="0.9800664">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="52" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/infrastructure_form.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="41" selection-start="759" selection-end="759" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state line="90" column="9" selection-start="5905" selection-end="5905" vertical-scroll-proportion="0.0">
@@ -927,30 +897,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="19" selection-start="262" selection-end="262" vertical-scroll-proportion="0.35661218">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="45" selection-start="2119" selection-end="2119" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="74" column="59" selection-start="2303" selection-end="2303" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="48" selection-start="187" selection-end="187" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -976,13 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/monitoring.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="20" selection-start="302" selection-end="302" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/views/monitoring.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="47" selection-start="439" selection-end="439" vertical-scroll-proportion="-8.125">
@@ -997,9 +939,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="62" selection-start="726" selection-end="726" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="17" selection-start="287" selection-end="287" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/monitoring.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="85" selection-end="85" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/bosh_commander.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="135" selection-start="1321" selection-end="1321" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="22" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/config_row.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="1652" selection-end="1652" vertical-scroll-proportion="-21.208334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="26" selection-start="502" selection-end="506" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="130" column="61" selection-start="16233" selection-end="16233" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="77" selection-start="4309" selection-end="4309" vertical-scroll-proportion="0.56802243">
+        <state line="121" column="82" selection-start="4323" selection-end="4323" vertical-scroll-proportion="0.7363254">
           <folding />
         </state>
       </provider>
