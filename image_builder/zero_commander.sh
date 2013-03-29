@@ -34,6 +34,8 @@ function packages()
       genisoimage \
       kpartx \
       debootstrap \
+      ipcalc
+
       curl wget git-core
 
 }

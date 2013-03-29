@@ -10,13 +10,17 @@
 function deploy_micro()
 {
   micro_bosh_yml=deployments/micro_bosh/micro_bosh.yml
+  netmask=`ipcalc ${micro_network_range} | grep -i netmask | awk '{print $2}'`
 
   ruby -e "
 require 'yaml'
 config = YAML.load_file('${micro_bosh_yml}')
 
 config['network']['ip'] = '${micro_bosh_vm_ip}'
-
+config['network']['netmask'] = '${netmask}'
+config['network']['gateway'] = '${micro_gateway}'
+config['network']['dns'] = '${micro_dns}'.split(';')
+config['network']['cloud_properties']['name'] = '${micro_vm_network}'
 
 config['cloud']['properties']['vcenters'][0]['host'] = '${vsphere_host}'
 config['cloud']['properties']['vcenters'][0]['address'] = '${vsphere_host}'
