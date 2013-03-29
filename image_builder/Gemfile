@@ -1,4 +1,4 @@
-source :rubygems
+source "https://rubygems.org"
 
 gem "bosh_cli", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => 'c90efd7de741f3720a536ac636ef2f363a635b81'
 gem "bosh_deployer", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => 'c90efd7de741f3720a536ac636ef2f363a635b81'
