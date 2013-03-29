@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/install.sh" afterPath="$PROJECT_DIR$/image_builder/install.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,10 +21,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build.sh" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="110" column="4" selection-start="2773" selection-end="2773" vertical-scroll-proportion="-22.8">
+            <state line="20" column="44" selection-start="532" selection-end="532" vertical-scroll-proportion="0.269103">
               <folding />
             </state>
           </provider>
@@ -66,10 +66,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="install.sh" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="install.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="67" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.66445184">
+            <state line="86" column="78" selection-start="5872" selection-end="5872" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -120,8 +120,8 @@
         <option value="$PROJECT_DIR$/image_builder/Gemfile" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
-        <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
+        <option value="$PROJECT_DIR$/image_builder/build.sh" />
       </list>
     </option>
   </component>
@@ -879,13 +879,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="4" selection-start="2773" selection-end="2773" vertical-scroll-proportion="-22.8">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="0" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0">
@@ -916,7 +909,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="67" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.66445184">
+        <state line="86" column="78" selection-start="5872" selection-end="5872" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="44" selection-start="532" selection-end="532" vertical-scroll-proportion="0.269103">
           <folding />
         </state>
       </provider>

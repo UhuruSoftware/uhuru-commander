@@ -18,7 +18,7 @@ function install_packages()
     apt-get -y install git-core ftp zerofree postgresql-client gpm dialog ipcalc
 
     cd /root/
-    gem install bundler
+    gem install -r bundler
     bundle install --system
 }
 
