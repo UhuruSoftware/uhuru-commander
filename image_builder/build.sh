@@ -4,6 +4,7 @@ local_ip=`ifconfig eth0|grep -w inet|cut -f 2 -d ":"|cut -f 1 -d " "`
 PATH="/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin"
 TERM="xterm"
 
+cd /root/
 . config.sh
 
 function switch_to_http_sub_modules()
@@ -227,7 +228,6 @@ function zero_free()
     umount /dev/sdb2
     zerofree /dev/sdb2
 }
-
 
 param_present 'micro_packages'          $* && install_packages
 param_present 'micro_commander'         $* && get_commander

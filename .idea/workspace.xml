@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/image_builder/a" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/Gemfile" afterPath="$PROJECT_DIR$/image_builder/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/install.sh" afterPath="$PROJECT_DIR$/image_builder/install.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,10 +21,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build.sh" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="195" column="49" selection-start="6225" selection-end="6225" vertical-scroll-proportion="0.0">
+            <state line="214" column="44" selection-start="6572" selection-end="6572" vertical-scroll-proportion="0.46843854">
               <folding />
             </state>
           </provider>
@@ -78,10 +75,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="install.sh" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="install.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="133" selection-start="5954" selection-end="5954" vertical-scroll-proportion="0.78405315">
+            <state line="59" column="167" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -128,12 +125,12 @@
         <option value="$PROJECT_DIR$/web-ui/config/blank_cf.yml.erb" />
         <option value="$PROJECT_DIR$/image_builder/fs/usr/sbin/net_conf.sh" />
         <option value="$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml" />
-        <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
         <option value="$PROJECT_DIR$/image_builder/Gemfile" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
+        <option value="$PROJECT_DIR$/image_builder/build.sh" />
       </list>
     </option>
   </component>
@@ -842,13 +839,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="195" column="49" selection-start="6225" selection-end="6225" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="52" selection-start="410" selection-end="410" vertical-scroll-proportion="0.0">
@@ -893,7 +883,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="133" selection-start="5954" selection-end="5954" vertical-scroll-proportion="0.78405315">
+        <state line="59" column="167" selection-start="2379" selection-end="2379" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="214" column="44" selection-start="6572" selection-end="6572" vertical-scroll-proportion="0.46843854">
           <folding />
         </state>
       </provider>
