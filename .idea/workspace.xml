@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/install.sh" afterPath="$PROJECT_DIR$/image_builder/install.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
@@ -70,7 +69,7 @@
       <file leaf-file-name="install.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="72" selection-start="2251" selection-end="2251" vertical-scroll-proportion="0.4152824">
+            <state line="93" column="67" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.66445184">
               <folding />
             </state>
           </provider>
@@ -917,7 +916,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="72" selection-start="2251" selection-end="2251" vertical-scroll-proportion="0.4152824">
+        <state line="93" column="67" selection-start="6094" selection-end="6094" vertical-scroll-proportion="0.66445184">
           <folding />
         </state>
       </provider>

@@ -93,8 +93,12 @@ function start_stuff()
   echo -e "${color_cyan}Running remote scripts on micro BOSH VM ${color_white}'${micro_bosh_vm_ip}'${color_normal}"
 
   mv ~/.ssh/known_hosts ~/.ssh/known_hosts.bk
+  mv /root/.ssh/known_hosts /root/.ssh/known_hosts.bk
+
   sshpass -p ${micro_bosh_vm_password} ssh -o StrictHostKeyChecking=no ${micro_bosh_vm_user}@${micro_bosh_vm_ip} "echo ${micro_bosh_vm_password}|sudo -S bash /root/build.sh $*"
-  mv ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
+
+  mv -f ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
+  mv -f /root/.ssh/known_hosts.bk /root/.ssh/known_hosts
 
   echo -e "${color_cyan}Done running remote scripts on the micro VM${color_normal}"
 }
