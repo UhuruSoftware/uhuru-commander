@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" afterPath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
@@ -26,7 +24,7 @@
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="44" selection-start="577" selection-end="577" vertical-scroll-proportion="0.3654485">
+            <state line="17" column="91" selection-start="501" selection-end="501" vertical-scroll-proportion="0.28239202">
               <folding />
             </state>
           </provider>
@@ -918,7 +916,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="44" selection-start="577" selection-end="577" vertical-scroll-proportion="0.3654485">
+        <state line="17" column="91" selection-start="501" selection-end="501" vertical-scroll-proportion="0.28239202">
           <folding />
         </state>
       </provider>
