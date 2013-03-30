@@ -6,7 +6,7 @@ function start()
 {
   echo "Starting tty.js ..."
   cd /var/vcap/store/ucc/tty.js
-  BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile /var/vcap/bosh/bin/bundle exec ./bin/tty.js --config config/config.json 1>/dev/null 2>/dev/null &
+  BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile ./bin/tty.js --config config/config.json 1>/dev/null 2>/dev/null &
   echo $! >$pidfile
 }
 
@@ -43,7 +43,7 @@ function status()
       }
     } ||
     {
-    echo "tty.js doesent appear to be running"
+    echo "tty.js doesn't appear to be running"
     exit 1
     }
 }

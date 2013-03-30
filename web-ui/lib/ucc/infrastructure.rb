@@ -8,6 +8,8 @@ module Uhuru::BoshCommander
       setup_micro(new_config)
       say('Restarting services')
       restart_monit
+      say('Creating system users')
+      create_users()
       unless @is_update
         say('Uploading stemcells')
         upload_stemcells
@@ -24,7 +26,6 @@ module Uhuru::BoshCommander
       FileUtils.cp(new_config, @director_config_file)
       director_yml = load_yaml_file(@director_config_file)
       build_info(director_yml)
-      create_users()
       setup_nats()
       setup_postgres()
       setup_health_monitor()
