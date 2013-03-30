@@ -40,7 +40,12 @@ function get_commander()
     git clone ${git_commander_repo}
     cd private-uhuru-commander
     git reset --hard ${git_commander_commit}
-    switch_to_http_sub_modules
+
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
+    find . -name Gemfile.lock -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
+
+    cd ..
 
     mkdir /var/vcap/store/ucc
     log_builder "Moving Commander files to '/var/vcap/store/ucc/'"
@@ -48,17 +53,35 @@ function get_commander()
     rm -rf private-uhuru-commander
 
     log_builder "Linking stemcells from '/var/vcap/store/ucc_stemcells/'"
-    ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/resources/${windows_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/resources/${windows_sql_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/resources/${linux_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${linux_php_stemcell}   /var/vcap/store/ucc/resources/${linux_php_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/web-ui/resources/${windows_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/web-ui/resources/${windows_sql_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/web-ui/resources/${linux_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${linux_php_stemcell}   /var/vcap/store/ucc/web-ui/resources/${linux_php_stemcell}
 
     cd /var/vcap/store/ucc/web-ui/config
     rm -f /var/vcap/store/ucc/web-ui/config/infrastructure.yml
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/
+    export BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile
     bundle install
+    export BUNDLE_GEMFILE=/root/Gemfile
+
+    log_builder "Configuring commander"
+
+  ruby -e "
+require 'yaml'
+release_yml = YAML.load_file('/var/vcap/store/ucc/web-ui/config/config.yml')
+
+config['local_route'] = '${micro_gateway}'
+
+File.open('/var/vcap/store/ucc/web-ui/config/config.yml', 'w') do |file|
+ yaml = YAML.dump(config)
+ file.write(yaml.gsub(\" \n\", \"\n\"))
+ file.flush
+end
+"
+
     cd ${pwd}
 
     log_builder "Done settting up commander"
@@ -105,8 +128,13 @@ function create_release()
 {
     log_builder "Creating cloud foundry release"
 
-    rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases
     pwd=`pwd`
+
+    rm -rf /var/vcap/store/ucc_release/
+    mkdir -p /var/vcap/store/ucc_release/
+
+    cd /var/vcap/store/ucc_release/
+
     log_builder "Cloning cloud foundry release git repo"
     git clone ${git_cf_release}
     cd private-cf-release
@@ -115,13 +143,17 @@ function create_release()
     log_builder "Updating git submodules"
     ./update
 
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
+    find . -name Gemfile.lock -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
+
+
     log_builder "Executing bosh create release with tarball"
-    bundle exec bosh --non-interactive create release --with-tarball
-    release_tarball=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.tgz`
+    bundle exec bosh --non-interactive create release --with-tarball --force
+    release_tarball=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.tgz`
     log_builder "Uploading release to bosh"
     bundle exec bosh upload release ${release_tarball}
     cd ${pwd}
-    rm -rf /var/vcap/store/ucc/web-ui/resources/private-cf-release
 
     log_builder "Done creating cloud foundry release"
 }
@@ -130,14 +162,16 @@ function cleanup()
 {
     log_builder "Cleaning up micro bosh VM"
 
+    rm -rf /var/vcap/store/ucc_release/
     rm -f /root/.bash_history
     rm -f /root/.ssh/*
     rm -f /root/build.sh
     rm -f /root/config.sh
-    rm -rf /var/vcap/data/tmp/private-cf-release/dev_releases
     rm -f /root/compilation_manifest.yml
     rm -f /root/Gemfile
     rm -f /root/Gemfile.lock
+
+    touch /root/passwd.lock
 
     passwd -d vcap
     chage -d 0 vcap
@@ -156,9 +190,9 @@ function configure_init()
     echo '#exec /usr/bin/nice -n -10 /var/vcap/bosh/agent/bin/agent -c -I $(cat /etc/infrastructure)' >>/tmp/agent_run
     mv -f /tmp/agent_run /etc/service/agent/run
 
-    echo "*/1 * * * * service ucc status || service ucc restart" >/var/spool/cron/crontabs/vcap
-    echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/vcap
-    chown vcap.vcap /var/spool/cron/crontabs/vcap
+    echo "*/1 * * * * service ucc status || service ucc restart" >/var/spool/cron/crontabs/root
+    echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/root
+
     log_builder "Done configuring daemons and crontab"
 }
 
@@ -170,7 +204,7 @@ function deploy_cf()
 
     uuid=`bundle exec bosh status|grep UUID|awk '{print $2}'`
     sed -i s/REPLACEME/${uuid}/g /root/compilation_manifest.yml
-    release_yml=`ls /var/vcap/store/ucc/web-ui/resources/private-cf-release/dev_releases/*.yml | grep -v index.yml`
+    release_yml=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`
     log_builder "Updating cloud foundry deployment yml"
 
   ruby -e "
@@ -179,6 +213,7 @@ release_yml = YAML.load_file('${release_yml}')
 config = YAML.load_file('/root/compilation_manifest.yml')
 
 config['release']['version'] = release_yml['version']
+config['release']['name'] = release_yml['name']
 
 config['networks'][0]['subnets'][0]['reserved'] = '${micro_reserved_ips}'.split(';')
 config['networks'][0]['subnets'][0]['static'] = '${micro_static_ips}'.split(';')
@@ -186,18 +221,6 @@ config['networks'][0]['subnets'][0]['range'] = '${micro_network_range}'
 config['networks'][0]['subnets'][0]['gateway'] = '${micro_gateway}'
 config['networks'][0]['subnets'][0]['dns'] = '${micro_dns}'.split(';')
 config['networks'][0]['subnets'][0]['cloud_properties']['name'] = '${micro_vm_network}'
-
-config['cloud']['properties']['vcenters'][0]['host'] = '${vsphere_host}'
-config['cloud']['properties']['vcenters'][0]['address'] = '${vsphere_host}'
-config['cloud']['properties']['vcenters'][0]['user'] = '${vsphere_user}'
-config['cloud']['properties']['vcenters'][0]['password'] = '${vsphere_password}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['name'] = '${datacenter}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['vm_folder'] = '${vm_folder}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['template_folder'] = '${template_folder}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['disk_path'] = '${disk_path}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['datastore_pattern'] = '${datastore}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['persistent_datastore_pattern'] = '${datastore}'
-config['cloud']['properties']['vcenters'][0]['datacenters'][0]['clusters'][0] = '${cluster}'
 
 File.open('/root/compilation_manifest.yml', 'w') do |file|
  yaml = YAML.dump(config)
@@ -221,6 +244,8 @@ end
         log_builder "Retrying bosh deployment"
     done
 
+    bundle exec bosh -n delete deployment compilation_manifest --force
+
     log_builder "Done compiling cloud foundry"
 }
 
@@ -239,17 +264,17 @@ function install_tty_js()
     ./configure
     make install
 
-    log_builder "Installing npm"
-    cd ..
-    mkdir npm
-    cd npm
-    wget http://npmjs.org/install.sh --no-check-certificate
-    bash install.sh
-    cd ..
+#    log_builder "Installing npm"
+#    cd ..
+#    mkdir npm
+#    cd npm
+#    wget http://npmjs.org/install.sh --no-check-certificate
+#    sh install.sh
+#    cd ..
 
     log_builder "Cloning tty.js repo"
     git clone ${git_ttyjs}
-    cd private-ttyjs
+    cd private-tty.js
     git reset --hard ${git_ttyjs_commit}
     cd ..
 
@@ -286,10 +311,10 @@ function zero_free()
 
 param_present 'micro_packages'          $* && install_packages
 param_present 'micro_stemcells'         $* && stemcells
-param_present 'micro_commander'         $* && get_commander
 param_present 'micro_create_release'    $* && create_release
-param_present 'micro_config_daemons'    $* && configure_init
-param_present 'micro_ttyjs'             $* && install_tty_js
 param_present 'micro_compile'           $* && deploy_cf
+param_present 'micro_ttyjs'             $* && install_tty_js
+param_present 'micro_commander'         $* && get_commander
+param_present 'micro_config_daemons'    $* && configure_init
 param_present 'micro_cleanup'           $* && cleanup
 param_present 'micro_zero_free'         $* && zero_free

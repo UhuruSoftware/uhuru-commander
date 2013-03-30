@@ -4,7 +4,7 @@ module Uhuru::BoshCommander
     def setup(new_config)
       say('Moving director config')
       @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      @is_update = true#is_update
+      @is_update = is_update
       setup_micro(new_config)
       say('Restarting services')
       restart_monit
@@ -12,9 +12,9 @@ module Uhuru::BoshCommander
       create_users()
       unless @is_update
         say('Uploading stemcells')
-        #upload_stemcells
+        upload_stemcells
         say('Configuring database')
-        #configure_database
+        configure_database
       end
 
       say ('Infrastructure configured')
@@ -75,7 +75,7 @@ module Uhuru::BoshCommander
     end
 
     def setup_nagios()
-      monitoring_file = $config[:monitoring_yml]
+      monitoring_file = $config[:nagios][:config_path]
       monitoring_yml = YAML.load_file(monitoring_file)
 
       monitoring_yml[:nats] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
@@ -118,12 +118,12 @@ module Uhuru::BoshCommander
       postgres_ctl.gsub!(/^PASSWORD='.+'$/, "PASSWORD='#{@postgres_info[:password]}'")
 
       File.open(postgres_ctl_file, 'w') do |file|
-        dump_yaml_to_file(postgres_ctl, file )
+        file.write(postgres_ctl)
       end
     end
 
     def setup_health_monitor()
-      hm_file =  File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
+      hm_file =  $config[:health_monitor_yml]
 
       hm_yml =  load_yaml_file(hm_file)
       hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"

@@ -19,7 +19,7 @@ git_password="Uhuruv0ice"
 
 git_bosh_repo="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-bosh"
 git_commander_repo="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-uhuru-commander"
-git_ttyjs="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-ttyjs"
+git_ttyjs="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-tty.js"
 git_cf_release="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-cf-release"
 
 git_bosh_commit=""

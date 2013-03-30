@@ -6,7 +6,7 @@ module Uhuru::BoshCommander
         session['command_uuid'] = UUIDTools::UUID.random_create
       end
 
-      command =  Bosh::Cli::Command::Misc.new
+      command = Bosh::Cli::Command::Misc.new
 
       session['command'] = command
 

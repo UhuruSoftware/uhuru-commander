@@ -32,12 +32,10 @@
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
+          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="/monitoring">Monitoring</a></li>
       <% end %>
       <li class="right"><a onclick="check_services()" href="#">Logout</a></li>
       <li class="right"><a onclick="showPageLoading()" href="/internal_logs">Internal Logs</a></li>
-      <% unless first_run? || updating_infrastructure? %>
-        <li class="right"><a onclick="showPageLoading()" href="/nagios/">Monitoring</a></li>
-      <% end %>
     </ul>
   </div>
 

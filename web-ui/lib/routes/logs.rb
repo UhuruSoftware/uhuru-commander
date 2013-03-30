@@ -58,17 +58,18 @@ module Uhuru::BoshCommander
       deployment = params[:deployment]
       job = params[:job]
       index = params[:index]
+      resource_id = ''
 
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           deployment = Deployment.new(deployment)
-          deployment.get
+          resource_id = deployment.get_vm_logs(job, index)
         rescue Exception => e
           err e.message.to_s
         end
       end
 
-      action_on_done = "/director_log/"
+      action_on_done = "Log tarball has been generated. Click <a href='/vmlog-dl/#{resource_id}'>here</a> to download it."
       redirect Logs.log_url(request_id, action_on_done)
     end
   end
