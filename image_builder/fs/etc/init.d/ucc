@@ -1,14 +1,12 @@
 #!/bin/bash
 
-pidfile="/var/run/ucc.pid"
+pidfile="/tmp/boshcommander.pid"
 
 function start()
 {
   echo "Starting UCC ..."
   cd /var/vcap/store/ucc/web-ui/bin
-  rm -f /tmp/boshcommander.pid
   BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile HOME=/root PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/ruby/bin" /var/vcap/bosh/bin/bundle exec /var/vcap/bosh/bin/ruby  boshcommander 1>/dev/null 2>/dev/null &
-  echo $! >$pidfile
 }
 
 function stop()
@@ -44,7 +42,7 @@ function status()
       }
     } ||
     {
-    echo "UCC doesent appear to be running"
+    echo "UCC doesn't appear to be running"
     exit 1
     }
 }
