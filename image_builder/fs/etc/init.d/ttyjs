@@ -6,7 +6,7 @@ function start()
 {
   echo "Starting tty.js ..."
   cd /var/vcap/store/ucc/tty.js
-  ./bin/tty.js --config config/config.json &
+  BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile /var/vcap/bosh/bin/bundle exec ./bin/tty.js --config config/config.json &
   echo $! >$pidfile
 }
 
