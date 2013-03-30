@@ -42,23 +42,25 @@ function get_commander()
     git reset --hard ${git_commander_commit}
     switch_to_http_sub_modules
 
+    cd ..
+
     mkdir /var/vcap/store/ucc
     log_builder "Moving Commander files to '/var/vcap/store/ucc/'"
     mv private-uhuru-commander/* /var/vcap/store/ucc/
     rm -rf private-uhuru-commander
 
     log_builder "Linking stemcells from '/var/vcap/store/ucc_stemcells/'"
-    ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/resources/${windows_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/resources/${windows_sql_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/resources/${linux_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${linux_php_stemcell}   /var/vcap/store/ucc/resources/${linux_php_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/web-ui/resources/${windows_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/web-ui/resources/${windows_sql_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/web-ui/resources/${linux_stemcell}
+    ln -s /var/vcap/store/ucc_stemcells/${linux_php_stemcell}   /var/vcap/store/ucc/web-ui/resources/${linux_php_stemcell}
 
     cd /var/vcap/store/ucc/web-ui/config
     rm -f /var/vcap/store/ucc/web-ui/config/infrastructure.yml
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/
-    bundle install
+    sudo -u vcap bundle install
     cd ${pwd}
 
     log_builder "Done settting up commander"
@@ -221,7 +223,7 @@ end
         log_builder "Retrying bosh deployment"
     done
 
-     bundle exec bosh -n delete deployment compilation_manifest --force
+    bundle exec bosh -n delete deployment compilation_manifest --force
 
     log_builder "Done compiling cloud foundry"
 }
@@ -288,10 +290,10 @@ function zero_free()
 
 param_present 'micro_packages'          $* && install_packages
 param_present 'micro_stemcells'         $* && stemcells
-param_present 'micro_commander'         $* && get_commander
 param_present 'micro_create_release'    $* && create_release
-param_present 'micro_config_daemons'    $* && configure_init
-param_present 'micro_ttyjs'             $* && install_tty_js
 param_present 'micro_compile'           $* && deploy_cf
+param_present 'micro_ttyjs'             $* && install_tty_js
+param_present 'micro_commander'         $* && get_commander
+param_present 'micro_config_daemons'    $* && configure_init
 param_present 'micro_cleanup'           $* && cleanup
 param_present 'micro_zero_free'         $* && zero_free
