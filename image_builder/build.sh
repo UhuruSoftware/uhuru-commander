@@ -251,7 +251,7 @@ function install_tty_js()
     mkdir npm
     cd npm
     wget http://npmjs.org/install.sh --no-check-certificate
-    bash install.sh
+    sh install.sh
     cd ..
 
     log_builder "Cloning tty.js repo"
