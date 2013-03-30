@@ -63,7 +63,7 @@ function get_commander()
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/
-    bundle install
+    bundle install --system
     cd ${pwd}
 
     log_builder "Done settting up commander"
