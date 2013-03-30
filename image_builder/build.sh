@@ -63,7 +63,9 @@ function get_commander()
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/
-    bundle install --system
+    export BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile
+    bundle install
+    export BUNDLE_GEMFILE=/root/Gemfile
     cd ${pwd}
 
     log_builder "Done settting up commander"
