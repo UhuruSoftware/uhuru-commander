@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/config.yml" afterPath="$PROJECT_DIR$/web-ui/config/config.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs" afterPath="$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc" afterPath="$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,10 +31,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.yml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="config.yml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="69" selection-start="232" selection-end="232" vertical-scroll-proportion="0.45652175">
+            <state line="14" column="69" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -53,16 +52,16 @@
       <file leaf-file-name="ucc" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="2" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0">
+            <state line="9" column="232" selection-start="385" selection-end="409" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ttyjs" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ttyjs" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="0" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
+            <state line="11" column="120" selection-start="295" selection-end="295" vertical-scroll-proportion="0.3691275">
               <folding />
             </state>
           </provider>
@@ -138,10 +137,10 @@
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
         <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/web-ui/Gemfile" />
-        <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc" />
-        <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs" />
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
+        <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc" />
+        <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs" />
       </list>
     </option>
   </component>
@@ -854,20 +853,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="2" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state line="75" column="0" selection-start="2711" selection-end="2711" vertical-scroll-proportion="0.0">
@@ -877,7 +862,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="69" selection-start="232" selection-end="232" vertical-scroll-proportion="0.45652175">
+        <state line="14" column="69" selection-start="232" selection-end="232" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="232" selection-start="385" selection-end="409" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="120" selection-start="295" selection-end="295" vertical-scroll-proportion="0.3691275">
           <folding />
         </state>
       </provider>
