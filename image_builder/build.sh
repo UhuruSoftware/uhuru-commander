@@ -63,7 +63,7 @@ function get_commander()
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/
-    sudo -u vcap /var/vcap/bosh/bin/bundle install
+    bundle install
     cd ${pwd}
 
     log_builder "Done settting up commander"
@@ -172,9 +172,9 @@ function configure_init()
     echo '#exec /usr/bin/nice -n -10 /var/vcap/bosh/agent/bin/agent -c -I $(cat /etc/infrastructure)' >>/tmp/agent_run
     mv -f /tmp/agent_run /etc/service/agent/run
 
-    echo "*/1 * * * * service ucc status || service ucc restart" >/var/spool/cron/crontabs/vcap
-    echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/vcap
-    chown vcap.vcap /var/spool/cron/crontabs/vcap
+    echo "*/1 * * * * service ucc status || service ucc restart" >/var/spool/cron/crontabs/root
+    echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/root
+
     log_builder "Done configuring daemons and crontab"
 }
 
