@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/config.yml" afterPath="$PROJECT_DIR$/web-ui/config/config.yml" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,19 +32,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.yml" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="config.yml" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="251" selection-end="251" vertical-scroll-proportion="0.0">
+            <state line="14" column="69" selection-start="232" selection-end="232" vertical-scroll-proportion="0.45652175">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="build.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="53" selection-start="2523" selection-end="2523" vertical-scroll-proportion="0.65995526">
+            <state line="75" column="0" selection-start="2711" selection-end="2711" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -129,7 +131,6 @@
         <option value="$PROJECT_DIR$/web-ui/lib/routes/monitoring.rb" />
         <option value="$PROJECT_DIR$/image_builder/fs/etc/init/tty1.conf" />
         <option value="$PROJECT_DIR$/image_builder/install.sh" />
-        <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
         <option value="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/runner.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" />
@@ -140,6 +141,7 @@
         <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ucc" />
         <option value="$PROJECT_DIR$/image_builder/fs/etc/init.d/ttyjs" />
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
+        <option value="$PROJECT_DIR$/web-ui/config/config.yml" />
       </list>
     </option>
   </component>
@@ -845,13 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="251" selection-end="251" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
@@ -875,7 +870,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="53" selection-start="2523" selection-end="2523" vertical-scroll-proportion="0.65995526">
+        <state line="75" column="0" selection-start="2711" selection-end="2711" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="69" selection-start="232" selection-end="232" vertical-scroll-proportion="0.45652175">
           <folding />
         </state>
       </provider>

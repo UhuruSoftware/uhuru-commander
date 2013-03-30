@@ -66,6 +66,22 @@ function get_commander()
     export BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile
     bundle install
     export BUNDLE_GEMFILE=/root/Gemfile
+
+    log_builder "Configuring commander"
+
+  ruby -e "
+require 'yaml'
+release_yml = YAML.load_file('/var/vcap/store/ucc/web-ui/config/config.yml')
+
+config['local_route'] = '${micro_gateway}'
+
+File.open('/var/vcap/store/ucc/web-ui/config/config.yml', 'w') do |file|
+ yaml = YAML.dump(config)
+ file.write(yaml.gsub(\" \n\", \"\n\"))
+ file.flush
+end
+"
+
     cd ${pwd}
 
     log_builder "Done settting up commander"
