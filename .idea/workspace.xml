@@ -78,7 +78,7 @@
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="71" selection-start="8146" selection-end="8146" vertical-scroll-proportion="0.46875">
+            <state line="223" column="25" selection-start="8064" selection-end="8064" vertical-scroll-proportion="0.59375">
               <folding />
             </state>
           </provider>
@@ -1017,7 +1017,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="71" selection-start="8146" selection-end="8146" vertical-scroll-proportion="0.46875">
+        <state line="223" column="25" selection-start="8064" selection-end="8064" vertical-scroll-proportion="0.59375">
           <folding />
         </state>
       </provider>

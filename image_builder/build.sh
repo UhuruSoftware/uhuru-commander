@@ -221,7 +221,7 @@ end
         log_builder "Retrying bosh deployment"
     done
 
-    bundle exec bosh delete deployment compilation_manifest
+     bundle exec bosh -n delete deployment compilation_manifest --force
 
     log_builder "Done compiling cloud foundry"
 }
