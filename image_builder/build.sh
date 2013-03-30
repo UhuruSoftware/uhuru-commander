@@ -40,7 +40,10 @@ function get_commander()
     git clone ${git_commander_repo}
     cd private-uhuru-commander
     git reset --hard ${git_commander_commit}
-    switch_to_http_sub_modules
+
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
+    find . -name Gemfile -print0 | xargs -0 sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
+    find . -name Gemfile.lock -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
 
     cd ..
 
@@ -60,7 +63,7 @@ function get_commander()
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/
-    sudo -u vcap bundle install
+    sudo -u vcap /var/vcap/bosh/bin/bundle install
     cd ${pwd}
 
     log_builder "Done settting up commander"
