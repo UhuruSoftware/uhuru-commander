@@ -246,17 +246,17 @@ function install_tty_js()
     ./configure
     make install
 
-    log_builder "Installing npm"
-    cd ..
-    mkdir npm
-    cd npm
-    wget http://npmjs.org/install.sh --no-check-certificate
-    sh install.sh
-    cd ..
+#    log_builder "Installing npm"
+#    cd ..
+#    mkdir npm
+#    cd npm
+#    wget http://npmjs.org/install.sh --no-check-certificate
+#    sh install.sh
+#    cd ..
 
     log_builder "Cloning tty.js repo"
     git clone ${git_ttyjs}
-    cd private-ttyjs
+    cd private-tty.js
     git reset --hard ${git_ttyjs_commit}
     cd ..
 

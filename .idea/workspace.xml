@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/build.sh" afterPath="$PROJECT_DIR$/image_builder/build.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/config.sh" afterPath="$PROJECT_DIR$/image_builder/config.sh" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,7 +65,7 @@
       <file leaf-file-name="build.sh" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="254" column="4" selection-start="8998" selection-end="8998" vertical-scroll-proportion="0.67114097">
+            <state line="255" column="30" selection-start="9011" selection-end="9011" vertical-scroll-proportion="0.5033557">
               <folding />
             </state>
           </provider>
@@ -109,7 +110,7 @@
       <file leaf-file-name="config.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="18" selection-start="871" selection-end="871" vertical-scroll-proportion="0.0">
+            <state line="21" column="84" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -128,7 +129,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/views/monitoring.erb" />
         <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/login_screen.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
@@ -143,6 +143,7 @@
         <option value="$PROJECT_DIR$/web-ui/lib/routes/logs.rb" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
         <option value="$PROJECT_DIR$/image_builder/compilation_manifest.yml" />
+        <option value="$PROJECT_DIR$/image_builder/config.sh" />
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
       </list>
     </option>
@@ -757,13 +758,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="18" selection-start="871" selection-end="871" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -771,9 +765,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="84" selection-start="752" selection-end="752" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="254" column="4" selection-start="8998" selection-end="8998" vertical-scroll-proportion="0.67114097">
+        <state line="255" column="30" selection-start="9011" selection-end="9011" vertical-scroll-proportion="0.5033557">
           <folding />
         </state>
       </provider>
