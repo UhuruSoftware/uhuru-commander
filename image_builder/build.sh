@@ -74,7 +74,7 @@ require 'yaml'
 config = YAML.load_file('/var/vcap/store/ucc/web-ui/config/config.yml')
 
 config['local_route'] = '${micro_gateway}'
-config['bosh_commander']['skip_check_monit'] = '${micro_gateway}'
+config['bosh_commander']['skip_check_monit'] = false
 config['bosh']['base_dir'] = '/var/vcap'
 
 File.open('/var/vcap/store/ucc/web-ui/config/config.yml', 'w') do |file|
