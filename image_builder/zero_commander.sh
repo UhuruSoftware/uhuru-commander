@@ -146,7 +146,7 @@ function deployer_run()
 
 function create_ovf()
 {
-    [  which ovftool >/dev/null  ] &&
+    [  `which ovftool`  ] &&
     {
         log_zero "Creating OVF file 'ucc-${version}.ofv'"
         micro_bosh_vm_name=`cat ~/sources/private-uhuru-commander/image_builder/deployments/bosh-deployments.yml | grep "vm_cid" | awk '{print $2}'`
