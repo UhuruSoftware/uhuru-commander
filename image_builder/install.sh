@@ -52,6 +52,9 @@ end
 
   log_deployer "Running bosh micro deploy ${micro_stemcell}"
   bosh -n micro deploy ${micro_stemcell} || bosh -n micro deploy ${micro_stemcell} --update
+
+  cp bosh-deployments.yml ~/bosh-deployments.yml
+
   cd ..
 }
 

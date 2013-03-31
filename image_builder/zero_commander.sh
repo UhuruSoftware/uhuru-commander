@@ -121,6 +121,7 @@ function deployer_update()
     micro_bosh_tarball=`ls /var/tmp/bosh/bosh_agent*/work/work/*.tgz`
     log_zero "Copying micro bosh tarball from '${micro_bosh_tarball}'"
     as_root cp -f ${micro_bosh_tarball} ~/sources/private-uhuru-commander/image_builder/deployments/${micro_stemcell}
+    as_root cp -f ~/bosh-deployments.yml ~/sources/private-uhuru-commander/image_builder/deployments/bosh-deployments.yml
 
     cd ${original_dir}
     as_user cp -f config.sh ~/sources/private-uhuru-commander/image_builder/
@@ -152,7 +153,7 @@ function create_ovf()
         micro_bosh_vm_name=`cat ~/sources/private-uhuru-commander/image_builder/deployments/bosh-deployments.yml | grep "vm_cid" | awk '{print $2}'`
         as_user mkdir ~/ovf
         cd ~/ovf
-        vm="vi://vi://${vsphere_user}:${vsphere_password}@${vsphere_host}/${datacenter}/vm/${vm_folder}/${micro_bosh_vm_name}"
+        vm="vi://${vsphere_user}:${vsphere_password}@${vsphere_host}/${datacenter}/vm/${vm_folder}/${micro_bosh_vm_name}"
         as_user ovftool "ucc-${version}.ofv"
         log_zero "Done creating ovf file"
     } ||
