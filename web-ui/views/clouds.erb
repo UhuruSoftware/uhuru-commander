@@ -24,7 +24,7 @@
     <% clouds.each do |cloud| %>
         <tr>
           <td class="cell_border cell_border_bottom bold"><a onclick="showPageLoading()" href="/clouds/<%= cloud['name'] %>"><%= cloud['name'] %></a></td>
-          <td class="cloud_state <%= cloud['state'].downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
+          <td class="cloud_state <%= cloud['state'].to_s().downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
           <td class="cell_border cell_border_bottom ">
             Web Interface: <a href="<%= cloud['web_ui_url'] %>"><%= cloud['web_ui_url'] %></a><br />
             API Endpoint: <a href="<%= cloud['api_url'] %>"><%= cloud['api_url'] %></a>
