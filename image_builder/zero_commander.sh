@@ -162,7 +162,13 @@ function create_ovf()
     }
 }
 
-# delete deployment
+function delete_deployment()
+{
+    log_zero 'Deleting micro bosh'
+    cd ~/sources/private-uhuru-commander/image_builder/deployments/
+    as_root bundle exec micro delete
+    log_zero 'Done deleting micro bosh'
+}
 
 [[ $1 == "help" ]] &&
 {
@@ -184,6 +190,7 @@ log_builder     "    micro_config_daemons  ${color_yellow}Sets up daemons for Uh
 log_builder     "    micro_cleanup         ${color_yellow}Cleans up the Micro BOSH VM and expires the password for user 'vcap'"
 log_builder     "    micro_zero_free       ${color_yellow}Cleans unused space on the Micro BOSH VM so it's ready to be exported"
 log_zero        "local_create_ovf          ${color_yellow}Generates an OVF from the Micro BOSH VM"
+log_zero        "local_delete_micro        ${color_yellow}Deletes the Micro BOSH VM"
 } ||
 {
     original_dir=`pwd`
@@ -194,4 +201,5 @@ log_zero        "local_create_ovf          ${color_yellow}Generates an OVF from 
     param_present 'local_update_deployer'   $* && deployer_update $*
     param_present 'local_run_deployer'      $* && deployer_run $*
     param_present 'local_create_ovf'        $* && create_ovf
+    param_present 'local_delete_micro'      $* && delete_deployment
 }
