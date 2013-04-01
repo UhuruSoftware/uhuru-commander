@@ -289,7 +289,13 @@ function zero_free()
 {
     log_builder "Running zerofree"
     cd /root
+
+    killall -9 crond
+    service ucc stop
+    service ttyjs stop
+
     monit stop all
+
     sleep 60
     umount /tmp
     umount /tmp
