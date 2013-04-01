@@ -72,7 +72,7 @@ module Uhuru::BoshCommander
         needed_instances = job_with_ip["instances"].to_i
 
         assigned_ips.each_with_index do |static_ip, index|
-          unless IPHelper.ip_in_range?(static_ips, static_ip)
+          unless static_ip == nil || IPHelper.ip_in_range?(static_ips, static_ip)
             assigned_ips[index] = possible_static_ips.shift
           end
         end
