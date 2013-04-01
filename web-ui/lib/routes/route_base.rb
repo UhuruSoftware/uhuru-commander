@@ -101,7 +101,6 @@ module Uhuru::BoshCommander
       end
     end
 
-    helpers Sinatra::ContentFor
     helpers do
       def first_run?
         !File.exists?(File.expand_path('../../../config/infrastructure.yml', __FILE__))
