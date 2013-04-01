@@ -39,7 +39,7 @@
             <% end %>
           </td>
           <td class="cell_border cell_border_bottom ">
-            <% if cloud['services'].size > 0 %>
+            <% if cloud['services'] != nil && cloud['services'].size > 0 %>
                 <% cloud['services'].each do |service| %>
                     <img src="/icons/<%= service %>.png" alt=<%= service %>>
                 <% end %>
@@ -48,7 +48,7 @@
             <% end %>
           </td>
           <td class="cell_border cell_border_bottom border_right">
-            <% if cloud['stacks'].size > 0 %>
+            <% if cloud['stacks'] != nil && cloud['stacks'].size > 0 %>
                 <% cloud['stacks'].each do |stack| %>
                     <img src="/icons/<%= stack %>.png" alt=<%= stack %>>
                 <% end %>
