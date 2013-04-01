@@ -100,11 +100,9 @@ module Uhuru::BoshCommander
           if is_ok
             form.generate_volatile_data!
             values_to_show = GenericForm::VALUE_TYPE_VOLATILE
-            is_ok = form.validate?(GenericForm::VALUE_TYPE_VOLATILE)
+            form.deployment.save(form.get_data(GenericForm::VALUE_TYPE_VOLATILE))
 
-            if is_ok
-              form.deployment.save(form.get_data(GenericForm::VALUE_TYPE_VOLATILE))
-            end
+            is_ok = form.validate?(GenericForm::VALUE_TYPE_VOLATILE)
           end
           deployment_status = form.deployment.status
         end
