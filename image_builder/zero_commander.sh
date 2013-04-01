@@ -181,13 +181,13 @@ function remove_ovf_iso_references()
 
 
     as_user echo "require('rexml/document')" > /tmp/fix_ovf.rb
-    as_user echo "file = File.read('ucc-${version}.ovf')" > /tmp/fix_ovf.rb
-    as_user echo "doc = REXML::Document.new(file)" > /tmp/fix_ovf.rb
-    as_user echo "doc.root.elements.delete(\"//Item/rasd:ResourceSubType[. = 'vmware.cdrom.iso']/..\")" > /tmp/fix_ovf.rb
-    as_user echo "doc.root.elements.delete(\"//File[contains(@ovf:href, 'iso')]\")" > /tmp/fix_ovf.rb
-    as_user echo "File.open('ucc-${version}.ovf', 'w') do |data|" > /tmp/fix_ovf.rb
-    as_user echo "    data << doc" > /tmp/fix_ovf.rb
-    as_user echo "end" > /tmp/fix_ovf.rb
+    as_user echo "file = File.read('ucc-${version}.ovf')" >> /tmp/fix_ovf.rb
+    as_user echo "doc = REXML::Document.new(file)" >> /tmp/fix_ovf.rb
+    as_user echo "doc.root.elements.delete(\"//Item/rasd:ResourceSubType[. = 'vmware.cdrom.iso']/..\")" >> /tmp/fix_ovf.rb
+    as_user echo "doc.root.elements.delete(\"//File[contains(@ovf:href, 'iso')]\")" >> /tmp/fix_ovf.rb
+    as_user echo "File.open('ucc-${version}.ovf', 'w') do |data|" >> /tmp/fix_ovf.rb
+    as_user echo "    data << doc" >> /tmp/fix_ovf.rb
+    as_user echo "end" >> /tmp/fix_ovf.rb
 
     as_user ruby /tmp/fix_ovf.rb
 
