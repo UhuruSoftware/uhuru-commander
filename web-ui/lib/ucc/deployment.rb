@@ -87,8 +87,6 @@ module Uhuru::BoshCommander
       current_manifest = nil
       if state == STATE_DEPLOYED
         current_manifest = get_manifest()
-      elsif state == STATE_ERROR
-        return {}
       else
         current_manifest = load_yaml_file(@deployment_manifest_path)
       end
