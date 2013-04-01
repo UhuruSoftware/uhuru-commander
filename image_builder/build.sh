@@ -201,8 +201,8 @@ function configure_init()
     echo '#exec /usr/bin/nice -n -10 /var/vcap/bosh/agent/bin/agent -c -I $(cat /etc/infrastructure)' >>/tmp/agent_run
     mv -f /tmp/agent_run /etc/service/agent/run
 
-    echo "*/1 * * * * service ucc status || service ucc restart" >/var/spool/cron/crontabs/root
-    echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/root
+    [ -z "`cat /var/spool/cron/crontabs/root | grep ucc`" ] && echo "*/1 * * * * service ucc status || service ucc restart" >>/var/spool/cron/crontabs/root
+    [ -z "`cat /var/spool/cron/crontabs/root | grep ttyjs`" ] && echo "*/1 * * * * service ttyjs status || service ttyjs restart" >>/var/spool/cron/crontabs/root
 
     log_builder "Done configuring daemons and crontab"
 }
