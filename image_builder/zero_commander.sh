@@ -82,7 +82,7 @@ function micro_bosh_stemcell()
     log_zero "Creating micro bosh stemcell"
     as_user mkdir ~/sources
     as_root rm -rf ~/sources/private-bosh
-    as_root rm -rf /var/tmp/bosh/bosh_agent
+    as_root rm -rf /var/tmp/bosh
     cd ~/sources
     log_zero "Cloning bosh git repo"
     as_user git clone ${git_bosh_repo}
@@ -180,7 +180,7 @@ function remove_ovf_iso_references()
     as_user mv -f ucc-${version}.mf.good ucc-${version}.mf
 
     as_user ruby -e "
-require 'rexml\/document'
+require('rexml/document')
 file = File.read('ucc-${version}.ovf')
 doc = REXML::Document.new(file)
 
