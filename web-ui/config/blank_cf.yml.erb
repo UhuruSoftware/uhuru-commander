@@ -39,8 +39,8 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: uhuru-windows-2008R2
-    version: 0.9.3
+    name: <%= $config['bosh']['stemcells']['windows_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['windows_stemcell']['version'] %>
   cloud_properties:
     ram: 2048
     disk: 5000
@@ -53,8 +53,8 @@ resource_pools:
   network: default
   size: 0
   stemcell:
-    name: uhuru-windows-2008R2-sqlserver
-    version: 0.9.4
+    name: <%= $config['bosh']['stemcells']['mssql_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['mssql_stemcell']['version'] %>
   cloud_properties:
     ram: 2048
     disk: 5000
@@ -67,8 +67,8 @@ resource_pools:
   network: default
   size: 6
   stemcell:
-    name: bosh-stemcell
-    version: 0.6.7
+    name: <%= $config['bosh']['stemcells']['linux_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['linux_stemcell']['version'] %>
   cloud_properties:
     ram: 300
     disk: 5000
@@ -78,8 +78,8 @@ resource_pools:
   network: default
   size: 5
   stemcell:
-    name: bosh-stemcell
-    version: 0.6.7
+    name: <%= $config['bosh']['stemcells']['linux_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['linux_stemcell']['version'] %>
   cloud_properties:
     ram: 512
     disk: 5000
@@ -89,8 +89,8 @@ resource_pools:
   network: default
   size: 10
   stemcell:
-    name: bosh-stemcell
-    version: 0.6.7
+    name: <%= $config['bosh']['stemcells']['linux_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['linux_stemcell']['version'] %>
   cloud_properties:
     ram: 1024
     disk: 5000
@@ -100,8 +100,8 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: bosh-stemcell
-    version: 0.6.7
+    name: <%= $config['bosh']['stemcells']['linux_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['linux_stemcell']['version'] %>
   cloud_properties:
     ram: 2048
     disk: 10000
@@ -111,8 +111,8 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: bosh-stemcell-php
-    version: 0.6.4.3
+    name: <%= $config['bosh']['stemcells']['linux_php_stemcell']['name'] %>
+    version: <%= $config['bosh']['stemcells']['linux_php_stemcell']['version'] %>
   cloud_properties:
     ram: 3072
     disk: 30000
