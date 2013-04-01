@@ -1,6 +1,5 @@
 #!/bin/bash
 
-local_ip=`ifconfig eth0|grep -w inet|cut -f 2 -d ":"|cut -f 1 -d " "`
 PATH="/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin"
 TERM="xterm"
 export BUNDLE_GEMFILE=/root/Gemfile
