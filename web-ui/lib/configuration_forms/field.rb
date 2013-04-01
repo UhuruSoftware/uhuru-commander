@@ -499,8 +499,7 @@ module Uhuru::BoshCommander
           end
         elsif @screen.name == 'Properties'
           if @name == 'domain'
-            form_data = @form.get_data GenericForm::VALUE_TYPE_FORM
-            result = form_data['cloud:Properties:domain'].downcase
+            result = value.to_s.downcase
           end
         end
       end

@@ -41,6 +41,11 @@ function get_commander()
 {
     log_builder "Setting up Commander on micro bosh"
 
+    rm -rf /tmp/ucc_bkp
+    mkdir /tmp/ucc_bkp
+    cp -R /var/vcap/store/ucc/web-ui/cf_deployments /tmp/ucc_bkp/
+    cp /var/vcap/store/ucc/web-ui/config/infrastructure.yml /tmp/ucc_bkp/
+
     rm -rf /var/vcap/store/ucc
 
     pwd=`pwd`
@@ -69,6 +74,10 @@ function get_commander()
 
     cd /var/vcap/store/ucc/web-ui/config
     rm -f /var/vcap/store/ucc/web-ui/config/infrastructure.yml
+    rm -rf /var/vcap/store/ucc/web-ui/cf_deployments
+
+    cp -R /tmp/ucc_bkp/cf_deployments /var/vcap/store/ucc/web-ui/
+    cp /tmp/ucc_bkp/infrastructure.yml /var/vcap/store/ucc/config/
 
     log_builder "Installing Commander ruby gems"
     cd /var/vcap/store/ucc/web-ui/

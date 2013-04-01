@@ -3,8 +3,8 @@ name: cloud-foundry
 director_uuid: "DO NOT CHANGE THIS STRING"
 
 release:
-  name: app-cloud
-  version: 122.1-dev
+  name: <%=  YAML.load_file(`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`.strip)['name'] %>
+  version: <%=  YAML.load_file(`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`.strip)['version'] %>
 
 compilation:
   workers: 6
