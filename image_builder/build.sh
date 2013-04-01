@@ -25,6 +25,15 @@ function install_packages()
     log_builder "Installing ruby gems"
     bundle install --system
 
+    log_builder "Installing node.js"
+    cd /tmp
+    mkdir nodejs
+    cd nodejs
+    wget -N http://nodejs.org/dist/node-latest.tar.gz
+    tar xzvf node-latest.tar.gz && cd `ls -rd node-v*`
+    ./configure
+    make install
+
     log_builder "Done installing packages on micro bosh"
 }
 
@@ -255,24 +264,7 @@ function install_tty_js()
 {
     log_builder "Setting up tty.js"
     cwd=`pwd`
-    rm -rf /var/vcap/store/ucc/tty.js
-
-    log_builder "Installing node.js"
-    cd /tmp
-    mkdir nodejs
-    cd nodejs
-    wget -N http://nodejs.org/dist/node-latest.tar.gz
-    tar xzvf node-latest.tar.gz && cd `ls -rd node-v*`
-    ./configure
-    make install
-
-#    log_builder "Installing npm"
-#    cd ..
-#    mkdir npm
-#    cd npm
-#    wget http://npmjs.org/install.sh --no-check-certificate
-#    sh install.sh
-#    cd ..
+    rm -rf /var/vcap/store/tty.js
 
     log_builder "Cloning tty.js repo"
     git clone ${git_ttyjs}
@@ -280,13 +272,13 @@ function install_tty_js()
     git reset --hard ${git_ttyjs_commit}
     cd ..
 
-    mkdir /var/vcap/store/ucc/tty.js
-    mv private-tty.js/* /var/vcap/store/ucc/tty.js/
+    mkdir /var/vcap/store/tty.js
+    mv private-tty.js/* /var/vcap/store/tty.js/
 
     rm -rf private-tty.js npm nodejs
 
     log_builder "Installing tty.js dependencies"
-    cd /var/vcap/store/ucc/tty.js/
+    cd /var/vcap/store/tty.js/
     npm install
 
     cd ${cwd}
