@@ -180,7 +180,7 @@ function remove_ovf_iso_references()
     as_user mv -f ucc-${version}.mf.good ucc-${version}.mf
 
     as_user ruby -e "
-require 'rexml/document'
+require 'rexml\/document'
 file = File.read('ucc-${version}.ovf')
 doc = REXML::Document.new(file)
 
