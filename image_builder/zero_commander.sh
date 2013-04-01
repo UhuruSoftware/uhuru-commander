@@ -179,18 +179,18 @@ function remove_ovf_iso_references()
     as_user egrep -v '\.ovf\)|\.iso\)' ucc-${version}.mf > ucc-${version}.mf.good
     as_user mv -f ucc-${version}.mf.good ucc-${version}.mf
 
-    as_user ruby -e "
-require('rexml/document')
-file = File.read('ucc-${version}.ovf')
-doc = REXML::Document.new(file)
 
-doc.root.elements.delete(\"//Item/rasd:ResourceSubType[. = 'vmware.cdrom.iso']/..\")
-doc.root.elements.delete(\"//File[contains(@ovf:href, 'iso')]\")
+    as_user echo "require('rexml/document')" > /tmp/fix_ovf.rb
+    as_user echo "file = File.read('ucc-${version}.ovf')" > /tmp/fix_ovf.rb
+    as_user echo "doc = REXML::Document.new(file)" > /tmp/fix_ovf.rb
+    as_user echo "doc.root.elements.delete(\"//Item/rasd:ResourceSubType[. = 'vmware.cdrom.iso']/..\")" > /tmp/fix_ovf.rb
+    as_user echo "doc.root.elements.delete(\"//File[contains(@ovf:href, 'iso')]\")" > /tmp/fix_ovf.rb
+    as_user echo "File.open('ucc-${version}.ovf', 'w') do |data|" > /tmp/fix_ovf.rb
+    as_user echo "    data << doc" > /tmp/fix_ovf.rb
+    as_user echo "end" > /tmp/fix_ovf.rb
 
-File.open('ucc-${version}.ovf', 'w') do |data|
-    data << doc
-end
-"
+    as_user ruby /tmp/fix_ovf.rb
+
     log_zero "Done removing iso information"
 }
 
