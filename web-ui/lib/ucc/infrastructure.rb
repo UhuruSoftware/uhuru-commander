@@ -20,6 +20,15 @@ module Uhuru::BoshCommander
       say ('Infrastructure configured')
     end
 
+    def is_update
+      db = get_database
+      first_name = db[:stemcells].select(:name).first()[:name]
+      if first_name.start_with?("empty-")
+        return false
+      end
+      true
+    end
+
     private
 
     def setup_micro(new_config)
@@ -29,15 +38,6 @@ module Uhuru::BoshCommander
       setup_nats()
       setup_postgres()
       setup_health_monitor()
-    end
-
-    def is_update
-      db = get_database
-      first_name = db[:stemcells].select(:name).first()[:name]
-      if first_name.start_with?("empty-")
-        return false
-      end
-      true
     end
 
     def build_info(director_yml)

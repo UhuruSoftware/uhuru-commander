@@ -18,14 +18,15 @@
       </table>
     </div>
 
-    <div class="bottom_buttons_div">
-      <input name="btn_update"
-             type="submit"
-             value="Update"
-             id="update_networking_btn"
-             class="update"
-             onclick="setConfirm('Are you sure you want to update the infrastructure? This operation may take a few hours.'); showPageLoading();" />
-    </div>
-
+    <% unless Uhuru::BoshCommander::BoshInfrastructure.new.is_update %>
+        <div class="bottom_buttons_div">
+          <input name="btn_update"
+                 type="submit"
+                 value="Update"
+                 id="update_networking_btn"
+                 class="update"
+                 onclick="setConfirm('Are you sure you want to update the infrastructure? This operation may take a few hours.'); showPageLoading();" />
+        </div>
+    <% end %>
   </form>
 </div>
