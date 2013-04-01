@@ -156,10 +156,42 @@ function create_ovf()
         vm="vi://${vsphere_user}:${vsphere_password}@${vsphere_host}/${datacenter}/vm/${vm_folder}/${micro_bosh_vm_name}"
         as_user ovftool --powerOffSource ${vm} "ucc-${version}.ofv"
         log_zero "Done creating ovf file"
+
+        log_zero "Done preparing ovf"
     } ||
     {
         log_zero '!!!WARNING!!! Skipping ovf generation because ovftool is not installed.'
     }
+}
+
+function remove_ovf_iso_references()
+{
+    log_zero "Removing iso information"
+    cd ~/ovf
+
+    log_zero "Backing up and hiding old information"
+    mv -f "ucc-${version}-file1.iso" ".ucc-${version}-file1.iso"
+    cp -f "ucc-${version}.mf" ".ucc-${version}.mf"
+    cp -f "ucc-${version}.ovf" ".ucc-${version}.ovf"
+
+    as_user rm -f "ucc-${version}-file1.iso"
+
+    as_user egrep -v '\.ovf\)|\.iso\)' ucc-${version}.mf > ucc-${version}.mf.good
+    as_user mv -f ucc-${version}.mf.good ucc-${version}.mf
+
+    as_user ruby -e "
+require 'rexml/document'
+file = File.read('ucc-${version}.ovf')
+doc = REXML::Document.new(file)
+
+doc.root.elements.delete(\"//Item/rasd:ResourceSubType[. = 'vmware.cdrom.iso']/..\")
+doc.root.elements.delete(\"//File[contains(@ovf:href, 'iso')]\")
+
+File.open('ucc-${version}.ovf', 'w') do |data|
+    data << doc
+end
+"
+    log_zero "Done removing iso information"
 }
 
 function delete_deployment()
@@ -187,9 +219,10 @@ log_builder     "    micro_compile         ${color_yellow}Compiles Cloud Foundry
 log_builder     "    micro_ttyjs           ${color_yellow}Sets up tty.js on the Micro BOSH vm"
 log_builder     "    micro_commander       ${color_yellow}Sets up the Uhuru Cloud Commander on Micro BOSH"
 log_builder     "    micro_config_daemons  ${color_yellow}Sets up daemons for Uhuru Cloud Commander and tty.js"
-log_builder     "    micro_cleanup         ${color_yellow}Cleans up the Micro BOSH VM and expires the password for user 'vcap'"
 log_builder     "    micro_zero_free       ${color_yellow}Cleans unused space on the Micro BOSH VM so it's ready to be exported"
+log_builder     "    micro_cleanup         ${color_yellow}Cleans up the Micro BOSH VM and expires the password for user 'vcap'"
 log_zero        "local_create_ovf          ${color_yellow}Generates an OVF from the Micro BOSH VM"
+log_zero        "local_fix_ovf_iso         ${color_yellow}Removes iso information from the UCC OVF"
 log_zero        "local_delete_micro        ${color_yellow}Deletes the Micro BOSH VM"
 } ||
 {
@@ -201,5 +234,6 @@ log_zero        "local_delete_micro        ${color_yellow}Deletes the Micro BOSH
     param_present 'local_update_deployer'   $* && deployer_update $*
     param_present 'local_run_deployer'      $* && deployer_run $*
     param_present 'local_create_ovf'        $* && create_ovf
+    param_present 'local_fix_ovf_iso'       $* && remove_ovf_iso_references
     param_present 'local_delete_micro'      $* && delete_deployment
 }

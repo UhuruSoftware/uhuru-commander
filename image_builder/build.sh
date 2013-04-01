@@ -324,5 +324,5 @@ param_present 'micro_compile'           $* && deploy_cf
 param_present 'micro_ttyjs'             $* && install_tty_js
 param_present 'micro_commander'         $* && get_commander
 param_present 'micro_config_daemons'    $* && configure_init
-param_present 'micro_cleanup'           $* && cleanup
 param_present 'micro_zero_free'         $* && zero_free
+param_present 'micro_cleanup'           $* && cleanup
