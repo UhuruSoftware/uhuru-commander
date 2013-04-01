@@ -194,7 +194,8 @@ do
   $dialog --backtitle "$bgtitle" \
   --title " Local network configuration " \
   --default-item "$sel" \
-  --cancel-label "Reboot" \
+  --ok-label "Change" \
+  --cancel-label "Revert" \
   --colors \
   --extra-button \
   --extra-label "Apply" \
@@ -220,8 +221,9 @@ ${color_magenta}${color_reverse}!!!IMPORTANT!!!${color_normal}${color_red}If you
       "Gateway") inputbox "Gateway" "Enter the Gateway Address" "$local_network_gateway" && local_network_gateway=`cat $tmpdir/input.out` ;;
       "DNS") inputbox "DNS" "Enter the IP address of a DNS server" "$local_network_dns" && local_network_dns=`cat $tmpdir/input.out` ;;
     esac ;;
-    1) reboot ;;
+    1) return ;;
     3) local_network_broadcast=`ipcalc ${local_network_ip}/${local_network_netmask}|grep Broadcast|cut -f 2 -d " "`
+    echo "Applying new settings"
 cat <<EOF>/etc/network/interfaces
 auto lo
 iface lo inet loopback
@@ -235,9 +237,10 @@ broadcast $local_network_broadcast
 EOF
     echo "nameserver $local_network_dns" >>/etc/resolv.conf
     /etc/init.d/networking restart
-    /usr/sbin/change_ips
-    echo "Press ENTER to continue"
+    /usr/sbin/change_ips.sh
+    echo "Press ENTER to reboot"
     read
+    reboot
     ;;
   esac
 done
@@ -246,6 +249,5 @@ done
 
 while true;
 do
-  #local_network_config
   static_ip_change
 done
