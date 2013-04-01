@@ -3,7 +3,7 @@ module Uhuru::BoshCommander
 
     def setup(new_config)
       say('Moving director config')
-      @director_config_file =  File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
+      @director_config_file = $config[:director_yml]
       @is_update = is_update
       setup_micro(new_config)
       say('Restarting services')
@@ -172,7 +172,7 @@ module Uhuru::BoshCommander
     end
 
     def get_database
-      director_yaml = YAML.load_file(@director_config_file)
+      director_yaml = YAML.load_file($config[:director_yml])
       db_config = director_yaml["db"]
       connection_options = {
           :max_connections => db_config["max_connections"],
