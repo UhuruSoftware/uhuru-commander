@@ -9,6 +9,7 @@
 
 function deploy_micro()
 {
+  rm deployments/bosh-deployments.yml
   micro_bosh_yml=deployments/micro_bosh/micro_bosh.yml
   netmask=`ipcalc ${micro_network_range} | grep -i netmask | awk '{print $2}'`
 
