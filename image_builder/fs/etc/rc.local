@@ -11,9 +11,8 @@
 #
 # By default this script does nothing.
 
-sv exit agent
-sv kill agent
 sv stop agent
+sv kill agent
 
 mount /dev/sdb2 /var/vcap/data
 mount /dev/sdc1 /var/vcap/store
