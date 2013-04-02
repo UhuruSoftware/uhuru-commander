@@ -148,8 +148,6 @@ module Uhuru::BoshCommander
 
     def upload_stemcells
       command_stemcell = Thread.current.current_session['command_stemcell']
-      say "Uploading Linux stemcell"
-      command_stemcell.upload(get_stemcell_filename($config[:bosh][:stemcells][:linux_stemcell]))
       say "Uploading Linux PHP stemcell"
       command_stemcell.upload(get_stemcell_filename($config[:bosh][:stemcells][:linux_php_stemcell]))
       say "Uploading Windows stemcell"

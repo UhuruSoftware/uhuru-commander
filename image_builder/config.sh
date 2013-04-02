@@ -29,7 +29,7 @@ git_cf_release_commit=""
 
 ftp_user="jira"
 ftp_password="uhuruservice1234!"
-ftp_host="192.168.1.136"
+ftp_host="10.0.0.136"
 
 vsphere_host="192.168.1.114"
 vsphere_user="administrator"
@@ -44,7 +44,6 @@ version="1.0.15"
 
 windows_stemcell="uhuru-windows-2008R2-vsphere-0.9.5.tgz"
 windows_sql_stemcell="uhuru-windows-2008R2-sqlserver-vsphere-0.9.5.tgz"
-linux_stemcell="bosh-stemcell-vsphere-1.5.0.pre.3.tgz"
 linux_php_stemcell="bosh-stemcell-php-vsphere-1.5.0.pre.3.tgz"
 
 color_black="\e[0;30m"

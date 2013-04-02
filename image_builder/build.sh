@@ -68,7 +68,6 @@ function get_commander()
     log_builder "Linking stemcells from '/var/vcap/store/ucc_stemcells/'"
     ln -s /var/vcap/store/ucc_stemcells/${windows_stemcell}     /var/vcap/store/ucc/web-ui/resources/${windows_stemcell}
     ln -s /var/vcap/store/ucc_stemcells/${windows_sql_stemcell} /var/vcap/store/ucc/web-ui/resources/${windows_sql_stemcell}
-    ln -s /var/vcap/store/ucc_stemcells/${linux_stemcell}       /var/vcap/store/ucc/web-ui/resources/${linux_stemcell}
     ln -s /var/vcap/store/ucc_stemcells/${linux_php_stemcell}   /var/vcap/store/ucc/web-ui/resources/${linux_php_stemcell}
 
     cd /var/vcap/store/ucc/web-ui/config
@@ -130,13 +129,11 @@ function stemcells()
     log_builder "Downloading stemcells from ftp"
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_stemcell}" -o /var/vcap/store/ucc_stemcells/${windows_stemcell}
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${windows_sql_stemcell}" -o /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
-    curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_stemcell}
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_php_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
     log_builder "Uploading stemcells to bosh"
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_stemcell}
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
-    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_stemcell}
     bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
     cd ${pwd}
@@ -298,7 +295,7 @@ function zero_free()
     log_builder "Running zerofree"
     cd /root
 
-    killall -9 crond
+    killall -9 cron
     service ucc stop
     service ttyjs stop
 

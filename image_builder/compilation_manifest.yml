@@ -64,7 +64,7 @@ resource_pools:
   network: default
   size: 0
   stemcell:
-    name: bosh-stemcell
+    name: bosh-stemcell-php
     version: 1.5.0.pre.3
   cloud_properties:
     ram: 300
@@ -74,7 +74,7 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: bosh-stemcell
+    name: bosh-stemcell-php
     version: 1.5.0.pre.3
   cloud_properties:
     ram: 512
@@ -84,7 +84,7 @@ resource_pools:
   network: default
   size: 0
   stemcell:
-    name: bosh-stemcell
+    name: bosh-stemcell-php
     version: 1.5.0.pre.3
   cloud_properties:
     ram: 1024
@@ -94,7 +94,7 @@ resource_pools:
   network: default
   size: 0
   stemcell:
-    name: bosh-stemcell
+    name: bosh-stemcell-php
     version: 1.5.0.pre.3
   cloud_properties:
     ram: 2048

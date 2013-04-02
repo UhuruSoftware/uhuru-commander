@@ -17,16 +17,12 @@ nagios:
   port: 80
 
 bosh:
-  target: "127.0.0.1"
+  target: "10.0.21.4"
   #base_dir: "/home/mitza/testing/assets/vcap"
-  #base_dir: "/home/vladi/tmp/testing/assets/vcap"
-  base_dir: "/var/vcap"
+  base_dir: "/home/vladi/tmp/testing/assets/vcap"
+  #base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:
-    linux_stemcell:
-      name: "bosh-stemcell"
-      version: "1.5.0.pre.3"
-      system_disk: "1500"
     linux_php_stemcell:
       name: "bosh-stemcell-php"
       version: "1.5.0.pre.3"
@@ -39,7 +35,6 @@ bosh:
       name: "uhuru-windows-2008R2-sqlserver"
       version: "0.9.5"
       system_disk: "2000"
-
 logging:
   level: debug
   file: /tmp/uhuru_cloud_commander.log

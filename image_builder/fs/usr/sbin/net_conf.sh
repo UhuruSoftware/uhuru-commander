@@ -1,6 +1,7 @@
 #!/bin/bash
 dialog=`which dialog`
-tmpdir="/tmp"
+tmpdir="/var/tmp"
+
 bgtitle="Network configuration"
 color_black="\Z0"
 color_red="\Z1"
