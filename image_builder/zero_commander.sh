@@ -198,7 +198,7 @@ function delete_deployment()
 {
     log_zero 'Deleting micro bosh'
     cd ~/sources/private-uhuru-commander/image_builder/deployments/
-    as_root bundle exec micro delete
+    as_root bundle exec bosh micro delete
     log_zero 'Done deleting micro bosh'
 }
 
