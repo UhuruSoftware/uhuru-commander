@@ -228,6 +228,10 @@ module Uhuru::BoshCommander
             end
           when "csv"
             error = ''
+          when "password"
+            if (value.strip.to_s.length < 4) || (value.strip.to_s.length > 20)
+              error = "Password must be 4 to 20 characters long"
+            end
           when "ip_list"
             ips = value.gsub(/,/, ';').split(';').map(&:strip).reject(&:empty?)
             invalid_ips = ips.any? do |ip|
