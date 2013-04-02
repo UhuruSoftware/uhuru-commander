@@ -75,6 +75,7 @@ function get_commander()
     rm -rf /var/vcap/store/ucc/web-ui/cf_deployments
 
     cp -R /tmp/ucc_bkp/cf_deployments /var/vcap/store/ucc/web-ui/
+    mkdir /var/vcap/store/ucc/web-ui/cf_deployments
     cp /tmp/ucc_bkp/infrastructure.yml /var/vcap/store/ucc/web-ui/config/
 
     log_builder "Installing Commander ruby gems"
