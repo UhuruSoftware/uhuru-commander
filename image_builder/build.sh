@@ -295,21 +295,33 @@ function zero_free()
     log_builder "Running zerofree"
     cd /root
 
-    killall -9 cron
+
+    log_builder "Pausing cron"
+    mv -f /var/spool/cron/crontabs/root /var/spool/cron/crontabs/.root
+    log_builder "Stopping UCC and tty.js"
     service ucc stop
     service ttyjs stop
 
+    log_builder "Stopping BOSH"
     monit stop all
 
+    log_builder "Nani un minut"
     sleep 60
+    log_builder "Unmount temp dir"
     umount /tmp
     umount /tmp
     umount /tmp
     umount /dev/sdc1
+    log_builder "Zeroing hdd1"
     zerofree /dev/sdc1
     umount /dev/loop0
+    log_builder "Zeroing hdd2"
     umount /dev/sdb2
     zerofree /dev/sdb2
+
+    log_builder "Restoring cron"
+    mv -f /var/spool/cron/crontabs/.root /var/spool/cron/crontabs/root
+
     log_builder "Done running zerofree"
 }
 
