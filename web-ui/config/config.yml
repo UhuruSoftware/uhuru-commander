@@ -1,5 +1,5 @@
 pid_filename: /tmp/boshcommander.pid
-local_route: 10.0.21.2
+local_route: 10.0.0.1
 port: 8000
 dev-mode: true
 
@@ -13,14 +13,14 @@ ttyjs:
   port: 9090
 
 nagios:
-  host: 10.0.5.117
+  host: 127.0.0.1
   port: 80
 
 bosh:
-  target: "10.0.21.4"
+  target: "127.0.0.1"
   #base_dir: "/home/mitza/testing/assets/vcap"
-  base_dir: "/home/vladi/tmp/testing/assets/vcap"
-  #base_dir: "/var/vcap"
+  #base_dir: "/home/vladi/tmp/testing/assets/vcap"
+  base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:
     linux_php_stemcell:
