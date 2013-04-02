@@ -93,6 +93,7 @@ config = YAML.load_file('/var/vcap/store/ucc/web-ui/config/config.yml')
 config['local_route'] = '${micro_gateway}'
 config['bosh_commander']['skip_check_monit'] = false
 config['bosh']['base_dir'] = '/var/vcap'
+config['bosh']['target'] = '127.0.0.1'
 
 File.open('/var/vcap/store/ucc/web-ui/config/config.yml', 'w') do |file|
  yaml = YAML.dump(config)
