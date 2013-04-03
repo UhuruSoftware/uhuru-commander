@@ -17,6 +17,9 @@ module Uhuru::BoshCommander
         configure_database
       end
 
+      say('Configuring Nagios')
+      setup_nagios
+
       say ('Infrastructure configured')
     end
 
