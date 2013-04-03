@@ -167,6 +167,7 @@ module Uhuru::BoshCommander
     def tear_down()
       #delete deployment
       command = deployment_command
+      command.add_option(:force, true)
       command.delete(@deployment_name)
     end
 
