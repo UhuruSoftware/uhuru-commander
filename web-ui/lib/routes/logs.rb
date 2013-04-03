@@ -58,20 +58,33 @@ module Uhuru::BoshCommander
       deployment = params[:deployment]
       job = params[:job]
       index = params[:index]
-      resource_id = ''
+
+      resources_id_dir=File.join(Dir.tmpdir, 'ucc_log_resources')
+
+      unless Dir.exist? resources_id_dir
+        Dir.mkdir(resources_id_dir)
+      end
+
+      resource_id = UUIDTools::UUID.random_create
+      resource_id_file = File.join(resources_id_dir, resource_id)
 
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           deployment = Deployment.new(deployment)
-          #TODO !! set file path!!
-          deployment.get_vm_logs(job, index, "file_path")
+          deployment.get_vm_logs(job, index, resource_id_file)
         rescue Exception => e
           err e.message.to_s
         end
       end
 
-      action_on_done = "Log tarball has been generated. Click <a href='/vmlog-dl/#{resource_id}'>here</a> to download it."
+      action_on_done = "Log tarball has been generated. Click <a href='/vmlog_res/#{resource_id}'>here</a> to download it."
       redirect Logs.log_url(request_id, action_on_done)
+    end
+
+    get '/vmlog_res/:res_file_id' do
+      resource_file_id = params[:res_file_id]
+      resource_file = File.join(Dir.tmpdir, 'ucc_log_resources', resource_file_id)
+      redirect "/vmlog-dl/#{File.read(resource_file)}"
     end
   end
 end
