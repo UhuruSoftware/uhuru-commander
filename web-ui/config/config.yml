@@ -37,4 +37,4 @@ bosh:
       system_disk: "2000"
 logging:
   level: debug
-  file: /tmp/uhuru_cloud_commander.log
+  file: /var/vcap/store/ucc/uhuru_cloud_commander.log
