@@ -412,3 +412,28 @@ td.border_right
     top:0;
     left:0;
 }
+
+/************************************************************************/
+/*Monitoring (Nagios) Page
+/************************************************************************/
+
+.nagios_directions
+{
+    padding-bottom: 10px;
+}
+
+.nagios_directions > span
+{
+    vertical-align: top;
+    font-size: 16px;
+}
+
+.nagios_image_link
+{
+    text-decoration: none;
+}
+
+.nagios_directions > span > a > img
+{
+    height: 20px;
+}

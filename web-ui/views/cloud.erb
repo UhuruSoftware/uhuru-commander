@@ -174,7 +174,7 @@
 
                 divSSHAndLogs.innerHTML =
                         "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;" +
-                        "<a href='#'>Logs</a>"
+                                "<a href='#'>Logs</a>"
 
                 cellSSHAndLogs.className += " border_right"
 
@@ -210,11 +210,36 @@
   <% end %>
 
   <h2>Useful URLs</h2>
-  <h3>Cloud API Endpoint: <a class="highlight bold" href="<%= summary["api_url"] %>"><%= summary["api_url"] %></a></h3>
-  <h3>Web Interface: <a class="highlight bold" href="<%= summary["web_ui_url"] %>"><%= summary["web_ui_url"] %></a></h3>
-  <h3>Support URL: <a class="highlight bold" href="<%= summary["support_url"] %>"><%= summary["support_url"] %></a></h3>
-  <h3>QoS Monitoring: <a class="highlight bold" href="#">Not Implemented</a></h3>
-  <h3>Reports: <a class="highlight bold" href="#">Not Implemented</a></h3>
+  <h3>Cloud API Endpoint:
+    <a class="highlight bold"
+       href="<%= summary["api_url"].to_s.start_with?('http://') ? summary["api_url"] : 'http://' + summary["api_url"]  %>">
+      <%= summary["api_url"] %>
+    </a>
+  </h3>
+  <h3>Web Interface:
+    <a class="highlight bold"
+       href="<%= summary["web_ui_url"].to_s.start_with?('http://') ? summary["web_ui_url"] : 'http://' + summary["web_ui_url"]  %>">
+      <%= summary["web_ui_url"] %>
+    </a>
+  </h3>
+  <h3>Support URL:
+    <a class="highlight bold"
+       href="<%= summary["support_url"].to_s.start_with?('http://') ? summary["support_url"] : 'http://' + summary["support_url"]  %>">
+      <%= summary["support_url"] %>
+    </a>
+  </h3>
+  <h3>QoS Monitoring:
+    <a class="highlight bold"
+       href="<%= (summary["web_ui_url"].to_s.start_with?('http://') ? summary["web_ui_url"] : "http://#{summary['web_ui_url']}") %>/monitoring">
+      <%= summary["web_ui_url"] %>/monitoring
+    </a>
+  </h3>
+  <h3>Reports:
+    <a class="highlight bold"
+       href="<%= (summary["web_ui_url"].to_s.start_with?('http://') ? summary["web_ui_url"] : "http://#{summary['web_ui_url']}") %>/reports">
+      <%= summary["web_ui_url"] %>/reports
+    </a>
+  </h3>
   <hr />
 
   <h2>E-mails</h2>

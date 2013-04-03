@@ -91,9 +91,16 @@ require 'yaml'
 config = YAML.load_file('/var/vcap/store/ucc/web-ui/config/config.yml')
 
 config['local_route'] = '${micro_gateway}'
+config['port'] = 80
 config['bosh_commander']['skip_check_monit'] = false
 config['bosh']['base_dir'] = '/var/vcap'
 config['bosh']['target'] = '127.0.0.1'
+config['bosh']['stemcells']['linux_php_stemcell']['name'] = '${linux_php_stemcell_name}'
+config['bosh']['stemcells']['linux_php_stemcell']['version'] = '${linux_php_stemcell_version}'
+config['bosh']['stemcells']['windows_stemcell']['name'] = '${windows_stemcell_name}'
+config['bosh']['stemcells']['windows_stemcell']['version'] = '${windows_stemcell_version}'
+config['bosh']['stemcells']['mssql_stemcell']['name'] = '${windows_sql_stemcell_name}'
+config['bosh']['stemcells']['mssql_stemcell']['version'] = '${windows_sql_stemcell_version}'
 
 File.open('/var/vcap/store/ucc/web-ui/config/config.yml', 'w') do |file|
  yaml = YAML.dump(config)
@@ -239,6 +246,23 @@ config['networks'][0]['subnets'][0]['range'] = '${micro_network_range}'
 config['networks'][0]['subnets'][0]['gateway'] = '${micro_gateway}'
 config['networks'][0]['subnets'][0]['dns'] = '${micro_dns}'.split(';')
 config['networks'][0]['subnets'][0]['cloud_properties']['name'] = '${micro_vm_network}'
+
+config['resource_pools'].find {|rp| rp['name'] == 'windows' }['stemcell']['name'] = '${windows_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'windows' }['stemcell']['version'] = '${windows_stemcell_version}'
+
+config['resource_pools'].find {|rp| rp['name'] == 'sqlserver' }['stemcell']['name'] = '${windows_sql_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'sqlserver' }['stemcell']['version'] = '${windows_sql_stemcell_version}'
+
+config['resource_pools'].find {|rp| rp['name'] == 'tiny' }['stemcell']['name'] = '${linux_php_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'tiny' }['stemcell']['version'] = '${linux_php_stemcell_version}'
+config['resource_pools'].find {|rp| rp['name'] == 'small' }['stemcell']['name'] = '${linux_php_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'small' }['stemcell']['version'] = '${linux_php_stemcell_version}'
+config['resource_pools'].find {|rp| rp['name'] == 'medium' }['stemcell']['name'] = '${linux_php_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'medium' }['stemcell']['version'] = '${linux_php_stemcell_version}'
+config['resource_pools'].find {|rp| rp['name'] == 'large' }['stemcell']['name'] = '${linux_php_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'large' }['stemcell']['version'] = '${linux_php_stemcell_version}'
+config['resource_pools'].find {|rp| rp['name'] == 'deas' }['stemcell']['name'] = '${linux_php_stemcell_name}'
+config['resource_pools'].find {|rp| rp['name'] == 'deas' }['stemcell']['version'] = '${linux_php_stemcell_version}'
 
 File.open('/root/compilation_manifest.yml', 'w') do |file|
  yaml = YAML.dump(config)

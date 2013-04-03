@@ -45,6 +45,13 @@ version="1.0.15"
 windows_stemcell="uhuru-windows-2008R2-vsphere-0.9.5.tgz"
 windows_sql_stemcell="uhuru-windows-2008R2-sqlserver-vsphere-0.9.5.tgz"
 linux_php_stemcell="bosh-stemcell-php-vsphere-1.5.0.pre.3.tgz"
+windows_stemcell_name="uhuru-windows-2008R2"
+windows_stemcell_version="0.9.5"
+windows_sql_stemcell_name="uhuru-windows-2008R2-sqlserver"
+windows_sql_stemcell_version="0.9.5"
+linux_php_stemcell_name="bosh-stemcell-php"
+linux_php_stemcell_version="1.5.0.pre.3"
+
 
 color_black="\e[0;30m"
 color_dark_gray="\e[1;30m"

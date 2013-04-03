@@ -11,10 +11,12 @@ module Uhuru::BoshCommander
     @id = nil
 
     def initialize()
-      @id = UUIDTools::UUID.random_create
+      @id = "commander_streamers"
       @streams_dir = File.join(Dir.tmpdir, @id)
 
-      Dir.mkdir(@streams_dir)
+      unless Dir.exist?(@streams_dir)
+        Dir.mkdir(@streams_dir)
+      end
 
       @screens = {}
       ObjectSpace.define_finalizer(self, proc { cleanup! })
