@@ -63,7 +63,8 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           deployment = Deployment.new(deployment)
-          resource_id = deployment.get_vm_logs(job, index)
+          #TODO !! set file path!!
+          deployment.get_vm_logs(job, index, "file_path")
         rescue Exception => e
           err e.message.to_s
         end

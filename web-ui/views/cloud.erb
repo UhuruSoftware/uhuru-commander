@@ -171,10 +171,10 @@
                 });
 
                 var sshUrl = "/ssh_connect/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
-
+                var logUrl = "/vmlog/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
                 divSSHAndLogs.innerHTML =
                         "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;" +
-                                "<a href='#'>Logs</a>"
+                                "<a href='" + logUrl +"'>Logs</a>"
 
                 cellSSHAndLogs.className += " border_right"
 
@@ -184,6 +184,9 @@
                 cellJobState.appendChild(divJobState);
                 cellIPs.appendChild(divIPs);
                 cellSSHAndLogs.appendChild(divSSHAndLogs);
+
+
+
             });
             $("#vm_list").show();
             $("#div_loading_vms_message").hide();

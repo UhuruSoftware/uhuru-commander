@@ -81,6 +81,19 @@ module Uhuru::BoshCommander
 
     end
 
+    def get_vm_logs(job, index, request_path)
+      director =  Thread.current.current_session[:command].instance_variable_get("@director")
+      say("Fetching logs for job: #{job}, index #{index} ")
+      resource_id = director.fetch_logs(
+          @deployment_name, job, index, "job", "all")
+      say("Done".green)
+      if (File.exists?(request_path))
+        File.delete(request_path)
+      end
+      File.open(request_path, 'w') { |file| file.write("#{resource_id}") }
+    end
+
+
     #retrieves deployment information
     def status
       state = get_state
@@ -264,5 +277,12 @@ module Uhuru::BoshCommander
       deployment_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
       deployment_cmd
     end
+
+    #def log_command
+    #  command = Thread.current.current_session[:command]
+    #  log_cmd = Bosh::Cli::Command::LogManagement.new
+    #  log_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
+    #  log_cmd
+    #end
   end
 end
