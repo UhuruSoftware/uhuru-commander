@@ -6,7 +6,6 @@ export BUNDLE_GEMFILE=/root/Gemfile
 
 cd /root/
 . config.sh
-bundle exec bosh --user admin --password admin target 127.0.0.1
 
 function switch_to_http_sub_modules()
 {
@@ -127,10 +126,8 @@ function stemcells()
 
     cd /root/
 
-    bundle exec bosh login admin admin
-
     log_builder "Removing existing stemcells from bosh"
-    bundle exec bosh stemcells | grep -v Name | grep \| | tr -d \| | awk '{print $1,$2}'| while read line;do echo "bundle exec bosh delete stemcell ${line}";done | bash
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 stemcells | grep -v Name | grep \| | tr -d \| | awk '{print $1,$2}'| while read line;do echo "bundle exec bosh delete stemcell ${line}";done | bash
 
     mkdir /var/vcap/data/permanenttmp
 
@@ -145,9 +142,9 @@ function stemcells()
     curl -u ${ftp_user}:${ftp_password} "ftp://${ftp_host}/bosh/stemcells/${linux_php_stemcell}" -o /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
     log_builder "Uploading stemcells to bosh"
-    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_stemcell}
-    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
-    bundle exec bosh upload stemcell /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 upload stemcell /var/vcap/store/ucc_stemcells/${windows_stemcell}
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 upload stemcell /var/vcap/store/ucc_stemcells/${windows_sql_stemcell}
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 upload stemcell /var/vcap/store/ucc_stemcells/${linux_php_stemcell}
 
     cd ${pwd}
     log_builder "Done setting up stemcells"
@@ -178,10 +175,10 @@ function create_release()
 
 
     log_builder "Executing bosh create release with tarball"
-    bundle exec bosh --non-interactive create release --with-tarball --force
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 --non-interactive create release --with-tarball --force
     release_tarball=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.tgz`
     log_builder "Uploading release to bosh"
-    bundle exec bosh upload release ${release_tarball}
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 upload release ${release_tarball}
     cd ${pwd}
 
     log_builder "Done creating cloud foundry release"
@@ -231,7 +228,7 @@ function deploy_cf()
 
     echo "update stemcells set name=replace(name, 'empty-', '')" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
 
-    uuid=`bundle exec bosh status|grep UUID|awk '{print $2}'`
+    uuid=`bundle exec bosh -u admin -p admin -t 127.0.0.1 status|grep UUID|awk '{print $2}'`
     sed -i s/REPLACEME/${uuid}/g /root/compilation_manifest.yml
     release_yml=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`
     log_builder "Updating cloud foundry deployment yml"
@@ -276,11 +273,11 @@ end
 "
 
     log_builder "Executing bosh deployment"
-    bundle exec bosh deployment /root/compilation_manifest.yml
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 deployment /root/compilation_manifest.yml
 
     for i in `seq 1 10` ;
     do
-        bundle exec bosh --non-interactive deploy
+        bundle exec bosh -u admin -p admin -t 127.0.0.1 --non-interactive deploy
         [ $? -eq 0 ] &&
         {
             echo "update stemcells set name='empty-' || name" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
@@ -290,7 +287,7 @@ end
         log_builder "Retrying bosh deployment"
     done
 
-    bundle exec bosh -n delete deployment compilation_manifest --force
+    bundle exec bosh -u admin -p admin -t 127.0.0.1 -n delete deployment compilation_manifest --force
 
     log_builder "Done compiling cloud foundry"
 }
