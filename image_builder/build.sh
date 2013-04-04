@@ -228,6 +228,8 @@ function deploy_cf()
 
     echo "update stemcells set name=replace(name, 'empty-', '')" | PGPASSWORD="postgres" psql -U postgres -h localhost -d bosh
 
+
+    bundle exec bosh --user admin --password admin target 127.0.0.1
     uuid=`bundle exec bosh -u admin -p admin -t 127.0.0.1 status|grep UUID|awk '{print $2}'`
     sed -i s/REPLACEME/${uuid}/g /root/compilation_manifest.yml
     release_yml=`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`
