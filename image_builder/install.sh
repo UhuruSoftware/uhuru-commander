@@ -111,6 +111,9 @@ function start_stuff()
   mv -f ~/.ssh/known_hosts.bk ~/.ssh/known_hosts
   mv -f /root/.ssh/known_hosts.bk /root/.ssh/known_hosts
 
+  log_deployer "Nani un minut, sa se porneasca sefu'"
+  sleep 60
+
   log_deployer "Done running remote scripts on the micro VM"
 }
 

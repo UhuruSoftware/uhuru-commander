@@ -6,6 +6,7 @@ export BUNDLE_GEMFILE=/root/Gemfile
 
 cd /root/
 . config.sh
+bundle exec bosh --user admin --password admin target 127.0.0.1
 
 function switch_to_http_sub_modules()
 {
@@ -32,6 +33,8 @@ function install_packages()
     tar xzvf node-latest.tar.gz && cd `ls -rd node-v*`
     ./configure
     make install
+
+    cd /root/
 
     log_builder "Done installing packages on micro bosh"
 }
@@ -122,7 +125,8 @@ function stemcells()
 
     pwd=`pwd`
 
-    bundle exec bosh --user admin --password admin target localhost
+    cd /root/
+
     bundle exec bosh login admin admin
 
     log_builder "Removing existing stemcells from bosh"

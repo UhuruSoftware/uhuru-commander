@@ -154,7 +154,7 @@ function create_ovf()
         as_user mkdir ~/ovf
         cd ~/ovf
         vm="vi://${vsphere_user}:${vsphere_password}@${vsphere_host}/${datacenter}/vm/${vm_folder}/${micro_bosh_vm_name}"
-        as_user ovftool --powerOffSource ${vm} "ucc-${version}.ofv"
+        as_user ovftool --powerOffSource --powerOn ${vm} "ucc-${version}.ofv"
         log_zero "Done creating ovf file"
 
         log_zero "Done preparing ovf"
@@ -198,7 +198,7 @@ function delete_deployment()
 {
     log_zero 'Deleting micro bosh'
     cd ~/sources/private-uhuru-commander/image_builder/deployments/
-    as_root bundle exec bosh micro delete
+    as_root bundle exec bosh -n micro delete
     log_zero 'Done deleting micro bosh'
 }
 
