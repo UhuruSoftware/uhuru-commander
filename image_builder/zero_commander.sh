@@ -157,6 +157,9 @@ function create_ovf()
         as_user ovftool --powerOffSource --powerOn ${vm} "ucc-${version}.ofv"
         log_zero "Done creating ovf file"
 
+        log_zero "Nani 5 min., sa se porneasca boshu"
+        sleep 300
+
         log_zero "Done preparing ovf"
     } ||
     {
