@@ -70,13 +70,15 @@ apply_spec:
      - 0.pool.ntp.org    # Specify any NTP servers for deployments
      - 1.pool.ntp.org
     nagios:
+      alerts:
+        email_to: alerts@mycompany.org
       admin: nagios
       password: nagios1234!
       director_user: nagiosuser
       director_password: nagiospassword
       email:
         from_alias: Nagios
-        from: nagios@uhurusoftware.com
+        from: nagios@mycompany.org
         server: localhost
       legacy:
         enabled: false
