@@ -6,7 +6,16 @@ function start()
 {
   echo "Starting tty.js ..."
   cd /var/vcap/store/tty.js
-  BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile HOME=/root ./bin/tty.js --config config/config.json 1>/var/vcap/store/tty.js/ttyjs.stdout.log 2>/var/vcap/store/tty.js/ttyjs.stderr.log &
+
+  BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile \
+HOME=/root \
+SHELL=/bin/bash \
+TERM=xterm \
+USER=root \
+USERNAME=root \
+PATH=/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin \
+./bin/tty.js --config config/config.json 1>/var/vcap/store/tty.js/ttyjs.stdout.log 2>/var/vcap/store/tty.js/ttyjs.stderr.log &
+
   sleep 1
   pidof tty.js >$pidfile
 }
