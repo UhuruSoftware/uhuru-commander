@@ -81,18 +81,18 @@ module Uhuru::BoshCommander
       monitoring_file = $config[:nagios][:config_path]
       monitoring_yml = YAML.load_file(monitoring_file)
 
-      monitoring_yml[:nats] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
+      monitoring_yml['nats'] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
 
-      monitoring_yml[:bosh_db][:user] = @postgres_info[:user]
-      monitoring_yml[:bosh_db][:password] = @postgres_info[:password]
-      monitoring_yml[:bosh_db][:address] = @postgres_info[:host]
-      monitoring_yml[:bosh_db][:port] = @postgres_info[:port]
-      monitoring_yml[:bosh_db][:database] = @postgres_info[:db]
+      monitoring_yml['bosh_db']['user'] = @postgres_info[:user]
+      monitoring_yml['bosh_db']['password'] = @postgres_info[:password]
+      monitoring_yml['bosh_db']['address'] = @postgres_info[:host]
+      monitoring_yml['bosh_db']['port'] = @postgres_info[:port]
+      monitoring_yml['bosh_db']['database'] = @postgres_info[:db]
 
-      monitoring_yml[:director][:address] = @director_info[:hostname]
-      monitoring_yml[:director][:port] = @director_info[:port]
-      monitoring_yml[:director][:user] = @director_info[:hm_user]
-      monitoring_yml[:director][:password] = @director_info[:hm_password]
+      monitoring_yml['director']['address'] = @director_info[:hostname]
+      monitoring_yml['director']['port'] = @director_info[:port]
+      monitoring_yml['director']['user'] = @director_info[:hm_user]
+      monitoring_yml['director']['password'] = @director_info[:hm_password]
 
       File.open(monitoring_file, 'w') do |file|
         dump_yaml_to_file(monitoring_yml, file )
