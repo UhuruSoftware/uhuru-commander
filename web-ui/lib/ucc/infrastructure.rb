@@ -147,6 +147,8 @@ module Uhuru::BoshCommander
     end
 
     def upload_stemcells
+      # we assume that director takes some time to be online
+      sleep 50
       command_stemcell = Thread.current.current_session['command_stemcell']
       say "Uploading Linux PHP stemcell"
       command_stemcell.upload(get_stemcell_filename($config[:bosh][:stemcells][:linux_php_stemcell]))
