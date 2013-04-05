@@ -2,6 +2,8 @@
 name: cloud-foundry
 director_uuid: "DO NOT CHANGE THIS STRING"
 
+<% monitoring_user_password = SecureRandom.hex %>
+
 release:
   name: <%=  YAML.load_file(`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`.strip)['name'] %>
   version: <%=  YAML.load_file(`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`.strip)['version'] %>
@@ -381,7 +383,10 @@ properties:
         address: "Address of company"
         phone: ""
         email: "myemail@mycompany.com"
-
+      monitoring:
+        cloud_user: "monitoring@uhurudaemon.org"
+        cloud_password: <%= monitoring_user_password %>
+        email_to: "myemail@mydomain.com"
   win_dea:
     filerport: 12346
     statusport: 12345
@@ -444,11 +449,16 @@ properties:
     - tag: cc
       name: <%= db_name %>
       audit_trigger: true
+    - tag: monitoring
+      name: monitoring
     roles:
     - tag: admin
       name: root
       password: <%= db_password %>
-
+    - tag: monitoring
+      name: root
+      password: <%= db_password %>
+  db: ccdb
   cc:
     srv_api_uri: api.mydomain.net
     password: <%= SecureRandom.hex %>
@@ -465,8 +475,13 @@ properties:
       password: ""
       is_admin: true
       is_hashed_password: false
+    - email: "monitoring@uhurudaemon.org"
+      password: "<%= monitoring_user_password %>"
+      is_admin: true
+      is_hashed_password: false
     admins:
     - myemail@mydomain.com
+    - monitoring@uhurudaemon.org
     default_account_capacity:
       memory: 512
       app_uris: 8
