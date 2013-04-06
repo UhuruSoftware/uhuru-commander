@@ -188,14 +188,6 @@ function cleanup()
 {
     log_builder "Cleaning up micro bosh VM"
 
-
-    log_builder "Changing IPs"
-    sed -i "s/${micro_bosh_vm_ip}/127.0.0.1/g" /var/vcap/jobs/health_monitor/config/health_monitor.yml
-    sed -i "s/${micro_bosh_vm_ip}/127.0.0.1/g" /var/vcap/jobs/director/config/director.yml.erb
-
-    rm -rf /var/vcap/store/ucc/image_builder/
-
-    rm -rf /var/vcap/store/ucc_release/
     rm -f /root/.bash_history
     rm -f /root/.ssh/*
     rm -f /root/build.sh
@@ -331,6 +323,13 @@ function zero_free()
     log_builder "Running zerofree"
     cd /root
 
+    log_builder "Changing IPs"
+    sed -i "s/${micro_bosh_vm_ip}/127.0.0.1/g" /var/vcap/jobs/health_monitor/config/health_monitor.yml
+    sed -i "s/${micro_bosh_vm_ip}/127.0.0.1/g" /var/vcap/jobs/director/config/director.yml.erb
+
+    rm -rf /var/vcap/store/ucc/image_builder/
+
+    rm -rf /var/vcap/store/ucc_release/
 
     log_builder "Pausing cron"
     mv -f /var/spool/cron/crontabs/root /var/spool/cron/crontabs/.root
