@@ -5,8 +5,8 @@ director_uuid: "DO NOT CHANGE THIS STRING"
 <% monitoring_user_password = SecureRandom.hex %>
 
 release:
-  name: <%=  YAML.load_file(`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`.strip)['name'] %>
-  version: <%=  YAML.load_file(`ls /var/vcap/store/ucc_release/private-cf-release/dev_releases/*.yml | grep -v index.yml`.strip)['version'] %>
+  name: <%=  YAML.load_file(`ls /var/vcap/store/ucc/dev_releases/*.yml | grep -v index.yml`.strip)['name'] %>
+  version: <%=  YAML.load_file(`ls /var/vcap/store/ucc/dev_releases/*.yml | grep -v index.yml`.strip)['version'] %>
 
 compilation:
   workers: 6

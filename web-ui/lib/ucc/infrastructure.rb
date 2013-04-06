@@ -10,6 +10,8 @@ module Uhuru::BoshCommander
       restart_monit
       say('Creating system users')
       create_users()
+      say('Reconnecting to services')
+      refresh_login()
       unless @is_update
         say('Uploading stemcells')
         upload_stemcells
@@ -21,6 +23,33 @@ module Uhuru::BoshCommander
       setup_nagios
 
       say ('Infrastructure configured')
+    end
+
+    def refresh_login
+      sleep 50
+      command = Bosh::Cli::Command::Misc.new
+
+      Thread.current.current_session['command'] = command
+
+      #we do not care about local user
+      tmpdir = Dir.mktmpdir
+
+      config = File.join(tmpdir, "bosh_config")
+      cache = File.join(tmpdir, "bosh_cache")
+
+      command.add_option(:config, config)
+      command.add_option(:cache_dir, cache)
+      command.add_option(:non_interactive, true)
+
+      CommanderBoshRunner.execute(Thread.current.current_session) do
+        Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(cache)
+        command.set_target($config[:bosh][:target])
+        command.login('admin', 'admin')
+      end
+
+      stemcell_cmd = Bosh::Cli::Command::Stemcell.new
+      stemcell_cmd.instance_variable_set("@config", command.instance_variable_get("@config"))
+      Thread.current.current_session['command_stemcell'] = stemcell_cmd
     end
 
     def is_update
@@ -150,8 +179,6 @@ module Uhuru::BoshCommander
     end
 
     def upload_stemcells
-      # we assume that director takes some time to be online
-      sleep 50
       command_stemcell = Thread.current.current_session['command_stemcell']
       say "Uploading Linux PHP stemcell"
       command_stemcell.upload(get_stemcell_filename($config[:bosh][:stemcells][:linux_php_stemcell]))
