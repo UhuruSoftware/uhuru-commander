@@ -16,7 +16,7 @@ function install_packages()
 {
     log_builder "Installing needed packages on micro bosh"
     apt-get update
-    apt-get -y install git-core ftp zerofree postgresql-client gpm dialog ipcalc libsqlite3-dev
+    apt-get -y install git-core ftp zerofree postgresql-client gpm dialog ipcalc libsqlite3-dev screen
 
     cd /root/
     log_builder "Installing bundler"

@@ -22,8 +22,6 @@ chmod 1777 /tmp
 
 ls -la /tmp/
 
-/usr/sbin/change_ips
-
 [ ! -e /root/.ssh/id_rsa ] &&
 {
     rm -rf /root/.ssh

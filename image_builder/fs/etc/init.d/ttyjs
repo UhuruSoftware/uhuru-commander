@@ -24,7 +24,7 @@ function stop()
 {
   [ ! -e $pidfile ] &&
     {
-    echo "Cant find pid file. Are you sure tty.js is running ?"
+    echo "Can't find pid file. Are you sure tty.js is running ?"
     } ||
     {
     echo "Stopping tty.js ..."
