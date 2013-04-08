@@ -180,7 +180,7 @@ until [ ! -z "$interface" ];
 local_network_ip=`ifconfig|grep -w inet|grep -v 127.0.0.1|cut -f 2 -d \:|cut -f 1 -d \ `
 local_network_netmask=`ifconfig|grep -w inet|grep -v 127.0.0.1|cut -f 4 -d ":"|cut -f 1 -d " "`
 local_network_gateway=`route -n|grep ^0.0.0.0|awk '{print $2}'`
-local_network_dns="8.8.8.8"
+local_network_dns=`cat /etc/resolv.conf|grep ^nameserver|head -n 1|awk '{print $2}'`
 
 [ -z "$local_network_ip" ] &&
   {
