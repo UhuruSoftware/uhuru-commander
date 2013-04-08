@@ -104,7 +104,7 @@ cloud:
       - {name: email_server, label: Server, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["server"]',   description: ''}
       - {name: email_server_port, label: SMTP Port, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["port"]',   description: ''}
       - {name: email_server_user, label: Username, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["user"]',   description: ''}
-      - {name: email_server_secret, label: Password, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["secret"]',   description: ''}
+      - {name: email_server_secret, label: Password, type: password,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["secret"]',   description: ''}
       - {name: email_server_auth_method, label: Authentication Method, type: list, items: {'Plain': ':plain', 'Login': ':login', 'CRAM-MD5': ':cram_md5'},   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["auth_method"]',   description: ''}
       - {name: email_server_enable_tls, label: Use TLS, type: boolean,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["enable_tls"]',   description: ''}
 
@@ -135,6 +135,6 @@ monitoring:
       - {name: nagios_email_server, label: Server, type: string,   yml_key: '["email"]["server"]',   description: ''}
       - {name: nagios_email_server_port, label: SMTP Port, type: string,   yml_key: '["email"]["port"]',   description: ''}
       - {name: nagios_email_server_user, label: Username, type: string,   yml_key: '["email"]["user"]',   description: ''}
-      - {name: nagios_email_server_secret, label: Password, type: string,   yml_key: '["email"]["secret"]',   description: ''}
+      - {name: nagios_email_server_secret, label: Password, type: password,   yml_key: '["email"]["secret"]',   description: ''}
       - {name: nagios_email_server_auth_method, label: Authentication Method, type: list, items: {'Plain': 'plain', 'Login': 'login', 'CRAM-MD5': 'cram_md5'},   yml_key: '["email"]["auth_method"]',   description: ''}
       - {name: nagios_email_server_enable_tls, label: Use TLS, type: boolean,   yml_key: '["email"]["enable_tls"]',   description: ''}
