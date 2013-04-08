@@ -236,7 +236,7 @@ netmask $local_network_netmask
 gateway $local_network_gateway
 broadcast $local_network_broadcast
 EOF
-    echo "nameserver $local_network_dns" >>/etc/resolv.conf
+    echo "nameserver $local_network_dns" >/etc/resolv.conf
     /etc/init.d/networking restart
     /usr/sbin/change_ips.sh
     echo "Press ENTER to reboot"
