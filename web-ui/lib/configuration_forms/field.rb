@@ -286,9 +286,8 @@ module Uhuru::BoshCommander
 
             client = Net::SMTP.new( email_server,email_port)
 
-            if (email_server_enable_tls)
+            if email_server_enable_tls
               context =   Net::SMTP.default_ssl_context
-              context.verify_mode = OpenSSL::SSL::VERIFY_NONE
               client.enable_starttls(context)
             end
             begin
@@ -303,7 +302,7 @@ module Uhuru::BoshCommander
 
                 end
             rescue Exception => e
-              error = "Cannot connect to email server, please verify settings"
+              error = "Cannot connect to email server, please verify settings - #{e.message}"
             end
 
           end
@@ -391,11 +390,47 @@ module Uhuru::BoshCommander
             end
           end
         end
+      elsif @form == 'monitoring'
+        if @screen == 'Nagios'
+          if @name == 'nagios_email_server'
+            email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
+            email_port = @screen.fields.find {|field| field.name == 'nagios_email_server_port' }.get_value(value_type)
+            email_server_enable_tls = @screen.fields.find {|field| field.name == 'nagios_email_server_enable_tls' }.get_value(value_type)
+            email_server_user = @screen.fields.find {|field| field.name == 'nagios_email_server_user' }.get_value(value_type)
+            email_server_secret = @screen.fields.find {|field| field.name == 'nagios_email_server_secret' }.get_value(value_type)
+            email_server_auth_method = @screen.fields.find {|field| field.name == 'nagios_email_server_auth_method' }.get_value(value_type)
+
+            admin_email = @screen.fields.find {|field| field.name == 'nagios_email_to' }.get_value(value_type)
+
+            client = Net::SMTP.new( email_server,email_port)
+
+            if email_server_enable_tls
+              context =   Net::SMTP.default_ssl_context
+              client.enable_starttls(context)
+            end
+            begin
+              msg = "Test email for Uhuru Commander Nagios Monitoring"
+              client.open_timeout = 10
+              client.start(
+                  "localhost",
+                  email_server_user,
+                  email_server_secret,
+                  eval(email_server_auth_method)) do
+                client.send_message msg, admin_email, admin_email
+
+              end
+            rescue Exception => e
+              error = "Cannot connect to email server, please verify settings - #{e.message}"
+            end
+
+          end
+        end
       end
 
       error
     end
 
+    # This method is called when we want to show values on the form
     def get_exotic_value(value, value_type)
       def handle_exotic_type(value)
         data_type = get_data_type
@@ -458,6 +493,7 @@ module Uhuru::BoshCommander
       result
     end
 
+    # This method is called when we want to save data. This is where we have to manipulate values before we save them.
     def generate_exotic_value(value)
       def handle_exotic_type(value)
         data_type = get_data_type
@@ -504,6 +540,12 @@ module Uhuru::BoshCommander
         elsif @screen.name == 'Properties'
           if @name == 'domain'
             result = value.to_s.downcase
+          end
+        end
+      elsif @form.name == 'monitoring'
+        if @screen.name == 'Nagios'
+          if @name == 'nagios_email_server_auth_method'
+            result = value.to_sym
           end
         end
       end
