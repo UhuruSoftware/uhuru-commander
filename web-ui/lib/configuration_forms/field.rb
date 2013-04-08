@@ -276,6 +276,7 @@ module Uhuru::BoshCommander
         elsif @screen.name == 'Properties'
           if @name == 'email_server'
             email_server =  @screen.fields.find {|field| field.name == 'email_server' }.get_value(value_type)
+            email_from =  @screen.fields.find {|field| field.name == 'email_from' }.get_value(value_type)
             email_port = @screen.fields.find {|field| field.name == 'email_server_port' }.get_value(value_type)
             email_server_enable_tls = @screen.fields.find {|field| field.name == 'email_server_enable_tls' }.get_value(value_type)
             email_server_user = @screen.fields.find {|field| field.name == 'email_server_user' }.get_value(value_type)
@@ -298,7 +299,7 @@ module Uhuru::BoshCommander
                   email_server_user,
                   email_server_secret,
                   eval(email_server_auth_method)) do
-                client.send_message msg, admin_email, admin_email
+                client.send_message msg, email_from, admin_email
 
                 end
             rescue Exception => e
@@ -394,6 +395,7 @@ module Uhuru::BoshCommander
         if @screen == 'Nagios'
           if @name == 'nagios_email_server'
             email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
+            email_from =  @screen.fields.find {|field| field.name == 'nagios_email_from' }.get_value(value_type)
             email_port = @screen.fields.find {|field| field.name == 'nagios_email_server_port' }.get_value(value_type)
             email_server_enable_tls = @screen.fields.find {|field| field.name == 'nagios_email_server_enable_tls' }.get_value(value_type)
             email_server_user = @screen.fields.find {|field| field.name == 'nagios_email_server_user' }.get_value(value_type)
@@ -416,7 +418,7 @@ module Uhuru::BoshCommander
                   email_server_user,
                   email_server_secret,
                   eval(email_server_auth_method)) do
-                client.send_message msg, admin_email, admin_email
+                client.send_message msg, email_from, admin_email
 
               end
             rescue Exception => e
