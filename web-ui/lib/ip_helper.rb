@@ -35,7 +35,7 @@ module Uhuru::BoshCommander
       count = 0
 
       ips.each do |range|
-        count = count + ip_to_int(range[1]) - ip_to_int(range[0])
+        count = count + ip_to_int(range[1]) - ip_to_int(range[0]) + 1
       end
 
       count

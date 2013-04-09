@@ -196,6 +196,8 @@ function cleanup()
     rm -f /root/Gemfile
     rm -f /root/Gemfile.lock
 
+    echo "nameserver 8.8.8.8" >/etc/resolv.conf
+
     touch /root/passwd.lock
 
     passwd -d vcap

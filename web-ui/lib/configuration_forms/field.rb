@@ -156,6 +156,11 @@ module Uhuru::BoshCommander
       end
 
       result = '' if result == nil
+
+      if result.is_a? String
+        result.strip!
+      end
+
       result
     end
 
@@ -229,9 +234,7 @@ module Uhuru::BoshCommander
           when "csv"
             error = ''
           when "password"
-            if (value.strip.to_s.length < 4) || (value.strip.to_s.length > 20)
-              error = "Password must be 4 to 20 characters long"
-            end
+            error = ''
           when "ip_list"
             ips = value.gsub(/,/, ';').split(';').map(&:strip).reject(&:empty?)
             invalid_ips = ips.any? do |ip|
@@ -267,14 +270,18 @@ module Uhuru::BoshCommander
               error = "Not enough static IPs! provided: #{static_ips_provided} needed: #{static_ip_needed}"
             end
           elsif @name == 'dynamic_ip_range'
-            dynamic_ip_needed = deployment["jobs"].select{|job| !job["networks"][0].has_key?("static_ips")}.inject(0){|sum, job| sum += job["instances"].to_i}
+            dynamic_ip_needed = 2 * deployment["jobs"].inject(0){|sum, job| sum += job["instances"].to_i}
             dynamic_ips_provided = IPHelper.ip_count_in_range(value)
             if dynamic_ips_provided < dynamic_ip_needed
               error = "Not enough dynamic IPs! provided: #{dynamic_ips_provided} needed: #{dynamic_ip_needed}"
             end
           end
         elsif @screen.name == 'Properties'
-          if @name == 'email_server'
+          if @name == 'admin_password'
+            if value.to_s.size < 4 || value.to_s.size > 20
+              error = 'Password should be between 4 and 20 characters long.'
+            end
+          elsif @name == 'email_server'
             email_server =  @screen.fields.find {|field| field.name == 'email_server' }.get_value(value_type)
             email_from =  @screen.fields.find {|field| field.name == 'email_from' }.get_value(value_type)
             email_port = @screen.fields.find {|field| field.name == 'email_server_port' }.get_value(value_type)
