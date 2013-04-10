@@ -9,7 +9,7 @@ release:
   version: <%=  YAML.load_file(`ls /var/vcap/store/ucc/dev_releases/*.yml | grep -v index.yml`.strip)['version'] %>
 
 compilation:
-  workers: 6
+  workers: 1
   reuse_compilation_vms: true
   network: default
   cloud_properties:
@@ -18,10 +18,10 @@ compilation:
     cpu: 4
 
 update:
-  canaries: 1
+  canaries: 0
   canary_watch_time: 3000-90000
   update_watch_time: 3000-90000
-  max_in_flight: 2
+  max_in_flight: 1
 
 networks:
 

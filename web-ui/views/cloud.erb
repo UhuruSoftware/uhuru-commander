@@ -9,6 +9,11 @@
       <li><a href="#" onclick="switchCloudMenu(<%= "['#{@cloud_menu.keys.join js_splitter}']" %>, '<%= tab %>');" id="cloud_<%= tab %>" ><%= name %></a></li>
   <% end %>
 </ul>
+
+<div class='cloud_title'>
+  You are working with cloud <strong>'<%= cloud_name %>'</strong>.
+</div>
+
 <div class="simple_page_content_div">
 <div class="hidden" id="cloud_tab_manage_div">
 

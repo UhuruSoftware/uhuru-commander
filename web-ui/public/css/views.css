@@ -51,6 +51,10 @@
     padding-bottom: 5px;
 }
 
+.cloud_title
+{
+    padding: 5px;
+}
 
 /************************************************************************/
 /*Cloud sub-menu CSS - Network/Resource Pools/etc. */

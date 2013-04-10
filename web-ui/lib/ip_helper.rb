@@ -16,7 +16,7 @@ module Uhuru::BoshCommander
         ip_start = ip_to_int range[0]
         ip_end = ip_to_int range[1]
 
-        max_ips = [(ip_end - ip_start), count - count_done].min
+        max_ips = [(ip_end - ip_start + 1), count - count_done].min
 
         (0..max_ips - 1).each do |offset|
           result << ip_to_string(ip_start + offset)
