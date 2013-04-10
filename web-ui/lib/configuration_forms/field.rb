@@ -290,7 +290,6 @@ module Uhuru::BoshCommander
             email_server_secret = @screen.fields.find {|field| field.name == 'email_server_secret' }.get_value(value_type)
             email_server_auth_method = @screen.fields.find {|field| field.name == 'email_server_auth_method' }.get_value(value_type)
             domain = @screen.fields.find {|field| field.name == 'domain' }.get_value(value_type)
-            admin_email = @screen.fields.find {|field| field.name == 'admin_email' }.get_value(value_type)
 
             client = Net::SMTP.new( email_server,email_port)
 
@@ -299,14 +298,22 @@ module Uhuru::BoshCommander
               client.enable_starttls(context)
             end
             begin
-              msg = "Test email for #{domain} deployment"
+              msg = <<END_OF_MESSAGE
+ Subject: Test send email for deployment #{domain}
+ MIME-Version: 1.0
+ Content-type: text/html
+
+
+ Test email for #{domain} deployment
+
+END_OF_MESSAGE
               client.open_timeout = 10
                 client.start(
                   "localhost",
                   email_server_user,
                   email_server_secret,
                   eval(email_server_auth_method)) do
-                client.send_message msg, email_from, admin_email
+                client.send_message msg, email_from, $config[:test_email]
 
                 end
             rescue Exception => e
@@ -418,14 +425,22 @@ module Uhuru::BoshCommander
               client.enable_starttls(context)
             end
             begin
-              msg = "Test email for Uhuru Commander Nagios Monitoring"
+              msg = <<END_OF_MESSAGE
+ Subject: Test send email for Nagios
+ MIME-Version: 1.0
+ Content-type: text/html
+
+
+ Test email for Uhuru Commander Nagios Monitoring
+
+END_OF_MESSAGE
               client.open_timeout = 10
               client.start(
                   "localhost",
                   email_server_user,
                   email_server_secret,
                   eval(email_server_auth_method)) do
-                client.send_message msg, email_from, admin_email
+                client.send_message msg, email_from, $config[:test_email]
 
               end
             rescue Exception => e
