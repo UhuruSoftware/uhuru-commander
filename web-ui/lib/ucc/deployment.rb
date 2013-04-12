@@ -33,10 +33,24 @@ module Uhuru::BoshCommander
       director = Thread.current.current_session[:command].instance_variable_get("@director")
       @manifest["director_uuid"] =  director.uuid
 
+      set_vm_passwords
+
       #write the file
       File.open(@deployment_manifest_path, 'w') do |out|
         YAML.dump(@manifest, out)
       end
+    end
+
+    def set_vm_passwords()
+      admin_password = @manifest["properties"]["uhuru"]["simple_webui"]["admin_password"].to_s
+      @manifest["resource_pools"].each do |resource_pool|
+        if (resource_pool["stemcell"]["name"] == $config[:bosh][:stemcells][:linux_php_stemcell][:name])
+          resource_pool["env"]["bosh"]["password"] = `mkpasswd -m sha-512 "#{admin_password}"`.to_s.strip
+        else
+          resource_pool["env"]["bosh"]["password"] = admin_password
+        end
+      end
+
     end
 
     #Returns an array of all the deployments
