@@ -161,11 +161,69 @@ module Uhuru::BoshCommander
         send_file Deployment.get_deployment_yml_path(cloud_name), :filename => "#{cloud_name}.yml", :type => 'Application/octet-stream'
       elsif params.has_key?("file_input")
         tempfile = params['file_input'][:tempfile]
-        manifest = File.open(tempfile.path) { |file| YAML.load(file)}
-        File.open(Deployment.get_deployment_yml_path(cloud_name), 'w') do |out|
-          YAML.dump(manifest, out)
+        manifest = YAML.load_file(tempfile)
+        params.delete("file_input")
+
+
+        blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
+        new_manifest = YAML.load(blank_manifest_template.result(binding))
+
+        forms_yml = $config[:forms]
+
+        forms_yml['cloud'].each do |screen|
+          screen['fields'].each do |field|
+            unless field['type'] == 'separator'
+
+              yml_keys = field['yml_key']
+
+              unless yml_keys.is_a? Array
+                yml_keys = [yml_keys]
+              end
+
+              yml_keys.each do |key|
+                begin
+                  new_value = nil
+                  eval("new_value=manifest#{key}")
+                  if new_value
+                    eval("new_manifest#{key} = manifest#{key}")
+                  end
+                rescue => e
+                  $logger.warn "Could not import value #{field['label']} for cloud #{cloud_name}"
+                end
+              end
+            end
+          end
         end
-        redirect "/clouds/#{cloud_name}"
+
+        form_params = {}
+
+        CommanderBoshRunner.execute(session) do
+          form = CloudForm.from_imported_data(cloud_name, new_manifest)
+
+          form.screens.each do |screen|
+            screen.fields.each do |field|
+              form_params[field.html_form_id] = field.get_value(GenericForm::VALUE_TYPE_SAVED)
+            end
+          end
+
+          values_to_show = GenericForm::VALUE_TYPE_FORM
+          form = CloudForm.from_cloud_name(cloud_name, form_params)
+          form.validate? GenericForm::VALUE_TYPE_FORM
+          deployment_status = form.deployment.status
+        end
+
+        render_erb do
+          template :cloud
+          layout :layout
+
+          var :form, form
+          var :cloud_name, cloud_name
+          var :summary, deployment_status
+          var :value_type, values_to_show
+
+          help form.help
+          help cloud_summary_help
+        end
       end
     end
 
