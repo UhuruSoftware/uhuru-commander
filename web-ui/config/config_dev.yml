@@ -2,6 +2,7 @@ pid_filename: /tmp/boshcommander.pid
 local_route: 10.0.0.1
 port: 8080
 dev-mode: true
+test_email: "test@uhurusoftware.com" #setting used to test smtp server
 
 bosh_commander:
   domain: "localhost"
@@ -17,7 +18,7 @@ nagios:
   port: 81
 
 bosh:
-  target: "10.0.21.4"
+  target: "10.0.71.71"
   #base_dir: "/home/mitza/testing/assets/vcap"
   base_dir: "/home/vladi/tmp/testing/assets/vcap"
   #base_dir: "/var/vcap"

@@ -12,7 +12,7 @@
     <div id="log_stop" class="hidden">
       <img src="/images/completed.png" alt="Task completed." />
       <span>Task completed.</span>
-      <span id="log_stop_action" />
+      <span id="log_stop_action"></span>
     </div>
     <div id="log_paused" class="hidden">
       <img src="/images/broken.png" alt="Can't reach server." /><span>Can't grab data from server - check your connection.</span>
@@ -57,6 +57,7 @@
                 {
                     url: url,
                     type: 'GET',
+                    cache: false,
                     error: function(data)
                     {
                         setLogStatusVisible("log_paused");

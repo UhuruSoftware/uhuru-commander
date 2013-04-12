@@ -43,13 +43,19 @@ module Uhuru::BoshCommander
       # Assign static IP addresses to jobs
       #**************************************************************
 
+      $logger.debug("Starting to assign Static IPs for deployment #{@deployment.deployment_name}")
+
       jobs_with_static_ips = volatile_manifest["jobs"].select do |job|
         job["networks"][0].has_key?("static_ips")
       end
 
+      $logger.debug("These are all the jobs with a static IP: #{jobs_with_static_ips.map {|job| job['name'] }.inspect}")
+
       needed_ips = jobs_with_static_ips.inject(0) do |sum, job|
         sum += job["instances"].to_i
       end
+
+      $logger.debug("There are #{needed_ips} required static IPs")
 
       static_ips = @screens.find {|screen| screen.name == 'Network' }.fields.find{|field| field.name=='static_ip_range'}.get_value(VALUE_TYPE_VOLATILE)
       static_ips = IPHelper.from_string static_ips
@@ -63,6 +69,8 @@ module Uhuru::BoshCommander
         !ip_used
       end
 
+      $logger.debug("This is the pool of static IPs we can use: #{possible_static_ips}")
+
       jobs_with_static_ips.each do |job_with_ip|
         job_with_ip["networks"][0]["static_ips"] ||= []
 
@@ -73,15 +81,20 @@ module Uhuru::BoshCommander
 
         assigned_ips.each_with_index do |static_ip, index|
           if static_ip.to_s.strip == '' || !IPHelper.ip_in_range?(static_ips, static_ip)
-            assigned_ips[index] = possible_static_ips.shift
+            ip = possible_static_ips.shift
+            $logger.debug("Replacing static IP #{assigned_ips[index]} with #{ip} for #{job_with_ip['name']}")
+            assigned_ips[index] = ip
           end
         end
 
         if needed_instances > assigned_instances
           (assigned_instances..needed_instances-1).each do |index|
-            assigned_ips[index] = possible_static_ips.shift
+            ip = possible_static_ips.shift
+            $logger.debug("Assigning static IP #{ip} to #{job_with_ip['name']}")
+            assigned_ips[index] = ip
           end
         elsif needed_instances < assigned_instances
+          $logger.debug("Removing #{assigned_instances - needed_instances} static IPs from #{job_with_ip['name']}")
           assigned_ips.slice!(needed_instances, assigned_instances - needed_instances)
         end
       end

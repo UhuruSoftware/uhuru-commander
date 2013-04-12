@@ -73,8 +73,8 @@ cloud:
     id: properties
     fields:
       - {name: admin_sep,    label: Administrator Settings,       type: separator }
-      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_email"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["email_to"]', '["properties"]["cc"]["admins"][0]', '["properties"]["cc"]["bootstrap_users"][0]["email"]'],   description: '' }
-      - {name: admin_password,    label: Administrator Password,       type: password,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["admin_password"]', '["properties"]["cc"]["bootstrap_users"][0]["password"]'],   description: '' }
+      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["monitoring"]["email_to"]', '["properties"]["cc"]["admins"][0]', '["properties"]["cc"]["bootstrap_users"][0]["email"]'],   description: '' }
+      - {name: admin_password,    label: Administrator Password,       type: password,   yml_key: ['["properties"]["cc"]["bootstrap_users"][0]["password"]'],   description: '' }
 
       - {name: cloud_info_sep,    label: Cloud Information,       type: separator }
       - {name: name,    label: Name,       type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_name"]',   description: '' }
@@ -128,6 +128,7 @@ monitoring:
       - {name: nagios_warn_level, label: Warning Level (%), type: numeric,   yml_key: '["default_warn_level"]',   description: ''}
       - {name: nagios_critical_level, label: Critical Level (%), type: numeric,   yml_key: '["default_critical_level"]',   description: ''}
       - {name: nagios_email_to, label: Send E-mail Alerts To, type: string,   yml_key: '["alerts"]["email_to"]',   description: ''}
+      - {name: nagios_notification_interval, label: Notification Interval, type: numeric,   yml_key: '["alerts"]["notification_interval"]',   description: ''}
 
       - {name: nagios_email_sep,    label: E-mail Settings,       type: separator }
       - {name: nagios_email_from, label: From Address, type: string,   yml_key: '["email"]["from"]',   description: ''}

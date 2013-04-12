@@ -22,11 +22,8 @@
       <% form.screens.each do |screen| %>
 
           <li>
-            <a href="#" onclick="switchCloudMenu(<%= sub_menu_ids %>, '<%= screen.id %>');" id="cloud_<%= screen.id %>" >
+            <a href="#" onclick="switchCloudMenu(<%= sub_menu_ids %>, '<%= screen.id %>');" id="cloud_<%= screen.id %>" <%= screen.has_errors? ? 'class="error"' : '' %>>
               <%= screen.name %>
-              <% if screen.has_errors? %>
-                  <span class="error">*</span>
-              <% end %>
             </a>
           </li>
 
@@ -220,30 +217,35 @@
   <h2>Useful URLs</h2>
   <h3>Cloud API Endpoint:
     <a class="highlight bold"
+       target="_blank"
        href="<%= summary["api_url"].to_s.start_with?('http://') ? summary["api_url"] : 'http://' + summary["api_url"]  %>">
       <%= summary["api_url"] %>
     </a>
   </h3>
   <h3>Web Interface:
     <a class="highlight bold"
+       target="_blank"
        href="<%= summary["web_ui_url"].to_s.start_with?('http://') ? summary["web_ui_url"] : 'http://' + summary["web_ui_url"]  %>">
       <%= summary["web_ui_url"] %>
     </a>
   </h3>
   <h3>Support URL:
     <a class="highlight bold"
+       target="_blank"
        href="<%= summary["support_url"].to_s.start_with?('http://') ? summary["support_url"] : 'http://' + summary["support_url"]  %>">
       <%= summary["support_url"] %>
     </a>
   </h3>
   <h3>QoS Monitoring:
     <a class="highlight bold"
+       target="_blank"
        href="<%= (summary["web_ui_url"].to_s.start_with?('http://') ? summary["web_ui_url"] : "http://#{summary['web_ui_url']}") %>/monitoring">
       <%= summary["web_ui_url"] %>/monitoring
     </a>
   </h3>
   <h3>Reports:
     <a class="highlight bold"
+       target="_blank"
        href="<%= (summary["web_ui_url"].to_s.start_with?('http://') ? summary["web_ui_url"] : "http://#{summary['web_ui_url']}") %>/reports">
       <%= summary["web_ui_url"] %>/reports
     </a>
@@ -266,8 +268,13 @@
     var qs_default_menu = getParameterByName('menu');
     var qs_default_sub_menu = getParameterByName('submenu');
 
+    var first_error = '<%=
+        first_error_screen = form.screens.find {|screen| screen.has_errors? }
+        first_error_screen != nil ? first_error_screen.id : '' %>'
+
+
     qs_default_menu = qs_default_menu == '' ? default_menu : qs_default_menu;
-    qs_default_sub_menu = qs_default_sub_menu == '' ? default_sub_menu : qs_default_sub_menu;
+    qs_default_sub_menu = qs_default_sub_menu == '' ? (first_error == '' ? default_sub_menu : first_error) : qs_default_sub_menu;
 
     switchCloudMenu(<%= "['#{@cloud_menu.keys.join js_splitter}']" %>, qs_default_menu);
     switchCloudMenu(<%= sub_menu_ids %>, qs_default_sub_menu);

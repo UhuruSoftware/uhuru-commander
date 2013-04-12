@@ -405,8 +405,8 @@ END_OF_MESSAGE
             end
           end
         end
-      elsif @form == 'monitoring'
-        if @screen == 'Nagios'
+      elsif @form.name == 'monitoring'
+        if @screen.name == 'Nagios'
           if @name == 'nagios_email_server'
             email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
             email_from =  @screen.fields.find {|field| field.name == 'nagios_email_from' }.get_value(value_type)
@@ -437,7 +437,7 @@ END_OF_MESSAGE
                   "localhost",
                   email_server_user,
                   email_server_secret,
-                  eval(email_server_auth_method)) do
+                  email_server_auth_method) do
                 client.send_message msg, email_from, $config[:test_email]
 
               end
