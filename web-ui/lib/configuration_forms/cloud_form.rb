@@ -125,6 +125,16 @@ module Uhuru::BoshCommander
 
     end
 
+    def self.from_imported_data(cloud_name, imported_data)
+      unless (defined? Thread.current.request_id) && (Thread.current.request_id != nil)
+        raise "This method has to be called using a 'Commander BOSH Runner'"
+      end
+
+      saved_data = imported_data
+
+      CloudForm.new(saved_data, nil, Deployment.new(cloud_name))
+    end
+
     def self.from_cloud_name(cloud_name, form_data)
       unless (defined? Thread.current.request_id) && (Thread.current.request_id != nil)
         raise "This method has to be called using a 'Commander BOSH Runner'"
