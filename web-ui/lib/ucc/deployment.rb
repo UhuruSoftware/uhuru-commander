@@ -7,6 +7,7 @@ module Uhuru::BoshCommander
     STATE_DEPLOYED = "Deployed"
     STATE_SAVED = "Saved"
     STATE_NOT_CONFIGURED = "Not Configured"
+    WINDOWS_JOBS = ["mssql_node", "uhuru_tunnel", "uhurufs_node", "win_dea"]
 
     attr_reader :deployment_name
     attr_reader :deployment_dir
@@ -84,8 +85,16 @@ module Uhuru::BoshCommander
     def get_vm_logs(job, index, request_path)
       director =  Thread.current.current_session[:command].instance_variable_get("@director")
       say("Fetching logs for job: #{job}, index #{index} ")
-      resource_id = director.fetch_logs(
-          @deployment_name, job, index, "job", "all")
+
+      #HACK needed because of UH-1175
+      if (WINDOWS_JOBS.include?(job.to_s.strip))
+        resource_id = director.fetch_logs(
+            @deployment_name, job, index, "job")
+      else
+        resource_id = director.fetch_logs(
+            @deployment_name, job, index, "job", "all")
+      end
+
       say("Done".green)
       if (File.exists?(request_path))
         File.delete(request_path)
@@ -278,11 +287,5 @@ module Uhuru::BoshCommander
       deployment_cmd
     end
 
-    #def log_command
-    #  command = Thread.current.current_session[:command]
-    #  log_cmd = Bosh::Cli::Command::LogManagement.new
-    #  log_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
-    #  log_cmd
-    #end
   end
 end
