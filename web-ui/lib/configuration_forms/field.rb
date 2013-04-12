@@ -278,8 +278,8 @@ module Uhuru::BoshCommander
           end
         elsif @screen.name == 'Properties'
           if @name == 'admin_password'
-            if value.to_s.size < 4 || value.to_s.size > 20
-              error = 'Password should be between 4 and 20 characters long.'
+            unless value.to_s.match(/(?=^.{6,20}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*/)
+              error = 'Provided password does not meet the the length or complexity requirements'
             end
           elsif @name == 'email_server'
             email_server =  @screen.fields.find {|field| field.name == 'email_server' }.get_value(value_type)
