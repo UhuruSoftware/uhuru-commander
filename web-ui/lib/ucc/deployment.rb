@@ -41,7 +41,7 @@ module Uhuru::BoshCommander
     end
 
     def set_vm_passwords()
-      admin_password = @manifest["properties"]["uhuru"]["simple_webui"]["admin_password"].to_s
+      admin_password = @manifest["properties"]["cc"]["bootstrap_users"][0]["password"].to_s
       @manifest["resource_pools"].each do |resource_pool|
         if (resource_pool["stemcell"]["name"] == $config[:bosh][:stemcells][:linux_php_stemcell][:name])
           resource_pool["env"]["bosh"]["password"] = `mkpasswd -m sha-512 "#{admin_password}"`.to_s.strip
@@ -168,7 +168,7 @@ module Uhuru::BoshCommander
       stats["api_url"] = properties["cc"]["srv_api_uri"]
       stats["uaa_url"] = properties["uaa_endpoint"]
       stats["web_ui_url"] = "www.#{properties["domain"]}"
-      stats["admin_email"] = properties["uhuru"]["simple_webui"]["admin_email"]
+      stats["admin_email"] = properties["cc"]["bootstrap_users"][0]["email"]
       stats["contact_email"] = properties["uhuru"]["simple_webui"]["contact"]["email"]
       stats["support_url"] = properties["support_address"]
       stats["services"] = ["mysql_node", "mssql_node", "uhurufs_node", "rabbit_node", "postgresql_node", "redis_node", "mongodb_node"].map { |node|
