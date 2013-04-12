@@ -2,7 +2,7 @@
 name: cloud-foundry
 director_uuid: "DO NOT CHANGE THIS STRING"
 
-<% monitoring_user_password = SecureRandom.hex %>
+<% simplewebui_user_password = SecureRandom.hex %>
 
 release:
   name: <%=  YAML.load_file(`ls /var/vcap/store/ucc/dev_releases/*.yml | grep -v index.yml`.strip)['name'] %>
@@ -365,8 +365,8 @@ properties:
       recaptcha_public_key: "<enter your recaptcha public key>"
       recaptcha_private_key: "<enter your recaptcha private key>"
       activation_link_secret: "<%= SecureRandom.hex %>"
-      admin_email: "myemail@mydomain.com"
-      admin_password: ""
+      admin_email: "simplewebui@uhurudaemon.org"
+      admin_password: <%= simplewebui_user_password %>
       default_random_password: "<%= SecureRandom.hex %>"
       logging_level: debug
       email:
@@ -384,8 +384,8 @@ properties:
         phone: ""
         email: "myemail@mycompany.com"
       monitoring:
-        cloud_user: "monitoring@uhurudaemon.org"
-        cloud_password: <%= monitoring_user_password %>
+        cloud_user: "simplewebui@uhurudaemon.org"
+        cloud_password: <%= simplewebui_user_password %>
         email_to: "myemail@mydomain.com"
   win_dea:
     filerport: 12346
@@ -475,13 +475,13 @@ properties:
       password: ""
       is_admin: true
       is_hashed_password: false
-    - email: "monitoring@uhurudaemon.org"
-      password: "<%= monitoring_user_password %>"
+    - email: "simplewebui@uhurudaemon.org"
+      password: "<%= simplewebui_user_password %>"
       is_admin: true
       is_hashed_password: false
     admins:
     - myemail@mydomain.com
-    - monitoring@uhurudaemon.org
+    - simplewebui@uhurudaemon.org
     default_account_capacity:
       memory: 512
       app_uris: 8
