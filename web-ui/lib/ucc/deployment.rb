@@ -7,7 +7,6 @@ module Uhuru::BoshCommander
     STATE_DEPLOYED = "Deployed"
     STATE_SAVED = "Saved"
     STATE_NOT_CONFIGURED = "Not Configured"
-    WINDOWS_JOBS = ["mssql_node", "uhuru_tunnel", "uhurufs_node", "win_dea"]
 
     attr_reader :deployment_name
     attr_reader :deployment_dir
@@ -96,17 +95,34 @@ module Uhuru::BoshCommander
 
     end
 
-    def get_vm_logs(job, index, request_path)
+    def get_vm_logs(job_name, index, request_path)
       director =  Thread.current.current_session[:command].instance_variable_get("@director")
-      say("Fetching logs for job: #{job}, index #{index} ")
+      say("Fetching logs for job: #{job_name}, index #{index} ")
 
       #HACK needed because of UH-1175
-      if (WINDOWS_JOBS.include?(job.to_s.strip))
+      deployment_manifest = get_manifest()
+      current_job = nil
+      deployment_manifest["jobs"].each do |job|
+        if (job["name"] == job_name)
+          current_job = job
+          break
+        end
+      end
+
+      current_resource_pool = nil
+      deployment_manifest["resource_pools"].each do |resource_pool|
+        if (resource_pool["name"] == current_job["resource_pool"])
+          current_resource_pool = resource_pool
+          break
+        end
+      end
+
+      if (current_resource_pool["stemcell"]["name"] == $config[:bosh][:stemcells][:linux_php_stemcell][:name])
         resource_id = director.fetch_logs(
-            @deployment_name, job, index, "job")
+            @deployment_name, job_name, index, "job", "all")
       else
         resource_id = director.fetch_logs(
-            @deployment_name, job, index, "job", "all")
+            @deployment_name, job_name, index, "job")
       end
 
       say("Done".green)
