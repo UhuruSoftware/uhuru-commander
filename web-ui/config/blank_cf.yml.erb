@@ -50,6 +50,9 @@ resource_pools:
   env:
     windows:
       product_key: 00000-00000-00000-00000-00000
+    bosh:
+      password: Change_me!
+
 
 - name: sqlserver
   network: default
@@ -64,6 +67,8 @@ resource_pools:
   env:
     windows:
       product_key: 00000-00000-00000-00000-00000
+    bosh:
+      password: Change_me!
 
 - name: tiny
   network: default
@@ -75,6 +80,9 @@ resource_pools:
     ram: 300
     disk: 5000
     cpu: 1
+  env:
+    bosh:
+      password: $6$DxzA20NmmfOjOyqk$GiuzvfioqPMpzOIZxhKeuPRSEniM2PecTQLBtj1wcX8j9RncfzLWKNAfdQ/X0hJoTRmyvqNCe1N1BwQb5F3TP.
 
 - name: small
   network: default
@@ -86,6 +94,10 @@ resource_pools:
     ram: 512
     disk: 5000
     cpu: 1
+  env:
+    bosh:
+      password: $6$DxzA20NmmfOjOyqk$GiuzvfioqPMpzOIZxhKeuPRSEniM2PecTQLBtj1wcX8j9RncfzLWKNAfdQ/X0hJoTRmyvqNCe1N1BwQb5F3TP.
+
 
 - name: medium
   network: default
@@ -97,6 +109,9 @@ resource_pools:
     ram: 1024
     disk: 5000
     cpu: 2
+  env:
+    bosh:
+      password: $6$DxzA20NmmfOjOyqk$GiuzvfioqPMpzOIZxhKeuPRSEniM2PecTQLBtj1wcX8j9RncfzLWKNAfdQ/X0hJoTRmyvqNCe1N1BwQb5F3TP.
 
 - name: large
   network: default
@@ -108,6 +123,9 @@ resource_pools:
     ram: 2048
     disk: 10000
     cpu: 4
+  env:
+    bosh:
+      password: $6$DxzA20NmmfOjOyqk$GiuzvfioqPMpzOIZxhKeuPRSEniM2PecTQLBtj1wcX8j9RncfzLWKNAfdQ/X0hJoTRmyvqNCe1N1BwQb5F3TP.
 
 - name: deas
   network: default
@@ -119,6 +137,9 @@ resource_pools:
     ram: 3072
     disk: 30000
     cpu: 4
+  env:
+    bosh:
+      password: $6$DxzA20NmmfOjOyqk$GiuzvfioqPMpzOIZxhKeuPRSEniM2PecTQLBtj1wcX8j9RncfzLWKNAfdQ/X0hJoTRmyvqNCe1N1BwQb5F3TP.
 
 jobs:
 
