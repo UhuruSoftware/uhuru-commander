@@ -95,6 +95,24 @@
     display: inline;
 }
 
+.cloud_menu.sub_menu > li a.error
+{
+    background-color: #D22719;
+    border-color: #DF554A;
+}
+
+.cloud_menu.sub_menu > li a.error:hover
+{
+    background-color: #DF554A;
+    border-color: #DF554A;
+}
+
+.cloud_menu.sub_menu > li a.tab_focus.error
+{
+    background-color: #B51D11;
+    border-color: #DF554A;
+}
+
 .cloud_menu.sub_menu > li span
 {
     display: inline-block;

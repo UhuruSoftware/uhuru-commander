@@ -41,10 +41,10 @@
 
   <div class="actual_body">
     <div class="actual_body_header">
-        <div id="page_loading" class="page_loading hidden">
-          <span>Loading ...</span>
-          <img src="/images/page_loading.gif"/>
-        </div>
+      <div id="page_loading" class="page_loading hidden">
+        <span>Loading ...</span>
+        <img src="/images/page_loading.gif"/>
+      </div>
     </div>
 
     <div id="help_div" class="help_div">
@@ -52,14 +52,14 @@
           <div class="help_header">Help</div>
           <% help.each do |title, description, relation| %>
               <% if relation %>
-                  <label class="hidden" for="<%= relation %>">
-                    <p><h4><%= title %></h4></p>
-                    <p>
-                      <%= description %>
-                    </p>
-                  </label>
+                  <label class="hidden" for="<%= relation %>"></label>
+                  <h4><%= title %></h4>
+                  <p>
+                    <%= description %>
+                  </p>
+
               <% else %>
-                  <p><h4><%= title %></h4></p>
+                  <h4><%= title %></h4>
                   <p>
                     <%= description %>
                   </p>
