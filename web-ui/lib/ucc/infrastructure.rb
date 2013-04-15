@@ -164,7 +164,7 @@ module Uhuru::BoshCommander
       hm_yml["director"]["endpoint"] = "http://#{@director_info[:hostname]}:#{@director_info[:port]}"
       hm_yml["director"]["user"] = @director_info[:hm_user]
       if (!@is_update)
-        hm_yml["director"]["password"] = @director_info[:hm_password]
+        hm_yml["director"]["password"] = 'hm_is_unused'
       end
 
       File.open(hm_file, 'w') do |file|

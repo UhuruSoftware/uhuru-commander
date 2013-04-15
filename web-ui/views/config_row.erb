@@ -9,7 +9,7 @@
 <% else %>
     <tr>
       <td>
-        <label class="<%= field.get_css_class %> local" for="<%= field.html_form_id %>">
+        <label class="<%= field.get_css_class %>" for="<%= field.html_form_id %>">
           <%= field.get_label + ":" %>
         </label>
       </td>
@@ -56,7 +56,7 @@
             <select name="<%= field.html_form_id %>"
                     disabled=""
                     type="<%= field.get_html_type %>"
-                    class="<%= field.get_css_class %> local"
+                    class="<%= field.get_css_class %> live"
                     id="<%= field.html_form_id %>">
               <% field.get_list_items.each do |key, value| %>
                   <option <%= value == field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) ? 'selected' : '' %> value="<%= value %>" ><%= key %></option>
@@ -65,13 +65,13 @@
         <% elsif field.get_html_type == 'textarea' %>
             <textarea name="<%= field.html_form_id %>"
                       disabled=""
-                      class="<%= field.get_css_class %> local"
+                      class="<%= field.get_css_class %> live"
                       id="<%= field.html_form_id %>"><%= field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) %></textarea>
         <% elsif field.get_html_type == 'checkbox' %>
             <input name="<%= field.html_form_id %>"
                    disabled=""
                    type="<%= field.get_html_type %>"
-                   class="<%= field.get_css_class %> local"
+                   class="<%= field.get_css_class %> live"
                    id="<%= field.html_form_id %>"
                    value="true"
                    <% if field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) == true %>
@@ -84,7 +84,7 @@
                    <% if field.get_html_type == 'password' %>
                     autocomplete="off"
                    <% end %>
-                   class="<%= field.get_css_class %> local"
+                   class="<%= field.get_css_class %> live"
                    id="<%= field.html_form_id %>"
                    disabled=""
                    value="<%= field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) %>"

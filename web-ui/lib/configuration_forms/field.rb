@@ -308,14 +308,14 @@ module Uhuru::BoshCommander
 
 END_OF_MESSAGE
               client.open_timeout = 10
-                client.start(
+              client.start(
                   "localhost",
                   email_server_user,
                   email_server_secret,
                   eval(email_server_auth_method)) do
                 client.send_message msg, email_from, $config[:test_email]
 
-                end
+              end
             rescue Exception => e
               error = "Cannot connect to email server, please verify settings - #{e.message}"
             end
@@ -500,6 +500,12 @@ END_OF_MESSAGE
               result = IPHelper.to_string range
             elsif @name == 'subnet_mask'
               result = IPHelper.get_subnet_netmask(value)
+            end
+          end
+        elsif @form.name == 'monitoring'
+          if @screen.name == 'Nagios'
+            if @name == 'nagios_email_server_auth_method'
+              result = value.to_s
             end
           end
         end
