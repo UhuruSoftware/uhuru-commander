@@ -183,7 +183,7 @@ module Uhuru::BoshCommander
     #the VMs and deployment manifests are deleted.
     def delete()
       state = get_state
-      if state != STATE_SAVED
+      if state != STATE_SAVED && state != STATE_NOT_CONFIGURED
         tear_down
       end
 
