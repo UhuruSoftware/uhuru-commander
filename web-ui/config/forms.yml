@@ -46,20 +46,20 @@ cloud:
     id: components
     fields:
       - {name: dea_sep,     label: Droplet Execution Agents,       type: separator}
-      - {name: linux_deas,    label: Linux DEAs,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "dea"}.first["instances"]',    description: '' }
-      - {name: windows_deas,  label: Windows DEAs,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "win_dea"}.first["instances"]',    description: '' }
+      - {name: linux_deas,    label: Linux DEAs,       type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "dea"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["dea"]'],    description: '' }
+      - {name: windows_deas,  label: Windows DEAs,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "win_dea"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["win_dea"]'],    description: '' }
 
       - {name: winser_sep,     label: Windows Services,       type: separator}
-      - {name: mssql_nodes,    label: MSSQL Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mssql_node"}.first["instances"]',    description: '' }
-      - {name: uhurufs_nodes,    label: UhuruFS Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "uhurufs_node"}.first["instances"]',    description: '' }
-      - {name: uhuru_tunnel,    label: Tunnel DEAs,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "uhuru_tunnel"}.first["instances"]',    description: '' }
+      - {name: mssql_nodes,    label: MSSQL Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "mssql_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["mssql_node"]'],    description: '' }
+      - {name: uhurufs_nodes,    label: UhuruFS Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "uhurufs_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["uhurufs_node"]'],    description: '' }
+      - {name: uhuru_tunnel,    label: Tunnel DEAs,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "uhuru_tunnel"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["uhuru_tunnel"]'],    description: '' }
 
       - {name: linuxser_sep,     label: Linux Services,       type: separator}
-      - {name: mysql_nodes,    label: MySQL Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mysql_node"}.first["instances"]',    description: '' }
-      - {name: mongodb_nodes,    label: MongoDB Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "mongodb_node"}.first["instances"]',    description: '' }
-      - {name: redis_nodes,    label: Redis Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "redis_node"}.first["instances"]',    description: '' }
-      - {name: rabbit_nodes,    label: RabbitMQ Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "rabbit_node"}.first["instances"]',    description: '' }
-      - {name: postgres_nodes,    label: Postgresql Nodes,     type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "postgresql_node"}.first["instances"]',    description: '' }
+      - {name: mysql_nodes,    label: MySQL Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "mysql_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["mysql_node"]'],    description: '' }
+      - {name: mongodb_nodes,    label: MongoDB Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "mongodb_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["mongodb_node"]'],    description: '' }
+      - {name: redis_nodes,    label: Redis Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "redis_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["redis_node"]'],    description: '' }
+      - {name: rabbit_nodes,    label: RabbitMQ Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "rabbit_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["rabbit_node"]'],    description: '' }
+      - {name: postgres_nodes,    label: Postgresql Nodes,     type: numeric,   yml_key: ['["jobs"].select{|job| job["name"] == "postgresql_node"}.first["instances"]', '["properties"]["uhuru"]["simple_webui"]["monitoring"]["components"]["postgresql_node"]'],    description: '' }
 
       - {name: core_sep,     label: App Cloud Core Components,       type: separator}
       - {name: cloud_controllers,    label: Cloud Controllers,       type: numeric,   yml_key: '["jobs"].select{|job| job["name"] == "cloud_controller"}.first["instances"]',    description: '' }
@@ -73,7 +73,7 @@ cloud:
     id: properties
     fields:
       - {name: admin_sep,    label: Administrator Settings,       type: separator }
-      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["uhuru"]["simple_webui"]["monitoring"]["email_to"]', '["properties"]["cc"]["admins"][0]', '["properties"]["cc"]["bootstrap_users"][0]["email"]'],   description: '' }
+      - {name: admin_email,    label: Administrator E-mail,       type: string,   yml_key: ['["properties"]["cc"]["admins"][0]', '["properties"]["cc"]["bootstrap_users"][0]["email"]'],   description: '' }
       - {name: admin_password,    label: Administrator Password,       type: password,   yml_key: ['["properties"]["cc"]["bootstrap_users"][0]["password"]'],   description: '' }
 
       - {name: cloud_info_sep,    label: Cloud Information,       type: separator }
@@ -107,6 +107,9 @@ cloud:
       - {name: email_server_secret, label: Password, type: password,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["secret"]',   description: ''}
       - {name: email_server_auth_method, label: Authentication Method, type: list, items: {'Plain': ':plain', 'Login': ':login', 'CRAM-MD5': ':cram_md5'},   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["auth_method"]',   description: ''}
       - {name: email_server_enable_tls, label: Use TLS, type: boolean,   yml_key: '["properties"]["uhuru"]["simple_webui"]["email"]["enable_tls"]',   description: ''}
+
+      - {name: qos_sep,    label: QoS Settings,       type: separator }
+      - {name: email_to,      label: Notification Email Address, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["monitoring"]["email_to"]',   description: ''}
 
       - {name: cloud_tools_sep,    label: Links to Client Tools,       type: separator }
       - {name: cloud_admin_download_url, label: Uhuru Cloud Admin, type: string,   yml_key: '["properties"]["uhuru"]["simple_webui"]["cloud_admin_download_url"]',   description: ''}
