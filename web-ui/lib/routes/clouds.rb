@@ -27,28 +27,46 @@ module Uhuru::BoshCommander
         template :clouds
         layout :layout
         var :clouds, clouds
+        var :error_message, ""
         help 'clouds'
       end
     end
 
     post '/clouds' do
       clouds = []
-      if params["create_cloud_name"] != ''
+      message = ""
+      cloud_name = params["create_cloud_name"]
+      if !!cloud_name.match(/^[[:alnum:]]+$/)
         CommanderBoshRunner.execute(session) do
-          deployment = Deployment.new(params["create_cloud_name"])
-          blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
-
-          new_manifest = YAML.load(blank_manifest_template.result(binding))
-
-          deployment.save(new_manifest)
-
+          Deployment.deployments_obj.each do |deployment|
+            clouds << deployment.status
+          end
+          if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
+            deployment = Deployment.new(cloud_name)
+            blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
+            new_manifest = YAML.load(blank_manifest_template.result(binding))
+            deployment.save(new_manifest)
+            clouds << deployment.status
+          else
+            message = "A cloud with the same name already exists"
+          end
+        end
+      else
+        message = "Cloud name must contain only alphanumeric characters"
+        CommanderBoshRunner.execute(session) do
           Deployment.deployments_obj.each do |deployment|
             clouds << deployment.status
           end
         end
       end
 
-      redirect '/clouds'
+      render_erb do
+        template :clouds
+        layout :layout
+        var :clouds, clouds
+        var :error_message, message
+        help 'clouds'
+      end
     end
 
     get '/clouds/:cloud_name' do
