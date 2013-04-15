@@ -52,12 +52,12 @@
           <div class="help_header">Help</div>
           <% help.each do |title, description, relation| %>
               <% if relation %>
-                  <label class="hidden" for="<%= relation %>"></label>
-                  <h4><%= title %></h4>
-                  <p>
-                    <%= description %>
-                  </p>
-
+                  <label class="hidden" for="<%= relation %>">
+                      <h4><%= title %></h4>
+                      <p>
+                        <%= description %>
+                      </p>
+                  </label>
               <% else %>
                   <h4><%= title %></h4>
                   <p>
