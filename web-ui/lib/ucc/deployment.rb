@@ -44,6 +44,15 @@ module Uhuru::BoshCommander
       admin_password = @manifest["properties"]["cc"]["bootstrap_users"][0]["password"].to_s
       @manifest["resource_pools"].each do |resource_pool|
         if (resource_pool["stemcell"]["name"] == $config[:bosh][:stemcells][:linux_php_stemcell][:name])
+          current_password = resource_pool["env"]["bosh"]["password"]
+          salt_regex = /\$6\$([^$]+)\$/.match("#{current_password}")
+          if salt_regex
+            salt = salt_regex.captures[0]
+            new_password = `mkpasswd -m sha-512 -S #{salt} "#{admin_password}"`.to_s.strip
+            if (current_password.to_s.strip == new_password)
+              return
+            end
+          end
           resource_pool["env"]["bosh"]["password"] = `mkpasswd -m sha-512 "#{admin_password}"`.to_s.strip
         else
           resource_pool["env"]["bosh"]["password"] = admin_password
