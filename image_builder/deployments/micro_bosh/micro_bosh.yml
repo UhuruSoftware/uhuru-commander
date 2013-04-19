@@ -45,6 +45,9 @@ cloud:
             allow_mixed_datastores: true
             clusters:
               - Staging
+    nats:
+      auth_timeout: 10
+      ping_max_outstanding: 5
     nagios:
       alerts:
         email_to: alerts@mycompany.org
@@ -69,6 +72,9 @@ apply_spec:
     ntp:
      - 0.pool.ntp.org    # Specify any NTP servers for deployments
      - 1.pool.ntp.org
+    nats:
+      auth_timeout: 10
+      ping_max_outstanding: 5
     nagios:
       alerts:
         email_to: alerts@mycompany.org
