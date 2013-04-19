@@ -400,6 +400,7 @@ properties:
     password: 0008422158c208f774c9c86d88364f4b
     address: 10.150.88.5
     port: 4222
+    authorization_timeout: 10
   ccdb:
     user: root
     password: 97deb454f32ebe3a583aa59f8cab9a68
