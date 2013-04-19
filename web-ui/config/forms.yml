@@ -188,11 +188,11 @@ cloud:
     fields:
       - {name: windows_activation_key,                    label: Windows 2008 R2 Activation Key,                    type: product_key,
       yml_key: ['["resource_pools"].select{|r| r["name"] == "windows"}.first["env"]["windows"]["product_key"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["env"]["windows"]["product_key"]'],
-      description: '' }
+      description: '<span class="error" style="font-weight:bold">Please make sure that your Windows activation key is valid. If the activation key is wrong, you will either have to manually activate machines or re-deploy your cloud.</span>' }
 
       - {name: mssql_server_product_key,                  label: MSSQL Server 2008 Product Key,                     type: product_key,
       yml_key: '["properties"]["mssql_node"]["product_key"]',
-      description: '' }
+      description: 'Microsoft SQL Server activation Key. The SQL Server instance will be upgraded to match the license of your key. If you set an invalid key, the SQL Server will be setup as a free SQL Server Express instance.' }
 
   - screen: Properties
     id: properties
