@@ -174,6 +174,7 @@ module Uhuru::BoshCommander
         end
       end
       @thin_server = Thin::Server.new('0.0.0.0', $config[:port])
+      @thin_server.timeout = 300
       @thin_server.app = app
 
       trap_signals

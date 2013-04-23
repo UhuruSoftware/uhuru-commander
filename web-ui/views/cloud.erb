@@ -136,63 +136,75 @@
         var divLoadingMessage = document.getElementById("div_loading_vms_message");
         var tableVMList = document.getElementById("vm_list");
 
-        $.getJSON('/clouds/<%= cloud_name %>/vms', function(data) {
-            var items = [];
+        $.ajax(
+                {
+                    url: '/clouds/<%= cloud_name %>/vms',
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 300000,
+                    error: function(data)
+                    {
+                        document.getElementById("div_loading_vms_message").innerHTML = "Could not load VM list. Please check Monitoring to see if everything is online."
+                    },
+                    success: function(data)
+                    {
+                        var items = [];
 
-            $.each(data, function(vm_index, vm) {
-                var rowCount = tableVMList.rows.length;
-                var newRow = tableVMList.insertRow(rowCount);
+                        $.each(data, function(vm_index, vm) {
+                            var rowCount = tableVMList.rows.length;
+                            var newRow = tableVMList.insertRow(rowCount);
 
-                var cellJobName = createCell(newRow, 0);
-                var cellJobIndex = createCell(newRow, 1);
-                var cellJobState = createCell(newRow, 2);
-                var cellIPs = createCell(newRow, 3);
-                var cellAgentId = createCell(newRow, 4);
-                var cellSSHAndLogs = createCell(newRow, 5);
+                            var cellJobName = createCell(newRow, 0);
+                            var cellJobIndex = createCell(newRow, 1);
+                            var cellJobState = createCell(newRow, 2);
+                            var cellIPs = createCell(newRow, 3);
+                            var cellAgentId = createCell(newRow, 4);
+                            var cellSSHAndLogs = createCell(newRow, 5);
 
-                var divAgentId = document.createElement("div");
-                var divJobName = document.createElement("div");
-                var divJobIndex = document.createElement("div");
-                var divJobState = document.createElement("div");
-                var divIPs = document.createElement("div");
-                var divSSHAndLogs = document.createElement("div");
+                            var divAgentId = document.createElement("div");
+                            var divJobName = document.createElement("div");
+                            var divJobIndex = document.createElement("div");
+                            var divJobState = document.createElement("div");
+                            var divIPs = document.createElement("div");
+                            var divSSHAndLogs = document.createElement("div");
 
-                divAgentId.innerHTML = vm["agent_id"];
+                            divAgentId.innerHTML = vm["agent_id"];
 
-                divJobName.innerHTML = vm["job_name"];
-                divJobName.className = "bold";
+                            divJobName.innerHTML = vm["job_name"];
+                            divJobName.className = "bold";
 
-                divJobIndex.innerHTML = vm["index"];
-                divJobIndex.className = "bold";
+                            divJobIndex.innerHTML = vm["index"];
+                            divJobIndex.className = "bold";
 
-                divJobState.innerHTML = vm["job_state"];
-                cellJobState.className = "job_state " + vm["job_state"].toLowerCase().replace(/\s/g, '_');
+                            divJobState.innerHTML = vm["job_state"];
+                            cellJobState.className = "job_state " + vm["job_state"].toLowerCase().replace(/\s/g, '_');
 
-                $.each(vm["ips"], function(ip_index, ip) {
-                    divIPs.innerHTML += ip + "<br/>";
+                            $.each(vm["ips"], function(ip_index, ip) {
+                                divIPs.innerHTML += ip + "<br/>";
+                            });
+
+                            var sshUrl = "/ssh_connect/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
+                            var logUrl = "/vmlog/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
+                            divSSHAndLogs.innerHTML =
+                                    "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;" +
+                                            "<a href='" + logUrl +"'>Logs</a>"
+
+                            cellSSHAndLogs.className += " border_right"
+
+                            cellAgentId.appendChild(divAgentId);
+                            cellJobName.appendChild(divJobName);
+                            cellJobIndex.appendChild(divJobIndex);
+                            cellJobState.appendChild(divJobState);
+                            cellIPs.appendChild(divIPs);
+                            cellSSHAndLogs.appendChild(divSSHAndLogs);
+
+
+
+                        });
+                        $("#vm_list").show();
+                        $("#div_loading_vms_message").hide();
+                    }
                 });
-
-                var sshUrl = "/ssh_connect/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
-                var logUrl = "/vmlog/<%= cloud_name %>/" + vm["job_name"] + "/" + vm["index"]
-                divSSHAndLogs.innerHTML =
-                        "<a onClick=\"window.open('" + sshUrl + "','_blank','width=800,height=600,resizable=yes')\" href='#'>SSH</a>&nbsp;" +
-                                "<a href='" + logUrl +"'>Logs</a>"
-
-                cellSSHAndLogs.className += " border_right"
-
-                cellAgentId.appendChild(divAgentId);
-                cellJobName.appendChild(divJobName);
-                cellJobIndex.appendChild(divJobIndex);
-                cellJobState.appendChild(divJobState);
-                cellIPs.appendChild(divIPs);
-                cellSSHAndLogs.appendChild(divSSHAndLogs);
-
-
-
-            });
-            $("#vm_list").show();
-            $("#div_loading_vms_message").hide();
-        });
     </script>
 
   </div>
