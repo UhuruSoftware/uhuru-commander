@@ -350,7 +350,7 @@ cloud:
       yml_key: '["properties"]["cc"]["default_account_capacity"]["services"]',
       description: 'Maximum number of services (of any type) a normal user can create.'}
 
-      - {name: admin_sep,                                 label: Free Accounts,                                     type: separator }
+      - {name: admin_sep,                                 label: Admin Accounts,                                     type: separator }
 
       - {name: admin_app_count,                           label: Maximum App Count,                                 type: numeric,
       yml_key: '["properties"]["cc"]["admin_account_capacity"]["apps"]',

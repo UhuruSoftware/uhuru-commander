@@ -84,6 +84,10 @@ module Uhuru::BoshCommander
         help_item << 'cloud_tab_summary_div'
       end
 
+      cloud_vms_help = $config[:help]['cloud_vms'].map do |help_item|
+        help_item << 'cloud_tab_virtual_machines_div'
+      end
+
       render_erb do
         template :cloud
         layout :layout
@@ -95,6 +99,7 @@ module Uhuru::BoshCommander
 
         help form.help
         help cloud_summary_help
+        help cloud_vms_help
       end
     end
 

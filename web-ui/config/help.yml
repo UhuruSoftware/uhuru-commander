@@ -25,6 +25,20 @@ tasks:
   - help_item: 'Navigation'
     content: |
       By default, only the last 30 tasks are displayed. You can load more by pressing the 'More...' button; you can also use the jump buttons to scroll to the top or bottom of the list.
+cloud_vms:
+  - help_item: 'VM List'
+    content: |
+      Here you have a list of all VMs that make up your App Cloud.<br />
+      The name of each VM represents the job (role) it has. Multiple VMs can run the same job; VMs with the same job name will have different indexes (the '#' column).
+      This list also reports the VMs state (running/failing) and its assigned IP addresses.
+  - help_item: 'Logs'
+    content: |
+      You can download a tarball containing all pertinent logs for a VM by clicking "Logs".<br />
+      If your running Windows, a good tool for this is <a target='_blank' href='http://www.7-zip.org/'>7-Zip</a>.
+  - help_item: 'SSH'
+    content: |
+      If you need to interact with any of the servers, whether they're running Linux or Windows, you can start an SSH session directly from the browser.<br />
+      All major browsers are supported - but for a better experience (clipboard support), please use <a target='_blank' href='http://www.opera.com/'>Opera</a>.
 cloud_summary:
   - help_item: 'Useful URLs'
     content: |
