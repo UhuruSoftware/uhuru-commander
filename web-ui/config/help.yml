@@ -34,7 +34,7 @@ cloud_vms:
   - help_item: 'Logs'
     content: |
       You can download a tarball containing all pertinent logs for a VM by clicking "Logs".<br />
-      If your running Windows, a good tool for this is <a target='_blank' href='http://www.7-zip.org/'>7-Zip</a>.
+      If you are running Windows, a good tool for this is <a target='_blank' href='http://www.7-zip.org/'>7-Zip</a>.
   - help_item: 'SSH'
     content: |
       If you need to interact with any of the servers, whether they're running Linux or Windows, you can start an SSH session directly from the browser.<br />

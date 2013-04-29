@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="76a648ac-c11e-49a9-97db-7cf9e3532328" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" afterPath="$PROJECT_DIR$/.idea/private-uhuru-commander.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/cf-release" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitmodules" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/vladi.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/vladi.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/image_builder/zero_commander.sh" afterPath="$PROJECT_DIR$/image_builder/zero_commander.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/config.yml" afterPath="$PROJECT_DIR$/web-ui/config/config.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-ui/config/help.yml" afterPath="$PROJECT_DIR$/web-ui/config/help.yml" />
     </list>
     <ignored path="private-uhuru-commander.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,20 +25,75 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="zero_commander.sh" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
+      <file leaf-file-name="views.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="182" column="25" selection-start="5292" selection-end="5292" vertical-scroll-proportion="0.2735043">
+            <state line="245" column="6" selection-start="4125" selection-end="4125" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
+      <file leaf-file-name="layout.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="315" column="36" selection-start="10595" selection-end="10595" vertical-scroll-proportion="0.0">
+            <state line="35" column="15" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="38" column="55" selection-start="1191" selection-end="1191" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="help.yml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web-ui/config/help.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="89" selection-start="2667" selection-end="2667" vertical-scroll-proportion="0.55604076">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="267" column="44" selection-start="22987" selection-end="22993" vertical-scroll-proportion="-8.96">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="clouds.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/clouds.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="87" column="52" selection-start="2540" selection-end="2540" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cloud.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/cloud.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="104" column="54" selection-start="3439" selection-end="3469" vertical-scroll-proportion="-11.875">
+              <folding>
+                <marker date="1366621613000" expanded="true" signature="66:86" placeholder="{ ... }" />
+                <marker date="1366621613000" expanded="true" signature="195:379" placeholder="do ... end" />
+                <element signature="tag#div#0;tag#div#1" expanded="false" />
+                <marker date="1366621613000" expanded="true" signature="693:973" placeholder="do ... end" />
+                <marker date="1366621613000" expanded="true" signature="1237:1838" placeholder="do ... end" />
+                <marker date="1366621613000" expanded="true" signature="1607:1762" placeholder="do ... end" />
+                <marker date="1366621613000" expanded="true" signature="7947:8151" placeholder="if ... end" />
+                <marker date="1366621613000" expanded="true" signature="8160:8598" placeholder="if ... end" />
+                <marker date="1366621613000" expanded="true" signature="10651:10681" placeholder="{ ... }" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,13 +111,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/image_builder/fs/etc/rc.local" />
-        <option value="$PROJECT_DIR$/web-ui/Gemfile" />
-        <option value="$PROJECT_DIR$/web-ui/lib/routes/route_base.rb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/routes/clouds.rb" />
-        <option value="$PROJECT_DIR$/web-ui/views/infrastructure.erb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb" />
         <option value="$PROJECT_DIR$/web-ui/views/clouds.erb" />
         <option value="$PROJECT_DIR$/web-ui/lib/configuration_forms/cloud_form.rb" />
@@ -71,14 +120,21 @@
         <option value="$PROJECT_DIR$/image_builder/build.sh" />
         <option value="$PROJECT_DIR$/web-ui/config/infrastructure.yml.erb" />
         <option value="$PROJECT_DIR$/image_builder/zero_commander.sh" />
+        <option value="$PROJECT_DIR$/web-ui/views/cloud.erb" />
+        <option value="$PROJECT_DIR$/web-ui/lib/runner.rb" />
+        <option value="$PROJECT_DIR$/web-ui/public/css/views.css" />
+        <option value="$PROJECT_DIR$/web-ui/lib/routes/clouds.rb" />
+        <option value="$PROJECT_DIR$/web-ui/config/forms.yml" />
+        <option value="$PROJECT_DIR$/web-ui/public/css/layout.css" />
+        <option value="$PROJECT_DIR$/web-ui/config/help.yml" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-4" />
     <option name="y" value="-6" />
-    <option name="width" value="1288" />
-    <option name="height" value="775" />
+    <option name="width" value="1928" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -106,7 +162,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -125,314 +180,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ucc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="routes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="configuration_forms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cf_deployments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="image_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="image_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="usr" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sbin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="image_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="etc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="image_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="etc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="init.d" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="image_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="etc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="init" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="image_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deployments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="micro_bosh" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value=".uhuru-deployments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value=".default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -450,16 +200,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../private-bosh" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="92" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="951" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="911" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="951" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="86" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="82" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -476,6 +226,32 @@
     </key>
   </component>
   <component name="RunManager" selected="Ruby.web-ui">
+    <configuration default="false" name="test.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_builder" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <module name="private-uhuru-commander" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_builder/test.sh" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="BashRunner" />
+      <ConfigurationWrapper RunnerId="BashRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="build.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_builder" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <module name="private-uhuru-commander" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_builder/build.sh" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="BashRunner" />
+      <ConfigurationWrapper RunnerId="BashRunner" />
+      <method />
+    </configuration>
     <configuration default="false" name="ssh_helper" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
       <module name="private-uhuru-commander" />
       <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -536,32 +312,6 @@
       <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
       <RunnerSettings RunnerId="RubyRunner" />
       <ConfigurationWrapper RunnerId="RubyRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="test.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_builder" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <module name="private-uhuru-commander" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_builder/test.sh" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="BashRunner" />
-      <ConfigurationWrapper RunnerId="BashRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="build.sh" type="BashConfigurationType" factoryName="Bash" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="/bin/bash" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/image_builder" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <module name="private-uhuru-commander" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/image_builder/build.sh" />
-      <option name="PARAMETERS" value="" />
-      <RunnerSettings RunnerId="BashRunner" />
-      <ConfigurationWrapper RunnerId="BashRunner" />
       <method />
     </configuration>
     <configuration default="true" type="BashConfigurationType" factoryName="Bash">
@@ -660,7 +410,7 @@
         </COVERAGE_PATTERN>
       </EXTENSION>
       <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$PROJECT_DIR$/web-ui/bin/boshcommander" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="-c ../config/config_dev.yml" />
       <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />
       <ConfigurationWrapper RunnerId="RubyDebugRunner" />
@@ -690,13 +440,13 @@
       <method />
     </configuration>
     <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="Ruby.web-ui" />
-      <item index="1" class="java.lang.String" itemvalue="Ruby.ip_helper" />
-      <item index="2" class="java.lang.String" itemvalue="Ruby.ssh_helper" />
-      <item index="3" class="java.lang.String" itemvalue="Ruby.frontend" />
-      <item index="4" class="java.lang.String" itemvalue="Ruby.user" />
-      <item index="5" class="java.lang.String" itemvalue="Bash.test.sh" />
-      <item index="6" class="java.lang.String" itemvalue="Bash.build.sh" />
+      <item index="0" class="java.lang.String" itemvalue="Bash.test.sh" />
+      <item index="1" class="java.lang.String" itemvalue="Bash.build.sh" />
+      <item index="2" class="java.lang.String" itemvalue="Ruby.web-ui" />
+      <item index="3" class="java.lang.String" itemvalue="Ruby.ip_helper" />
+      <item index="4" class="java.lang.String" itemvalue="Ruby.ssh_helper" />
+      <item index="5" class="java.lang.String" itemvalue="Ruby.frontend" />
+      <item index="6" class="java.lang.String" itemvalue="Ruby.user" />
     </list>
     <recent_temporary>
       <list size="5">
@@ -756,23 +506,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-6" width="1288" height="775" extended-state="6" />
+    <frame x="-4" y="-6" width="1928" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32938644" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3990755" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22285251" sideWeight="0.6009245" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15688367" sideWeight="0.7944026" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15285254" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37567276" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20559742" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921174" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3990755" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -831,264 +581,124 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.2-p320/gems/thin-1.5.1/lib/thin/server.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="30" selection-start="2531" selection-end="2531" vertical-scroll-proportion="-23.4">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/runner.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="71" column="0" selection-start="1950" selection-end="1950" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/syck.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="134" column="0" selection-start="4706" selection-end="4706" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/infrastructure.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="57" selection-start="397" selection-end="397" vertical-scroll-proportion="0.0">
+        <state line="56" column="0" selection-start="1604" selection-end="1604" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/field.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/infrastructure.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="501" column="56" selection-start="17718" selection-end="17718" vertical-scroll-proportion="0.0">
+        <state line="6" column="0" selection-start="143" selection-end="143" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/install.sh">
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/route_base.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="118" selection-start="6104" selection-end="6104" vertical-scroll-proportion="0.0">
+        <state line="68" column="36" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/views/clouds.erb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/infrastructure.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="42" selection-start="661" selection-end="661" vertical-scroll-proportion="-3.2083333">
+        <state line="31" column="0" selection-start="1098" selection-end="1098" vertical-scroll-proportion="-18.333334">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ip_helper.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/config/config_dev.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="22" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.0">
+        <state line="21" column="43" selection-start="405" selection-end="405" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/configuration_forms/cloud_form.rb">
+    <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p320/lib/ruby/1.9.1/forwardable.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="89" selection-start="2820" selection-end="2820" vertical-scroll-proportion="0.0">
+        <state line="233" column="47" selection-start="6379" selection-end="6379" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/cloud.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="61" selection-start="3835" selection-end="3835" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="82" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="104" column="54" selection-start="3439" selection-end="3469" vertical-scroll-proportion="-11.875">
+          <folding>
+            <marker date="1366621613000" expanded="true" signature="66:86" placeholder="{ ... }" />
+            <marker date="1366621613000" expanded="true" signature="195:379" placeholder="do ... end" />
+            <element signature="tag#div#0;tag#div#1" expanded="false" />
+            <marker date="1366621613000" expanded="true" signature="693:973" placeholder="do ... end" />
+            <marker date="1366621613000" expanded="true" signature="1237:1838" placeholder="do ... end" />
+            <marker date="1366621613000" expanded="true" signature="1607:1762" placeholder="do ... end" />
+            <marker date="1366621613000" expanded="true" signature="7947:8151" placeholder="if ... end" />
+            <marker date="1366621613000" expanded="true" signature="8160:8598" placeholder="if ... end" />
+            <marker date="1366621613000" expanded="true" signature="10651:10681" placeholder="{ ... }" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/clouds.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="44" selection-start="680" selection-end="680" vertical-scroll-proportion="0.0">
+        <state line="87" column="52" selection-start="2540" selection-end="2540" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/blank_cf.yml.erb">
+    <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="38" selection-start="1325" selection-end="1325" vertical-scroll-proportion="-17.833334">
-          <folding>
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="release:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="compilation:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="update:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="subnets:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="reserved:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="static:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="dns:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="resource_pools:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="env:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="windows:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="env:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="windows:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stemcell:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cloud_properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="jobs:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="default:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="properties:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="env:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="networks:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="uhuru:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="simple_webui:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="email:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="contact:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="win_dea:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="uhurufs_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="uhurufs_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mssql_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mssql_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="nats:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="ccdb:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="databases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="roles:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="cc:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="bootstrap_users:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="admins:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="default_account_capacity:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="vcap_redis:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="router:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="status:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="dea:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="nfs_server:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="service_plans:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mysql:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="postgresql:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mongodb:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="redis:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="rabbit:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mssql:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="lifecycle:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="snapshot:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="uhurufs:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="free:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="job_management:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="configuration:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mysql_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mysql_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="redis_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="redis_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mongodb_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="mongodb_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="rabbit_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="rabbit_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="postgresql_gateway:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="version_aliases:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="postgresql_node:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="supported_versions:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="syslog_aggregator:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="report_processor:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="syslog_aggregator:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="stager:" />
-            <marker date="1364823519000" expanded="true" signature="-1:-1" placeholder="queues:" />
-          </folding>
+        <state line="245" column="6" selection-start="4125" selection-end="4125" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/infrastructure.yml">
+    <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="35" column="15" selection-start="628" selection-end="628" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image_builder/config.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="53" selection-start="809" selection-end="809" vertical-scroll-proportion="0.0">
+        <state line="38" column="55" selection-start="1191" selection-end="1191" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/deployments/micro_bosh/micro_bosh.yml">
+    <entry file="file://$PROJECT_DIR$/web-ui/config/forms.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="4" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.49371633">
+        <state line="267" column="44" selection-start="22987" selection-end="22993" vertical-scroll-proportion="-8.96">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/infrastructure.yml.erb">
+    <entry file="file://$PROJECT_DIR$/web-ui/config/help.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="28" selection-start="651" selection-end="651" vertical-scroll-proportion="-3.9795918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/build.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="315" column="36" selection-start="10595" selection-end="10595" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_builder/zero_commander.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="25" selection-start="5292" selection-end="5292" vertical-scroll-proportion="0.2735043">
+        <state line="44" column="89" selection-start="2667" selection-end="2667" vertical-scroll-proportion="0.55604076">
           <folding />
         </state>
       </provider>

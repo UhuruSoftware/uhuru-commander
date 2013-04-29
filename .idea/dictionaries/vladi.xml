@@ -1,9 +1,11 @@
 <component name="ProjectDictionaryState">
   <dictionary name="vladi">
     <words>
+      <w>balancer</w>
       <w>datacenter</w>
       <w>datastore</w>
       <w>deployer</w>
+      <w>mongo</w>
       <w>monit</w>
       <w>nagios</w>
       <w>netmask</w>
