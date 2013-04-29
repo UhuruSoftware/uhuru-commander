@@ -1,0 +1,9 @@
+[submodule "modules/private-cf-release"]
+	path = modules/private-cf-release
+	url = git@github.com:UhuruSoftware/private-cf-release.git
+[submodule "modules/private-tty.js"]
+	path = modules/private-tty.js
+	url = git@github.com:UhuruSoftware/private-tty.js.git
+[submodule "modules/private-bosh"]
+	path = modules/private-bosh
+	url = git@github.com:UhuruSoftware/private-bosh.git
