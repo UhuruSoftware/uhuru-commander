@@ -110,8 +110,10 @@ File.open('/var/vcap/store/ucc/web-ui/config/config.yml', 'w') do |file|
  file.flush
 end
 "
-
     cd ${pwd}
+
+    echo "---
+version: ${version}" > /var/vcap/store/ucc/web-ui/config/version.yml
 
     log_builder "Done settting up commander"
 }
@@ -162,9 +164,8 @@ function create_release()
     cd /var/vcap/store/ucc_release/
 
     log_builder "Cloning cloud foundry release git repo"
-    git clone ${git_cf_release}
+    clone_module "private-cf-release" "/var/vcap/store/ucc_release/"
     cd private-cf-release
-    git reset --hard ${git_cf_release_commit}
     switch_to_http_sub_modules
     log_builder "Updating git submodules"
     ./update
@@ -172,7 +173,6 @@ function create_release()
     find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
     find . -name Gemfile -print0 | xargs -0 sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
     find . -name Gemfile.lock -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
-
 
     log_builder "Executing bosh create release with tarball"
     bundle exec bosh -u admin -p admin -t 127.0.0.1 --non-interactive create release --with-tarball --force
@@ -302,10 +302,7 @@ function install_tty_js()
     rm -rf /var/vcap/store/tty.js
 
     log_builder "Cloning tty.js repo"
-    git clone ${git_ttyjs}
-    cd private-tty.js
-    git reset --hard ${git_ttyjs_commit}
-    cd ..
+    clone_module "private-tty.js" ${cwd}
 
     mkdir /var/vcap/store/tty.js
     mv private-tty.js/* /var/vcap/store/tty.js/
