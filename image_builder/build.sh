@@ -168,7 +168,8 @@ function create_release()
     cd /var/vcap/store/ucc_release/private-cf-release
     switch_to_http_sub_modules
     log_builder "Updating git submodules"
-    ./update
+
+    git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
 
     find . -name Gemfile -print0 | xargs -0 sed -i "s/ssh:\/\/git@github.com/https:\/\/${git_user}:${git_password}@github.com/g"
     find . -name Gemfile -print0 | xargs -0 sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g"
