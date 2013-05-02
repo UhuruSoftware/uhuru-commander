@@ -165,7 +165,7 @@ function create_release()
 
     log_builder "Cloning cloud foundry release git repo"
     clone_module "private-cf-release" "/var/vcap/store/ucc_release/"
-    cd private-cf-release
+    cd /var/vcap/store/ucc_release/private-cf-release
     switch_to_http_sub_modules
     log_builder "Updating git submodules"
     ./update
@@ -303,6 +303,8 @@ function install_tty_js()
 
     log_builder "Cloning tty.js repo"
     clone_module "private-tty.js" ${cwd}
+
+    cd ${cwd}
 
     mkdir /var/vcap/store/tty.js
     mv private-tty.js/* /var/vcap/store/tty.js/
