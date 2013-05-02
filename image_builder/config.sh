@@ -4,7 +4,7 @@ echo "Loading configuration"
 
 micro_bosh_vm_user="vcap"
 micro_bosh_vm_password="c1oudc0w"
-micro_bosh_vm_ip="10.151.0.150"
+micro_bosh_vm_ip="10.0.37.137"
 micro_stemcell="micro-bosh.tgz"
 
 micro_reserved_ips="10.151.0.2-10.151.88.2;10.151.88.201-10.151.255.254"
@@ -17,15 +17,9 @@ micro_vm_network="VM Network"
 git_user="uhurugit"
 git_password="Uhuruv0ice"
 
-git_bosh_repo="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-bosh"
 git_commander_repo="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-uhuru-commander"
-git_ttyjs="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-tty.js"
-git_cf_release="https://${git_user}:${git_password}@github.com/UhuruSoftware/private-cf-release"
 
-git_bosh_commit=""
 git_commander_commit=""
-git_ttyjs_commit=""
-git_cf_release_commit=""
 
 ftp_user="jira"
 ftp_password="uhuruservice1234!"
@@ -40,7 +34,9 @@ disk_path="mcalin_deployer"
 datastore="flash"
 datacenter="uhuru"
 cluster="Staging"
-version="1.0.15"
+
+version_suffix="nb.a"
+version="1.0.15.${version_suffix}"
 
 windows_stemcell="uhuru-windows-2008R2-vsphere-0.9.5.tgz"
 windows_sql_stemcell="uhuru-windows-2008R2-sqlserver-vsphere-0.9.5.tgz"
@@ -70,6 +66,26 @@ color_yellow="\e[1;33m"
 color_light_gray="\e[0;37m"
 color_white="\e[1;37m"
 color_normal="\e[00m"
+
+function clone_module()
+{
+    repo=$1
+    location=$2
+    rm -rf /tmp/git_code
+    mkdir /tmp/git_code
+    cd /tmp/git_code
+
+    git clone ${git_commander_repo}
+    cd private-uhuru-commander
+
+    git reset --hard ${git_commander_commit}
+
+    sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g" .gitmodules
+
+    git submodule update --init modules/${repo}
+
+    cp -rf ./modules/${repo} ${location}/${repo}
+}
 
 function log_zero()
 {

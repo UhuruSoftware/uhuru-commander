@@ -83,11 +83,15 @@ function micro_bosh_stemcell()
     as_user mkdir ~/sources
     as_root rm -rf ~/sources/private-bosh
     as_root rm -rf /var/tmp/bosh
+
     cd ~/sources
+    sources_dir=`pwd`
+
     log_zero "Cloning bosh git repo"
-    as_user git clone ${git_bosh_repo}
-    cd private-bosh
-    as_user git reset --hard ${git_bosh_commit}
+    clone_module "private-bosh" ${sources_dir}
+
+    as_root chown ${SUDO_USER} -R ~/sources/private-bosh
+    cd ~/sources/private-bosh
 
     as_user sed -i "s/git@github.com:/https:\/\/${git_user}:${git_password}@github.com\//g" .gitmodules
     log_zero "Downloading submodules for bosh repo"
