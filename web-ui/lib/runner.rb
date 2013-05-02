@@ -82,6 +82,11 @@ module Uhuru::BoshCommander
 
       $config[:nagios][:config_path] = File.join($config[:bosh][:base_dir], 'jobs', 'nagios_dashboard', 'config', 'uhuru-dashboard.yml')
 
+      version_file = File.expand_path('../../config/version.yml', __FILE__)
+      if File.exists?(version_file)
+        $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
+      end
+
       create_pidfile
       setup_logging
       $config[:logger] = logger
