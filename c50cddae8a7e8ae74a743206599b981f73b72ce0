@@ -1,0 +1,8 @@
+Change-Id: Ic50cddae8a7e8ae74a743206599b981f73b72ce0
+Code-Review+2: Stefan Schneider <stefan.schneider@uhurusoftware.com>
+Verified+1: Stefan Schneider <stefan.schneider@uhurusoftware.com>
+Submitted-by: Florin Dragos <florind@uhurusoftware.com>
+Submitted-at: Tue, 07 May 2013 18:51:56 +0300
+Reviewed-on: http://gerrit.uhurusoftware.org/1445
+Project: private-uhuru-commander
+Branch: refs/heads/master
