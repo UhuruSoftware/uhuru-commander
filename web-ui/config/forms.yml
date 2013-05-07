@@ -388,7 +388,7 @@ monitoring:
 
       - {name: nagios_notification_interval,              label: Notification Interval,                             type: numeric,
       yml_key: '["alerts"]["notification_interval"]',
-      description: 'Nagios will keep sending notification e-mails for existing problems every X minutes. To only send notifications once (upon detection), set this to 0.'}
+      description: 'Nagios will keep sending notification e-mails for existing problems every X minutes. X must be greater than or equal to the default check interval (10 minutes). To only send notifications once (upon detection), set this to 0.'}
 
       - {name: nagios_email_sep,                          label: E-mail Settings,                                   type: separator }
 
