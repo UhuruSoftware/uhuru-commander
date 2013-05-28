@@ -107,7 +107,7 @@ cloud:
       yml_key: ['["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["disk"]', '["resource_pools"].select{|r| r["name"] == "deas"}.first["cloud_properties"]["disk"]'],
          description: 'Specifies how much disk space medium VMs should get. Recommended value is 5000 MB.' }
       - {name: medium_ram,                                label: Medium Memory,                                     type: numeric,
-      yml_key: ['["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "deas"}.first["cloud_properties"]["ram"]'],
+      yml_key: ['["resource_pools"].select{|r| r["name"] == "medium"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "deas"}.first["cloud_properties"]["ram"]', '["properties"]["dea"]["max_memory"]'],
       description: 'Specifies much memory medium VMs should get. Recommended value is 1024 MB.' }
 
       - {name: lms_sep,                                   label: 'Tunnel, Sql Server and Windows DEA',              type: separator}
@@ -121,7 +121,7 @@ cloud:
       description: 'Specifies how much disk space large VMs should get. Recommended value is 10000 MB.' }
 
       - {name: large_ram,                                 label: Large Memory,                                      type: numeric,
-      yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["ram"]' ],
+      yml_key: [ '["resource_pools"].select{|r| r["name"] == "large"}.first["cloud_properties"]["ram"]', '["resource_pools"].select{|r| r["name"] == "windows"}.first["cloud_properties"]["ram"]', '["properties"]["win_dea"]["max_memory"]', '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["cloud_properties"]["ram"]' ],
       description: 'Specifies much memory large VMs should get. Recommended value is 2048 MB.' }
 
   - screen: Components
