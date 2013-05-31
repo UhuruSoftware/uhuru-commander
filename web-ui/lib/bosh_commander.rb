@@ -42,6 +42,7 @@ require "routes/ssh"
 require "routes/tasks"
 require "routes/users"
 require "routes/monitoring"
+require "routes/vm"
 
 require "configuration_forms/field"
 require "configuration_forms/screen"

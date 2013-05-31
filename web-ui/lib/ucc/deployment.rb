@@ -118,6 +118,7 @@ module Uhuru::BoshCommander
         end
       end
 
+
       current_resource_pool = nil
       deployment_manifest["resource_pools"].each do |resource_pool|
         if (resource_pool["name"] == current_job["resource_pool"])
@@ -139,6 +140,24 @@ module Uhuru::BoshCommander
         File.delete(request_path)
       end
       File.open(request_path, 'w') { |file| file.write("#{resource_id}") }
+    end
+
+    def start_vm(job_name,index)
+      job_management_command.start_job(job_name, index)
+
+    end
+
+    def stop_vm(job_name, index)
+       job_management_command.stop_job(job_name, index)
+    end
+
+    def recreate_vm(job_name, index)
+      job_management_command.recreate_job(job_name, index)
+    end
+
+    #restarts a vm
+    def restart_vm(job_name, index)
+      job_management_command.restart_job(job_name, index)
     end
 
 
@@ -324,6 +343,16 @@ module Uhuru::BoshCommander
       deployment_cmd = Bosh::Cli::Command::Deployment.new
       deployment_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
       deployment_cmd
+    end
+
+    def job_management_command
+      command = Thread.current.current_session[:command]
+      job_management_cmd = Bosh::Cli::Command::JobManagement.new
+      job_management_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
+      #we assume that all the commands are forced
+      job_management_cmd.add_option(:force, true)
+      job_management_cmd.add_option(:deployment, deployment_manifest_path)
+      job_management_cmd
     end
 
   end
