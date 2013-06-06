@@ -12,9 +12,10 @@
   <script type="text/javascript" src="/scripts/cloud_tabs.js" ></script>
   <script type="text/javascript" src="/scripts/bosh_display.js" ></script>
   <script type="text/javascript" src="/scripts/query_strings.js" ></script>
+  <script type="text/javascript" src="/scripts/effects.js" ></script>
 </head>
 
-<body>
+<body  onload="randomValue(<%= session[:new_versions] %>);">
 <div id="black_screen"></div>
 <div id="wrapper">
 
@@ -25,7 +26,6 @@
       <div>Version: <%= $config[:version] || "?" %></div>
     </div>
   </div>
-
   <div id="main_menu">
     <ul class="main_menu">
       <li><a onclick="showPageLoading()" class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
@@ -34,6 +34,7 @@
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="/monitoring">Monitoring</a></li>
+          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/versions') ? 'selected' : ''  %> versions"  href="/new_versions">Versions</a></li>
       <% end %>
       <li class="right"><a onclick="check_services()" href="#">Logout</a></li>
       <li class="right"><a onclick="showPageLoading()" href="/internal_logs">Internal Logs</a></li>
@@ -54,10 +55,10 @@
           <% help.each do |title, description, relation| %>
               <% if relation %>
                   <label class="hidden" for="<%= relation %>">
-                      <h4><%= title %></h4>
-                      <p>
-                        <%= description %>
-                      </p>
+                    <h4><%= title %></h4>
+                    <p>
+                      <%= description %>
+                    </p>
                   </label>
               <% else %>
                   <h4><%= title %></h4>
@@ -70,6 +71,7 @@
     </div>
 
     <%= yield %>
+
   </div>
   <div class="actual_body_footer">
     Copyright &copy; 2013 Uhuru Software, Inc., All Rights Reserved

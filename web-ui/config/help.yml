@@ -58,3 +58,11 @@ internal_logs:
     content: |
       This page contains a list of Commander internal events.
 
+versions:
+  - help_item: 'New Versions!'
+    content: |
+      Here you have a list of all new versions, that appear on top of the current and old versions
+  - help_item: 'Available Versions'
+    content: |
+      A list of old versions.
+
