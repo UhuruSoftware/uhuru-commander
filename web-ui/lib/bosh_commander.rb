@@ -41,6 +41,7 @@ require "routes/route_base"
 require "routes/ssh"
 require "routes/tasks"
 require "routes/users"
+require "routes/versions"
 require "routes/monitoring"
 require "routes/vm"
 
@@ -65,6 +66,15 @@ module Uhuru::BoshCommander
     use Monitoring
 
     get '/' do
+      r = Random.new
+      session[:new_versions] = true
+
+      #if r.rand(0...1000) % 2 == 0
+      #  session[:new_versions] = true
+      #else
+      #  session[:new_versions] = false
+      #end
+
       redirect '/infrastructure'
     end
 
