@@ -4,7 +4,7 @@ port: 80
 dev-mode: true
 test_email: "test@uhurusoftware.com" #setting used to test smtp server
 
-versioning_dir: F:/Code/private-uhuru-commander/web-ui/lib/versioning/spec/assets/
+versioning_dir: /var/vcap/store/ucc/versions/
 
 bosh_commander:
   domain: "localhost"

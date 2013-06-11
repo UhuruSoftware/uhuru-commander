@@ -13,7 +13,7 @@ module Uhuru
         attr_accessor :type
 
         def self.version_directory
-          dir = $config['versioning_dir']
+          dir = $config[:versioning_dir]
           FileUtils.mkdir_p(dir)
           dir
         end

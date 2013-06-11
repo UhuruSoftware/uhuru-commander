@@ -4,7 +4,7 @@ require "config"
 require "bosh_commander"
 require "thin"
 require 'optparse'
-require "../lib/ucc/status_streamer"
+require "ucc/status_streamer"
 require 'yaml'
 require 'cgi'
 
@@ -45,12 +45,12 @@ end
 module Uhuru::BoshCommander
   class Runner
 
-    def self.init_config
-      @config_file = File.expand_path("../../config/config.yml", __FILE__)
+    def self.init_config(file)
+
       help_file = File.expand_path("../../config/help.yml", __FILE__)
       forms_file = File.expand_path("../../config/forms.yml", __FILE__)
 
-      $config = Uhuru::BoshCommander::Config.from_file(@config_file)
+      $config = Uhuru::BoshCommander::Config.from_file(file)
       help = File.open(help_file) { |file| YAML.load(file)}
 
       help.each_key do |key|
@@ -90,26 +90,28 @@ module Uhuru::BoshCommander
       # default to production. this may be overridden during opts parsing
       ENV["RACK_ENV"] = "production"
 
+      @config_file = File.expand_path("../../config/config.yml", __FILE__)
+
       parse_options!
 
-      Runner.init_config
+      Runner.init_config @config_file
 
       create_pidfile
       setup_logging
     end
 
-    def logger
-      $logger ||= @logger ||= Steno.logger("uhuru-cloud-commander.runner")
+    def self.logger
+      $logger ||= Steno.logger("uhuru-cloud-commander.runner")
     end
 
-    def options_parser
+    def self.options_parser
       @parser ||= OptionParser.new do |opts|
         opts.on("-c", "--config [ARG]", "Configuration File") do |opt|
           @config_file = opt
         end
 
         opts.on("-d", "--development-mode", "Run in development mode") do
-          # this must happen before requring any modules that use sinatra,
+          # this must happen before requiring any modules that use sinatra,
           # otherwise it will not setup the environment correctly
           @development = true
           ENV["RACK_ENV"] = "development"
@@ -117,9 +119,9 @@ module Uhuru::BoshCommander
       end
     end
 
-    def parse_options!
+    def self.parse_options!
       options_parser.parse! @argv
-    rescue
+    rescue => e
       puts options_parser
       exit 1
     end

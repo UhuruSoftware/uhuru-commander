@@ -2,6 +2,12 @@ require 'rspec/core/rake_task'
 require 'fileutils'
 require 'yaml'
 
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __FILE__)
+$:.unshift(File.expand_path("../../lib", __FILE__))
+
+require "rubygems"
+require "bundler/setup"
+
 RSpec::Core::RakeTask.new(:spec)
 
 task :version_tests => :spec

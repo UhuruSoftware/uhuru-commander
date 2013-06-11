@@ -7,11 +7,13 @@ require File.expand_path('../../lib/runner', __FILE__)
 describe "Product loading from configuration" do
 
   before(:each) do
-    Uhuru::BoshCommander::Runner.init_config
+    @config_file = File.expand_path("../../config/config_dev.yml", __FILE__)
+
+    Uhuru::BoshCommander::Runner.init_config @config_file
   end
 
   it "should be empty if there's no products.yml" do
-    $config[:versioning_dir] = "/dummy_dir/"
+    $config[:versioning_dir] = "/tmp/dummy_dir/"
     products = Uhuru::BoshCommander::Versioning::Product.get_products
     products.should == {}
   end
