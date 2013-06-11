@@ -30,7 +30,11 @@
     <ul class="main_menu">
       <li><a onclick="showPageLoading()" class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
       <% unless first_run? || updating_infrastructure? %>
-          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/clouds') ? 'selected' : ''  %>" href="/clouds">App Clouds</a></li>
+          <% if defined? @tabs %>
+            <% for @item in @tabs %>
+                <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?(@item[:path]) ? 'selected' : ''  %>" href=<%= @item[:href] %> ><%= @item[:name] %></a></li>
+            <% end %>
+          <% end %>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
           <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="/monitoring">Monitoring</a></li>
