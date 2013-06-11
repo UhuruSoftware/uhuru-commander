@@ -46,8 +46,14 @@ module Uhuru
             if $config[:version] == @version
               state = STATE_DEPLOYED
             end
-          else
+          elsif @product.type == 'stemcell'
+            found_on_bosh = Uhuru::BoshCommander::Stemcell.new().list_stemcells.any? do |stemcell|
+              (stemcell['name'] == @product.name) && (stemcell['version'] == @version)
+            end
 
+            if found_on_bosh
+              state = STATE_AVAILABLE
+            end
           end
 
           state
@@ -60,12 +66,12 @@ module Uhuru
             versions = dependency['version']
             product = Product.get_products[product_name]
 
-            unless product
-              is_ok = nil
-            end
-
-            is_ok = versions.any? do |version|
-              (product.versions[version] != nil) && (product.versions[version].get_state == STATE_AVAILABLE || product.versions[version].get_state == STATE_DEPLOYED)
+            if product
+              is_ok = is_ok && versions.any? do |version|
+                (product.versions[version] != nil) && (product.versions[version].get_state == STATE_AVAILABLE || product.versions[version].get_state == STATE_DEPLOYED)
+              end
+            else
+              is_ok = false
             end
           end
           is_ok
