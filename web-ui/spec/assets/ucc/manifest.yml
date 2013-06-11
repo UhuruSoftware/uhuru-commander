@@ -1,0 +1,22 @@
+versions:
+  1.0.7:
+    type: final
+    description: First LTS release
+    location: azure://container/blob
+    dependencies:
+      - dependency: windows-stemcell
+        version: [1.0.7]
+  1.0.8:
+    type: final
+    description: First LTS release
+    location: azure://container/ucc.tar.gz
+    dependencies:
+      - dependency: windows-stemcell
+        version: [1.0.8]
+  1.0.9:
+    type: final
+    description: Bugfix for 1.0.8
+    location: azure://container/ucc.tar.gz
+    dependencies:
+      - dependency: windows-stemcell
+        version: [1.0.8, 1.0.9]

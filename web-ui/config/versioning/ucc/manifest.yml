@@ -1,0 +1,16 @@
+---
+versions:
+  1.0.8:
+    type: final
+    description: First GA release
+    location: azure://container/blob
+    dependencies:
+     - dependency: stemcell_linux
+       version: [1.0.8, 1.0.9]
+  1.0.9:
+    type: final
+    description: This release fixes a bug
+    location: azure://container/blob
+    dependencies:
+     - dependency: stemcell_linux
+       version: [1.0.8, 1.0.9]

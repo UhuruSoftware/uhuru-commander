@@ -1,0 +1,14 @@
+---
+products:
+  ucc:
+    label: Uhuru Cloud Commander
+    type: ucc
+    description: Uhuru Cloud Managemens Tools
+  windows-stemcell:
+    label: Windows Stemcell
+    type: stemcell
+    description: Windows 2008 R2 OS with BOSH Agent
+  cloudfoundry:
+    label: AppCloud
+    type: software
+    description: Uhuru PaaS
