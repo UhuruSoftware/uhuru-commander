@@ -104,7 +104,7 @@ module Uhuru::BoshCommander
       $logger ||= Steno.logger("uhuru-cloud-commander.runner")
     end
 
-    def self.options_parser
+    def options_parser
       @parser ||= OptionParser.new do |opts|
         opts.on("-c", "--config [ARG]", "Configuration File") do |opt|
           @config_file = opt
@@ -119,7 +119,7 @@ module Uhuru::BoshCommander
       end
     end
 
-    def self.parse_options!
+    def parse_options!
       options_parser.parse! @argv
     rescue => e
       puts options_parser
