@@ -1,0 +1,24 @@
+versions:
+  0.0.7:
+    type: final
+    description: First LTS release
+    location: azure://container/blob
+    dependencies:
+      - dependency: dummyproduct
+        version: [1.0.7]
+  0.0.8:
+    type: final
+    description: First LTS release
+    location: azure://container/blob
+    dependencies:
+      - dependency: cloudfoundry
+        version: [1.0.7]
+      - dependency: ucc
+        version: [1.0.9.f]
+  0.9.9:
+    type: final
+    description: Bugfix for 1.0.8
+    location: azure://container/blob
+    dependencies:
+      - dependency: ucc
+        version: [1.0.9.f]

@@ -1,0 +1,8 @@
+versions:
+  1.0.7:
+    type: final
+    description: First LTS release
+    location: azure://container/blob
+    dependencies:
+      - dependency: uhuru-windows-2008R2
+        version: [1.0.7]
