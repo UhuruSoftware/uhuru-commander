@@ -1,0 +1,7 @@
+require 'rspec/core/rake_task'
+require 'fileutils'
+require 'yaml'
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :version_tests => :spec

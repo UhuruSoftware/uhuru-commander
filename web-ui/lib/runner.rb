@@ -44,17 +44,11 @@ end
 
 module Uhuru::BoshCommander
   class Runner
-    def initialize(argv)
-      @argv = argv
 
-      # default to production. this may be overridden during opts parsing
-      ENV["RACK_ENV"] = "production"
-      # default config path. this may be overridden during opts parsing
+    def self.init_config
       @config_file = File.expand_path("../../config/config.yml", __FILE__)
       help_file = File.expand_path("../../config/help.yml", __FILE__)
       forms_file = File.expand_path("../../config/forms.yml", __FILE__)
-
-      parse_options!
 
       $config = Uhuru::BoshCommander::Config.from_file(@config_file)
       help = File.open(help_file) { |file| YAML.load(file)}
@@ -87,9 +81,21 @@ module Uhuru::BoshCommander
         $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
       end
 
+      $config[:logger] = logger
+    end
+
+    def initialize(argv)
+      @argv = argv
+
+      # default to production. this may be overridden during opts parsing
+      ENV["RACK_ENV"] = "production"
+
+      parse_options!
+
+      Runner.init_config
+
       create_pidfile
       setup_logging
-      $config[:logger] = logger
     end
 
     def logger

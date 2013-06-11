@@ -101,7 +101,7 @@ module Uhuru::BoshCommander
     def service_group_state(num_retries=10)
       # FIXME: state should be unknown if monit is disabled
       # However right now that would break director interaction
-      # (at least in integration tests)
+      # (at least in integration spec)
       status = get_status(num_retries)
 
       not_running = status.reject do |name, data|
