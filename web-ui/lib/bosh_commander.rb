@@ -31,6 +31,8 @@ require "ucc/user"
 require "ucc/vms"
 require "ucc/task"
 require "ucc/event_log_renderer_web"
+require "ucc/release"
+require "ucc/stemcell"
 
 require "routes/route_base"
 require "routes/login_screen"
@@ -44,6 +46,7 @@ require "routes/users"
 require "routes/versions"
 require "routes/monitoring"
 require "routes/vm"
+require "routes/update"
 
 require "configuration_forms/field"
 require "configuration_forms/screen"
@@ -64,6 +67,8 @@ module Uhuru::BoshCommander
     use Tasks
     use Users
     use Monitoring
+    use VM
+    use Update
 
     get '/' do
       r = Random.new

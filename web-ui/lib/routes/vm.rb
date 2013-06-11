@@ -1,5 +1,5 @@
 module Uhuru::BoshCommander
-  class Clouds < RouteBase
+  class VM < RouteBase
 
     get '/vm/:method/:deployment/:job/:index' do
       deployment = params[:deployment]
