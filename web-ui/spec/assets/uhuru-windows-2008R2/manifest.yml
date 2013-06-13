@@ -2,14 +2,20 @@ versions:
   0.0.7:
     type: final
     description: First LTS release
-    location: azure://container/blob
+    location:
+      object_id: 4ea87d5058c248fc72e79c5c18c96500
+      size: 2277216
+      sha: 51f238f7129693591a10f80a41a21c0499eb3d77
     dependencies:
       - dependency: dummyproduct
         version: [1.0.7]
   0.0.8:
     type: final
     description: First LTS release
-    location: azure://container/blob
+    location:
+      object_id: 4ea87d5058c248fc72e79c5c18c96500
+      size: 2277216
+      sha: 51f238f7129693591a10f80a41a21c0499eb3d77
     dependencies:
       - dependency: cloudfoundry
         version: [1.0.7]
@@ -18,7 +24,10 @@ versions:
   0.9.9:
     type: final
     description: Bugfix for 1.0.8
-    location: azure://container/blob
+    location:
+      object_id: 4ea87d5058c248fc72e79c5c18c96500
+      size: 2277216
+      sha: 51f238f7129693591a10f80a41a21c0499eb3d77
     dependencies:
       - dependency: ucc
         version: [1.0.9.f]

@@ -7,16 +7,39 @@ require File.expand_path('../../lib/ucc/stemcell', __FILE__)
 require File.expand_path('../../lib/ucc/commander_bosh_runner', __FILE__)
 require 'spec_helper'
 
+describe 'Blobstore client' do
+  before(:each) do
+    @config_file = File.expand_path("../../config/config_dev.yml", __FILE__)
+    Uhuru::BoshCommander::Runner.init_config @config_file
+  end
+
+  it 'should retrieve products manifest from blobstore' do
+    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+    FileUtils.rm_rf $config[:versioning][:dir]
+    Uhuru::BoshCommander::Versioning::Product.download_manifests
+
+    File.exist?(File.join($config[:versioning][:dir], 'products.yml')).should == true
+  end
+
+  it 'should download version bits locally' do
+    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+    FileUtils.rm_rf $config[:versioning][:dir]
+    Uhuru::BoshCommander::Versioning::Product.download_manifests
+
+    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+  end
+end
+
 describe "Product loading from configuration" do
 
   before(:each) do
     @config_file = File.expand_path("../../config/config_dev.yml", __FILE__)
-
     Uhuru::BoshCommander::Runner.init_config @config_file
   end
 
   it "should be empty if there's no products.yml" do
-    $config[:versioning_dir] = "/tmp/dummy_dir/"
+    $config[:versioning][:dir] = "/tmp/dummy_dir/"
+    FileUtils.rm_rf $config[:versioning][:dir]
     products = Uhuru::BoshCommander::Versioning::Product.get_products
     products.should == {}
   end
@@ -87,7 +110,9 @@ describe "Product loading from configuration" do
     products = Uhuru::BoshCommander::Versioning::Product.get_products
 
     Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-      products['uhuru-windows-2008R2'].versions['0.9.9'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_AVAILABLE
+      products['uhuru-windows-2008R2'].versions['0.9.9'].get_state.should satisfy { |s|
+        [Uhuru::BoshCommander::Versioning::Version::STATE_AVAILABLE, Uhuru::BoshCommander::Versioning::Version::STATE_DEPLOYED].include?(s)
+      }
     end
   end
 end

@@ -4,11 +4,14 @@ products:
     label: Uhuru Cloud Commander
     type: ucc
     description: Uhuru Cloud Management Tools
+    blobstore_id: manifest.yml
   uhuru-windows-2008R2:
     label: Windows Stemcell
     type: stemcell
     description: Windows 2008 R2 OS with BOSH Agent
+    blobstore_id: manifest.yml
   cloudfoundry:
     label: AppCloud
     type: software
     description: Uhuru PaaS
+    blobstore_id: manifest.yml

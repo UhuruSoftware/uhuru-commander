@@ -3,22 +3,6 @@ GIT
   revision: c90efd7de741f3720a536ac636ef2f363a635b81
   ref: c90efd7de741f3720a536ac636ef2f363a635b81
   specs:
-    agent_client (1.5.0.pre.3)
-      httpclient (= 2.2.4)
-      yajl-ruby (~> 1.1.0)
-    blobstore_client (1.5.0.pre.3)
-      aws-sdk (= 1.8.5)
-      bosh_common (~> 1.5.0.pre.3)
-      fog (~> 1.10.0)
-      httpclient (= 2.2.4)
-      multi_json (~> 1.1)
-      ruby-atmos-pure (~> 1.0.5)
-    bosh_aws_cpi (1.5.0.pre.3)
-      aws-sdk (= 1.8.5)
-      bosh_common (~> 1.5.0.pre.3)
-      bosh_cpi (~> 1.5.0.pre.3)
-      httpclient (= 2.2.4)
-      yajl-ruby (>= 0.8.2)
     bosh_cli (1.5.0.pre.3)
       archive-tar-minitar (~> 0.5)
       blobstore_client (~> 1.5.0.pre.3)
@@ -32,9 +16,6 @@ GIT
       netaddr (~> 1.5.0)
       progressbar (~> 0.9.0)
       terminal-table (~> 1.4.3)
-    bosh_common (1.5.0.pre.3)
-    bosh_cpi (1.5.0.pre.3)
-      bosh_common (~> 1.5.0.pre.3)
     bosh_deployer (1.5.0.pre.3)
       agent_client (~> 1.5.0.pre.3)
       bosh_aws_cpi (~> 1.5.0.pre.3)
@@ -45,17 +26,43 @@ GIT
       bosh_vcloud_cpi (~> 1.5.0.pre.3)
       bosh_vsphere_cpi (~> 1.5.0.pre.3)
       sqlite3 (~> 1.3.7)
+
+GIT
+  remote: https://github.com/cloudfoundry/bosh
+  revision: a842f1c553246a83b81972851d0de66c6c74a5d1
+  specs:
+    agent_client (1.5.0.pre.3)
+      httpclient (= 2.2.4)
+      yajl-ruby (~> 1.1.0)
+    blobstore_client (1.5.0.pre.3)
+      aws-sdk (= 1.8.5)
+      bosh_common (~> 1.5.0.pre.3)
+      fog (~> 1.11.1)
+      httpclient (= 2.2.4)
+      multi_json (~> 1.1)
+      ruby-atmos-pure (~> 1.0.5)
+    bosh_aws_cpi (1.5.0.pre.3)
+      aws-sdk (= 1.8.5)
+      bosh_common (~> 1.5.0.pre.3)
+      bosh_cpi (~> 1.5.0.pre.3)
+      bosh_registry (~> 1.5.0.pre.3)
+      httpclient (= 2.2.4)
+      yajl-ruby (>= 0.8.2)
+    bosh_common (1.5.0.pre.3)
+    bosh_cpi (1.5.0.pre.3)
+      bosh_common (~> 1.5.0.pre.3)
     bosh_openstack_cpi (1.5.0.pre.3)
       bosh_common (~> 1.5.0.pre.3)
       bosh_cpi (~> 1.5.0.pre.3)
-      fog (~> 1.10.0)
+      bosh_registry (~> 1.5.0.pre.3)
+      fog (~> 1.11.1)
       httpclient (= 2.2.4)
       yajl-ruby (>= 0.8.2)
     bosh_registry (1.5.0.pre.3)
       aws-sdk (= 1.8.5)
-      fog (~> 1.10.0)
+      fog (~> 1.11.1)
       sequel (~> 3.43.0)
-      sinatra (~> 1.2.8)
+      sinatra (~> 1.4.2)
       thin (~> 1.5.0)
       yajl-ruby (~> 1.1.0)
     bosh_vcloud_cpi (1.5.0.pre.3)
@@ -121,12 +128,12 @@ GEM
     fluent-logger (0.4.5)
       msgpack (= 0.4.7)
       yajl-ruby (~> 1.0)
-    fog (1.10.1)
+    fog (1.11.1)
       builder
       excon (~> 0.20)
       formatador (~> 0.2.0)
+      json (~> 1.7)
       mime-types
-      multi_json (~> 1.0)
       net-scp (~> 1.1)
       net-ssh (>= 2.1.3)
       nokogiri (~> 1.5.0)
@@ -179,6 +186,8 @@ GEM
       rack (>= 0.4)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
+    rack-protection (1.5.0)
+      rack
     rack-reverse-proxy (0.4.4)
       rack (>= 1.0.0)
     rake (10.0.4)
@@ -202,9 +211,10 @@ GEM
     ruby-hmac (0.4.0)
     rubyzip (0.9.9)
     sequel (3.43.0)
-    sinatra (1.2.8)
-      rack (~> 1.1)
-      tilt (>= 1.2.2, < 2.0)
+    sinatra (1.4.3)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
     sinatra-session (1.0.0)
       sinatra (>= 1.0)
     sqlite3 (1.3.7)
@@ -245,6 +255,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby
+  blobstore_client!
   bosh_cli (~> 1.5.0.pre.3)!
   bosh_deployer (~> 1.5.0.pre.3)!
   cfoundry

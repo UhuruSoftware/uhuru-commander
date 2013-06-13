@@ -1,4 +1,5 @@
 require 'uri'
+require 'zlib'
 
 module Uhuru
   module BoshCommander
@@ -11,28 +12,40 @@ module Uhuru
         STATE_AVAILABLE = 5
         STATE_DEPLOYED = 6
 
+        BITS_FILENAME = 'bits.tar.gz'
+
         attr_accessor :product
         attr_accessor :version
         attr_accessor :dependencies
         attr_accessor :dependencies
         attr_accessor :deployments
+        attr_accessor :location
 
         def initialize(product, version, details)
           @product = product
           @version = version
           @blob = details['location']
           @dependencies = details['dependencies']
+          @location = details['location']
           @deployments = nil
+        end
+
+        def version_dir
+          products_dir = Product.version_directory
+          product_dir = File.join(products_dir, @product.name)
+          File.join(product_dir, @version)
+        end
+
+        def bits_full_local_path
+          File.join(version_dir, BITS_FILENAME)
+        end
+
+        def bits_full_local_path_dl
+          "#{bits_full_local_path}.dl"
         end
 
         def get_state
           state = STATE_REMOTE_ONLY
-          bits_filename = URI(@blob).path
-          products_dir = Product.version_directory
-          product_dir = File.join(products_dir, @product.name)
-          version_dir = File.join(product_dir, @version)
-          bits_full_local_path = File.join(version_dir, bits_filename)
-          bits_full_local_path_dl = "#{bits_full_local_path}.dl"
 
           if File.exist?(bits_full_local_path_dl)
             state = STATE_DOWNLOADING
@@ -57,6 +70,43 @@ module Uhuru
           end
 
           state
+        end
+
+        def download_from_blobstore
+          Thread.new do
+            blobstore_client = Product.get_blobstore_client
+            blobstore_id = @location['object_id']
+
+            FileUtils.mkdir_p version_dir
+
+            if blobstore_client.exists?(blobstore_id)
+              File.open(bits_full_local_path_dl, "w") do |file|
+                blobstore_client.get(blobstore_id, file)
+              end
+            else
+              raise "Could not find bits on blobstore."
+            end
+
+            FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
+
+            if @product.type != Product.TYPE_STEMCELL
+
+            end
+          end
+        end
+
+        def download_progress
+          if File.exist?(bits_full_local_path_dl)
+            total_size = @location['size']
+            dl_size = File.size(bits_full_local_path_dl)
+            [(dl_size / total_size) * 100, "#{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
+          else
+            if File.exist?(bits_full_local_path)
+              [100, 'Done']
+            else
+              [0, 'N/A']
+            end
+          end
         end
 
         def dependencies_ok?
