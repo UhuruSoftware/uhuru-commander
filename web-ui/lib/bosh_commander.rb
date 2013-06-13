@@ -55,6 +55,9 @@ require "configuration_forms/infrastructure_form"
 require "configuration_forms/cloud_form"
 require "configuration_forms/monitoring_form"
 
+require "versioning/product"
+require "versioning/version"
+
 autoload :HTTPClient, "httpclient"
 
 module Uhuru::BoshCommander
@@ -66,6 +69,7 @@ module Uhuru::BoshCommander
     use Ssh
     use Tasks
     use Users
+    use Versions
     use Monitoring
     use VM
     use Update
@@ -73,12 +77,6 @@ module Uhuru::BoshCommander
     get '/' do
       r = Random.new
       session[:new_versions] = true
-
-      #if r.rand(0...1000) % 2 == 0
-      #  session[:new_versions] = true
-      #else
-      #  session[:new_versions] = false
-      #end
 
       redirect '/infrastructure'
     end
