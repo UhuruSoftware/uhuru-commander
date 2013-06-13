@@ -2,6 +2,7 @@ module Uhuru
   module UCC
     module Publisher
       class Versions < ::Escort::ActionCommand::Base
+
         def upload_version
           product_name = command_options[:name]
           version = command_options[:prod_version]
@@ -10,11 +11,13 @@ module Uhuru
           file_path = command_options[:file]
 
           client = Uhuru::UCC::Publisher::Client.new()
+
           unless client.product_exists?(product_name)
             raise "Product does not exist: #{product_name}"
           end
 
-          content = client.get("#{product_name}.yml")
+          product_blob_id = client.get_products["products"][product_name]["blobstore_id"]
+          content = client.get(product_blob_id)
 
           if content
             versions = YAML.load content
@@ -27,7 +30,7 @@ module Uhuru
           end
 
           file= File.new(file_path, "r")
-          blob_id = "#{product_name}-#{version}-#{type}"
+          blob_id = SecureRandom.hex
           client.upload(blob_id, file)
 
           location = {}
@@ -41,7 +44,7 @@ module Uhuru
           versions["versions"][version]["location"] = location
           versions["versions"][version]["dependencies"] = []
 
-          client.upload("#{product_name}.yml", YAML::dump(versions))
+          client.upload(product_blob_id, YAML::dump(versions))
         end
 
         def add_dependency
@@ -58,12 +61,14 @@ module Uhuru
             raise "Product does not exist: #{dependency_name}"
           end
 
-          content = client.get("#{product_name}.yml")
+          products = client.get_products
+
+          content = client.get(products["products"][product_name]["blobstore_id"])
           unless content
             raise "Product #{product_name} has no release uploaded"
           end
           product_versions = YAML.load content
-          content = client.get("#{dependency_name}.yml")
+          content = client.get(products["products"][dependency_name]["blobstore_id"])
           unless content
             raise "Product #{dependency_name} has no release uploaded"
           end
@@ -73,12 +78,18 @@ module Uhuru
             raise "Version #{version} for product #{product_name} does not exist"
           end
 
-
-          dependency = {}
-          dependency["dependency"] = dependency_name
-          dependency["version"] = dependency_version
-          product_versions["versions"][version]["dependencies"] << dependency
-          client.upload("#{product_name}.yml", YAML::dump(product_versions))
+          dependency = product_versions["versions"][version]["dependencies"].find {|d| d["dependency"] = dependency_name}
+          if dependency.nil?
+            dependency = {}
+            dependency["dependency"] = dependency_name
+            dependency["version"] = []
+            product_versions["versions"][version]["dependencies"] << dependency
+          end
+          if dependency["version"].include?(dependency_version)
+            raise "Product dependency already exists"
+          end
+          dependency["version"] << dependency_version
+          client.upload(products["products"][product_name]["blobstore_id"], YAML::dump(product_versions))
         end
       end
     end

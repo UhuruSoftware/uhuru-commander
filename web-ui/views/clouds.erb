@@ -1,6 +1,6 @@
 <div class="simple_page_content_div">
   <div class="content_with_form_header">
-    <form action="/clouds" method="post" id="create_cloud_form">
+    <form action="/products/<%= product_name %>" method="post" id="create_cloud_form">
       <fieldset>
         <legend>Create a new cloud configuration</legend>
         <div>
@@ -24,7 +24,7 @@
     </tr>
     <% clouds.each do |cloud| %>
         <tr>
-          <td class="cell_border cell_border_bottom bold"><a onclick="showPageLoading()" href="/clouds/<%= cloud['name'] %>"><%= cloud['name'] %></a></td>
+          <td class="cell_border cell_border_bottom bold"><a onclick="showPageLoading()" href="/products/<%= product_name %>/<%= cloud['name'] %>"><%= cloud['name'] %></a></td>
           <td class="cloud_state <%= cloud['state'].to_s().downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
           <td class="cell_border cell_border_bottom ">
             Web Interface: <a target="_blank" href="<%= cloud['web_ui_url'].to_s.start_with?('http://') ? cloud['web_ui_url'] : 'http://' + cloud['web_ui_url'] %>"><%= cloud['web_ui_url'] %></a><br />

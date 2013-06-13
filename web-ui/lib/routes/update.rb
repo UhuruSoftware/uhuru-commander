@@ -31,7 +31,7 @@ module Uhuru::BoshCommander
          end
       end
 
-      action_on_done = "Release '#{name}' - '#{version}' deleted. Click <a href='/clouds'>here</a> to return to cloud view."
+      action_on_done = "Release '#{name}' - '#{version}' deleted. Click <a href='/products/:product_name'>here</a> to return to cloud view."
       redirect Logs.log_url(request_id, action_on_done)
 
     end
@@ -48,7 +48,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      action_on_done = "Release uploaded. Click <a href='/clouds'>here</a> to return to cloud view."
+      action_on_done = "Release uploaded. Click <a href='/products/:product_name'>here</a> to return to cloud view."
       redirect Logs.log_url(request_id, action_on_done)
     end
 
@@ -80,7 +80,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      action_on_done = "Stemcell '#{name}' - '#{version}' deleted. Click <a href='/clouds'>here</a> to return to cloud view."
+      action_on_done = "Stemcell '#{name}' - '#{version}' deleted. Click <a href='/products/:product_name'>here</a> to return to cloud view."
       redirect Logs.log_url(request_id, action_on_done)
 
     end
@@ -97,7 +97,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      action_on_done = "Stemcell uploaded. Click <a href='/clouds'>here</a> to return to cloud view."
+      action_on_done = "Stemcell uploaded. Click <a href='/products/:product_name'>here</a> to return to cloud view."
       redirect Logs.log_url(request_id, action_on_done)
     end
 

@@ -1,41 +1,37 @@
 <div class="versions_overflow_div">
-  <% tables.each do |table| %>
-      <%
-         rows = table[:body][:versions].count
-         keys = table[:body].keys
-         current_row = 0
-      %>
-      <span class="table_title"><%= table[:title] %></span>
+  <% products.each do |product| %>
+
+      <span class="table_title"><%= product[1].label %></span>
 
       <table class="versions_table">
         <thead>
         <tr class="settings_table_header">
-          <% keys.each do |key| %>
-              <td>
-                <%= key.capitalize %>
-              </td>
-          <% end %>
+          <td>Version</td>
+          <td>Blob</td>
+          <td>Dependencies</td>
+          <td>Deployments</td>
         </tr>
         </thead>
 
         <tbody>
-        <% while current_row <= rows - 1 %>
+        <% product[1].versions.each do |ver| %>
             <tr>
-              <% keys.each do |key| %>
-                  <td>
-                    <% if key.to_s != 'actions' %>
-                        <%= table[:body][key.to_sym][current_row] %>
-                    <% else %>
-                        <% if table[:body][key.to_sym][current_row] != nil %>
-                            <%if table[:body][key.to_sym][current_row][:install].to_s == 'true' %><input type="button" value="Install" id="install_<%= table[:body][:versions][current_row] %>"><% end %>
-                            <%if table[:body][key.to_sym][current_row][:download].to_s == 'true' %><input type="button" value="Download" id="install_<%= table[:body][:versions][current_row] %>"><% end %>
-                            <%if table[:body][key.to_sym][current_row][:delete].to_s == 'true' %><input type="button" value="Delete" id="install_<%= table[:body][:versions][current_row] %>"><% end %>
-                        <% end %>
-                    <% end %>
-                  </td>
-              <% end %>
+              <td>
+                <%= ver[1].version %>
+              </td>
+              <td>
+                <% ver %>
+              </td>
+              <td>
+                <% ver[1].dependencies.each do |dep| %>
+                    <%= dep['dependency'] %><br />
+                    <%= dep['version'][0] %>
+                <% end %>
+              </td>
+              <td>
+                <%= ver[1].deployments %>
+              </td>
             </tr>
-            <% current_row += 1 %>
         <% end %>
         </tbody>
       </table>

@@ -1,3 +1,6 @@
+require "versioning/product"
+require "versioning/version"
+
 module Uhuru::BoshCommander
 
   class ErbRenderHelper
@@ -78,6 +81,17 @@ module Uhuru::BoshCommander
         unless (request.path_info == '/infrastructure') || (request.path_info.start_with?('/screen'))
           check_first_run!
         end
+
+        @tabs = []
+        products = Uhuru::BoshCommander::Versioning::Product.get_products
+        products.each do |product|
+          p = product
+          if p[1].type == "software"
+            #path and href to be configured for each type of software product
+            @tabs << {:path => "/products/#{p[0]}", :href => "/products/#{p[0]}", :name => p[1].label}
+          end
+        end
+
       end
     end
 

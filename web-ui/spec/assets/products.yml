@@ -10,6 +10,11 @@ products:
     type: stemcell
     description: Windows 2008 R2 OS with BOSH Agent
     blobstore_id: manifest.yml
+  clouds:
+    label: App Cloud
+    type: software
+    description: Uhuru PaaS
+    blobstore_id: manifest.yml    
   cloudfoundry:
     label: AppCloud
     type: software

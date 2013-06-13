@@ -15,61 +15,73 @@ module Uhuru::BoshCommander
     end
 
 
-    get '/clouds' do
-      clouds = []
-      CommanderBoshRunner.execute(session) do
-        Deployment.deployments_obj.each do |deployment|
-          clouds << deployment.status
-        end
-      end
+    get '/products/:product_name' do
+      product_name = params[:product_name]
 
-      render_erb do
-        template :clouds
-        layout :layout
-        var :clouds, clouds
-        var :error_message, ""
-        help 'clouds'
-      end
-    end
-
-    post '/clouds' do
-      clouds = []
-      message = ""
-      cloud_name = params["create_cloud_name"]
-      if !!cloud_name.match(/^[[:alnum:]]+$/)
-        CommanderBoshRunner.execute(session) do
-          Deployment.deployments_obj.each do |deployment|
-            clouds << deployment.status
-          end
-          if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
-            deployment = Deployment.new(cloud_name)
-            blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
-            new_manifest = YAML.load(blank_manifest_template.result(binding))
-            deployment.save(new_manifest)
-            clouds << deployment.status
-          else
-            message = "A cloud with the same name already exists"
-          end
-        end
-      else
-        message = "Cloud name must contain only alphanumeric characters"
+      if (product_name == "clouds")
+        clouds = []
         CommanderBoshRunner.execute(session) do
           Deployment.deployments_obj.each do |deployment|
             clouds << deployment.status
           end
         end
+
+        render_erb do
+          template :clouds
+          layout :layout
+          var :product_name, product_name
+          var :clouds, clouds
+          var :error_message, ""
+          help 'clouds'
+        end
       end
 
-      render_erb do
-        template :clouds
-        layout :layout
-        var :clouds, clouds
-        var :error_message, message
-        help 'clouds'
-      end
     end
 
-    get '/clouds/:cloud_name' do
+    post '/products/:product_name' do
+      product_name = params[:product_name]
+      if (product_name == "clouds")
+        clouds = []
+        message = ""
+        cloud_name = params["create_cloud_name"]
+        if !!cloud_name.match(/^[[:alnum:]]+$/)
+          CommanderBoshRunner.execute(session) do
+            Deployment.deployments_obj.each do |deployment|
+              clouds << deployment.status
+            end
+            if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
+              deployment = Deployment.new(cloud_name)
+              blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
+              new_manifest = YAML.load(blank_manifest_template.result(binding))
+              deployment.save(new_manifest)
+              clouds << deployment.status
+            else
+              message = "A cloud with the same name already exists"
+            end
+          end
+        else
+          message = "Cloud name must contain only alphanumeric characters"
+          CommanderBoshRunner.execute(session) do
+            Deployment.deployments_obj.each do |deployment|
+              clouds << deployment.status
+            end
+          end
+        end
+
+        render_erb do
+          template :clouds
+          layout :layout
+          var :product_name, product_name
+          var :clouds, clouds
+          var :error_message, message
+          help 'clouds'
+        end
+      end
+
+    end
+
+    get '/products/:product_name/:cloud_name' do
+      product_name = params[:product_name]
       cloud_name = params[:cloud_name]
       deployment_status = {}
       form = nil
@@ -94,6 +106,7 @@ module Uhuru::BoshCommander
 
         var :form, form
         var :summary, deployment_status
+        var :product_name, product_name
         var :cloud_name, cloud_name
         var :value_type, GenericForm::VALUE_TYPE_SAVED
 
@@ -103,7 +116,8 @@ module Uhuru::BoshCommander
       end
     end
 
-    post '/clouds/:cloud_name' do
+    post '/products/:product_name/:cloud_name' do
+      product_name = params[:product_name]
       cloud_name = params[:cloud_name]
       is_ok = true
       form = nil
@@ -136,6 +150,7 @@ module Uhuru::BoshCommander
             layout :layout
 
             var :form, form
+            var :product_name, product_name
             var :cloud_name, cloud_name
             var :summary, deployment_status
             var :value_type, values_to_show
@@ -152,7 +167,7 @@ module Uhuru::BoshCommander
             end
           end
 
-          action_on_done = "Deployment of cloud '#{cloud_name}' finished. Click <a href='/clouds/#{cloud_name}?menu=tab_summary'>here</a> to view cloud summary."
+          action_on_done = "Deployment of cloud '#{cloud_name}' finished. Click <a href='/products/#{product_name}/#{cloud_name}?menu=tab_summary'>here</a> to view cloud summary."
           redirect Logs.log_url request_id, action_on_done
         end
       elsif params.has_key?("btn_tear_down")
@@ -165,7 +180,7 @@ module Uhuru::BoshCommander
           end
         end
 
-        action_on_done = "Tear-down of cloud '#{cloud_name}' finished. Click <a href='/clouds/#{cloud_name}'>here</a> to view cloud configuration."
+        action_on_done = "Tear-down of cloud '#{cloud_name}' finished. Click <a href='/products/#{product_name}/#{cloud_name}'>here</a> to view cloud configuration."
         redirect Logs.log_url request_id, action_on_done
       elsif params.has_key?("btn_delete")
         request_id = CommanderBoshRunner.execute_background(session) do
@@ -177,7 +192,7 @@ module Uhuru::BoshCommander
           end
         end
 
-        action_on_done = "Delete of cloud '#{cloud_name}' finished. Click <a href='/clouds'>here</a> for cloud management."
+        action_on_done = "Delete of cloud '#{cloud_name}' finished. Click <a href='/products/#{product_name}'>here</a> for cloud management."
         redirect Logs.log_url request_id, action_on_done
       elsif params.has_key?("btn_export")
         params.delete("btn_export")
@@ -240,6 +255,7 @@ module Uhuru::BoshCommander
           layout :layout
 
           var :form, form
+          var :product_name, product_name
           var :cloud_name, cloud_name
           var :summary, deployment_status
           var :value_type, values_to_show
@@ -250,7 +266,7 @@ module Uhuru::BoshCommander
       end
     end
 
-    get '/clouds/:cloud_name/vms' do
+    get '/products/:product_name/:cloud_name/vms' do
       vms_list = {}
 
       cloud_name = params[:cloud_name]
