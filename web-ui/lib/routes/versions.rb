@@ -19,11 +19,3 @@ module Uhuru::BoshCommander
   end
 end
 
-
-#@t << {:path => '/clouds', :href => '/clouds', :name => p[1].label}
-#
-#product[1].versions.each do |current_ver|
-#  current_ver[1].version
-#end
-
-

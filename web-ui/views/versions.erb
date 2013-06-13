@@ -1,39 +1,39 @@
-<div class="versions_overflow_div">
-  <% products.each do |product| %>
+<div class="versions_div">
+  <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
+        <% products.each do |product| %>
+          <% if product[1].type == type %>
+              <span class="table_title"><%= product[1].label %></span>
+              <span class="table_title"><%= type %></span>
 
-      <span class="table_title"><%= product[1].label %></span>
+              <table class="versions_table">
+                <thead>
+                <tr class="settings_table_header">
+                  <td>Version</td>
+                  <td>Dependencies</td>
+                  <td>Deployments</td>
+                </tr>
+                </thead>
 
-      <table class="versions_table">
-        <thead>
-        <tr class="settings_table_header">
-          <td>Version</td>
-          <td>Blob</td>
-          <td>Dependencies</td>
-          <td>Deployments</td>
-        </tr>
-        </thead>
-
-        <tbody>
-        <% product[1].versions.each do |ver| %>
-            <tr>
-              <td>
-                <%= ver[1].version %>
-              </td>
-              <td>
-                <% ver %>
-              </td>
-              <td>
-                <% ver[1].dependencies.each do |dep| %>
-                    <%= dep['dependency'] %><br />
-                    <%= dep['version'][0] %>
+                <tbody>
+                <% product[1].versions.each do |ver| %>
+                    <tr>
+                      <td>
+                        <%= ver[1].version %>
+                      </td>
+                      <td>
+                        <% ver[1].dependencies.each do |dep| %>
+                            <%= dep['dependency'] %><br />
+                            <%= dep['version'][0] %>
+                        <% end %>
+                      </td>
+                      <td>
+                        <%= ver[1].deployments %>
+                      </td>
+                    </tr>
                 <% end %>
-              </td>
-              <td>
-                <%= ver[1].deployments %>
-              </td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
+                </tbody>
+              </table>
+          <% end %>
+      <% end %>
   <% end %>
 </div>
