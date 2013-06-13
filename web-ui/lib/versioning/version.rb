@@ -1,5 +1,6 @@
 require 'uri'
 require 'zlib'
+require 'archive/tar/minitar'
 
 module Uhuru
   module BoshCommander
@@ -12,11 +13,10 @@ module Uhuru
         STATE_AVAILABLE = 5
         STATE_DEPLOYED = 6
 
-        BITS_FILENAME = 'bits.tar.gz'
+        BITS_FILENAME = 'bits'
 
         attr_accessor :product
         attr_accessor :version
-        attr_accessor :blob
         attr_accessor :dependencies
         attr_accessor :deployments
         attr_accessor :location
@@ -40,6 +40,10 @@ module Uhuru
           File.join(version_dir, BITS_FILENAME)
         end
 
+        def bits_full_local_path_unpacked
+          "#{bits_full_local_path}.unpacked"
+        end
+
         def bits_full_local_path_dl
           "#{bits_full_local_path}.dl"
         end
@@ -51,7 +55,7 @@ module Uhuru
             state = STATE_DOWNLOADING
           end
 
-          if File.exist?(bits_full_local_path)
+          if File.exist?(bits_full_local_path) || Dir.exist?(bits_full_local_path)
             state = STATE_LOCAL
           end
 
@@ -87,10 +91,14 @@ module Uhuru
               raise "Could not find bits on blobstore."
             end
 
-            FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
-
-            if @product.type != Product.TYPE_STEMCELL
-
+            if @product.type != Product::TYPE_STEMCELL
+              FileUtils.mkdir_p bits_full_local_path_unpacked
+              tgz = Zlib::GzipReader.new(File.open(bits_full_local_path_dl, 'rb'))
+              Minitar.unpack(tgz, bits_full_local_path_unpacked)
+              FileUtils.mv bits_full_local_path_unpacked, bits_full_local_path, :force => true
+              FileUtils.rm_f bits_full_local_path_dl
+            else
+              FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
             end
           end
         end
@@ -99,13 +107,27 @@ module Uhuru
           if File.exist?(bits_full_local_path_dl)
             total_size = @location['size']
             dl_size = File.size(bits_full_local_path_dl)
-            [(dl_size / total_size) * 100, "#{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
+            [(dl_size / total_size) * 100, "Downloaded #{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
           else
-            if File.exist?(bits_full_local_path)
+            if Dir.exist?(bits_full_local_path_unpacked)
+              if File.exist?(bits_full_local_path_dl)
+                [100, 'Unpacking...']
+              else
+                [100, 'Done']
+              end
+            elsif File.exist?(bits_full_local_path)
               [100, 'Done']
             else
               [0, 'N/A']
             end
+          end
+        end
+
+        def delete_bits
+          if get_state == STATE_LOCAL
+            FileUtils.rm_rf bits_full_local_path
+          else
+            raise "Cannot remove bits for #{@product.name} version #{@version} since it's in use."
           end
         end
 
