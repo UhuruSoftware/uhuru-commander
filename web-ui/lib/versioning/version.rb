@@ -25,6 +25,7 @@ module Uhuru
           @product = product
           @version = version
           @blob = details['location']
+          @description = details['description']
           @dependencies = details['dependencies']
           @location = details['location']
           @deployments = nil

@@ -33,7 +33,7 @@
       <file leaf-file-name="version.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="60" selection-start="788" selection-end="788" vertical-scroll-proportion="-1.4574898">
+            <state line="21" column="67" selection-start="508" selection-end="508" vertical-scroll-proportion="-2.1578948">
               <folding />
             </state>
           </provider>
@@ -51,7 +51,7 @@
       <file leaf-file-name="versioning_spec.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/spec/versioning_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="2293" selection-end="2293" vertical-scroll-proportion="0.0">
+            <state line="24" column="54" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -78,7 +78,7 @@
       <file leaf-file-name="manifest.yml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/ucc/manifest.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="59" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0">
+            <state line="20" column="101" selection-start="569" selection-end="569" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -835,13 +835,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/ucc/manifest.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="59" selection-start="363" selection-end="363" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/products.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="45" selection-start="308" selection-end="308" vertical-scroll-proportion="0.0">
@@ -879,14 +872,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/spec/versioning_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="2293" selection-end="2293" vertical-scroll-proportion="0.0">
+        <state line="24" column="54" selection-start="990" selection-end="990" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/ucc/manifest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="101" selection-start="569" selection-end="569" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="60" selection-start="788" selection-end="788" vertical-scroll-proportion="-1.4574898">
+        <state line="21" column="67" selection-start="508" selection-end="508" vertical-scroll-proportion="-2.1578948">
           <folding />
         </state>
       </provider>
