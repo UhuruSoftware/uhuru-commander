@@ -21,28 +21,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="versions.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="versions.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/versions.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="35" selection-start="273" selection-end="273" vertical-scroll-proportion="0.33604887">
+            <state line="15" column="43" selection-start="379" selection-end="379" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="versions.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="versions.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="62" selection-start="503" selection-end="503" vertical-scroll-proportion="-5.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="products.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/products.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="53" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+            <state line="65" column="81" selection-start="2787" selection-end="2787" vertical-scroll-proportion="0.25641027">
               <folding />
             </state>
           </provider>
@@ -60,7 +51,16 @@
       <file leaf-file-name="version.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="50" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
+            <state line="14" column="66" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="products.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/products.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="53" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -88,13 +88,13 @@
         <option value="$PROJECT_DIR$/web-ui/spec/assets/cloudfoundry/manifest.yml" />
         <option value="$PROJECT_DIR$/web-ui/spec/versioning_spec.rb" />
         <option value="$PROJECT_DIR$/web-ui/Gemfile" />
-        <option value="$PROJECT_DIR$/web-ui/lib/versioning/version.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/versioning/product.rb" />
         <option value="$PROJECT_DIR$/web-ui/config/config_dev.yml" />
         <option value="$PROJECT_DIR$/web-ui/public/css/views.css" />
         <option value="$PROJECT_DIR$/web-ui/spec/assets/products.yml" />
-        <option value="$PROJECT_DIR$/web-ui/views/versions.erb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/versions.rb" />
+        <option value="$PROJECT_DIR$/web-ui/views/versions.erb" />
+        <option value="$PROJECT_DIR$/web-ui/lib/versioning/version.rb" />
       </list>
     </option>
   </component>
@@ -130,7 +130,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -223,17 +222,18 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="ruby.project.structure" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="false" />
+    <property name="options.lastSelected" value="ruby.project.structure" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/publisher" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -418,11 +418,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20400633" sideWeight="0.56013" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20400633" sideWeight="0.56121343" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39935413" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43987" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43878657" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -496,9 +496,7 @@
     </entry>
     <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.2-p320@global/gems/bundler-1.3.4/lib/bundler/source/git.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="0" selection-start="5317" selection-end="5317" vertical-scroll-proportion="0.33197555">
-          <folding />
-        </state>
+        <state line="175" column="0" selection-start="5317" selection-end="5317" vertical-scroll-proportion="0.33197555" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/commander_bosh_runner.rb">
@@ -510,23 +508,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/Gemfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="47" selection-start="865" selection-end="865" vertical-scroll-proportion="0.81670064">
-          <folding />
-        </state>
+        <state line="29" column="47" selection-start="865" selection-end="865" vertical-scroll-proportion="0.81670064" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/Rakefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="46" selection-start="335" selection-end="335" vertical-scroll-proportion="0.39714867">
-          <folding />
-        </state>
+        <state line="13" column="46" selection-start="335" selection-end="335" vertical-scroll-proportion="0.39714867" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/spec/versioning_spec.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="116" selection-start="1950" selection-end="1950" vertical-scroll-proportion="1.5885947">
-          <folding />
-        </state>
+        <state line="52" column="116" selection-start="1950" selection-end="1950" vertical-scroll-proportion="1.5885947" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/config/config_dev.yml">
@@ -536,32 +528,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="50" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/ucc/manifest.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="55" selection-start="133" selection-end="133" vertical-scroll-proportion="-0.25254583">
-          <folding />
-        </state>
+        <state line="5" column="55" selection-start="133" selection-end="133" vertical-scroll-proportion="-0.25254583" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/cloudfoundry/manifest.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="42" selection-start="34" selection-end="34" vertical-scroll-proportion="0.061099797">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/product.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="46" selection-start="1076" selection-end="1076" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="2" column="42" selection-start="34" selection-end="34" vertical-scroll-proportion="0.061099797" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/products.yml">
@@ -578,13 +552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="62" selection-start="503" selection-end="503" vertical-scroll-proportion="-5.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/route_base.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="82" column="39" selection-start="1914" selection-end="1914" vertical-scroll-proportion="-0.802444">
@@ -594,7 +561,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/versions.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="35" selection-start="273" selection-end="273" vertical-scroll-proportion="0.33604887">
+        <state line="15" column="43" selection-start="379" selection-end="379" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/product.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="46" selection-start="1076" selection-end="1076" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="66" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="81" selection-start="2787" selection-end="2787" vertical-scroll-proportion="0.25641027">
           <folding />
         </state>
       </provider>

@@ -484,6 +484,17 @@ td.border_right
     width: 750px;
     margin: 10px auto;
 }
+.versions_table .td_versions
+{
+    width: 20px;
+}
+.versions_table .td_state,
+.versions_table .td_size
+{
+    width: 5px;
+    text-align: right;
+}
+
 
 .table_title
 {
@@ -492,17 +503,12 @@ td.border_right
     color: #306DA7;
 }
 
-.versions_table tbody tr td:first-child
+.versions_table tbody tr td
 {
-    width: 50px;
-}
-.versions_table tbody tr td:first-child + td
-{
-    width: 300px;
+    width: 200px;
 }
 .versions_table tbody tr td:last-child
 {
-    width: 200px;
     height: 40px;
 }
 .versions_table tbody tr td:first-child,

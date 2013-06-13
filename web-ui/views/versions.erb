@@ -11,24 +11,79 @@
                   <td>Version</td>
                   <td>Dependencies</td>
                   <td>Deployments</td>
+                  <td>Size</td>
+                  <td>State</td>
+                  <td>Description</td>
+                  <td>Actions</td>
                 </tr>
                 </thead>
 
                 <tbody>
-                <% product[1].versions.each do |ver| %>
+                <% product[1].versions.each do |version| %>
                     <tr>
-                      <td>
-                        <%= ver[1].version %>
+                      <!-- VERSION -->
+                      <td class="td_versions">
+                        <%= version[1].version %>
                       </td>
+
+                      <!-- DEPENDENCIES -->
                       <td>
-                        <% ver[1].dependencies.each do |dep| %>
-                            <%= dep['dependency'] %><br />
-                            <%= dep['version'][0] %>
+                        <% version[1].dependencies.each do |dependency| %>
+                            <%= dependency['dependency'] %>
+                                (
+                                    <% if dependency['version'].count != nil %>
+                                        <% dependency['version'].each_with_index do |version, index| %>
+                                            <% if index < dependency['version'].length - 1 %>
+                                                <%= version + ', ' %>
+                                            <% else %>
+                                                <%= version %>
+                                            <% end %>
+                                        <% end %>
+                                    <% end %>
+                                )
+                            <br />
                         <% end %>
                       </td>
-                      <td>
-                        <%= ver[1].deployments %>
-                      </td>
+
+
+                      <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
+
+                          <!-- DEPLOYMENTS -->
+                          <td>
+                            <%= version[1].deployments %>
+                          </td>
+
+                          <!-- SIZE -->
+                          <td class="td_size">
+                            <%= version[1].location.size %>
+                          </td>
+
+                          <!-- STATE -->
+                          <td class="td_state">
+                                <%= version[1].get_state %>
+                          </td>
+
+                          <!-- DESCRIPTION -->
+                          <td>
+                            <%= version[1].description %>
+                          </td>
+
+                          <!-- ACTION -->
+                          <td>
+                            <% if version[1].get_state.to_s == '5' %>
+                                <input type="button" value="Delete" />
+                            <% end %>
+
+                            <% if version[1].get_state.to_s != '1' %>
+                                <input type="button" value="Download" />
+                            <% end %>
+
+                            <!-- button de remove daca are state remote only -->
+
+                          </td>
+
+                      <% end %>
+
                     </tr>
                 <% end %>
                 </tbody>
