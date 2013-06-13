@@ -13,7 +13,7 @@ module Uhuru
 
         attr_accessor :product
         attr_accessor :version
-        attr_accessor :dependencies
+        attr_accessor :blob
         attr_accessor :dependencies
         attr_accessor :deployments
 
