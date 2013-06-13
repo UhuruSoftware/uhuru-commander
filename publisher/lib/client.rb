@@ -18,6 +18,8 @@ module Uhuru
         end
 
         def get(id)
+          puts @bsc_provider
+          puts @bsc_options
           blobstore_client = Bosh::Blobstore::Client.create(@bsc_provider, @bsc_options)
           if blobstore_client.exists?(id)
             return blobstore_client.get(id)
@@ -26,12 +28,22 @@ module Uhuru
           end
         end
 
+        def delete(id)
+          blobstore_client = Bosh::Blobstore::Client.create(@bsc_provider, @bsc_options)
+          blobstore_client.delete(id)
+        end
+
         def get_products
           YAML.load(get(BLOBSTORE_ID_PRODUCTS))
         end
 
         def product_exists?(product_id)
           get_products["products"].has_key?(product_id)
+        end
+
+        def blob_exists?(blob_id)
+          blobstore_client = Bosh::Blobstore::Client.create(@bsc_provider, @bsc_options)
+          blobstore_client.exists?(blob_id)
         end
       end
     end

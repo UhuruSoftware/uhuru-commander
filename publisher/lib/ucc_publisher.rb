@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'rubygems'
 require "yaml"
+require "securerandom"
 
 require "escort"
 require "terminal-table"
@@ -9,6 +10,10 @@ require "blobstore_client"
 require "client"
 require "products"
 require "versions"
+
+if defined?(YAML::ENGINE.yamler)
+  YAML::ENGINE.yamler = RUBY_VERSION >= "2.0.0" ? "psych" : "syck"
+end
 
 module Uhuru
   module UCC
@@ -40,9 +45,15 @@ module Uhuru
               opts.opt :name,         "Product name",             :short => "-n", :long => "--name",                :type => :string
               opts.opt :prod_version, "Product version",          :short => "-r", :long => "--release_version",     :type => :string,   :default => "all"
             end
+
+            command.action do |options, arguments|
+              Uhuru::UCC::Publisher::Products.new(options, arguments).product
+            end
           end
 
           app.command :add do |command|
+            command.summary "[product, dependency]"
+
             command.command :product do |add_product|
               add_product.summary "Add product"
               add_product.description "Add a new product"
@@ -51,9 +62,12 @@ module Uhuru
                 opts.opt :label,        "Product label",                        :short => "-l", :long => "--label",       :type => :string
                 opts.opt :description,  "Product description",                  :short => "-d", :long => "--description", :type => :string
                 opts.opt :type,         "Product type [ucc, stemcell]",         :short => "-t", :long => "--type",        :type => :string
-                opts.opt :force,        "Force overwrite",                      :short => "-f", :long => "--force",       :type => :boolean, :default => false
+                opts.opt :force,        "Force overwrite",                      :short => :none, :long => "--force",       :type => :boolean, :default => false
+                opts.opt :blob_id,      "Overwrtire blobstore ID",              :short => "-b", :long => "--blob",        :type => :string,  :default => SecureRandom.hex.to_s
 
                 opts.validate(:type, "must be one of the following: [ucc, stemcell]") {|option| ["ucc", "stemcell"].include?(option) }
+
+                opts.dependency :blob_id, :on => [{:force => false}]
               end
               add_product.action do |options, arguments|
                 Uhuru::UCC::Publisher::Products.new(options, arguments).add_product
@@ -76,6 +90,8 @@ module Uhuru
           end
 
           app.command :upload do |command|
+            command.summary "[version]"
+
             command.command :version do |upload_version|
               upload_version.summary "Upload version"
               upload_version.description "Upload new product version"
@@ -87,9 +103,25 @@ module Uhuru
                 opts.opt :file,         "Release file to upload", :short => "-f", :long => "--file",            :type => :string
 
                 opts.validate(:file, "does not exist") {|file| File.exists?(file)}
+                opts.validate(:type, "must be one of the following: [alpha, beta, RC, final, nightly]") {|option| ["alpha", "beta", "RC", "final", "nightly"].include?(option) }
               end
               upload_version.action do |options, arguments|
                 Uhuru::UCC::Publisher::Versions.new(options, arguments).upload_version
+              end
+            end
+          end
+
+          app.command :delete do |command|
+            command.summary "[product]"
+            command.command :product do |delete_product|
+              delete_product.summary "Delete product"
+              delete_product.description "Delete an existing product"
+              delete_product.options do |opts|
+                opts.opt :name,         "Product name",                         :short => "-n", :long => "--name",        :type => :string
+                opts.opt :cascade,      "Cascade delete",                       :short => "-c", :long => "--cascade",     :type => :boolean
+              end
+              delete_product.action do |options, arguments|
+                Uhuru::UCC::Publisher::Products.new(options, arguments).delete_product
               end
             end
           end
