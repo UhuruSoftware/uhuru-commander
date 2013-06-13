@@ -26,4 +26,4 @@ gem 'rbvmomi'
 gem "rack-reverse-proxy", :require => "rack/reverse_proxy"
 #gem "blobstore_client", :git => 'git@github.com:UhuruSoftware/private-bosh.git'
 gem "blobstore_client", :git => "https://github.com/cloudfoundry/bosh"
-
+gem "archive-tar-minitar", "~> 0.5.2"

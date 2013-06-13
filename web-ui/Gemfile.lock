@@ -254,6 +254,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  archive-tar-minitar (~> 0.5.2)
   bcrypt-ruby
   blobstore_client!
   bosh_cli (~> 1.5.0.pre.3)!

@@ -25,8 +25,29 @@ describe 'Blobstore client' do
     $config[:versioning][:dir] = "/tmp/dummy_dir2/"
     FileUtils.rm_rf $config[:versioning][:dir]
     Uhuru::BoshCommander::Versioning::Product.download_manifests
-
     Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+
+    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_LOCAL
+  end
+end
+
+describe 'Bits Management' do
+  it 'should delete local bits for a version properly, if there are no deployments' do
+    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+    FileUtils.rm_rf $config[:versioning][:dir]
+    Uhuru::BoshCommander::Versioning::Product.download_manifests
+    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits
+
+    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_REMOTE_ONLY
+  end
+
+  it 'should not allow deletion of local bits for a version that is in use' do
+    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+    FileUtils.rm_rf $config[:versioning][:dir]
+    Uhuru::BoshCommander::Versioning::Product.download_manifests
+
+    expect { Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits }.to raise_error
   end
 end
 
@@ -46,7 +67,7 @@ describe "Product loading from configuration" do
 
   it "should populate objects" do
     products = Uhuru::BoshCommander::Versioning::Product.get_products
-    products.size.should == 3
+    products.size.should == 4
   end
 
   it "should map product names to products" do
