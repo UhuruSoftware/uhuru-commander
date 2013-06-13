@@ -20,6 +20,7 @@ module Uhuru
         attr_accessor :dependencies
         attr_accessor :deployments
         attr_accessor :location
+        attr_accessor :description
 
         def initialize(product, version, details)
           @product = product

@@ -471,18 +471,37 @@ td.border_right
 /*Versions Page
 /************************************************************************/
 
-
 .versions_div
 {
     padding-top: 10px;
     overflow-y: hidden;
 }
 
-
 .versions_table
 {
     width: 750px;
     margin: 10px auto;
+}
+.versions_table .td_versions
+{
+    width: 20px;
+}
+.versions_table .td_deployments,
+.versions_table .td_state,
+.versions_table .td_size
+{
+    width: 5px;
+    text-align: right;
+}
+
+.versions_table .td_descriptions
+{
+    width: 250px;
+}
+.versions_table .td_actions,
+.versions_table .td_dependencies
+{
+    width: 210px;
 }
 
 .table_title
@@ -492,24 +511,14 @@ td.border_right
     color: #306DA7;
 }
 
-.versions_table tbody tr td:first-child
-{
-    width: 50px;
-}
-.versions_table tbody tr td:first-child + td
-{
-    width: 300px;
-}
 .versions_table tbody tr td:last-child
 {
-    width: 200px;
     height: 40px;
 }
 .versions_table tbody tr td:first-child,
 tr td:last-child {
     text-align: right;
 }
-
 
 .versions_table tbody tr td {
     border: 1px solid #dddddd;
