@@ -18,8 +18,6 @@ module Uhuru
         end
 
         def get(id)
-          puts @bsc_provider
-          puts @bsc_options
           blobstore_client = Bosh::Blobstore::Client.create(@bsc_provider, @bsc_options)
           if blobstore_client.exists?(id)
             return blobstore_client.get(id)

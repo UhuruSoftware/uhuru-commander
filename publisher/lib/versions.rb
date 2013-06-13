@@ -78,11 +78,17 @@ module Uhuru
             raise "Version #{version} for product #{product_name} does not exist"
           end
 
-
-          dependency = {}
-          dependency["dependency"] = dependency_name
-          dependency["version"] = dependency_version
-          product_versions["versions"][version]["dependencies"] << dependency
+          dependency = product_versions["versions"][version]["dependencies"].find {|d| d["dependency"] = dependency_name}
+          if dependency.nil?
+            dependency = {}
+            dependency["dependency"] = dependency_name
+            dependency["version"] = []
+            product_versions["versions"][version]["dependencies"] << dependency
+          end
+          if dependency["version"].include?(dependency_version)
+            raise "Product dependency already exists"
+          end
+          dependency["version"] << dependency_version
           client.upload(products["products"][product_name]["blobstore_id"], YAML::dump(product_versions))
         end
       end
