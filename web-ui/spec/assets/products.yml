@@ -8,7 +8,11 @@ products:
     label: Windows Stemcell
     type: stemcell
     description: Windows 2008 R2 OS with BOSH Agent
+  clouds:
+    label: App Cloud
+    type: software
+    description: Uhuru PaaS
   cloudfoundry:
-    label: AppCloud
+    label: AppCloud1
     type: software
     description: Uhuru PaaS

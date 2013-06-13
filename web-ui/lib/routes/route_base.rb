@@ -88,7 +88,7 @@ module Uhuru::BoshCommander
           p = product
           if p[1].type == "software"
             #path and href to be configured for each type of software product
-            @tabs << {:path => '/clouds', :href => '/clouds', :name => p[1].label}
+            @tabs << {:path => "/products/#{p[0]}", :href => "/products/#{p[0]}", :name => p[1].label}
           end
         end
 

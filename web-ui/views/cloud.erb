@@ -32,7 +32,7 @@
   </div>
 
   <div class="cloud_configuration_form">
-    <form id="cloud_config_form" name="cloud_config_form" enctype="multipart/form-data" method="post" action="/clouds/<%= cloud_name %>" onsubmit="return confirmForm()">
+    <form id="cloud_config_form" name="cloud_config_form" enctype="multipart/form-data" method="post" action="/products/<%= product_name %>/<%= cloud_name %>" onsubmit="return confirmForm()">
 
 
       <% form.screens.each do |screen| %>
@@ -139,7 +139,7 @@
 
         $.ajax(
                 {
-                    url: '/clouds/<%= cloud_name %>/vms',
+                    url: '/products/<%= product_name %>/<%= cloud_name %>/vms',
                     dataType: 'json',
                     cache: false,
                     timeout: 300000,

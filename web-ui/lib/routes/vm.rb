@@ -26,7 +26,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      action_on_done = "Job #{vm_method} '#{job}' '#{index}' finished. Click <a href='/clouds/#{deployment}'>here</a> to return to current cloud."
+      action_on_done = "Job #{vm_method} '#{job}' '#{index}' finished. Click <a href='/products/:product_name/#{deployment}'>here</a> to return to current cloud."
       redirect Logs.log_url(request_id, action_on_done)
     end
 
