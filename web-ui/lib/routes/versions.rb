@@ -5,30 +5,32 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
-
     post '/versions/read_states' do
+      #puts params[:product]
+      #puts params[:version]
       r = Random.new
-      current_state = nil
 
-      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
-        if product[1].name == params[:product]
-          product[1].versions.each do |version|
-            if version[1].version == params[:version]
-              #puts "parameters: " + params[:product] + params[:version]
-              #puts "real_values :" + product[1].name + version[1].version
-
-              current_state = r.rand(0...1000)
-              puts current_state
-              return current_state.to_i.to_s
-            else
-              return "loading..."
-            end
-          end
-        else
-          return
-        end
-      end
-      return "loading..."
+      #Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
+      #  if product[1].name == params[:product]
+      #    puts params[:product]
+      #    product[1].versions.each do |version|
+      #      if version[1].version == params[:version]
+      #        #puts "parameters: " + params[:product] + params[:version]
+      #        #puts "real_values :" + product[1].name + version[1].version
+      #
+      #        current_state = r.rand(0...1000)
+      #        #puts current_state
+      #        return current_state.to_i.to_s
+      #      else
+      #        return "loading..."
+      #      end
+      #    end
+      #  else
+      #    return
+      #  end
+      #end
+      #return "loading..."
+      return r.rand(0...1000).to_s
     end
 
     get '/versions' do

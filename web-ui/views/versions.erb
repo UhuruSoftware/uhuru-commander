@@ -111,21 +111,17 @@
 
 
 <script type="text/javascript">
-
-
-        //console.log( 'product name: ' + object.classList[0] + ' version: ' + object.id );
-
     var auto_refresh = setInterval(
             function(){
                 $('.states div:first-child').each(function(item, object){
                     $.post('/versions/read_states',
-                            { product: object.classList[0], version: object.id },
-                            { "current_state": "" },
-                            function(data){
-                                $(this).innerHTML = data;
-                                console.log(data);
-                            });
+                        { product: object.classList[0], version: object.id },
+                        function(data){
+                            console.log(data);
+                            object.innerHTML = data;
+                    });
                 });
+
             }, 5000
     );
 </script>
