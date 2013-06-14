@@ -3,7 +3,6 @@
       <% products.each do |product| %>
           <% if product[1].type == type %>
               <span class="table_title"><%= product[1].label %></span>
-              <span class="table_title"><%= type %></span>
 
               <table class="versions_table">
                 <thead>
@@ -88,11 +87,11 @@
                           <!-- ACTION -->
                           <td class="td_actions">
                             <% if version[1].get_state.to_s == '5' %>
-                                <input type="button" value="Delete" />
+                                <img src="../images/delete.png" alt="delete" class="action_buttons" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
                             <% end %>
 
                             <% if version[1].get_state.to_s != '1' %>
-                                <input type="button" value="Download" />
+                                <img src="../images/download.png" alt="download" class="action_buttons" title="Download <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
                             <% end %>
                           </td>
                       <% end %>
