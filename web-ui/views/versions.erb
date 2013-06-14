@@ -1,3 +1,5 @@
+<input type="text" id="test_parag" value=""/>
+
 <div class="versions_div">
   <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
       <% products.each do |product| %>
@@ -33,22 +35,24 @@
                       <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
 
                           <!-- STATE -->
-                          <td class="td_state">
-                            <% if version[1].get_state.to_s == '1' %>
-                                Remote Only
-                            <% elsif version[1].get_state.to_s == '2' %>
-                                Downloading
-                            <% elsif version[1].get_state.to_s == '3' %>
-                                Local
-                            <% elsif version[1].get_state.to_s == '4' %>
-                                Local Preparing
-                            <% elsif version[1].get_state.to_s == '5' %>
-                                Available
-                            <% elsif version[1].get_state.to_s == '6' %>
-                                Deployed
-                            <% else %>
-                                Error
-                            <% end %>
+                          <td class="td_state states">
+                            <div class="<%= product[1].name.to_s %>" id="<%= version[1].version.to_s %>">
+                                <% if version[1].get_state.to_s == '1' %>
+                                    Remote Only
+                                <% elsif version[1].get_state.to_s == '2' %>
+                                    Downloading
+                                <% elsif version[1].get_state.to_s == '3' %>
+                                    Local
+                                <% elsif version[1].get_state.to_s == '4' %>
+                                    Local Preparing
+                                <% elsif version[1].get_state.to_s == '5' %>
+                                    Available
+                                <% elsif version[1].get_state.to_s == '6' %>
+                                    Deployed
+                                <% else %>
+                                    Error
+                                <% end %>
+                            </div>
                           </td>
 
                           <!-- SIZE -->
@@ -104,3 +108,24 @@
       <% end %>
   <% end %>
 </div>
+
+
+<script type="text/javascript">
+
+
+        //console.log( 'product name: ' + object.classList[0] + ' version: ' + object.id );
+
+    var auto_refresh = setInterval(
+            function(){
+                $('.states div:first-child').each(function(item, object){
+                    $.post('/versions/read_states',
+                            { product: object.classList[0], version: object.id },
+                            { "current_state": "" },
+                            function(data){
+                                $(this).innerHTML = data;
+                                console.log(data);
+                            });
+                });
+            }, 5000
+    );
+</script>
