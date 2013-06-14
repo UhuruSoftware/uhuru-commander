@@ -1,6 +1,6 @@
 <div class="versions_div">
   <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
-        <% products.each do |product| %>
+      <% products.each do |product| %>
           <% if product[1].type == type %>
               <span class="table_title"><%= product[1].label %></span>
               <span class="table_title"><%= type %></span>
@@ -9,11 +9,11 @@
                 <thead>
                 <tr class="settings_table_header">
                   <td class="td_versions">Version</td>
+                  <td class="td_descriptions">Description</td>
+                  <td class="td_state">State</td>
+                  <td class="td_size">Size</td>
                   <td class="td_dependencies">Dependencies</td>
                   <td class="td_deployments">Deployments</td>
-                  <td class="td_size">Size</td>
-                  <td class="td_state">State</td>
-                  <td class="td_descriptions">Description</td>
                   <td class="td_actions">Actions</td>
                 </tr>
                 </thead>
@@ -26,29 +26,30 @@
                         <%= version[1].version %>
                       </td>
 
-                      <!-- DEPENDENCIES -->
-                      <td class="td_dependencies">
-                        <% version[1].dependencies.each do |dependency| %>
-                            <%= dependency['dependency'] %>
-                                (
-                                    <% if dependency['version'].count != nil %>
-                                        <% dependency['version'].each_with_index do |version, index| %>
-                                            <% if index < dependency['version'].length - 1 %>
-                                                <%= version + ', ' %>
-                                            <% else %>
-                                                <%= version %>
-                                            <% end %>
-                                        <% end %>
-                                    <% end %>
-                                )
-                            <br />
-                        <% end %>
+                      <!-- DESCRIPTION -->
+                      <td class="td_descriptions">
+                        <%= version[1].description %>
                       </td>
 
                       <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
-                          <!-- DEPLOYMENTS -->
-                          <td class="td_deployments">
-                            <%= version[1].deployments %>
+
+                          <!-- STATE -->
+                          <td class="td_state">
+                            <% if version[1].get_state.to_s == '1' %>
+                                Remote Only
+                            <% elsif version[1].get_state.to_s == '2' %>
+                                Downloading
+                            <% elsif version[1].get_state.to_s == '3' %>
+                                Local
+                            <% elsif version[1].get_state.to_s == '4' %>
+                                Local Preparing
+                            <% elsif version[1].get_state.to_s == '5' %>
+                                Available
+                            <% elsif version[1].get_state.to_s == '6' %>
+                                Deployed
+                            <% else %>
+                                Error
+                            <% end %>
                           </td>
 
                           <!-- SIZE -->
@@ -56,14 +57,32 @@
                             <%= version[1].location.size %>
                           </td>
 
-                          <!-- STATE -->
-                          <td class="td_state">
-                                <%= version[1].get_state %>
+                          <!-- DEPLOYMENTS -->
+                          <td class="td_deployments">
+                            <%= version[1].deployments %>
                           </td>
 
-                          <!-- DESCRIPTION -->
-                          <td class="td_descriptions">
-                            <%= version[1].description %>
+                          <!-- DEPENDENCIES -->
+                          <td class="td_dependencies">
+                            <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
+                                <% if product[1].type == type %>
+                                    <% version[1].dependencies.each do |dependency| %>
+                                        <%= dependency['dependency'] %>
+                                        (
+                                        <% if dependency['version'].count != nil %>
+                                            <% dependency['version'].each_with_index do |version, index| %>
+                                                <% if index < dependency['version'].length - 1 %>
+                                                    <%= version + ', ' %>
+                                                <% else %>
+                                                    <%= version %>
+                                                <% end %>
+                                            <% end %>
+                                        <% end %>
+                                        )
+                                        <br />
+                                    <% end %>
+                                <% end %>
+                            <% end %>
                           </td>
 
                           <!-- ACTION -->
