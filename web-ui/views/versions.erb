@@ -89,11 +89,19 @@
                           <!-- ACTION -->
                           <td class="td_actions">
                             <% if version[1].get_state.to_s == '5' %>
-                                <img src="../images/delete.png" alt="delete" class="action_buttons" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                <form method="post" action="">
+                                  <input type="hidden" value="<%= product[1].name.to_s %>" name="product">
+                                  <input type="hidden" value="<%= version[1].version.to_s %>" name="version">
+                                    <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                </form>
                             <% end %>
 
                             <% if version[1].get_state.to_s != '1' %>
-                                <img src="../images/download.png" alt="download" class="action_buttons" title="Download <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                <form method="post" action="download">
+                                  <input type="hidden" value="<%= product[1].name.to_s %>" name="product">
+                                  <input type="hidden" value="<%= version[1].version.to_s %>" name="version">
+                                  <input type="submit" value="" class="action_buttons download" title="Download <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                </form>
                             <% end %>
                           </td>
                       <% end %>
@@ -108,7 +116,7 @@
 </div>
 
 <script type="text/javascript">
-    var auto_refresh = setInterval(
+    setInterval(
             function(){
                 $('.states div:first-child').each(function(item, object){
                     $.post('/versions/read_states',
@@ -118,7 +126,6 @@
                             object.innerHTML = data;
                     });
                 });
-
             }, 3000
     );
 </script>

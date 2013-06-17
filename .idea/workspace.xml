@@ -21,19 +21,73 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="versions.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
+      <file leaf-file-name="downloads.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/downloads.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="63" selection-start="373" selection-end="373" vertical-scroll-proportion="-3.125">
+            <state line="17" column="58" selection-start="336" selection-end="336" vertical-scroll-proportion="-10.625">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="versions.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="versions.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="94" column="78" selection-start="4997" selection-end="4997" vertical-scroll-proportion="-10.541667">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.css" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="576" column="82" selection-start="9783" selection-end="9783" vertical-scroll-proportion="0.25971732">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="layout.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="268" column="62" selection-start="4710" selection-end="4710" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="versions.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/versions.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="34" selection-start="1217" selection-end="1217" vertical-scroll-proportion="0.45053002">
+            <state line="41" column="76" selection-start="1252" selection-end="1252" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="version.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="107" column="12" selection-start="3220" selection-end="3220" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="product.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/product.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="91" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config_dev.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/config/config_dev.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="107" selection-start="321" selection-end="321" vertical-scroll-proportion="-6.0">
               <folding />
             </state>
           </provider>
@@ -52,7 +106,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/spec/assets/uhuru-windows-2008R2/manifest.yml" />
         <option value="$PROJECT_DIR$/web-ui/spec/assets/ucc/manifest.yml" />
         <option value="$PROJECT_DIR$/web-ui/spec/assets/cloudfoundry/manifest.yml" />
         <option value="$PROJECT_DIR$/web-ui/spec/versioning_spec.rb" />
@@ -61,13 +114,14 @@
         <option value="$PROJECT_DIR$/web-ui/config/config_dev.yml" />
         <option value="$PROJECT_DIR$/web-ui/spec/assets/products.yml" />
         <option value="$PROJECT_DIR$/web-ui/lib/versioning/version.rb" />
-        <option value="$PROJECT_DIR$/web-ui/public/css/views.css" />
         <option value="$PROJECT_DIR$/web-ui/lib/ucc/commander_bosh_runner.rb" />
         <option value="$PROJECT_DIR$/web-ui/public/scripts/update_version_states.js" />
         <option value="$PROJECT_DIR$/web-ui/views/test.erb" />
-        <option value="$PROJECT_DIR$/web-ui/views/versions.erb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/routes/versions.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/bosh_commander.rb" />
+        <option value="$PROJECT_DIR$/web-ui/lib/routes/versions.rb" />
+        <option value="$PROJECT_DIR$/web-ui/views/downloads.erb" />
+        <option value="$PROJECT_DIR$/web-ui/views/versions.erb" />
+        <option value="$PROJECT_DIR$/web-ui/public/css/views.css" />
       </list>
     </option>
   </component>
@@ -242,7 +296,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="images" />
+              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -283,6 +337,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="routes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -564,40 +636,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="458" column="40" selection-start="7770" selection-end="7770" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/spec/assets/products.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="53" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/query_strings.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/public/scripts/bosh_display.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/commander_bosh_runner.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="0" selection-start="547" selection-end="547" vertical-scroll-proportion="0.3327032" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/product.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="45" selection-start="1088" selection-end="1088" vertical-scroll-proportion="1.1866126">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/clouds.rb">
@@ -617,13 +658,6 @@
     <entry file="file://$PROJECT_DIR$/web-ui/views/login.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="0" selection-start="474" selection-end="474" vertical-scroll-proportion="0.33267328">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="63" selection-start="373" selection-end="373" vertical-scroll-proportion="-3.125">
           <folding />
         </state>
       </provider>
@@ -656,16 +690,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/config/config_dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="107" selection-start="321" selection-end="321" vertical-scroll-proportion="-6.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/product.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="91" selection-start="682" selection-end="682" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="44" selection-start="405" selection-end="405" vertical-scroll-proportion="0.3180212">
+        <state line="107" column="12" selection-start="3220" selection-end="3220" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/versions.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="34" selection-start="1217" selection-end="1217" vertical-scroll-proportion="0.45053002">
+        <state line="41" column="76" selection-start="1252" selection-end="1252" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/versions.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="94" column="78" selection-start="4997" selection-end="4997" vertical-scroll-proportion="-10.541667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/views/downloads.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="58" selection-start="336" selection-end="336" vertical-scroll-proportion="-10.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/public/css/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="268" column="62" selection-start="4710" selection-end="4710" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/public/css/views.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="576" column="82" selection-start="9783" selection-end="9783" vertical-scroll-proportion="0.25971732">
           <folding />
         </state>
       </provider>
