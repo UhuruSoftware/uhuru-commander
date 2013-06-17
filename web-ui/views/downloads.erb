@@ -1,0 +1,37 @@
+<div class="downloading_page">
+  <div class="downloading_page_div">
+
+    <div>
+      <span>The file will be downloaded to your machine.</span>
+    </div>
+
+    <div>
+      <progress id="download_progressbar" max="100" value="0" />
+    </div>
+
+    <div>
+      <span id="download_value"><%= progress %>%</span>
+    </div>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  var current_value = <%= progress %>
+  $('#download_progressbar').attr('value', <%= progress %>);
+
+  refresh = setInterval(
+      function(){
+          if(current_value < 100)
+          {
+              $('#download_progressbar').attr('value', current_value + 5);
+              current_value += 5;
+              $('#download_value').html(current_value + '%');
+          }
+          else
+          {
+              clearInterval(refresh);
+          }
+      }, 1000
+  );
+</script>
