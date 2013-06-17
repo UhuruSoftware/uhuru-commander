@@ -1,15 +1,10 @@
 require "rspec"
 require 'fileutils'
-require File.expand_path('../../lib/versioning/product', __FILE__)
-require File.expand_path('../../lib/versioning/version', __FILE__)
-require File.expand_path('../../lib/runner', __FILE__)
-require File.expand_path('../../lib/ucc/stemcell', __FILE__)
-require File.expand_path('../../lib/ucc/commander_bosh_runner', __FILE__)
 require 'spec_helper'
 
 describe 'Blobstore client' do
   before(:each) do
-    @config_file = File.expand_path("../../config/config_dev.yml", __FILE__)
+    @config_file = File.expand_path("../../../config/config_dev.yml", __FILE__)
     Uhuru::BoshCommander::Runner.init_config @config_file
   end
 
@@ -54,7 +49,7 @@ end
 describe "Product loading from configuration" do
 
   before(:each) do
-    @config_file = File.expand_path("../../config/config_dev.yml", __FILE__)
+    @config_file = File.expand_path("../../../config/config_dev.yml", __FILE__)
     Uhuru::BoshCommander::Runner.init_config @config_file
   end
 
@@ -127,7 +122,7 @@ describe "Product loading from configuration" do
   end
 
   it "should check bosh for stemcell version" do
-    session = SpecHelper.bosh_login
+    session = bosh_login
     products = Uhuru::BoshCommander::Versioning::Product.get_products
 
     Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
