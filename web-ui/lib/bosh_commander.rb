@@ -75,7 +75,8 @@ module Uhuru::BoshCommander
     use Update
 
     get '/' do
-      r = Random.new
+
+      #r = Random.new
       session[:new_versions] = true
 
       #if r.rand(0...1000) % 2 == 0
