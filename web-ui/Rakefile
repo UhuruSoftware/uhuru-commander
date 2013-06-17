@@ -1,18 +1,46 @@
-require 'rspec/core/rake_task'
-require 'fileutils'
-require 'yaml'
+#$:.unshift(File.expand_path("./rake", __FILE__))
 
-ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __FILE__)
-$:.unshift(File.expand_path("../../lib", __FILE__))
-
-if defined?(YAML::ENGINE.yamler)
-  YAML::ENGINE.yamler = RUBY_VERSION >= "2.0.0" ? "psych" : "syck"
-end
-
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path("Gemfile", __FILE__)
 
 require "rubygems"
-require "bundler/setup"
+require "bundler"
 
-RSpec::Core::RakeTask.new(:spec)
+Bundler.setup(:default, :test)
 
-task :version_tests => :spec
+require "rake"
+
+begin
+  require "rspec/core/rake_task"
+rescue LoadError
+end
+
+require "./rake/ci_task"
+
+if defined?(RSpec)
+  namespace :spec do
+    SPEC_OPTS = %w(--format progress --colour)
+
+    desc "Run unit tests"
+    unit_rspec_task = RSpec::Core::RakeTask.new(:unit) do |t|
+      t.pattern = "spec/unit/**/*_spec.rb"
+      t.rspec_opts = SPEC_OPTS
+    end
+
+    desc "Run functional tests"
+    func_rspec_task = RSpec::Core::RakeTask.new(:functional) do |t|
+      t.pattern = "spec/functional/**/*_spec.rb"
+      t.rspec_opts = SPEC_OPTS
+    end
+
+    desc "Run system tests"
+    func_rspec_task = RSpec::Core::RakeTask.new(:system) do |t|
+      t.pattern = "spec/system/**/*_spec.rb"
+      t.rspec_opts = SPEC_OPTS
+    end
+
+  end
+
+  #CiTask.new do |task|
+  #  task.rspec_task = unit_rspec_task
+  #end
+end

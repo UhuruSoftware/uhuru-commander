@@ -8,8 +8,7 @@ gem "ip"
 gem "ipadmin"
 gem "ipaddress"
 gem "netaddr"
-gem 'rspec'
-gem 'rake'
+
 gem "sinatra-session"
 gem "steno", "~>1.0.2"
 gem "cfoundry"
@@ -23,7 +22,11 @@ gem "sequel"
 gem "pg"
 gem "bcrypt-ruby"
 gem 'rbvmomi'
+gem 'rack-test'
 gem "rack-reverse-proxy", :require => "rack/reverse_proxy"
-#gem "blobstore_client", :git => 'git@github.com:UhuruSoftware/private-bosh.git'
+gem "rspec", "~>2.10"
+gem "rake"
 gem "blobstore_client", :git => "https://github.com/cloudfoundry/bosh"
 gem "archive-tar-minitar", "~> 0.5.2"
+
+
