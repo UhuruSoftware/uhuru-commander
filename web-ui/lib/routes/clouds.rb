@@ -27,7 +27,7 @@ module Uhuru::BoshCommander
         end
 
         render_erb do
-          template :clouds
+          template :"#{product_name}"
           layout :layout
           var :product_name, product_name
           var :clouds, clouds
@@ -40,6 +40,16 @@ module Uhuru::BoshCommander
 
     post '/products/:product_name' do
       product_name = params[:product_name]
+
+      version = ""
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      products.each do |product|
+        if product[0] == product_name
+          version = product[1].versions[product[1].versions.keys.last].version
+          break
+        end
+      end
+
       if (product_name == "clouds")
         clouds = []
         message = ""
@@ -51,7 +61,10 @@ module Uhuru::BoshCommander
             end
             if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
               deployment = Deployment.new(cloud_name)
-              blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
+
+              blank_manifest_path = "#{$config[:versioning][:dir]}/#{product_name}/#{version}/blank_cf.yml.erb"
+              blank_manifest_template = ERB.new(File.read(blank_manifest_path))
+
               new_manifest = YAML.load(blank_manifest_template.result(binding))
               deployment.save(new_manifest)
               clouds << deployment.status
@@ -69,7 +82,7 @@ module Uhuru::BoshCommander
         end
 
         render_erb do
-          template :clouds
+          template :"#{product_name}"
           layout :layout
           var :product_name, product_name
           var :clouds, clouds
@@ -82,6 +95,16 @@ module Uhuru::BoshCommander
 
     get '/products/:product_name/:cloud_name' do
       product_name = params[:product_name]
+
+      version = ""
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      products.each do |product|
+        if product[0] == product_name
+          version = product[1].versions[product[1].versions.keys.last].version
+          break
+        end
+      end
+
       cloud_name = params[:cloud_name]
       deployment_status = {}
       form = nil
@@ -92,11 +115,12 @@ module Uhuru::BoshCommander
         form.validate? GenericForm::VALUE_TYPE_SAVED
       end
 
-      cloud_summary_help = $config[:help]['cloud_summary'].map do |help_item|
+      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version}/help.yml")
+      cloud_summary_help = help['cloud_summary'].map do |help_item|
         help_item << 'cloud_tab_summary_div'
       end
 
-      cloud_vms_help = $config[:help]['cloud_vms'].map do |help_item|
+      cloud_vms_help = help['cloud_vms'].map do |help_item|
         help_item << 'cloud_tab_virtual_machines_div'
       end
 
@@ -118,13 +142,24 @@ module Uhuru::BoshCommander
 
     post '/products/:product_name/:cloud_name' do
       product_name = params[:product_name]
+
+      version = ""
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      products.each do |product|
+        if product[0] == product_name
+          version = product[1].versions[product[1].versions.keys.last].version
+          break
+        end
+      end
+
       cloud_name = params[:cloud_name]
       is_ok = true
       form = nil
       values_to_show = GenericForm::VALUE_TYPE_FORM
       deployment_status = {}
 
-      cloud_summary_help = $config[:help]['cloud_summary'].map do |help_item|
+      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version}/help.yml")
+      cloud_summary_help = help['cloud_summary'].map do |help_item|
         help_item << 'cloud_tab_summary_div'
       end
 
@@ -202,10 +237,11 @@ module Uhuru::BoshCommander
         manifest = YAML.load_file(tempfile)
         params.delete("file_input")
 
-
-        blank_manifest_template = ERB.new(File.read($config[:blank_cf_template]))
+        blank_manifest_path = "#{$config[:versioning][:dir]}/#{product_name}/#{version}/blank_cf.yml.erb"
+        blank_manifest_template = ERB.new(File.read(blank_manifest_path))
         new_manifest = YAML.load(blank_manifest_template.result(binding))
 
+        $config[:forms] = "#{$config[:versioning][:dir]}/#{product_name}/#{version}/forms.yml"
         forms_yml = $config[:forms]
 
         forms_yml['cloud'].each do |screen|
