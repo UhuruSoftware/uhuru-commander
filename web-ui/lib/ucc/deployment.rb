@@ -1,12 +1,9 @@
 module Uhuru::BoshCommander
 
+
   class Deployment
 
-    STATE_DEPLOYING = "Deploying"
-    STATE_ERROR = "Error"
-    STATE_DEPLOYED = "Deployed"
-    STATE_SAVED = "Saved"
-    STATE_NOT_CONFIGURED = "Not Configured"
+
 
     attr_reader :deployment_name
     attr_reader :deployment_dir
@@ -38,6 +35,10 @@ module Uhuru::BoshCommander
       File.open(@deployment_manifest_path, 'w') do |out|
         YAML.dump(@manifest, out)
       end
+    end
+
+    def status
+      DeploymentStatus.new(self).status
     end
 
     def set_vm_passwords()
@@ -161,57 +162,13 @@ module Uhuru::BoshCommander
     end
 
 
-    #retrieves deployment information
-    def status
-      state = get_state
-      current_manifest = nil
-      if state == STATE_DEPLOYED
-        current_manifest = get_manifest()
-      else
-        current_manifest = load_yaml_file(@deployment_manifest_path)
-      end
 
-      stats = {}
-
-      unless (state == STATE_ERROR) || (state == STATE_NOT_CONFIGURED)
-        stats["resources"] = get_resources(current_manifest)
-
-        current_manifest["jobs"].each do |job|
-          if job["name"] == "router"
-            stats["router_ips"] = []
-            static_ips = []
-            job["networks"].each do |network|
-              network["static_ips"].each do |ip|
-                static_ips << ip
-              end
-            end
-            stats["router_ips"] << static_ips
-          end
-        end
-      end
-
-      properties = current_manifest["properties"]
-      stats["name"] = self.deployment_name
-      stats["state"] = state
-      stats["api_url"] = properties["cc"]["srv_api_uri"]
-      stats["uaa_url"] = properties["uaa_endpoint"]
-      stats["web_ui_url"] = "www.#{properties["domain"]}"
-      stats["admin_email"] = properties["cc"]["bootstrap_users"][0]["email"]
-      stats["contact_email"] = properties["uhuru"]["simple_webui"]["contact"]["email"]
-      stats["support_url"] = properties["support_address"]
-      stats["services"] = ["mysql_node", "mssql_node", "uhurufs_node", "rabbit_node", "postgresql_node", "redis_node", "mongodb_node"].map { |node|
-        current_manifest["jobs"] != nil && current_manifest["jobs"].select{|job| job["name"] == node}.first["instances"] > 0 ? node : nil }.compact
-      stats["stacks"] = ["dea", "win_dea"].map { |stack|
-        current_manifest["jobs"] != nil && current_manifest["jobs"].select{|job| job["name"] == stack}.first["instances"] > 0 ? stack : nil }.compact
-
-      stats
-    end
 
 
     #the VMs and deployment manifests are deleted.
     def delete()
       state = get_state
-      if state != STATE_SAVED && state != STATE_NOT_CONFIGURED
+      if state != DeploymentState::SAVED && state != DeploymentState::NOT_CONFIGURED
         tear_down
       end
 
@@ -223,7 +180,7 @@ module Uhuru::BoshCommander
     #returns the deployment manifest. If save_as is provided, also saves the deployment manifest to a flie
     def get_manifest(save_as = nil)
       state = get_state
-      if state != STATE_DEPLOYED
+      if state != DeploymentState::DEPLOYED
         return nil
       end
 
@@ -254,7 +211,7 @@ module Uhuru::BoshCommander
     def get_state
 
       unless File.exist?(File.expand_path("../../../cf_deployments/#{ self.deployment_name }/#{ self.deployment_name }.yml", __FILE__))
-        return STATE_ERROR
+        return DeploymentState::ERROR
       end
 
       director =  Thread.current.current_session[:command].instance_variable_get("@director")
@@ -282,33 +239,32 @@ module Uhuru::BoshCommander
       if director_deployment
         if local_manifest
           if (deployment_locked)
-            STATE_DEPLOYING
+            DeploymentState::DEPLOYING
           else
             if (remote_manifest)
-              STATE_DEPLOYED
+              DeploymentState::DEPLOYED
             else
-              STATE_ERROR
+              DeploymentState::ERROR
             end
           end
         else
-          STATE_ERROR
+          DeploymentState::ERROR
         end
       else
         if local_manifest
           manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
           gateway = manifest['networks'][0]['subnets'][0]['gateway']
           if (gateway == nil) || (gateway.strip == '')
-            STATE_NOT_CONFIGURED
+            DeploymentState::NOT_CONFIGURED
           else
-            STATE_SAVED
+            DeploymentState::SAVED
           end
         else
-          STATE_ERROR
+          DeploymentState::ERROR
         end
       end
     end
 
-    private
 
     def get_resources(deployment_manifest)
       result = {}
@@ -328,6 +284,10 @@ module Uhuru::BoshCommander
       result["total_disk"] = total_disk
       result
     end
+
+    private
+
+
 
     def get_stemcell_disk(stemcell)
       $config[:bosh][:stemcells].each do |stemcell_type, config_stemcell|

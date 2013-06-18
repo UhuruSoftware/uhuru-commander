@@ -33,6 +33,8 @@ require "ucc/task"
 require "ucc/event_log_renderer_web"
 require "ucc/release"
 require "ucc/stemcell"
+require "ucc/deployment_status"
+require "ucc/deployment_state"
 
 require "routes/route_base"
 require "routes/login_screen"
@@ -47,6 +49,7 @@ require "routes/versions"
 require "routes/monitoring"
 require "routes/vm"
 require "routes/update"
+
 
 require "configuration_forms/field"
 require "configuration_forms/screen"
@@ -75,7 +78,8 @@ module Uhuru::BoshCommander
     use Update
 
     get '/' do
-      r = Random.new
+
+      #r = Random.new
       session[:new_versions] = true
 
       #if r.rand(0...1000) % 2 == 0
@@ -94,4 +98,5 @@ module Uhuru::BoshCommander
     end
   end
 end
+
 

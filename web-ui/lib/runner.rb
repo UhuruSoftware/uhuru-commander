@@ -51,17 +51,8 @@ module Uhuru::BoshCommander
       forms_file = File.expand_path("../../config/forms.yml", __FILE__)
 
       $config = Uhuru::BoshCommander::Config.from_file(file)
-      help = File.open(help_file) { |file| YAML.load(file)}
 
-      help.each_key do |key|
-        help_items = help[key]
-
-        help[key] = help_items.map do |help_item|
-          [help_item['help_item'], help_item['content']]
-        end
-      end
-      $config[:help] = help
-
+      $config[:help] = load_help_file(help_file)
       $config[:forms_yml] = forms_file
       $config[:forms] = File.open(forms_file) { |file| YAML.load(file)}
       $config[:blank_cf_template] = File.expand_path('../../config/blank_cf.yml.erb', __FILE__)
@@ -82,6 +73,19 @@ module Uhuru::BoshCommander
       end
 
       $config[:logger] = logger
+    end
+
+    def self.load_help_file(help_file)
+      help = File.open(help_file) { |file| YAML.load(file)}
+
+      help.each_key do |key|
+        help_items = help[key]
+
+        help[key] = help_items.map do |help_item|
+          [help_item['help_item'], help_item['content']]
+        end
+      end
+      help
     end
 
     def initialize(argv)

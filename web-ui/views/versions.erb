@@ -1,5 +1,3 @@
-<input type="text" id="test_parag" value=""/>
-
 <div class="versions_div">
   <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
       <% products.each do |product| %>
@@ -109,7 +107,6 @@
   <% end %>
 </div>
 
-
 <script type="text/javascript">
     var auto_refresh = setInterval(
             function(){
@@ -122,6 +119,6 @@
                     });
                 });
 
-            }, 10000
+            }, 3000
     );
 </script>

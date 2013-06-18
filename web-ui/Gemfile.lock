@@ -190,6 +190,8 @@ GEM
       rack
     rack-reverse-proxy (0.4.4)
       rack (>= 1.0.0)
+    rack-test (0.6.2)
+      rack (>= 1.0)
     rake (10.0.4)
     rbvmomi (1.6.0)
       builder
@@ -268,9 +270,10 @@ DEPENDENCIES
   netaddr
   pg
   rack-reverse-proxy
+  rack-test
   rake
   rbvmomi
-  rspec
+  rspec (~> 2.10)
   sequel
   sinatra
   sinatra-session
