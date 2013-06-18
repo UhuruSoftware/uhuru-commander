@@ -1,0 +1,4 @@
+---
+blobstore_provider: s3
+blobstore_options:
+  bucket_name: blob.cfblob.com

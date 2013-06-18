@@ -1,0 +1,8 @@
+#!/bin/bash
+
+BOSH_INSTALL_TARGET=/var/vcap/data/jobs/<%= job_name %>
+
+rm -f /var/vcap/jobs/<%= job_name %>
+rm -rf ${BOSH_INSTALL_TARGET}
+
+exit 0
