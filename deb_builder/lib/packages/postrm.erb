@@ -1,0 +1,8 @@
+#!/bin/bash
+
+BOSH_INSTALL_TARGET=/var/vcap/data/packages/<%= package_name %>/<%= package_version %>
+
+rm -f /var/vcap/packages/<%= package_name %>
+rm -rf ${BOSH_INSTALL_TARGET}
+
+exit 0

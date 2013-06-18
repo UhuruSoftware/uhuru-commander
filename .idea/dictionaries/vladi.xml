@@ -6,10 +6,13 @@
       <w>datacenter</w>
       <w>datastore</w>
       <w>deployer</w>
+      <w>dpkg</w>
       <w>mongo</w>
       <w>monit</w>
       <w>nagios</w>
       <w>netmask</w>
+      <w>postinst</w>
+      <w>postrm</w>
       <w>stemcell</w>
       <w>stemcells</w>
       <w>subnet</w>
