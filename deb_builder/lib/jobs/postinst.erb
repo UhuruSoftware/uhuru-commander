@@ -1,0 +1,48 @@
+#!/bin/bash
+
+BOSH_INSTALL_TARGET=/var/vcap/data/jobs/<%= job_name %>
+cd /<%= target_bits_dir %>
+
+ruby generate_templates.rb "/<%= target_bits_dir %>" "${BOSH_INSTALL_TARGET}"
+
+cp monit /etc/monit/monitrc.d/<%= job_name %>
+mkdir -p /var/vcap/jobs/
+rm -f /var/vcap/jobs/<%= job_name %>
+ln -s ${BOSH_INSTALL_TARGET} /var/vcap/jobs/<%= job_name %>
+
+cd /
+
+rm -rf /<%= target_bits_dir %>
+
+VCAP_PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1`
+
+echo "Setting up user 'vcap' ..."
+if id -u vcap >/dev/null 2>&1; then
+    echo "User already setup - skipping."
+else
+    useradd vcap -p ${VCAP_PASSWORD}
+fi
+
+echo "Reconfiguring monit ..."
+
+MONIT_PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1`
+echo "uhuru:${MONIT_PASSWORD}" > /etc/monit/monit.user
+
+echo "set daemon 10
+
+set logfile /var/log/monit.log
+
+set httpd port 2822 and use address 127.0.0.1
+    allow cleartext /etc/monit/monit.user
+
+set eventqueue
+    basedir /var/lib/monit/events # set the base directory where events will be stored
+    slots 5000                     # optionally limit the queue size
+
+include /etc/monit/monitrc.d/*
+
+" > /etc/monit/monitrc
+
+echo "Restarting monit ..."
+
+service monit restart
