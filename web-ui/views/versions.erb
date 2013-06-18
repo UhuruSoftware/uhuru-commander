@@ -2,6 +2,7 @@
   <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
       <% products.each do |product| %>
           <% if product[1].type == type %>
+
               <span class="table_title"><%= product[1].label %></span>
 
               <table class="versions_table">
@@ -33,22 +34,22 @@
                       <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
 
                           <!-- STATE -->
-                          <td class="td_state states">
+                          <td class="td_state states <%= version[1].get_state.to_s %>">
                             <div class="<%= product[1].name.to_s %>" id="<%= version[1].version.to_s %>">
                                 <% if version[1].get_state.to_s == '1' %>
-                                    Remote Only
+                                    <div class="remote_only">Remote Only</div>
                                 <% elsif version[1].get_state.to_s == '2' %>
-                                    Downloading
+                                    <div class="downloading">Downloading</div>
                                 <% elsif version[1].get_state.to_s == '3' %>
-                                    Local
+                                    <div class="local">Local</div>
                                 <% elsif version[1].get_state.to_s == '4' %>
-                                    Local Preparing
+                                    <div class="local_preparing">Local Preparing</div>
                                 <% elsif version[1].get_state.to_s == '5' %>
-                                    Available
+                                    <div class="available">Available</div>
                                 <% elsif version[1].get_state.to_s == '6' %>
-                                    Deployed
+                                    <div class="deployed">Deployed</div>
                                 <% else %>
-                                    Error
+                                    <div class="selected_state error">Error</div>
                                 <% end %>
                             </div>
                           </td>
@@ -122,8 +123,34 @@
                     $.post('/versions/read_states',
                         { product: object.classList[0], version: object.id },
                         function(data){
-                            object.innerHTML = '';
-                            object.innerHTML = data;
+                            if(data.toString() == "1")
+                            {
+                                object.innerHTML = "<div class='remote_only'>Remote Only</div>";
+                            }
+                            if(data.toString() == "2")
+                            {
+                                object.innerHTML = "<div class='downloading'>Downloading</div>";
+                            }
+                            if(data.toString() == "3")
+                            {
+                                object.innerHTML = "<div class='local'>Local</div>";
+                            }
+                            if(data.toString() == "4")
+                            {
+                                object.innerHTML = "<div class='local_remote'>Local Preparing</div>";
+                            }
+                            if(data.toString() == "5")
+                            {
+                                object.innerHTML = "<div class='available'>Available</div>";
+                            }
+                            if(data.toString() == "6")
+                            {
+                                object.innerHTML = "<div class='deployed'>Deployed</div>";
+                            }
+                            if(data.toString() == "7")
+                            {
+                                object.innerHTML = "<div class='error'>Loading...</div>";
+                            }
                     });
                 });
             }, 3000
