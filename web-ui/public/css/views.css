@@ -491,17 +491,65 @@ td.border_right
 .versions_table .td_size
 {
     width: 5px;
-    text-align: right;
 }
+
+.versions_table .downloading,
+.versions_table .deployed,
+.versions_table .available,
+.versions_table .local,
+.versions_table .local_preparing,
+.versions_table .error,
+.versions_table .remote_only
+{
+    width: 55px;
+    height: 40px;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-position: 95% 95%;
+}
+.versions_table .remote_only
+{
+    color: #d8000c;
+    background-image: url("../icons/remote.ico");
+}
+.versions_table .error
+{
+    color: #d8000c;
+    background-image: url("../icons/delete.ico");
+}
+.versions_table .downloading
+{
+    background-image: url("../icons/downloading.ico");
+}
+.versions_table .local,
+.versions_table .local_preparing
+{
+    color: #306da7;
+    background-image: url("../icons/local.ico");
+}
+.versions_table .available
+{
+    color: #13a12c;
+    background-image: url("../icons/available.ico");
+}
+.versions_table .deployed
+{
+    color: #13a12c;
+    background-image: url("../icons/deployed.ico");
+}
+
 
 .versions_table .td_descriptions
 {
     width: 250px;
 }
-.versions_table .td_actions,
+.versions_table .td_actions
+{
+    width: 80px;
+}
 .versions_table .td_dependencies
 {
-    width: 210px;
+    width: 350px;
 }
 
 .table_title
@@ -563,8 +611,6 @@ tr td:last-child {
 {
     background-image: url('../icons/delete.ico');
 }
-
-
 
 
 /************************************************************************/

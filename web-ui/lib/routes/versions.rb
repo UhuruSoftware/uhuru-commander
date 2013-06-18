@@ -6,7 +6,7 @@ module Uhuru::BoshCommander
     end
 
     post '/versions/read_states' do
-      state = 'error'
+      state = nil
 
       Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
         if product[1].name == params[:product]
@@ -18,19 +18,19 @@ module Uhuru::BoshCommander
                 state = version[1].get_state.to_s
 
                 if state == '1'
-                  state = "Remote Only"
+                  state = '1'
                 elsif state == '2'
-                  state = "Downloading"
+                  state = '2'
                 elsif state == '3'
-                  state = "Local"
+                  state = '3'
                 elsif state == '4'
-                  state = "Local Preparing"
+                  state = '4'
                 elsif state == '5'
-                  state = "Available"
+                  state = '5'
                 elsif state == '6'
-                  state = "Deployed"
+                  state = '6'
                 else
-                  state = "Loading ..."
+                  state = '7'
                 end
 
               end
