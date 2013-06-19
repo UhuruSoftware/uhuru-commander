@@ -7,17 +7,17 @@ module Uhuru::BoshCommander
       @is_update = is_update
       setup_micro(new_config)
       say('Restarting services')
-      restart_monit
-      say('Creating system users')
-      create_users()
-      say('Reconnecting to services')
+      #restart_monit
+      #say('Creating system users')
+      #create_users()
+      #say('Reconnecting to services')
       refresh_login()
-      unless @is_update
-        say('Uploading stemcells')
-        upload_stemcells
-        say('Configuring database')
-        configure_database
-      end
+      #unless @is_update
+      #  say('Uploading stemcells')
+      #  upload_stemcells
+      #  say('Configuring database')
+      #  configure_database
+      #end
 
       say('Configuring Nagios')
       setup_nagios
@@ -66,11 +66,15 @@ module Uhuru::BoshCommander
     def setup_micro(new_config)
       FileUtils.cp(new_config, @director_config_file)
       director_yml = load_yaml_file(@director_config_file)
-      build_info(director_yml)
-      setup_nats()
-      setup_postgres()
-      setup_health_monitor()
+
+      #build_info(director_yml)
+      #setup_nats()
+      #setup_postgres()
+      #setup_health_monitor()
+
     end
+
+
 
     def build_info(director_yml)
       nats_hash = director_yml["mbus"].scan(/(nats):\/\/(\S+):(\S+)@(\S+):(\S+)?/).first
