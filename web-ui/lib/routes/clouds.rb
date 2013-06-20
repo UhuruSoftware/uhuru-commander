@@ -18,22 +18,26 @@ module Uhuru::BoshCommander
     get '/products/:product_name' do
       product_name = params[:product_name]
 
-      if (product_name == "clouds")
-        clouds = []
-        CommanderBoshRunner.execute(session) do
-          Deployment.deployments_obj.each do |deployment|
-            clouds << deployment.status
-          end
-        end
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
+      version = product.versions[product.versions.keys.last]
+      erb = File.join(version.version_dir, "views", "clouds.erb")
 
-        render_erb do
-          template :"#{product_name}"
-          layout :layout
-          var :product_name, product_name
-          var :clouds, clouds
-          var :error_message, ""
-          help 'clouds'
+      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+
+      clouds = []
+      CommanderBoshRunner.execute(session) do
+        Deployment.deployments_obj(product_name).each do |deployment|
+          clouds << Uhuru::BoshCommander.const_get(status_class_name).new(deployment).status
         end
+      end
+
+      render_erb do
+        template File.read(erb)
+        layout :layout
+        var :product_name, product_name
+        var :clouds, clouds
+        var :error_message, ""
+        help 'clouds'
       end
 
     end
@@ -41,54 +45,50 @@ module Uhuru::BoshCommander
     post '/products/:product_name' do
       product_name = params[:product_name]
 
-      version = ""
-      products = Uhuru::BoshCommander::Versioning::Product.get_products
-      products.each do |product|
-        if product[0] == product_name
-          version = product[1].versions[product[1].versions.keys.last].version
-          break
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
+      version = product.versions[product.versions.keys.last]
+
+      clouds = []
+      message = ""
+      cloud_name = params["create_cloud_name"]
+      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+
+      if !!cloud_name.match(/^[[:alnum:]]+$/)
+        CommanderBoshRunner.execute(session) do
+          Deployment.deployments_obj(product_name).each do |deployment|
+            clouds << Uhuru::BoshCommander.const_get(status_class_name).new(deployment).status
+          end
+          if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
+            deployment = Deployment.new(cloud_name, product_name)
+
+            blank_manifest_path = File.join($config[:versioning][:dir], product_name, version.version.to_s, "config", "#{product_name}.yml.erb")
+            blank_manifest_template = ERB.new(File.read(blank_manifest_path))
+
+            new_manifest = YAML.load(blank_manifest_template.result(binding))
+            deployment.save(new_manifest)
+            clouds << Uhuru::BoshCommander.const_get(status_class_name).new(deployment).status
+          else
+            message = "A cloud with the same name already exists"
+          end
+        end
+      else
+        message = "Cloud name must contain only alphanumeric characters"
+        CommanderBoshRunner.execute(session) do
+          Deployment.deployments_obj(product_name).each do |deployment|
+            clouds << Uhuru::BoshCommander.const_get(status_class_name).new(deployment).status
+          end
         end
       end
 
-      if (product_name == "clouds")
-        clouds = []
-        message = ""
-        cloud_name = params["create_cloud_name"]
-        if !!cloud_name.match(/^[[:alnum:]]+$/)
-          CommanderBoshRunner.execute(session) do
-            Deployment.deployments_obj.each do |deployment|
-              clouds << deployment.status
-            end
-            if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
-              deployment = Deployment.new(cloud_name)
+      erb = File.join(version.version_dir, "views", "clouds.erb")
 
-              blank_manifest_path = "#{$config[:versioning][:dir]}/#{product_name}/#{version}/blank_cf.yml.erb"
-              blank_manifest_template = ERB.new(File.read(blank_manifest_path))
-
-              new_manifest = YAML.load(blank_manifest_template.result(binding))
-              deployment.save(new_manifest)
-              clouds << deployment.status
-            else
-              message = "A cloud with the same name already exists"
-            end
-          end
-        else
-          message = "Cloud name must contain only alphanumeric characters"
-          CommanderBoshRunner.execute(session) do
-            Deployment.deployments_obj.each do |deployment|
-              clouds << deployment.status
-            end
-          end
-        end
-
-        render_erb do
-          template :"#{product_name}"
-          layout :layout
-          var :product_name, product_name
-          var :clouds, clouds
-          var :error_message, message
-          help 'clouds'
-        end
+      render_erb do
+        template File.read(erb)
+        layout :layout
+        var :product_name, product_name
+        var :clouds, clouds
+        var :error_message, message
+        help 'clouds'
       end
 
     end
@@ -96,26 +96,23 @@ module Uhuru::BoshCommander
     get '/products/:product_name/:cloud_name' do
       product_name = params[:product_name]
 
-      version = ""
-      products = Uhuru::BoshCommander::Versioning::Product.get_products
-      products.each do |product|
-        if product[0] == product_name
-          version = product[1].versions[product[1].versions.keys.last].version
-          break
-        end
-      end
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
+      version = product.versions[product.versions.keys.last]
 
       cloud_name = params[:cloud_name]
       deployment_status = {}
       form = nil
 
+      class_name = "#{product_name.capitalize}Form#{version.version.to_s.gsub(".", "_")}"
+      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+
       CommanderBoshRunner.execute(session) do
-        form = CloudForm.from_cloud_name(cloud_name, nil)
-        deployment_status = form.deployment.status
+        form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name ,cloud_name, nil)
+        deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
         form.validate? GenericForm::VALUE_TYPE_SAVED
       end
 
-      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version}/help.yml")
+      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version}/config/help.yml")
       cloud_summary_help = help['cloud_summary'].map do |help_item|
         help_item << 'cloud_tab_summary_div'
       end
@@ -124,8 +121,10 @@ module Uhuru::BoshCommander
         help_item << 'cloud_tab_virtual_machines_div'
       end
 
+      erb = File.join(version.version_dir, "views", "cloud.erb")
+
       render_erb do
-        template :cloud
+        template File.read(erb)
         layout :layout
 
         var :form, form
@@ -143,14 +142,8 @@ module Uhuru::BoshCommander
     post '/products/:product_name/:cloud_name' do
       product_name = params[:product_name]
 
-      version = ""
-      products = Uhuru::BoshCommander::Versioning::Product.get_products
-      products.each do |product|
-        if product[0] == product_name
-          version = product[1].versions[product[1].versions.keys.last].version
-          break
-        end
-      end
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
+      version = product.versions[product.versions.keys.last]
 
       cloud_name = params[:cloud_name]
       is_ok = true
@@ -158,15 +151,18 @@ module Uhuru::BoshCommander
       values_to_show = GenericForm::VALUE_TYPE_FORM
       deployment_status = {}
 
-      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version}/help.yml")
+      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/config/help.yml")
       cloud_summary_help = help['cloud_summary'].map do |help_item|
         help_item << 'cloud_tab_summary_div'
       end
 
+      class_name = "#{product_name.capitalize}Form#{version.version.gsub(".", "_")}"
+      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+
       if params.has_key?("btn_save") || params.has_key?("btn_save_and_deploy")
 
         CommanderBoshRunner.execute(session) do
-          form = CloudForm.from_cloud_name(cloud_name, params)
+          form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, params)
           is_ok = form.validate?(GenericForm::VALUE_TYPE_FORM)
 
           if is_ok
@@ -176,12 +172,14 @@ module Uhuru::BoshCommander
 
             is_ok = form.validate?(GenericForm::VALUE_TYPE_VOLATILE)
           end
-          deployment_status = form.deployment.status
+          deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
         end
 
         if params.has_key?("btn_save") || !is_ok
+          erb = File.join(version.version_dir, "views", "cloud.erb")
+
           render_erb do
-            template :cloud
+            template File.read(erb)
             layout :layout
 
             var :form, form
@@ -208,7 +206,7 @@ module Uhuru::BoshCommander
       elsif params.has_key?("btn_tear_down")
         request_id = CommanderBoshRunner.execute_background(session) do
           begin
-            deployment = Deployment.new(cloud_name)
+            deployment = Deployment.new(cloud_name, product_name)
             deployment.tear_down
           rescue Exception => e
             err e.message.to_s
@@ -220,7 +218,7 @@ module Uhuru::BoshCommander
       elsif params.has_key?("btn_delete")
         request_id = CommanderBoshRunner.execute_background(session) do
           begin
-            deployment = Deployment.new(cloud_name)
+            deployment = Deployment.new(cloud_name, product_name)
             deployment.delete
           rescue Exception => e
             err e.message.to_s
@@ -237,12 +235,11 @@ module Uhuru::BoshCommander
         manifest = YAML.load_file(tempfile)
         params.delete("file_input")
 
-        blank_manifest_path = "#{$config[:versioning][:dir]}/#{product_name}/#{version}/blank_cf.yml.erb"
+        blank_manifest_path = File.join($config[:versioning][:dir], product_name, version.version.to_s, "config", "#{product_name}.yml.erb")
         blank_manifest_template = ERB.new(File.read(blank_manifest_path))
         new_manifest = YAML.load(blank_manifest_template.result(binding))
 
-        $config[:forms] = "#{$config[:versioning][:dir]}/#{product_name}/#{version}/forms.yml"
-        forms_yml = $config[:forms]
+        forms_yml = YAML.load_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/forms.yml")
 
         forms_yml['cloud'].each do |screen|
           screen['fields'].each do |field|
@@ -272,7 +269,7 @@ module Uhuru::BoshCommander
         form_params = {}
 
         CommanderBoshRunner.execute(session) do
-          form = CloudForm.from_imported_data(cloud_name, new_manifest)
+          form = Uhuru::BoshCommander.const_get(class_name).send(:from_imported_data, cloud_name, new_manifest)
 
           form.screens.each do |screen|
             screen.fields.each do |field|
@@ -281,9 +278,9 @@ module Uhuru::BoshCommander
           end
 
           values_to_show = GenericForm::VALUE_TYPE_FORM
-          form = CloudForm.from_cloud_name(cloud_name, form_params)
+          form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, form_params)
           form.validate? GenericForm::VALUE_TYPE_FORM
-          deployment_status = form.deployment.status
+          deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
         end
 
         render_erb do
@@ -305,10 +302,15 @@ module Uhuru::BoshCommander
     get '/products/:product_name/:cloud_name/vms' do
       vms_list = {}
 
+      product_name = params[:product_name]
       cloud_name = params[:cloud_name]
 
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
+      version = product.versions[product.versions.keys.last]
+      class_name = "#{product_name.capitalize}Form#{version.version.to_s.gsub(".", "_")}"
+
       CommanderBoshRunner.execute(session) do
-        form = CloudForm.from_cloud_name(cloud_name, nil)
+        form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, nil)
         if form.deployment.get_state() == DeploymentState::DEPLOYED
           vms = Vms.new()
           vms_list = vms.list(cloud_name)

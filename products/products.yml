@@ -1,0 +1,13 @@
+products:
+  ucc:
+    label: Uhuru Cloud Commander
+    description: Description for UCC
+    type: ucc
+  wordpress:
+    label: Wordpress
+    description: wordpress
+    type: software
+  appcloud:
+    label: AppCloud
+    description: UhuruAppCloud
+    type: software

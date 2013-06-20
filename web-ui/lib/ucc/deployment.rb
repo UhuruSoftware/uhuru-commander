@@ -3,21 +3,22 @@ module Uhuru::BoshCommander
 
   class Deployment
 
-
-
     attr_reader :deployment_name
     attr_reader :deployment_dir
     attr_reader :deployment_manifest_path
+    attr_reader :product_name
 
-    def initialize(deployment_name)
+    def initialize(deployment_name, product_name)
       @deployment_name = deployment_name
-      @deployment_dir = File.join($config[:deployments_dir], deployment_name)
+      @product_name = product_name
+      @deployment_dir = File.join($config[:deployments_dir], product_name, deployment_name)
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
       @lock_file = File.join("#{@deployment_dir}","deployment.lock")
       #create deployment folder
       if (Dir["#{@deployment_dir}"].empty?)
         Dir.mkdir @deployment_dir
       end
+
     end
 
     #saves the deployment manifest
@@ -42,7 +43,10 @@ module Uhuru::BoshCommander
     end
 
     def set_vm_passwords()
-      admin_password = @manifest["properties"]["cc"]["bootstrap_users"][0]["password"].to_s
+
+      #TODO fix this
+      #admin_password = @manifest["properties"]["cc"]["bootstrap_users"][0]["password"].to_s
+      admin_password = SecureRandom.hex
       @manifest["resource_pools"].each do |resource_pool|
         if (resource_pool["stemcell"]["name"] == $config[:bosh][:stemcells][:linux_php_stemcell][:name])
           current_password = resource_pool["env"]["bosh"]["password"]
@@ -63,17 +67,17 @@ module Uhuru::BoshCommander
     end
 
     #Returns an array of all the deployments
-    def self.deployments
-      folders = Dir.entries($config[:deployments_dir]).select do |entry|
-        !(entry == '.' || entry == '..' || File.file?(File.join($config[:deployments_dir], entry))) &&
-            (File.file?(File.join($config[:deployments_dir], entry, "#{entry}.yml")))
+    def self.deployments(product_name)
+      folders = Dir.entries(File.join($config[:deployments_dir], product_name)).select do |entry|
+        !(entry == '.' || entry == '..' || File.file?(File.join($config[:deployments_dir], product_name, entry))) &&
+            (File.file?(File.join($config[:deployments_dir], product_name, entry, "#{entry}.yml")))
       end
       folders
     end
 
-    def self.deployments_obj
-      deployments.map do |deployment|
-        Deployment.new(deployment)
+    def self.deployments_obj(product_name)
+      deployments(product_name).map do |deployment|
+        Deployment.new(deployment, product_name)
       end
     end
 
@@ -210,7 +214,7 @@ module Uhuru::BoshCommander
 
     def get_state
 
-      unless File.exist?(File.expand_path("../../../cf_deployments/#{ self.deployment_name }/#{ self.deployment_name }.yml", __FILE__))
+      unless File.exist?(File.expand_path("../../../deployments/#{self.product_name}/#{ self.deployment_name }/#{ self.deployment_name }.yml", __FILE__))
         return DeploymentState::ERROR
       end
 

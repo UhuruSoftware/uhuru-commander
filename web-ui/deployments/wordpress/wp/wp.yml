@@ -1,0 +1,98 @@
+--- 
+name: wp
+director_uuid: 14cd4dca-f4d5-49b3-9b9c-9bd697096331
+release: 
+  name: wordpress
+  version: 3.0.0
+compilation: 
+  workers: 4
+  network: default
+  cloud_properties: 
+    ram: 2048
+    disk: 8096
+    cpu: 2
+update: 
+  canaries: 1
+  canary_watch_time: 30000
+  update_watch_time: 30000
+  max_in_flight: 4
+  max_errors: 1
+networks: 
+- name: default
+  subnets: 
+  - reserved: 
+    - 10.0.0.2-10.0.21.9
+    - 10.0.21.41-255.255.0.0
+    static: 
+    - 10.0.21.10-10.0.21.40
+    range: 10.0.0.0/32
+    gateway: 10.0.0.1
+    dns: 
+    - 10.0.0.1
+    - 10.0.0.3
+    cloud_properties: 
+      name: VM Network
+resource_pools: 
+- name: infrastructure
+  network: default
+  size: 4
+  stemcell: 
+    name: bosh-stemcell-php
+    version: 1.5.0.pre.3
+  cloud_properties: 
+    cpu: 1
+    disk: 8192
+    ram: 2048
+jobs: 
+- name: mysql
+  template: mysql
+  instances: 1
+  resource_pool: infrastructure
+  persistent_disk: 16384
+  networks: 
+  - name: default
+    static_ips: 
+    - 10.0.21.10
+- name: wordpress
+  template: wordpress
+  instances: 2
+  resource_pool: infrastructure
+  networks: 
+  - name: default
+    static_ips: 
+    - 10.0.21.11
+    - 10.0.21.13
+- name: nginx
+  template: nginx
+  instances: 1
+  resource_pool: infrastructure
+  networks: 
+  - name: default
+    static_ips: 
+    - 10.0.21.12
+properties: 
+  wordpress: 
+    admin: foo@bar.com
+    port: 8008
+    servers: 
+    - 10.0.21.11
+    - 10.0.21.13
+    servername: wp.appcloud14.dev.mozycloud.com
+    db: 
+      name: wp
+      user: wordpress
+      pass: 460bf45a29f4563f928ed0a0574e451b
+    auth_key: fee75319ef014fe233ae5a2ac4ea6eb0
+    secure_auth_key: 546d55f470c1e0428f2d62aa4a45ad6b
+    logged_in_key: 7ab310a3b0dedf0f7a41e0116f914373
+    nonce_key: 14b758907b380561de497c68ef9c0346
+    auth_salt: 4d92c4ea1ee2ec77d26d4239a38cac55
+    secure_auth_salt: 280ab89452f8e1781a00f9ddb90c3ca3
+    logged_in_salt: d80de181e9f08527af19571b5cc86fda
+    nonce_salt: 86281b08eaa4dccb37d1038b0baf1861
+  mysql: 
+    address: 10.0.21.10
+    port: 3306
+    password: bced1a245b4c354d9bbcfbaace6114c7
+  nginx: 
+    workers: 1

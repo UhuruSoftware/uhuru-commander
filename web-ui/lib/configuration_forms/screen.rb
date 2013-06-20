@@ -8,9 +8,17 @@ module Uhuru::BoshCommander
       @form = form
       @fields = []
 
-      get_screen_config['fields'].each do |field|
-        @fields << Field.new(field['name'], self, @form)
+      if ["infrastructure", "monitoring"].include?(@form.name)
+        get_screen_config['fields'].each do |field|
+          @fields << Field.new(field['name'], self, @form)
+        end
+      else
+        field_class_name = "#{form.product_name.capitalize}Field#{form.product_version.gsub(".", "_")}"
+        get_screen_config['fields'].each do |field|
+          @fields << Uhuru::BoshCommander.const_get(field_class_name).new(field['name'], self, @form)
+        end
       end
+
     end
 
     def validate?(value_type)

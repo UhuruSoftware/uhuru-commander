@@ -11,6 +11,7 @@ module Uhuru::BoshCommander
     attr_accessor :live_data
     attr_accessor :screens
     attr_accessor :volatile_data
+    attr_accessor :form
 
 
     def initialize(name, saved_data, form_data, live_data)
@@ -66,7 +67,7 @@ module Uhuru::BoshCommander
     end
 
     def get_form_config
-      $config[:forms][@name]
+      @form[@name]
     end
 
     def help(use_visibility_link = true)

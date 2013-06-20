@@ -35,7 +35,7 @@ module Uhuru
         def version_dir
           products_dir = Product.version_directory
           product_dir = File.join(products_dir, @product.name)
-          File.join(product_dir, @version)
+          File.join(product_dir, @version.to_s)
         end
 
         def bits_full_local_path

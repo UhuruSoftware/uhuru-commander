@@ -53,14 +53,14 @@ module Uhuru::BoshCommander
       $config = Uhuru::BoshCommander::Config.from_file(file)
 
       $config[:help] = load_help_file(help_file)
-      $config[:forms_yml] = forms_file
-      $config[:forms] = File.open(forms_file) { |file| YAML.load(file)}
-      $config[:blank_cf_template] = File.expand_path('../../config/blank_cf.yml.erb', __FILE__)
+      #$config[:forms_yml] = forms_file
+      #$config[:forms] = File.open(forms_file) { |file| YAML.load(file)}
+      #$config[:blank_cf_template] = File.expand_path('../../config/blank_cf.yml.erb', __FILE__)
 
       $config[:infrastructure_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
       $config[:blank_infrastructure_template] = File.expand_path('../../config/infrastructure.yml.erb', __FILE__)
 
-      $config[:deployments_dir] = File.expand_path('../../cf_deployments/', __FILE__)
+      $config[:deployments_dir] = File.expand_path('../../deployments/', __FILE__)
       $config[:configuration_file] = File.expand_path("../../#{file}", __FILE__)
       $config[:bind_address] = $config[:bind_address]
       $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
@@ -74,6 +74,8 @@ module Uhuru::BoshCommander
       end
 
       $config[:logger] = logger
+
+      Dir[File.join($config[:versioning][:dir], "**", "**" ,"lib", "*.rb")].each {|file| require file}
     end
 
     def self.load_help_file(help_file)

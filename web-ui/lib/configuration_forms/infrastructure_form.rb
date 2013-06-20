@@ -2,6 +2,8 @@ module Uhuru::BoshCommander
   class InfrastructureForm < GenericForm
 
     def initialize(saved_data, form_data, live_data)
+      forms_file = File.join(File.expand_path("../../../config/forms.yml", __FILE__))
+      @form = File.open(forms_file) { |file| YAML.load(file)}
       super('infrastructure', saved_data, form_data, live_data)
     end
 

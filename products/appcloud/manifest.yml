@@ -1,0 +1,9 @@
+---
+versions:
+  122.1:
+    type: final
+    description: Uhuru AppCloud
+    location: azure://container/blob
+    dependencies:
+     - dependency: stemcell_linux
+       version: [1.0.8, 1.0.9]

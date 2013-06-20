@@ -1,0 +1,9 @@
+---
+versions:
+  3.0.0:
+    type: final
+    description: Wordpress Sample Release
+    location: azure://container/blob
+    dependencies:
+     - dependency: stemcell_linux
+       version: [1.0.8, 1.0.9]
