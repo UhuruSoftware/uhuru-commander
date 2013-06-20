@@ -61,7 +61,8 @@ module Uhuru::BoshCommander
       $config[:blank_infrastructure_template] = File.expand_path('../../config/infrastructure.yml.erb', __FILE__)
 
       $config[:deployments_dir] = File.expand_path('../../cf_deployments/', __FILE__)
-      $config[:bind_address] = VCAP.local_ip($config[:local_route])
+      $config[:configuration_file] = File.expand_path("../../#{file}", __FILE__)
+      $config[:bind_address] = $config[:bind_address]
       $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
       $config[:health_monitor_yml] = File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
 

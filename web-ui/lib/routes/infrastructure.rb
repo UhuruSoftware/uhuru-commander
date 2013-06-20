@@ -18,6 +18,7 @@ module Uhuru::BoshCommander
 
       values_to_show = GenericForm::VALUE_TYPE_FORM
       infrastructure_yml = $config[:infrastructure_yml]
+      $config[:bind_address] = params['infrastructure:CPI:net_interface']
       form = InfrastructureForm.from_config(params)
       is_ok = form.validate? GenericForm::VALUE_TYPE_FORM
 

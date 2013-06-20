@@ -38,6 +38,10 @@ infrastructure:
       - {name: ntp,                                       label: NTP Servers,                                         type: csv,
       yml_key: '["cloud"]["properties"]["agent"]["ntp"]',
       description: 'Network Time Protocol Servers. A semicolon separated list of NTP server that we use to keep time in sync across deployments.' }
+
+      - {name: net_interface,                                       label: Network Interface,                                         type: list, items: {'127.0.0.1' : '127.0.0.1'},
+      yml_key: '["bind_address"]',
+      description: 'Network interface used for configuration' }
 cloud:
   - screen: Network
     id: networks

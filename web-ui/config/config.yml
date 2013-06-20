@@ -1,8 +1,8 @@
 pid_filename: /tmp/boshcommander.pid
-local_route: 10.0.0.1
-port: 80
+bind_address: 10.0.102.102
+port: 8080
 dev-mode: true
-test_email: "test@uhurusoftware.com" #setting used to test smtp server
+test_email: "spec@uhurusoftware.com" #setting used to spec smtp server
 
 versioning:
   dir: /var/vcap/store/ucc/versions/
@@ -30,10 +30,10 @@ nagios:
   port: 81
 
 bosh:
-  target: "127.0.0.1"
-  #base_dir: "/home/mitza/testing/assets/vcap"
+  target: "10.150.0.50"
+  base_dir: "/home/mitza/testing/assets/vcap"
   #base_dir: "/home/vladi/tmp/testing/assets/vcap"
-  base_dir: "/var/vcap"
+  #base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:
     linux_php_stemcell:
@@ -50,4 +50,4 @@ bosh:
       system_disk: "2000"
 logging:
   level: debug
-  file: /var/vcap/store/ucc/uhuru_cloud_commander.log
+  file: /home/mitza/testing/assets/vcap/store/ucc/uhuru_cloud_commander.log

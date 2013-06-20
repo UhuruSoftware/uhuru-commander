@@ -502,12 +502,24 @@ END_OF_MESSAGE
               result = IPHelper.get_subnet_netmask(value)
             end
           end
+
         elsif @form.name == 'monitoring'
           if @screen.name == 'Nagios'
             if @name == 'nagios_email_server_auth_method'
               result = value.to_s
             end
           end
+
+        elsif @form.name == 'infrastructure'
+           if @screen.name == 'CPI'
+             if @name == 'net_interface'
+
+               #we get only ipv4 addresses
+               Socket.ip_address_list.delete_if { |intfr| !intfr.ipv4? }.map {|intfr| intfr.ip_address}.each do |ipaddr|
+               get_list_items[ipaddr.to_s] = ipaddr
+              end
+             end
+           end
         end
 
         if result == nil
@@ -570,6 +582,16 @@ END_OF_MESSAGE
             result = value.to_s.downcase
           end
         end
+      elsif @form.name == 'infrastructure'
+        if @screen.name == 'CPI'
+          if @name == 'net_interface'
+            #replace ip address in configuration file
+            configuration = YAML.load_file($config[:configuration_file])
+            configuration["bind_address"] = value
+            File.open($config[:configuration_file], "w") {|f| f.write(configuration.to_yaml)}
+          end
+        end
+
       elsif @form.name == 'monitoring'
         if @screen.name == 'Nagios'
           if @name == 'nagios_email_server_auth_method'
