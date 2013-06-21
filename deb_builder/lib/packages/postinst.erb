@@ -1,7 +1,17 @@
 #!/bin/bash
 
+echo "Setting up user 'vcap' ..."
+if id -u vcap >/dev/null 2>&1; then
+    echo "User already setup - skipping."
+else
+    VCAP_PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1`
+    useradd vcap -p ${VCAP_PASSWORD}
+fi
+
+
 BOSH_INSTALL_TARGET=/var/vcap/data/packages/<%= package_name %>/<%= package_version %>
 cd /<%= target_bits_dir %>
+mkdir -p ${BOSH_INSTALL_TARGET}
 
 <%= packaging %>
 

@@ -5,6 +5,6 @@ Priority: important
 Architecture: amd64
 Installed-Size: <%= job_size %>
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
-Depends: <%= job_dependencies %>
+Depends: uhuru-ttyjs (= <%= job_version %>), uhuru-uccui (= <%= job_version %>), <%= job_dependencies %>
 Description: <%= job_short_description %>
-.
+ .

@@ -10,26 +10,26 @@ module Uhuru
         DEB_PACKAGE_PREFIX = 'uhuru-bosh-package-'
 
 
-        def self.create_packages(target_dir, source_dir, release_file)
-          FileUtils.rm_rf target_dir
-          FileUtils.mkdir_p target_dir
+        def self.create_packages(target_dir, release_dir, release_file)
+          @release = YAML.load_file(release_file)
 
-          Dir.glob(File.join(source_dir, '*')).each do |dir|
-            if Dir.exist?(dir) && dir != '.' && dir != '..'
-              pc = Uhuru::BOSH::Converter::Package.new(dir, target_dir, release_file)
+          @release['packages'].each do |package|
+            package_dir = File.join(release_dir, '.dev_builds', 'packages', package['name'])
+            package_final_dir = File.join(release_dir, '.final_builds', 'packages', package['name'])
 
-              pc.setup_work_dir
-              pc.create_control_file
-              pc.copy_bits
-              pc.generate_postinst
-              pc.generate_postrm
-              pc.create_deb
-            end
+            pc = Uhuru::BOSH::Converter::Package.new(package_dir, package_final_dir, target_dir, package)
+
+            pc.setup_work_dir
+            pc.create_control_file
+            pc.copy_bits
+            pc.generate_postinst
+            pc.generate_postrm
+            pc.create_deb
           end
         end
 
         def version
-          '1.0.0'
+          $config['version']
         end
 
         def get_blobstore_client
@@ -39,15 +39,14 @@ module Uhuru
           Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
         end
 
-        def initialize(package_directory, work_directory, release_yml)
+        def initialize(package_directory, package_final_directory, work_directory, package_meta)
           puts "Processing package #{package_directory}..."
 
           @directory = package_directory
-
+          @directory_final = package_final_directory
+          @package_meta = package_meta
           load_package_spec
-
           @work_directory = File.join(work_directory, @spec['name'])
-          @release = YAML.load_file(release_yml)
         end
 
         def self.generate_name(name)
@@ -57,11 +56,11 @@ module Uhuru
         def load_package_spec
           puts 'Loading BOSH package spec...'
 
-          spec_file = File.join(@directory, 'spec')
-          @spec = YAML.load_file(spec_file)
+          @spec = {}
 
-          @spec['original_name'] = @spec['name']
-          @spec['name'] = Package.generate_name(@spec['name'])
+          @spec['original_name'] = @package_meta['name']
+          @spec['name'] = Package.generate_name(@package_meta['name'])
+          @spec['dependencies'] = @package_meta['dependencies']
         end
 
         def setup_work_dir
@@ -104,38 +103,13 @@ module Uhuru
         def copy_bits
           puts 'Copying bits...'
 
-          source_dir = File.join(File.expand_path('../../src', @directory), @spec['original_name'])
-          final_index = Bosh::Cli::VersionsIndex.new(
-              File.join(File.expand_path('../../.final_builds/packages/', @directory), @spec['original_name']))
+          tgz_file = File.join(@directory, "#{@package_meta['version']}.tgz")
 
-          if Dir.exist?(source_dir)
-            FileUtils.cp_r source_dir, @struct['bits_dir'], :remove_destination => true
-          end
-
-
-
-          package = @release['packages'].find do |package|
-            package['name'] == @spec['original_name']
-          end
-
-          blob_file = File.join(@struct['bits_dir'], 'blob.tar.gz')
-
-          if package
-
-            blobstore_id = final_index.find_by_checksum(package['sha1'])['blobstore_id']
-
-            blobstore_client = get_blobstore_client
-
-            if blobstore_client.exists?(blobstore_id)
-              puts 'Downloading blob...'
-              File.open(blob_file, "w") do |file|
-                blobstore_client.get(blobstore_id, file)
-              end
-
-              puts 'Extracting blob...'
-              `tar zxf #{blob_file} -C #{@struct['bits_dir']}`
-              FileUtils.rm_f(blob_file)
-            end
+          if File.exist?(tgz_file)
+            `tar zxf #{tgz_file} -C #{@struct['bits_dir']}`
+          else
+            tgz_file = File.join(@directory_final, "#{@package_meta['version']}.tgz")
+            `tar zxf #{tgz_file} -C #{@struct['bits_dir']}`
           end
         end
 
@@ -163,7 +137,13 @@ module Uhuru
           package_name = @spec['original_name']
           package_version = version
           target_bits_dir = @struct['target_bits_dir']
-          packaging = File.open(File.join(@directory, 'packaging'), 'r').read
+
+          blob_packaging_file = File.join(@struct['bits_dir'], 'packaging')
+          if File.exist?(blob_packaging_file)
+            packaging = File.open(blob_packaging_file, 'r').read
+          else
+            packaging = File.open(File.join(@directory, 'packaging'), 'r').read
+          end
 
           File.open(@struct['postinst_file'], 'w') do |file|
             file.write(template.result(binding))
