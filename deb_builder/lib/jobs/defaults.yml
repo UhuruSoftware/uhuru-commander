@@ -1,6 +1,11 @@
 ---
 properties:
   micro: true
+  vcenter:
+    address: 127.0.0.1
+    user: user
+    password: password
+    datacenters: []
   nats:
     user: nats
     password: nats
