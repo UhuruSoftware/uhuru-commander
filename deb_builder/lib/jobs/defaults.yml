@@ -105,6 +105,18 @@ properties:
   registry:
     http:
       port: 25777
+      user: user
+      password: pass
+    db:
+      adapter: postgres
+      user: bosh
+      password: bosh
+      host: 127.0.0.1
+      port: 5432
+      database: bosh_registry
+      connection_options:
+        max_connections: 32
+        pool_timeout: 10
   openstack:
     endpoint_type: publicURL
   vcd:

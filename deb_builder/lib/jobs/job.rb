@@ -12,8 +12,12 @@ module Uhuru
 
         attr_accessor :spec
 
-        def self.create_jobs(target_dir, release_dir, release_file)
+        def self.is_job_needed_for_cpi(job_name)
+          cpi_info = YAML.load_file( File.expand_path("../../../../modules/private-bosh/release/micro/#{$config['cpi_target']}.yml", __FILE__))
+          cpi_info['jobs'][0]['template'].include?(job_name)
+        end
 
+        def self.create_jobs(target_dir, release_dir, release_file)
           all_jobs = []
           @release = YAML.load_file(release_file)
 
@@ -29,8 +33,12 @@ module Uhuru
             pc.generate_postinst
             pc.generate_postrm
             pc.create_deb
-            all_jobs << pc.spec['name']
 
+            if is_job_needed_for_cpi(pc.spec['original_name'])
+              all_jobs << pc.spec['name']
+            else
+              puts 'Job not needed for this CPI. Ignoring.'
+            end
           end
 
           puts 'Creating master package ...'
