@@ -167,8 +167,6 @@ module Uhuru::BoshCommander
 
 
 
-
-
     #the VMs and deployment manifests are deleted.
     def delete()
       state = get_state
@@ -289,8 +287,14 @@ module Uhuru::BoshCommander
       result
     end
 
-    private
+    def self.get_director_deployments
+      director =  Thread.current.current_session[:command].instance_variable_get("@director")
+      director_deplyoments = director.list_deployments
+      director_deplyoments
 
+    end
+
+    private
 
 
     def get_stemcell_disk(stemcell)
@@ -318,6 +322,7 @@ module Uhuru::BoshCommander
       job_management_cmd.add_option(:deployment, deployment_manifest_path)
       job_management_cmd
     end
+
 
   end
 end

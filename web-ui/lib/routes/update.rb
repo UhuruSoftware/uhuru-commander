@@ -52,6 +52,25 @@ module Uhuru::BoshCommander
       redirect Logs.log_url(request_id, action_on_done)
     end
 
+    get '/stemcells/test' do
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      state = nil
+      director_deplyoemts = nil
+      CommanderBoshRunner.execute(session) do
+        begin
+          #director_deplyoemts = Deployment.get_director_deployments
+          #director_deplyoemts
+          #state = products['uhuru-windows-2008R2'].versions['0.9.10'].get_state
+          #state = products['boshrelease'].versions[122.1].get_state
+          state = products['app-cloud'].versions['122.3-dev'].get_state
+
+        end
+      end
+      #director_deplyoemts
+      state
+    end
+
+
     get '/stemcells' do
       stemcells = nil
       CommanderBoshRunner.execute(session) do
