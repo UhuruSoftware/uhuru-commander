@@ -72,6 +72,37 @@ module Uhuru
 
             if found_on_bosh
               state = STATE_AVAILABLE
+              deployments = Deployment.get_director_deployments
+              deployments.each do |deployment|
+                deployment["stemcells"].each do |stemcell|
+                  if (stemcell["name"] == @product.name) &&
+                      (stemcell["version"] == @version)
+                    state = STATE_DEPLOYED
+                    break
+                  end
+                end
+                if (state == STATE_DEPLOYED)
+                  break
+                end
+              end
+            end
+
+          elsif @product.type == 'software'
+            bosh_releases = Uhuru::BoshCommander::Release.new().list_releases
+
+            bosh_releases.each do |release|
+              if (release['name'] == @product.name)
+                release['release_versions'].each do |release_version|
+                  if release_version['version'] == @version.to_s
+                    if (release_version['currently_deployed'])
+                      state = STATE_DEPLOYED
+                    else
+                      state = STATE_AVAILABLE
+                    end
+                    break
+                  end
+                end
+              end
             end
           end
 
