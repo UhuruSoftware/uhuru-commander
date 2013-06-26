@@ -1,5 +1,5 @@
 module Uhuru::BoshCommander
-  class  WordpressStatus3_0_0
+  class  WordpressStatus
 
     attr_reader :deployment
 

@@ -28,5 +28,5 @@ gem "rspec", "~>2.10"
 gem "rake"
 gem "blobstore_client", :git => "https://github.com/cloudfoundry/bosh"
 gem "archive-tar-minitar", "~> 0.5.2"
-
+gem "plugin_manager", "~> 1.5"
 

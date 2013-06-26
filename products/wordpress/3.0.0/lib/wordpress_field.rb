@@ -2,7 +2,7 @@ require 'net/smtp'
 require 'openssl'
 
 module Uhuru::BoshCommander
-  class WordpressField3_0_0 < Field
+  class WordpressField < Field
 
     def initialize(name, screen, form)
       super(name, screen, form)

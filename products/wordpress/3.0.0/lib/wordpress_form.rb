@@ -1,17 +1,12 @@
 module Uhuru::BoshCommander
-  class WordpressForm3_0_0 < GenericForm
+  class WordpressForm < GenericForm
 
     PRODUCT_NAME = "wordpress"
-    PRODUCT_VERSION = "3.0.0"
 
     attr_accessor :deployment
 
     def product_name
       return PRODUCT_NAME
-    end
-
-    def product_version
-      return PRODUCT_VERSION
     end
 
     def generate_volatile_data!
@@ -111,7 +106,7 @@ module Uhuru::BoshCommander
 
       saved_data = imported_data
 
-      WordpressForm3_0_0.new(saved_data, nil, Deployment.new(cloud_name, PRODUCT_NAME))
+      WordpressForm.new(saved_data, nil, Deployment.new(cloud_name, PRODUCT_NAME))
     end
 
     def self.from_cloud_name(cloud_name, form_data)
@@ -126,7 +121,7 @@ module Uhuru::BoshCommander
         saved_data = YAML.load_file(deployment_yml)
       end
 
-      WordpressForm3_0_0.new(saved_data, form_data, Deployment.new(cloud_name, PRODUCT_NAME))
+      WordpressForm.new(saved_data, form_data, Deployment.new(cloud_name, PRODUCT_NAME))
     end
 
     private

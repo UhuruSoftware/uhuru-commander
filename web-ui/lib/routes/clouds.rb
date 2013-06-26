@@ -22,7 +22,11 @@ module Uhuru::BoshCommander
       version = product.versions[product.versions.keys.last]
       erb = File.join(version.version_dir, "views", "clouds.erb")
 
-      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+      status_class_name = "#{product_name.capitalize}Status"
+
+      manager = PluginManager.new
+      manager.add_plugin_version_source(version.version_dir)
+      manager.load
 
       clouds = []
       CommanderBoshRunner.execute(session) do
@@ -51,7 +55,11 @@ module Uhuru::BoshCommander
       clouds = []
       message = ""
       cloud_name = params["create_cloud_name"]
-      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+      status_class_name = "#{product_name.capitalize}Status"
+
+      manager = PluginManager.new
+      manager.add_plugin_source(version.version_dir)
+      manager.load
 
       if !!cloud_name.match(/^[[:alnum:]]+$/)
         CommanderBoshRunner.execute(session) do
@@ -99,12 +107,16 @@ module Uhuru::BoshCommander
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
       version = product.versions[product.versions.keys.last]
 
+      manager = PluginManager.new
+      manager.add_plugin_version_source(version.version_dir)
+      manager.load
+
       cloud_name = params[:cloud_name]
       deployment_status = {}
       form = nil
 
-      class_name = "#{product_name.capitalize}Form#{version.version.to_s.gsub(".", "_")}"
-      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+      class_name = "#{product_name.capitalize}Form"
+      status_class_name = "#{product_name.capitalize}Status"
 
       CommanderBoshRunner.execute(session) do
         form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name ,cloud_name, nil)
@@ -145,6 +157,10 @@ module Uhuru::BoshCommander
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
       version = product.versions[product.versions.keys.last]
 
+      manager = PluginManager.new
+      manager.add_plugin_version_source(version.version_dir)
+      manager.load
+
       cloud_name = params[:cloud_name]
       is_ok = true
       form = nil
@@ -156,8 +172,8 @@ module Uhuru::BoshCommander
         help_item << 'cloud_tab_summary_div'
       end
 
-      class_name = "#{product_name.capitalize}Form#{version.version.gsub(".", "_")}"
-      status_class_name = "#{product_name.capitalize}Status#{version.version.to_s.gsub(".", "_")}"
+      class_name = "#{product_name.capitalize}Form"
+      status_class_name = "#{product_name.capitalize}Status"
 
       if params.has_key?("btn_save") || params.has_key?("btn_save_and_deploy")
 
@@ -229,7 +245,7 @@ module Uhuru::BoshCommander
         redirect Logs.log_url request_id, action_on_done
       elsif params.has_key?("btn_export")
         params.delete("btn_export")
-        send_file Deployment.get_deployment_yml_path(cloud_name), :filename => "#{cloud_name}.yml", :type => 'Application/octet-stream'
+        send_file Deployment.get_deployment_yml_path(cloud_name, product_name), :filename => "#{cloud_name}.yml", :type => 'Application/octet-stream'
       elsif params.has_key?("file_input")
         tempfile = params['file_input'][:tempfile]
         manifest = YAML.load_file(tempfile)
@@ -239,9 +255,9 @@ module Uhuru::BoshCommander
         blank_manifest_template = ERB.new(File.read(blank_manifest_path))
         new_manifest = YAML.load(blank_manifest_template.result(binding))
 
-        forms_yml = YAML.load_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/forms.yml")
+        forms_yml = YAML.load_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/config/forms.yml")
 
-        forms_yml['cloud'].each do |screen|
+        forms_yml[product_name].each do |screen|
           screen['fields'].each do |field|
             unless field['type'] == 'separator'
 
@@ -283,8 +299,10 @@ module Uhuru::BoshCommander
           deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
         end
 
+        erb = File.join(version.version_dir, "views", "cloud.erb")
+
         render_erb do
-          template :cloud
+          template File.read(erb)
           layout :layout
 
           var :form, form
@@ -307,7 +325,14 @@ module Uhuru::BoshCommander
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
       version = product.versions[product.versions.keys.last]
-      class_name = "#{product_name.capitalize}Form#{version.version.to_s.gsub(".", "_")}"
+
+      manager = PluginManager.new
+      manager.add_plugin_version_source(version.version_dir)
+      manager.load
+
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
+      version = product.versions[product.versions.keys.last]
+      class_name = "#{product_name.capitalize}Form"
 
       CommanderBoshRunner.execute(session) do
         form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, nil)

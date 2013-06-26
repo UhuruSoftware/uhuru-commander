@@ -13,7 +13,7 @@ module Uhuru::BoshCommander
           @fields << Field.new(field['name'], self, @form)
         end
       else
-        field_class_name = "#{form.product_name.capitalize}Field#{form.product_version.gsub(".", "_")}"
+        field_class_name = "#{form.product_name.capitalize}Field"
         get_screen_config['fields'].each do |field|
           @fields << Uhuru::BoshCommander.const_get(field_class_name).new(field['name'], self, @form)
         end

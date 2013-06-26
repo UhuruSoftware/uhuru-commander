@@ -2,7 +2,7 @@ require 'net/smtp'
 require 'openssl'
 
 module Uhuru::BoshCommander
-  class AppcloudField122_1 < Field
+  class AppcloudField < Field
 
     def initialize(name, screen, form)
       super(name, screen, form)

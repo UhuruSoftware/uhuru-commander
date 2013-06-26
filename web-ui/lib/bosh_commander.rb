@@ -18,6 +18,9 @@ require "monit_api"
 require "fileutils"
 require "sequel"
 
+require "plugin_manager"
+require "extensions"
+
 require "ip_helper"
 require "ip_admin"
 

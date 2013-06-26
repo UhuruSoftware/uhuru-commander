@@ -74,8 +74,6 @@ module Uhuru::BoshCommander
 
       Runner.setup_logging
       $config[:logger] = Runner.logger
-
-      Dir[File.join($config[:versioning][:dir], "**", "**" ,"lib", "*.rb")].each {|file| require file}
     end
 
     def self.load_help_file(help_file)

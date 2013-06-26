@@ -1,5 +1,5 @@
 module Uhuru::BoshCommander
-  class  AppcloudStatus122_1
+  class  AppcloudStatus
 
     attr_reader :deployment
 

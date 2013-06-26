@@ -1,17 +1,12 @@
 module Uhuru::BoshCommander
-  class AppcloudForm122_1 < GenericForm
+  class AppcloudForm < GenericForm
 
     PRODUCT_NAME = "appcloud"
-    PRODUCT_VERSION = "122.1"
 
     attr_accessor :deployment
 
     def product_name
       return PRODUCT_NAME
-    end
-
-    def product_version
-      return PRODUCT_VERSION
     end
 
     def generate_volatile_data!
@@ -156,7 +151,7 @@ module Uhuru::BoshCommander
 
       saved_data = imported_data
 
-      AppcloudForm122_1.new(saved_data, nil, Deployment.new(cloud_name, PRODUCT_NAME))
+      AppcloudForm.new(saved_data, nil, Deployment.new(cloud_name, PRODUCT_NAME))
     end
 
     def self.from_cloud_name(cloud_name, form_data)
@@ -171,7 +166,7 @@ module Uhuru::BoshCommander
         saved_data = YAML.load_file(deployment_yml)
       end
 
-      AppcloudForm122_1.new(saved_data, form_data, Deployment.new(cloud_name, PRODUCT_NAME))
+      AppcloudForm.new(saved_data, form_data, Deployment.new(cloud_name, PRODUCT_NAME))
     end
 
     private

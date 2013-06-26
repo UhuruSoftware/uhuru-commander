@@ -45,6 +45,9 @@ resource_pools:
       cpu: 1
       disk: 8192
       ram: 2048
+    env:
+      bosh:
+        password: $6$DxzA20NmmfOjOyqk$GiuzvfioqPMpzOIZxhKeuPRSEniM2PecTQLBtj1wcX8j9RncfzLWKNAfdQ/X0hJoTRmyvqNCe1N1BwQb5F3TP.
 
 jobs:
   - name: mysql

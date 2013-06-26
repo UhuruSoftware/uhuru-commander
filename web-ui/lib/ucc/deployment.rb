@@ -81,12 +81,12 @@ module Uhuru::BoshCommander
       end
     end
 
-    def self.get_deployment_path(deployment_name)
-      File.join($config[:deployments_dir], deployment_name)
+    def self.get_deployment_path(deployment_name, product_name)
+      File.join($config[:deployments_dir], product_name, deployment_name)
     end
 
-    def self.get_deployment_yml_path(deployment_name)
-      File.join(get_deployment_path(deployment_name), "#{deployment_name}.yml")
+    def self.get_deployment_yml_path(deployment_name, product_name)
+      File.join(get_deployment_path(deployment_name, product_name), "#{deployment_name}.yml")
     end
 
     #start the deployment process
