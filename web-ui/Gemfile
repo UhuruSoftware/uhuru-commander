@@ -10,11 +10,11 @@ gem "ipaddress"
 gem "netaddr"
 
 gem "sinatra-session"
-gem "steno", "~>1.0.2"
+gem "steno"
 gem "cfoundry"
 gem "yajl-ruby"
-gem "bosh_cli", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => 'c90efd7de741f3720a536ac636ef2f363a635b81'
-gem "bosh_deployer", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => 'c90efd7de741f3720a536ac636ef2f363a635b81'
+gem "bosh_cli", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git'
+gem "bosh_cli_plugin_micro", "~> 1.5.0.pre.3", :git => 'git@github.com:UhuruSoftware/private-bosh.git'
 gem "net-ssh-gateway", "= 1.1.0"
 gem "uuidtools"
 gem "monit_api"

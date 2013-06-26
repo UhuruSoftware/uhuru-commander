@@ -5,7 +5,16 @@ properties:
     address: 127.0.0.1
     user: user
     password: password
-    datacenters: []
+    datacenters:
+      - name: uhuru_ucc
+        vm_folder: uhuru_ucc_vms
+        template_folder: uhuru_ucc_templates
+        disk_path: uhuru_ucc_deployer
+        datastore_pattern: datastore
+        persistent_datastore_pattern: datastore
+        allow_mixed_datastores: true
+        clusters:
+          - Cluster
   nats:
     user: nats
     password: nats
@@ -24,7 +33,7 @@ properties:
     password: redis
     port: 25255
     loglevel: info
-  postgres: &4644840
+  postgres:
     password: bosh
     host: 127.0.0.1
     listen_address: 127.0.0.1
@@ -50,7 +59,17 @@ properties:
     address: 127.0.0.1
     name: micro
     port: 25555
-    db: *4644840
+    db:
+      password: bosh
+      host: 127.0.0.1
+      listen_address: 127.0.0.1
+      database: bosh
+      user: bosh
+      port: 5432
+      adapter: postgres
+      connection_options:
+        max_connections: 32
+        pool_timeout: 10
     backend_port: 25556
     nginx:
       workers: 2
@@ -93,7 +112,17 @@ properties:
   dns:
     address: 127.0.0.1
     domain_name: microbosh
-    db: *4644840
+    db:
+      password: bosh
+      host: 127.0.0.1
+      listen_address: 127.0.0.1
+      database: bosh
+      user: bosh
+      port: 5432
+      adapter: postgres
+      connection_options:
+        max_connections: 32
+        pool_timeout: 10
     webserver:
       port: 8081
       address: 0.0.0.0

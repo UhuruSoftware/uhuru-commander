@@ -54,11 +54,7 @@ module Uhuru::BoshCommander
 
     def is_update
       db = get_database
-      first_name = db[:stemcells].select(:name).first()[:name]
-      if first_name.start_with?("empty-")
-        return false
-      end
-      true
+      db[:stemcells].select(:name).first() != nil
     end
 
     private
@@ -73,8 +69,6 @@ module Uhuru::BoshCommander
       #setup_health_monitor()
 
     end
-
-
 
     def build_info(director_yml)
       nats_hash = director_yml["mbus"].scan(/(nats):\/\/(\S+):(\S+)@(\S+):(\S+)?/).first
@@ -206,14 +200,17 @@ module Uhuru::BoshCommander
     end
 
     def get_database
-      director_yaml = YAML.load_file($config[:director_yml])
-      db_config = director_yaml["db"]
-      connection_options = {
-          :max_connections => db_config["max_connections"],
-          :pool_timeout => db_config["pool_timeout"]
-      }
-      db = Sequel.connect(db_config["database"], connection_options)
-      db
+      begin
+        director_yaml = YAML.load_file($config[:director_yml])
+        db_config = director_yaml["db"]
+        connection_options = db_config.delete('connection_options') {{}}
+        db_config.delete_if { |_, v| v.to_s.empty? }
+        db_config = db_config.merge(connection_options)
+
+        Sequel.connect(db_config)
+      rescue Exception => e
+        $logger.error("#{e.to_s}: #{e.backtrace}")
+      end
     end
 
   end

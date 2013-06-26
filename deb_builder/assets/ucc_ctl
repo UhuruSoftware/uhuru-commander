@@ -11,7 +11,7 @@ function start()
 
   screen -S commander_screen -p 0 -X stuff "
 cd /var/vcap/store/ucc/web-ui/bin
-BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile HOME=/root PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/ruby/bin" /var/vcap/bosh/bin/bundle exec /var/vcap/bosh/bin/ruby boshcommander 1>/dev/null 2>/dev/null
+BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile HOME=/root PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/var/vcap/packages/ruby/bin" /var/vcap/packages/ruby/bin/bundle exec /var/vcap/packages/ruby/bin/ruby boshcommander 1>/var/vcap/store/ucc/ucc.stdout.log 2>/var/vcap/store/ucc/ucc.stderr.log
 exit
 "
 

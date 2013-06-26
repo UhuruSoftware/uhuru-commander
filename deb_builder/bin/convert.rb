@@ -31,7 +31,11 @@ def do_web(target_dir)
   uhuru_utils_path = File.expand_path('../uhuru-utils.sh', __FILE__)
   source_dir = File.expand_path('../../../', __FILE__)
 
-  `#{uhuru_utils_path} "#{source_dir}" "#{target_dir}" "#{$config['version']}"`
+  Bundler.with_clean_env do
+
+    puts `cd #{File.join(source_dir, 'web-ui')} ; bundle install --gemfile=#{File.join(source_dir, 'web-ui/Gemfile')} ; bundle package`
+    puts `BUNDLE_GEMFILE=#{File.join(source_dir, 'modules/private-bosh/Gemfile')} bundle exec #{uhuru_utils_path} "#{source_dir}" "#{target_dir}" "#{$config['version']}" 2>&1`
+  end
 end
 
 

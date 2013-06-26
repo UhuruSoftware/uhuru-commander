@@ -7,6 +7,26 @@ require 'json'
 source_dir = ARGV[0]
 destination = ARGV[1]
 
+module HashRecursiveMerge
+  def rmerge!(other_hash)
+    merge!(other_hash) do |key, oldval, newval|
+      oldval.class == self.class ? oldval.rmerge!(newval) : newval
+    end
+  end
+
+  def rmerge(other_hash)
+    r = {}
+    merge(other_hash) do |key, oldval, newval|
+      r[key] = oldval.class == self.class ? oldval.rmerge(newval) : newval
+    end
+  end
+end
+
+
+class Hash
+  include HashRecursiveMerge
+end
+
 module Bosh
 
 end
@@ -27,6 +47,12 @@ spec_file = File.join(source_dir, 'spec')
 puts "Loading spec file (#{spec_file})..."
 spec = YAML.load_file(spec_file)
 defaults = YAML.load_file(File.join(source_dir, 'defaults.yml'))
+
+existing_properties_file = '/var/vcap/store/ucc/web-ui/config/properties.yml'
+if File.exist?(existing_properties_file)
+  existing_properties = YAML.load_file(existing_properties_file)
+  defaults.rmerge! existing_properties
+end
 
 properties = {}
 properties['job'] = { 'name' => spec['name'] }

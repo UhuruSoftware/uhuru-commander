@@ -17,7 +17,7 @@ module Sinatra
       end
 
       before do
-        logger_name = opts[:logger_name] || "uhuru"
+        logger_name = opts[:logger_name] || "uhuru-cloud-commander.runner"
         env["rack.logger"] = Steno.logger(logger_name)
       end
 

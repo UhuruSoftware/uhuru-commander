@@ -4,9 +4,12 @@ ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
 $:.unshift(File.expand_path("../../lib", __FILE__))
 
 if defined?(YAML::ENGINE.yamler)
-  YAML::ENGINE.yamler = RUBY_VERSION >= "2.0.0" ? "psych" : "syck"
+  YAML::ENGINE.yamler = "psych"
 end
 
+if RUBY_VERSION < "1.9.3"
+  raise "Need ruby >= 1.9.3. Current ruby is #{RUBY_VERSION}"
+end
 
 require "rubygems"
 require "bundler/setup"

@@ -48,12 +48,11 @@ module Uhuru::BoshCommander
         director_config_file = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
         director_yaml = YAML.load_file(director_config_file)
         db_config = director_yaml["db"]
-        connection_options = {
-            :max_connections => db_config["max_connections"],
-            :pool_timeout => db_config["pool_timeout"],
-            :test => true
-        }
-        Sequel.connect(db_config["database"], connection_options)
+        connection_options = db_config.delete('connection_options') {{}}
+        db_config.delete_if { |_, v| v.to_s.empty? }
+        db_config = db_config.merge(connection_options)
+
+        Sequel.connect(db_config)
       rescue Exception => e
         $logger.error("#{e.to_s}: #{e.backtrace}")
       end

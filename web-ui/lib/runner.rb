@@ -53,9 +53,6 @@ module Uhuru::BoshCommander
       $config = Uhuru::BoshCommander::Config.from_file(file)
 
       $config[:help] = load_help_file(help_file)
-      #$config[:forms_yml] = forms_file
-      #$config[:forms] = File.open(forms_file) { |file| YAML.load(file)}
-      #$config[:blank_cf_template] = File.expand_path('../../config/blank_cf.yml.erb', __FILE__)
 
       $config[:infrastructure_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
       $config[:blank_infrastructure_template] = File.expand_path('../../config/infrastructure.yml.erb', __FILE__)
@@ -73,7 +70,8 @@ module Uhuru::BoshCommander
         $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
       end
 
-      $config[:logger] = logger
+      Runner.setup_logging
+      $config[:logger] = Runner.logger
 
       Dir[File.join($config[:versioning][:dir], "**", "**" ,"lib", "*.rb")].each {|file| require file}
     end
@@ -104,7 +102,6 @@ module Uhuru::BoshCommander
       Runner.init_config @config_file
 
       create_pidfile
-      setup_logging
     end
 
     def self.logger
@@ -143,7 +140,7 @@ module Uhuru::BoshCommander
       end
     end
 
-    def setup_logging
+    def self.setup_logging
       steno_config = Steno::Config.to_config_hash($config[:logging])
       steno_config[:context] = Steno::Context::ThreadLocal.new
       Steno.init(Steno::Config.new(steno_config))

@@ -1,22 +1,21 @@
 GIT
   remote: git@github.com:UhuruSoftware/private-bosh.git
-  revision: c90efd7de741f3720a536ac636ef2f363a635b81
-  ref: c90efd7de741f3720a536ac636ef2f363a635b81
+  revision: 6e729cf319c458e0ec701017996c5e0cde3f1250
   specs:
     bosh_cli (1.5.0.pre.3)
-      archive-tar-minitar (~> 0.5)
       blobstore_client (~> 1.5.0.pre.3)
       bosh_common (~> 1.5.0.pre.3)
       highline (~> 1.6.2)
       httpclient (= 2.2.4)
-      json_pure (~> 1.7.6)
+      json_pure (~> 1.7)
+      minitar (~> 0.5.4)
       net-scp (~> 1.1.0)
       net-ssh (>= 2.2.1)
       net-ssh-gateway (~> 1.1.0)
       netaddr (~> 1.5.0)
       progressbar (~> 0.9.0)
       terminal-table (~> 1.4.3)
-    bosh_deployer (1.5.0.pre.3)
+    bosh_cli_plugin_micro (1.5.0.pre.3)
       agent_client (~> 1.5.0.pre.3)
       bosh_aws_cpi (~> 1.5.0.pre.3)
       bosh_cli (~> 1.5.0.pre.3)
@@ -29,7 +28,7 @@ GIT
 
 GIT
   remote: https://github.com/cloudfoundry/bosh
-  revision: a842f1c553246a83b81972851d0de66c6c74a5d1
+  revision: f04ee9a189fabb0f4381c630668957a0aed0b73b
   specs:
     agent_client (1.5.0.pre.3)
       httpclient (= 2.2.4)
@@ -37,7 +36,7 @@ GIT
     blobstore_client (1.5.0.pre.3)
       aws-sdk (= 1.8.5)
       bosh_common (~> 1.5.0.pre.3)
-      fog (~> 1.11.1)
+      fog (~> 1.12.1)
       httpclient (= 2.2.4)
       multi_json (~> 1.1)
       ruby-atmos-pure (~> 1.0.5)
@@ -55,12 +54,12 @@ GIT
       bosh_common (~> 1.5.0.pre.3)
       bosh_cpi (~> 1.5.0.pre.3)
       bosh_registry (~> 1.5.0.pre.3)
-      fog (~> 1.11.1)
+      fog (~> 1.12.1)
       httpclient (= 2.2.4)
       yajl-ruby (>= 0.8.2)
     bosh_registry (1.5.0.pre.3)
       aws-sdk (= 1.8.5)
-      fog (~> 1.11.1)
+      fog (~> 1.12.1)
       sequel (~> 3.43.0)
       sinatra (~> 1.4.2)
       thin (~> 1.5.0)
@@ -91,16 +90,20 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (3.2.13)
-      i18n (= 0.6.1)
-      multi_json (~> 1.0)
+    activesupport (4.0.0)
+      i18n (~> 0.6, >= 0.6.4)
+      minitest (~> 4.2)
+      multi_json (~> 1.3)
+      thread_safe (~> 0.1)
+      tzinfo (~> 0.3.37)
     addressable (2.3.4)
     archive-tar-minitar (0.5.2)
+    atomic (1.1.9)
     aws-sdk (1.8.5)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
-    backports (3.3.1)
+    backports (3.3.2)
     bcrypt-ruby (3.0.1)
     builder (3.1.4)
     cf-uaa-lib (1.3.10)
@@ -115,31 +118,31 @@ GEM
     daemons (1.1.9)
     descendants_tracker (0.0.1)
     diff-lcs (1.2.4)
-    em-http-request (1.0.3)
-      addressable (>= 2.2.3)
+    em-http-request (1.1.0)
+      addressable (>= 2.3.4)
       cookiejar
-      em-socksify
-      eventmachine (>= 1.0.0.beta.4)
-      http_parser.rb (>= 0.5.3)
-    em-socksify (0.2.1)
+      em-socksify (>= 0.3)
+      eventmachine (>= 1.0.3)
+      http_parser.rb (>= 0.6.0.beta.2)
+    em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
     eventmachine (1.0.3)
     excon (0.23.0)
-    fluent-logger (0.4.5)
-      msgpack (= 0.4.7)
+    fluent-logger (0.4.6)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
       yajl-ruby (~> 1.0)
-    fog (1.11.1)
+    fog (1.12.1)
       builder
-      excon (~> 0.20)
+      excon (~> 0.23.0)
       formatador (~> 0.2.0)
-      json (~> 1.7)
       mime-types
+      multi_json (~> 1.0)
       net-scp (~> 1.1)
       net-ssh (>= 2.1.3)
       nokogiri (~> 1.5.0)
       ruby-hmac
     formatador (0.2.4)
-    grape (0.4.1)
+    grape (0.5.0)
       activesupport
       builder
       hashie (>= 1.2.0)
@@ -151,19 +154,21 @@ GEM
       virtus
     hashie (2.0.5)
     highline (1.6.19)
-    http_parser.rb (0.5.3)
+    http_parser.rb (0.6.0.beta.2)
     httpclient (2.2.4)
-    i18n (0.6.1)
+    i18n (0.6.4)
     ip (0.3.0)
     ipaddress (0.8.0)
     ipadmin (0.4.1)
     json (1.8.0)
-    json_pure (1.7.7)
+    json_pure (1.8.0)
     log4r (1.1.10)
     membrane (0.0.2)
     mime-types (1.23)
-    msgpack (0.4.7)
-    multi_json (1.7.6)
+    minitar (0.5.4)
+    minitest (4.7.5)
+    msgpack (0.5.5)
+    multi_json (1.7.7)
     multi_xml (0.5.4)
     multipart-post (1.2.0)
     nats (0.4.26)
@@ -192,7 +197,7 @@ GEM
       rack (>= 1.0.0)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rake (10.0.4)
+    rake (10.1.0)
     rbvmomi (1.6.0)
       builder
       nokogiri (>= 1.4.1)
@@ -220,7 +225,7 @@ GEM
     sinatra-session (1.0.0)
       sinatra (>= 1.0)
     sqlite3 (1.3.7)
-    steno (1.0.4)
+    steno (1.1.0)
       fluent-logger
       grape
       yajl-ruby (~> 1.0)
@@ -229,8 +234,11 @@ GEM
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
+    thread_safe (0.1.0)
+      atomic
     tilt (1.4.1)
     trollop (2.0)
+    tzinfo (0.3.37)
     uuidtools (2.1.4)
     vcap_common (2.0.11)
       em-http-request (~> 1.0)
@@ -260,7 +268,7 @@ DEPENDENCIES
   bcrypt-ruby
   blobstore_client!
   bosh_cli (~> 1.5.0.pre.3)!
-  bosh_deployer (~> 1.5.0.pre.3)!
+  bosh_cli_plugin_micro (~> 1.5.0.pre.3)!
   cfoundry
   ip
   ipaddress
@@ -277,7 +285,7 @@ DEPENDENCIES
   sequel
   sinatra
   sinatra-session
-  steno (~> 1.0.2)
+  steno
   thin
   uuidtools
   vcap_common
