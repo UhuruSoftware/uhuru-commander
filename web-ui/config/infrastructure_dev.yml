@@ -1,0 +1,58 @@
+--- 
+name: ng_micro_bosh
+port: 25555
+encryption: 
+logging: 
+  level: DEBUG
+  file: /var/vcap/sys/log/director/<%= ENV["COMPONENT"] %>.debug.log
+redis: 
+  host: 10.134.0.73
+  port: 25255
+  password: redis
+mbus: nats://nats:nats@10.134.0.73:4222
+dir: /var/vcap/store/director
+db: 
+  database: postgres://postgres:postgres@10.134.0.73/bosh
+  max_connections: 32
+  pool_timeout: 10
+dns: 
+  server: 127.0.0.1
+  db: 
+    database: postgres://powerdns:powerdns@127.0.0.1:5445/powerdns
+    max_connections: 32
+    pool_timeout: 10
+blobstore: 
+  plugin: simple
+  properties: 
+    endpoint: http://10.134.0.73:25250
+    user: director
+    password: director
+cloud: 
+  plugin: vsphere
+  properties: 
+    agent: 
+      ntp: []
+
+      blobstore: 
+        plugin: simple
+        properties: 
+          endpoint: http://10.134.0.73:25250
+          user: agent
+          password: agent
+      mbus: nats://nats:nats@10.134.0.73:4222
+    mem_overcommit_ratio: 0.7
+    cpi_log: /var/vcap/sys/log/director/<%= ENV["COMPONENT"] %>.cpi.log
+    vcenters: 
+    - host: 192.168.1.114
+      user: administrator
+      password: password1234!
+      datacenters: 
+      - name: uhuru
+        vm_folder: mng_vms
+        template_folder: mng_templates
+        disk_path: mitza_micro
+        datastore_pattern: nas-paragina
+        persistent_datastore_pattern: nas-paragina
+        allow_mixed_datastores: true
+        clusters: 
+        - Staging

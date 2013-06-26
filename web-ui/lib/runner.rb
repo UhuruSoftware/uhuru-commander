@@ -57,6 +57,8 @@ module Uhuru::BoshCommander
       $config[:infrastructure_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
       $config[:blank_infrastructure_template] = File.expand_path('../../config/infrastructure.yml.erb', __FILE__)
 
+      $config[:properties_file] = File.expand_path('../../config/properties.yml', __FILE__)
+
       $config[:deployments_dir] = File.expand_path('../../deployments/', __FILE__)
       $config[:configuration_file] = File.expand_path("../../#{file}", __FILE__)
       $config[:bind_address] = $config[:bind_address]

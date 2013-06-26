@@ -3,21 +3,21 @@ module Uhuru::BoshCommander
 
     def setup(new_config)
       say('Moving director config')
-      @director_config_file = $config[:director_yml]
+      #@director_config_file = $config[:director_yml]
       @is_update = is_update
       setup_micro(new_config)
       say('Restarting services')
-      #restart_monit
-      #say('Creating system users')
-      #create_users()
-      #say('Reconnecting to services')
+      restart_monit
+      say('Creating system users')
+      create_users()
+      say('Reconnecting to services')
       refresh_login()
-      #unless @is_update
-      #  say('Uploading stemcells')
-      #  upload_stemcells
-      #  say('Configuring database')
-      #  configure_database
-      #end
+      unless @is_update
+        say('Uploading stemcells')
+        upload_stemcells
+        say('Configuring database')
+        configure_database
+      end
 
       say('Configuring Nagios')
       setup_nagios
@@ -57,18 +57,14 @@ module Uhuru::BoshCommander
       db[:stemcells].select(:name).first() != nil
     end
 
-    private
-
     def setup_micro(new_config)
-      FileUtils.cp(new_config, @director_config_file)
-      director_yml = load_yaml_file(@director_config_file)
+      director_yml = load_yaml_file(new_config)
 
-      #build_info(director_yml)
-      #setup_nats()
-      #setup_postgres()
-      #setup_health_monitor()
-
+      build_info(director_yml)
+      setup_properties()
     end
+
+    private
 
     def build_info(director_yml)
       nats_hash = director_yml["mbus"].scan(/(nats):\/\/(\S+):(\S+)@(\S+):(\S+)?/).first
@@ -126,49 +122,27 @@ module Uhuru::BoshCommander
       end
     end
 
-    def setup_nats()
-      nats_file =  File.join($config[:bosh][:base_dir], 'jobs','nats','config','nats.yml')
-      nats_yml = load_yaml_file(nats_file)
-      nats_yml["net"] = @nats_info[:ip]
-      nats_yml["port"] = @nats_info[:port]
-      nats_yml["authorization"]["user"] = @nats_info[:user]
-      nats_yml["authorization"]["password"] = @nats_info[:password]
+    def setup_properties()
+      properties_file = $config[:properties_file]
+      prop = load_yaml_file(properties_file)
 
-      File.open(nats_file, 'w') do |file|
-        dump_yaml_to_file(nats_yml, file )
+      #nats settings
+      prop["properties"]["nats"]["listen_address"] = @nats_info[:ip]
+      prop["properties"]["nats"]["port"] = @nats_info[:port]
+      prop["properties"]["nats"]["user"] = @nats_info[:user]
+      prop["properties"]["nats"]["password"] = @nats_info[:password]
+
+      #database settings
+      prop["properties"]["postgres"]["host"] = @postgres_info[:host]
+      prop["properties"]["postgres"]["password"] =  @postgres_info[:password]
+
+      #health manager settings
+      prop["properties"]["hm"]["director_account"]["user"] = @director_info[:hm_user]
+      prop["properties"]["hm"]["director_account"]["password"] = @director_info[:hm_password]
+
+      File.open(properties_file, 'w') do |file|
+        dump_yaml_to_file(prop, file )
       end
-
-    end
-
-    def setup_postgres()
-      postgres_ctl_file = File.join($config[:bosh][:base_dir],'jobs','postgres', 'bin', 'postgres_ctl')
-      postgres_ctl = File.read(postgres_ctl_file)
-
-      postgres_ctl.gsub!(/^HOST=.+$/, "HOST=#{@postgres_info[:host]}")
-      postgres_ctl.gsub!(/^PASSWORD='.+'$/, "PASSWORD='#{@postgres_info[:password]}'")
-
-      File.open(postgres_ctl_file, 'w') do |file|
-        file.write(postgres_ctl)
-      end
-    end
-
-    def setup_health_monitor()
-      hm_file =  $config[:health_monitor_yml]
-
-      hm_yml =  load_yaml_file(hm_file)
-      hm_yml["mbus"]["endpoint"] = "nats://#{@nats_info[:ip]}:#{@nats_info[:port]}"
-      hm_yml["mbus"]["user"] = @nats_info[:user]
-      hm_yml["mbus"]["password"] = @nats_info[:password]
-      hm_yml["director"]["endpoint"] = "http://#{@director_info[:hostname]}:#{@director_info[:port]}"
-      hm_yml["director"]["user"] = @director_info[:hm_user]
-      if (!@is_update)
-        hm_yml["director"]["password"] = 'hm_is_unused'
-      end
-
-      File.open(hm_file, 'w') do |file|
-        dump_yaml_to_file(hm_yml, file )
-      end
-
     end
 
     def restart_monit
@@ -199,7 +173,7 @@ module Uhuru::BoshCommander
       end
     end
 
-    def get_database
+   def get_database
       begin
         director_yaml = YAML.load_file($config[:director_yml])
         db_config = director_yaml["db"]
