@@ -54,16 +54,14 @@ module Uhuru::BoshCommander
 
       $config[:help] = load_help_file(help_file)
 
-      $config[:infrastructure_yml] = File.expand_path('../../config/infrastructure.yml', __FILE__)
-      $config[:blank_infrastructure_template] = File.expand_path('../../config/infrastructure.yml.erb', __FILE__)
-
+      $config[:blank_properties_file] = File.expand_path('../../config/properties.yml.erb', __FILE__)
       $config[:properties_file] = File.expand_path('../../config/properties.yml', __FILE__)
 
       $config[:deployments_dir] = File.expand_path('../../deployments/', __FILE__)
       $config[:configuration_file] = File.expand_path("../../#{file}", __FILE__)
       $config[:bind_address] = $config[:bind_address]
-      $config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      $config[:health_monitor_yml] = File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
+      #$config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
+      #$config[:health_monitor_yml] = File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
 
       $config[:nagios][:config_path] = File.join($config[:bosh][:base_dir], 'jobs', 'nagios_dashboard', 'config', 'uhuru-dashboard.yml')
 
@@ -165,7 +163,7 @@ module Uhuru::BoshCommander
           tty_js_location = "http://#{$config[:ttyjs][:host]}:#{$config[:ttyjs][:port]}"
           nagios_location = "http://#{$config[:nagios][:host]}:#{$config[:nagios][:port]}"
 
-          director_port = YAML.load_file($config[:director_yml])['port']
+          director_port = YAML.load_file($config[:properties_file])['properties']['director']['port']
           director_location = "http://#{$config[:bosh][:target]}:#{director_port}/resources"
 
           reverse_proxy "/user.js", "#{tty_js_location}/user.js"

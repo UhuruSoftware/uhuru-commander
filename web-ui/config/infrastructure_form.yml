@@ -1,0 +1,44 @@
+---
+infrastructure:
+  - screen: CPI
+    id: cpi
+    fields:
+      - {name: vcenter,                                   label: vCenter Host,                                        type: ip,
+      yml_key: '["properties"]["vcenter"]["address"]',
+      description: 'vCenter Host IP Address. Make sure that Uhuru Commander can reach the IP you configure in this field.' }
+
+      - {name: vcenter_user,                              label: vCenter User,                                        type: string,
+      yml_key: '["properties"]["vcenter"]["user"]',
+      description: 'vCenter Host User. The user you configure here must have access rights as described <a target="_blank" href="/help_assets/permissions.txt">here</a>.' }
+
+      - {name: vcenter_password,                          label: vCenter Password,                                    type: password,
+      yml_key: '["properties"]["vcenter"]["password"]',
+      description: 'vCenter Host User Password' }
+
+      - {name: vcenter_datacenter,                        label: vCenter DataCenter,                                  type: string,
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["name"]',
+      description: 'Datacenter name to be used for deployments. The Datacenter must already exist.' }
+
+      - {name: vcenter_clusters,                          label: vCenter Clusters,                                    type: csv,
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["clusters"]',
+      description: 'Cluster name inside the datacenter. The Cluster must already exist.' }
+
+      - {name: vcenter_datastore,                         label: vCenter Datastores,                                  type: string,
+      yml_key: [ '["properties"]["vcenter"]["datacenters"][0]["datastore_pattern"]', '["properties"]["vcenter"]["datacenters"][0]["persistent_datastore_pattern"]' ],
+      description: 'Regex pattern for identifying the datastores used for storing VMs. If you want to specify an exact name for only one of your datastores, you should use the following regex to avoid conflicts: ^my_datastore_name$' }
+
+      - {name: vcenter_vm_folder,                         label: vCenter VM Folder,                                   type: string,
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["vm_folder"]',
+      description: 'vCenter Folder for storing VMs. This folder must exist in the datacenter you configured.' }
+
+      - {name: vcenter_template_folder,                   label: vCenter Template Folder,                             type: string,
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["template_folder"]',
+      description: 'vCenter Folder for storing VM Templates. This folder must exist in the Datacenter you configured.' }
+
+      - {name: ntp,                                       label: NTP Servers,                                         type: csv,
+      yml_key: '["properties"]["ntp"]',
+      description: 'Network Time Protocol Servers. A semicolon separated list of NTP server that we use to keep time in sync across deployments.' }
+
+      - {name: net_interface,                                       label: Network Interface,                                         type: list, items: {'127.0.0.1' : '127.0.0.1'},
+      yml_key: [ '["properties"]["nats"]["address"]', '["properties"]["postgres"]["host"]', '["properties"]["director"]["address"]', '["properties"]["dns"]["address"]' ],
+      description: 'Network interface used for configuration' }

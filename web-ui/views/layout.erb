@@ -29,7 +29,7 @@
   <div id="main_menu">
     <ul class="main_menu">
       <li><a onclick="showPageLoading()" class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
-      <% unless first_run? || updating_infrastructure? %>
+      <% unless first_run? %>
           <% if defined? @tabs %>
             <% for @item in @tabs %>
                 <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?(@item[:path]) ? 'selected' : ''  %>" href=<%= @item[:href] %> ><%= @item[:name] %></a></li>

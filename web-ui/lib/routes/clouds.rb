@@ -20,7 +20,6 @@ module Uhuru::BoshCommander
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
       version = product.versions[product.versions.keys.last]
-      erb = File.join(version.version_dir, "views", "clouds.erb")
 
       status_class_name = "#{product_name.capitalize}Status"
 
@@ -36,7 +35,7 @@ module Uhuru::BoshCommander
       end
 
       render_erb do
-        template File.read(erb)
+        template :clouds
         layout :layout
         var :product_name, product_name
         var :clouds, clouds
@@ -69,7 +68,7 @@ module Uhuru::BoshCommander
           if clouds.select{ |cloud| cloud['name'] == cloud_name }.size == 0
             deployment = Deployment.new(cloud_name, product_name)
 
-            blank_manifest_path = File.join($config[:versioning][:dir], product_name, version.version.to_s, "config", "#{product_name}.yml.erb")
+            blank_manifest_path = File.join($config[:versioning][:dir], product_name, version.version.to_s, "bits", "config", "#{product_name}.yml.erb")
             blank_manifest_template = ERB.new(File.read(blank_manifest_path))
 
             new_manifest = YAML.load(blank_manifest_template.result(binding))
@@ -88,10 +87,8 @@ module Uhuru::BoshCommander
         end
       end
 
-      erb = File.join(version.version_dir, "views", "clouds.erb")
-
       render_erb do
-        template File.read(erb)
+        template :clouds
         layout :layout
         var :product_name, product_name
         var :clouds, clouds
@@ -124,7 +121,7 @@ module Uhuru::BoshCommander
         form.validate? GenericForm::VALUE_TYPE_SAVED
       end
 
-      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version}/config/help.yml")
+      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version}/bits/config/help.yml")
       cloud_summary_help = help['cloud_summary'].map do |help_item|
         help_item << 'cloud_tab_summary_div'
       end
@@ -133,7 +130,7 @@ module Uhuru::BoshCommander
         help_item << 'cloud_tab_virtual_machines_div'
       end
 
-      erb = File.join(version.version_dir, "views", "cloud.erb")
+      erb = File.join(version.version_dir, "bits", "views", "cloud.erb")
 
       render_erb do
         template File.read(erb)
@@ -167,7 +164,7 @@ module Uhuru::BoshCommander
       values_to_show = GenericForm::VALUE_TYPE_FORM
       deployment_status = {}
 
-      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/config/help.yml")
+      help = Uhuru::BoshCommander::Runner.load_help_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/bits/config/help.yml")
       cloud_summary_help = help['cloud_summary'].map do |help_item|
         help_item << 'cloud_tab_summary_div'
       end
@@ -192,7 +189,7 @@ module Uhuru::BoshCommander
         end
 
         if params.has_key?("btn_save") || !is_ok
-          erb = File.join(version.version_dir, "views", "cloud.erb")
+          erb = File.join(version.version_dir, "bits", "views", "cloud.erb")
 
           render_erb do
             template File.read(erb)
@@ -251,11 +248,11 @@ module Uhuru::BoshCommander
         manifest = YAML.load_file(tempfile)
         params.delete("file_input")
 
-        blank_manifest_path = File.join($config[:versioning][:dir], product_name, version.version.to_s, "config", "#{product_name}.yml.erb")
+        blank_manifest_path = File.join($config[:versioning][:dir], product_name, version.version.to_s, "bits", "config", "#{product_name}.yml.erb")
         blank_manifest_template = ERB.new(File.read(blank_manifest_path))
         new_manifest = YAML.load(blank_manifest_template.result(binding))
 
-        forms_yml = YAML.load_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/config/forms.yml")
+        forms_yml = YAML.load_file("#{$config[:versioning][:dir]}/#{product_name}/#{version.version.to_s}/bits/config/forms.yml")
 
         forms_yml[product_name].each do |screen|
           screen['fields'].each do |field|
@@ -299,7 +296,7 @@ module Uhuru::BoshCommander
           deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
         end
 
-        erb = File.join(version.version_dir, "views", "cloud.erb")
+        erb = File.join(version.version_dir, "bits", "views", "cloud.erb")
 
         render_erb do
           template File.read(erb)

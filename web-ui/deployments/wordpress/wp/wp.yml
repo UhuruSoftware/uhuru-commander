@@ -1,98 +1,100 @@
---- 
+---
 name: wp
 director_uuid: 14cd4dca-f4d5-49b3-9b9c-9bd697096331
-release: 
+release:
   name: wordpress
   version: 3.0.0
-compilation: 
+compilation:
   workers: 4
   network: default
-  cloud_properties: 
+  cloud_properties:
     ram: 2048
     disk: 8096
     cpu: 2
-update: 
+update:
   canaries: 1
   canary_watch_time: 30000
   update_watch_time: 30000
   max_in_flight: 4
   max_errors: 1
-networks: 
+networks:
 - name: default
-  subnets: 
-  - reserved: 
+  subnets:
+  - reserved:
     - 10.0.0.2-10.0.21.9
-    - 10.0.21.41-255.255.0.0
-    static: 
+    - 10.0.21.41-10.0.21.49
+    - 10.0.21.71-10.0.255.254
+    static:
     - 10.0.21.10-10.0.21.40
-    range: 10.0.0.0/32
+    range: 10.0.0.0/16
     gateway: 10.0.0.1
-    dns: 
+    dns:
     - 10.0.0.1
     - 10.0.0.3
-    cloud_properties: 
+    cloud_properties:
       name: VM Network
-resource_pools: 
+resource_pools:
 - name: infrastructure
   network: default
-  size: 4
-  stemcell: 
+  size: 3
+  stemcell:
     name: bosh-stemcell-php
     version: 1.5.0.pre.3
-  cloud_properties: 
+  cloud_properties:
     cpu: 1
     disk: 8192
     ram: 2048
-jobs: 
+  env:
+    bosh:
+      password: $6$dIFUXlb6Qe$37rbBy.SmHZayVeoNEm8bPOvNuKe0fnGsOd0KkIGngqh0xKMtsu1nnd89.ruTDV14k1fsAVJVY6.p7O1hGdmA.
+jobs:
 - name: mysql
   template: mysql
   instances: 1
   resource_pool: infrastructure
   persistent_disk: 16384
-  networks: 
+  networks:
   - name: default
-    static_ips: 
+    static_ips:
     - 10.0.21.10
 - name: wordpress
   template: wordpress
-  instances: 2
+  instances: 1
   resource_pool: infrastructure
-  networks: 
+  networks:
   - name: default
-    static_ips: 
+    static_ips:
     - 10.0.21.11
-    - 10.0.21.13
 - name: nginx
   template: nginx
   instances: 1
   resource_pool: infrastructure
-  networks: 
+  networks:
   - name: default
-    static_ips: 
+    static_ips:
     - 10.0.21.12
-properties: 
-  wordpress: 
+properties:
+  wordpress:
     admin: foo@bar.com
     port: 8008
-    servers: 
+    servers:
     - 10.0.21.11
-    - 10.0.21.13
     servername: wp.appcloud14.dev.mozycloud.com
-    db: 
+    db:
       name: wp
       user: wordpress
-      pass: 460bf45a29f4563f928ed0a0574e451b
-    auth_key: fee75319ef014fe233ae5a2ac4ea6eb0
-    secure_auth_key: 546d55f470c1e0428f2d62aa4a45ad6b
-    logged_in_key: 7ab310a3b0dedf0f7a41e0116f914373
-    nonce_key: 14b758907b380561de497c68ef9c0346
-    auth_salt: 4d92c4ea1ee2ec77d26d4239a38cac55
-    secure_auth_salt: 280ab89452f8e1781a00f9ddb90c3ca3
-    logged_in_salt: d80de181e9f08527af19571b5cc86fda
-    nonce_salt: 86281b08eaa4dccb37d1038b0baf1861
-  mysql: 
+      pass: a07fd1a436d1d158fb7fc32999ed060a
+    auth_key: 76230ff4bb96637cfc30eeb1a5b0ed0b
+    secure_auth_key: 5b4340eddef475c50c1b3d1df6c8eb3e
+    logged_in_key: ee11f1a9f6f96ae4a0ad69b0622e44f2
+    nonce_key: 009c93f69ff994f89ab8e33a61c08c40
+    auth_salt: b862aabc15f8893c34f23f5053156022
+    secure_auth_salt: 41ba10e2f006fa22c80af996bdc09f30
+    logged_in_salt: df08955bd00918950a5ffa9e10e7fc5b
+    nonce_salt: 1ea05ec7ae0e6ef782b246d7445f1708
+  mysql:
     address: 10.0.21.10
     port: 3306
-    password: bced1a245b4c354d9bbcfbaace6114c7
-  nginx: 
+    password: 21e09b899d8d896a13aeb7c1ae5f777b
+  nginx:
     workers: 1

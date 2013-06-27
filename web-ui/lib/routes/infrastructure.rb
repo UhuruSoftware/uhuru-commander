@@ -17,7 +17,7 @@ module Uhuru::BoshCommander
       params.delete("btn_update")
 
       values_to_show = GenericForm::VALUE_TYPE_FORM
-      infrastructure_yml = $config[:infrastructure_yml]
+      properties_yml = $config[:properties_file]
       $config[:bind_address] = params['infrastructure:CPI:net_interface']
       form = InfrastructureForm.from_config(params)
       is_ok = form.validate? GenericForm::VALUE_TYPE_FORM
@@ -30,18 +30,8 @@ module Uhuru::BoshCommander
 
           volatile_data = form.get_data(GenericForm::VALUE_TYPE_VOLATILE)
 
-          File.open(infrastructure_yml, "w") do |file|
+          File.open(properties_yml, "w") do |file|
             file.write(volatile_data.to_yaml)
-          end
-
-          $infrastructure_update_request = CommanderBoshRunner.execute_background(session) do
-            begin
-              infrastructure = BoshInfrastructure.new
-              infrastructure.setup(infrastructure_yml)
-            rescue => e
-              err e
-            end
-            $infrastructure_update_request = nil
           end
 
           redirect '/'

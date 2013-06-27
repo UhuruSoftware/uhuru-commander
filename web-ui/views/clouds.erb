@@ -17,19 +17,12 @@
     <tr class="settings_table_header">
       <td>Cloud</td>
       <td>Status</td>
-      <td>Endpoints</td>
       <td>Resources</td>
-      <td>Services</td>
-      <td>Stacks</td>
     </tr>
     <% clouds.each do |cloud| %>
         <tr>
           <td class="cell_border cell_border_bottom bold"><a onclick="showPageLoading()" href="/products/<%= product_name %>/<%= cloud['name'] %>"><%= cloud['name'] %></a></td>
           <td class="cloud_state <%= cloud['state'].to_s().downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
-          <td class="cell_border cell_border_bottom ">
-            Web Interface: <a target="_blank" href="<%= cloud['web_ui_url'].to_s.start_with?('http://') ? cloud['web_ui_url'] : 'http://' + cloud['web_ui_url'] %>"><%= cloud['web_ui_url'] %></a><br />
-            API Endpoint: <a target="_blank" href="<%= cloud['api_url'].to_s.start_with?('http://') ? cloud['api_url'] : 'http://' + cloud['api_url'] %>"><%= cloud['api_url'] %></a>
-          </td>
           <td class="cell_border cell_border_bottom ">
             <% if cloud['resources'] != nil %>
                 <%= cloud['resources']['total_cpu'] %> Virtual Cores<br />
@@ -37,24 +30,6 @@
                 <%= (cloud['resources']['total_disk'] / 1024.0).round(2) %> GB of Storage<br />
             <% else %>
                 <img src="/icons/none.png" alt="No services available">
-            <% end %>
-          </td>
-          <td class="cell_border cell_border_bottom ">
-            <% if cloud['services'] != nil && cloud['services'].size > 0 %>
-                <% cloud['services'].each do |service| %>
-                    <img src="/icons/<%= service %>.png" alt=<%= service %>>
-                <% end %>
-            <% else %>
-                <img src="/icons/none.png" alt="No services available">
-            <% end %>
-          </td>
-          <td class="cell_border cell_border_bottom border_right">
-            <% if cloud['stacks'] != nil && cloud['stacks'].size > 0 %>
-                <% cloud['stacks'].each do |stack| %>
-                    <img src="/icons/<%= stack %>.png" alt=<%= stack %>>
-                <% end %>
-            <% else %>
-                <img src="/icons/none.png" alt='No stacks available'>
             <% end %>
           </td>
         </tr>

@@ -67,7 +67,6 @@ module Uhuru::BoshCommander
     end
 
     before do
-      check_updating_infrastructure!
 
       unless request.path_info == '/login' ||
           request.path_info == '/offline' ||
@@ -117,29 +116,7 @@ module Uhuru::BoshCommander
 
     helpers do
       def first_run?
-        !File.exists?(File.expand_path('../../../config/infrastructure.yml', __FILE__))
-      end
-
-      def updating_infrastructure?
-        $infrastructure_update_request != nil
-      end
-
-      def check_updating_infrastructure!
-        unless ($config[:bosh_commander][:skip_check_monit])
-          unless session["user_name"]
-            unless (request.path_info == '/offline') || (request.path_info == '/monit_status')
-              monit = Monit.new
-              unless monit.service_group_state == "running"
-                redirect '/offline'
-              end
-            end
-          else
-            unless (request.path_info.start_with?('/logs')) || (request.path_info.start_with?('/screen')) || (request.path_info == '/logout')
-              action_on_done = "Click <a href='/'>here</a> to reload the commander interface."
-              redirect Logs.log_url($infrastructure_update_request, action_on_done) if updating_infrastructure?
-            end
-          end
-        end
+        YAML.load_file($config[:properties_file])['properties']['vcenter']['address'] == "127.0.0.1"
       end
 
       def check_first_run!
