@@ -5,7 +5,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
-    post '/versions/read_states' do
+    get '/refresh_state' do
       state = nil
 
       begin
@@ -14,63 +14,62 @@ module Uhuru::BoshCommander
             product[1].versions.each do |version|
               if version[1].version == params[:version]
                 Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-
-                  #state = r.rand(1...7)    #version[1].get_state
                   state = version[1].get_state.to_s
-
-                  if state == '1'
-                    state = '1'
-                  elsif state == '2'
-                    state = '2'
-                  elsif state == '3'
-                    state = '3'
-                  elsif state == '4'
-                    state = '4'
-                  elsif state == '5'
-                    state = '5'
-                  elsif state == '6'
-                    state = '6'
-                  else
-                    state = '7'
-                  end
-
                 end
               end
             end
           end
         end
       rescue Exception => e
-        $logger.warn "Could not read states - #{e.message} : #{e.backtrace}"
-        return '7'
+        $logger.warn "Could not read state after downloading - #{e.message} : #{e.backtrace}"
+        return  nil
       end
 
       return state.to_s
     end
 
 
-    post '/download' do
-      progress = nil
-      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
+    get '/download' do
+      product = params[:product]
+      version = params[:version]
+      # TODO: products array can pe passed at post
+      #products = params[:products_list]
+
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      products.each do |product|
         if product[1].name == params[:product]
           product[1].versions.each do |version|
             if version[1].version == params[:version]
               Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
                 version[1].download_from_blobstore
+                puts 'started'
+              end
+            end
+          end
+        end
+      end
+    end
+
+    get '/download_state' do
+      progress = ''
+      # TODO: products array can pe passed at post
+      #products = params[:products_list]
+
+      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
+        if product[1].name == params[:product]
+          product[1].versions.each do |version|
+            if version[1].version == params[:version]
+              Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
                 progress = version[1].download_progress
-                #puts version[1].download_from_blobstore
               end
             end
           end
         end
       end
 
-      render_erb do
-        template :downloads
-        layout :layout
-        var :progress, progress[0]
-        help 'versions'
-      end
+      return progress[0].to_s
     end
+
 
     get '/versions' do
       products = Uhuru::BoshCommander::Versioning::Product.get_products
