@@ -18,20 +18,19 @@
 
 <script type="text/javascript">
   var current_value = <%= progress %>
-  $('#download_progressbar').attr('value', <%= progress %>);
 
   refresh = setInterval(
       function(){
-          if(current_value < 100)
-          {
-              $('#download_progressbar').attr('value', current_value + 5);
-              current_value += 5;
-              $('#download_value').html(current_value + '%');
-          }
-          else
-          {
-              clearInterval(refresh);
-          }
+              $.post('download_state',
+                  { product: '<%= product %>', version: '<%= version %>' },
+                  function(data)
+                  {
+                      $('#download_progressbar').attr('value', parseInt(data));
+                      $('#download_value').html(parseInt(data) + '%');
+                  }
+              );
       }, 1000
   );
+
+
 </script>

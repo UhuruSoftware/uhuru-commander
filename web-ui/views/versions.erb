@@ -101,7 +101,7 @@
                                 <form method="post" action="download">
                                   <input type="hidden" value="<%= product[1].name.to_s %>" name="product">
                                   <input type="hidden" value="<%= version[1].version.to_s %>" name="version">
-                                  <input type="submit" value="" class="action_buttons download" title="Download <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                  <input type="submit" value="" class="action_buttons download" title="Download <%= product[1].label %>&nbsp;<%= version[1].version %>" />
                                 </form>
                             <% end %>
                           </td>
