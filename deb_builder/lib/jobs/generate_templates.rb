@@ -3,17 +3,13 @@ require 'yaml'
 require 'erb'
 require 'pp'
 require 'json'
+require 'erb'
+require 'securerandom'
 
 source_dir = ARGV[0]
 destination = ARGV[1]
 
 module HashRecursiveMerge
-  def rmerge!(other_hash)
-    merge!(other_hash) do |key, oldval, newval|
-      oldval.class == self.class ? oldval.rmerge!(newval) : newval
-    end
-  end
-
   def rmerge(other_hash)
     r = {}
     merge(other_hash) do |key, oldval, newval|
@@ -46,12 +42,24 @@ spec_file = File.join(source_dir, 'spec')
 
 puts "Loading spec file (#{spec_file})..."
 spec = YAML.load_file(spec_file)
-defaults = YAML.load_file(File.join(source_dir, 'defaults.yml'))
+
+
+erb_file = File.join(source_dir, 'properties.yml.erb')
+template = ERB.new File.new(erb_file).read
+defaults = YAML.load(template.result(binding))
 
 existing_properties_file = '/var/vcap/store/ucc/web-ui/config/properties.yml'
 if File.exist?(existing_properties_file)
   existing_properties = YAML.load_file(existing_properties_file)
-  defaults.rmerge! existing_properties
+  if existing_properties.is_a?(Hash)
+    defaults = defaults.rmerge(existing_properties)
+  end
+else
+  FileUtils.mkdir_p '/var/vcap/store/ucc/web-ui/config/'
+end
+
+File.open(existing_properties_file, "w") do |f|
+  f.write(defaults.to_yaml)
 end
 
 properties = {}

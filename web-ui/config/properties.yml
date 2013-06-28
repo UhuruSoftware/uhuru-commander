@@ -1,14 +1,24 @@
 ---
+
 properties:
   micro: true
   vcenter:
     address: 127.0.0.1
     user: user
     password: password
-    datacenters: []
+    datacenters:
+      - name: uhuru_ucc
+        vm_folder: uhuru_ucc_vms
+        template_folder: uhuru_ucc_templates
+        disk_path: uhuru_ucc_deployer
+        datastore_pattern: datastore
+        persistent_datastore_pattern: datastore
+        allow_mixed_datastores: true
+        clusters:
+          - Cluster
   nats:
-    user: nats
-    password: nats
+    user: c8329f8a7a93b60cfda14fa24a7d80db
+    password: 1486cf7bd66801a070a7bc22879c85dd
     auth_timeout: 10
     ping_max_outstanding: 5
     address: 127.0.0.1
@@ -21,11 +31,11 @@ properties:
       port: 9222
   redis:
     address: 127.0.0.1
-    password: redis
+    password: aba2cf9f6e9951a7cbe144a909510c33
     port: 25255
     loglevel: info
   postgres: &4644840
-    password: bosh
+    password: 6489d5fd3186df63a1497bc263622329
     host: 127.0.0.1
     listen_address: 127.0.0.1
     database: bosh
@@ -35,14 +45,14 @@ properties:
     connection_options:
       max_connections: 32
       pool_timeout: 10
-  blonats_filebstore:
+  blobstore:
     address: 127.0.0.1
     director:
       user: director
-      password: director
+      password: cfefdfe95a791bdbc05953360bef1f9c
     agent:
       user: agent
-      password: agent
+      password: 96a54ae31b549b3cbcd584411f0587a3
     port: 25250
     backend_port: 25251
     provider: dav
@@ -65,7 +75,7 @@ properties:
   hm:
     http:
       user: hm
-      password: hm
+      password: 45a469e10219c14eb5b1eb8d24f64971
       port: 25923
     director_account:
       user: admin
@@ -110,7 +120,7 @@ properties:
     db:
       adapter: postgres
       user: bosh
-      password: bosh
+      password: 6489d5fd3186df63a1497bc263622329
       host: 127.0.0.1
       port: 5432
       database: bosh_registry
@@ -128,12 +138,13 @@ properties:
     alerts:
       email_to: alerts@mycompany.org
     admin: nagios
-    password: nagios1234!
+    password: 39a3bdffb4eda7e184f92d9c078d397f
     director_user: nagiosuser
-    director_password: nagiospassword
+    director_password: c9c3214dc099c2108903f0e166844563
     email:
       from_alias: Nagios
       from: nagios@mycompany.org
       server: localhost
     legacy:
       enabled: false
+

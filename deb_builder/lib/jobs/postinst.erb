@@ -3,8 +3,9 @@
 BOSH_INSTALL_TARGET=/var/vcap/data/jobs/<%= job_name %>
 cd /<%= target_bits_dir %>
 
-mkdir -p ${BOSH_INSTALL_TARGET}
+mkdir -p ${BOSH_INSTALL_TARGET}/uhuru_templates
 
+cp -Rf /<%= target_bits_dir %>/* ${BOSH_INSTALL_TARGET}/uhuru_templates/
 /var/vcap/packages/ruby/bin/ruby generate_templates.rb "/<%= target_bits_dir %>" "${BOSH_INSTALL_TARGET}"
 
 cp monit /etc/monit/uhururc.d/<%= job_name %>
@@ -43,5 +44,8 @@ include /etc/monit/uhururc.d/*
 echo "Restarting monit ..."
 
 service monit restart
+
+echo "Restarting job ..."
+monit restart <%= job_name %>
 
 exit 0

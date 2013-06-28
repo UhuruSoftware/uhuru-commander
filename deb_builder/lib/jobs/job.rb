@@ -140,11 +140,11 @@ module Uhuru
         end
 
         def copy_bits
-          #FileUtils.cp_r(File.join(@directory, 'templates'), @struct['bits_dir'], :remove_destination => true)
-          #FileUtils.cp_r(File.join(@directory, 'spec'), @struct['bits_dir'], :remove_destination => true)
-          #FileUtils.cp_r(File.join(@directory, 'monit'), @struct['bits_dir'], :remove_destination => true)
+
+
           FileUtils.cp_r(File.expand_path('../generate_templates.rb', __FILE__), @struct['bits_dir'], :remove_destination => true)
-          FileUtils.cp_r(File.expand_path('../defaults.yml', __FILE__), @struct['bits_dir'], :remove_destination => true)
+          FileUtils.cp_r(File.expand_path('../../../../web-ui/config/properties.yml', __FILE__), @struct['bits_dir'], :remove_destination => true)
+          FileUtils.cp_r(File.expand_path('../../../../web-ui/config/properties.yml.erb', __FILE__), @struct['bits_dir'], :remove_destination => true)
           FileUtils.cp_r(File.expand_path('../../../../modules/private-bosh/bosh_common/lib/common/properties', __FILE__), @struct['bits_dir'], :remove_destination => true)
 
           tgz_file = File.join(@directory, "#{@job_meta['version']}.tgz")

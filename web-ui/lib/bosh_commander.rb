@@ -26,7 +26,6 @@ require "ip_admin"
 
 require "ucc/core_ext"
 require "ucc/commander_bosh_runner"
-require "ucc/infrastructure"
 require "ucc/monit"
 require "ucc/deployment"
 require "ucc/step_deployment"
