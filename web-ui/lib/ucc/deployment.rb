@@ -97,9 +97,98 @@ module Uhuru::BoshCommander
         return
       end
 
-      File.open(@lock_file, 'w') {|f| f.write("locked") }
+
+
+
       command = deployment_command
       current_file = File.join(@deployment_dir, "#{@deployment_name}.yml")
+
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+
+      deployment_manifest = YAML.load_file(current_file)
+
+      software_name = deployment_manifest['release']['name']
+      software_version = deployment_manifest['release']['version']
+      software_state = Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
+      stemcells = []
+      deployment_manifest['resource_pools'].each do |resource_pool|
+           stemcells << resource_pool['stemcell']
+      end
+
+      software = nil
+
+      say "Checking if software exist"
+      products.each  do |prod|
+        product = prod[1]
+        #check release
+        if (product.type == 'software' && product.name == software_name)
+          product.versions.each do |version|
+             if (version[0].to_s == software_version.to_s)
+               software = version[1]
+             end
+          end
+        end
+      end
+
+      if (software)
+        software_state = software.get_state
+      end
+
+
+      if (software_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY)
+        raise "The software #{software_name} #{software_version} you are trying to deploy does not exist locally, please download it first"
+      end
+
+      stemcells_state = []
+      say 'Checking if stemcell exists'
+      stemcells.each do |stemcell|
+        stemcell_state = Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
+        stemcell_version = nil
+        products.each do |prod|
+          product = prod[1]
+          if (product.type == 'stemcell' && product.name == stemcell['name'])
+            product.versions.each do |version|
+              if (version[0] == stemcell['version'])
+                stemcell_version = version[1]
+              end
+            end
+          end
+        end
+
+        if (stemcell_version != nil)
+          stemcell_state = stemcell_version.get_state
+        end
+
+        stemcells_state << { "name" => stemcell['name'], "version" => stemcell['version'] ,"state" => stemcell_state, "version" => stemcell_version}
+      end
+
+      message = ''
+      stemcells_state.each do |stemcell|
+        if (stemcell["state"] == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY || stemcell["state"] == nil)
+          message = message + "The stemcell #{stemcell} #{software_version} you are trying to deploy does not exist locally, please download it first \n"
+        end
+      end
+
+      if (message != '')
+        raise message
+      end
+
+      say 'Deploying missing components'
+      File.open(@lock_file, 'w') {|f| f.write("locked") }
+
+      if (software_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL)
+        release = Release.new
+        release.upload(File.join(software.bits_full_local_path, "release.tgz"))
+      end
+
+      stemcells_state.each do |stemcell|
+        if (stemcell["state"]== Uhuru::BoshCommander::Versioning::STATE_LOCAL)
+          stemcell_obj = Stemcell.new
+          stemcell_obj.upload(stemcell["version"].bits_full_local_path)
+        end
+      end
+
+
       command.set_current(current_file)
       command.perform
 

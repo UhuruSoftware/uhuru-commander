@@ -5,13 +5,15 @@ require 'archive/tar/minitar'
 module Uhuru
   module BoshCommander
     module Versioning
+      STATE_REMOTE_ONLY = 1
+      STATE_DOWNLOADING = 2
+      STATE_LOCAL = 3
+      STATE_LOCAL_PREPARING = 4
+      STATE_AVAILABLE = 5
+      STATE_DEPLOYED = 6
+
       class Version
-        STATE_REMOTE_ONLY = 1
-        STATE_DOWNLOADING = 2
-        STATE_LOCAL = 3
-        STATE_LOCAL_PREPARING = 4
-        STATE_AVAILABLE = 5
-        STATE_DEPLOYED = 6
+
 
         BITS_FILENAME = 'bits'
 
