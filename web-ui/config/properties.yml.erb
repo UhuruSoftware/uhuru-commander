@@ -1,4 +1,15 @@
 ---
+<%
+    nats_user = SecureRandom.hex
+    nats_password = SecureRandom.hex
+    db_password = SecureRandom.hex
+    redis_password = SecureRandom.hex
+    blobstore_director_password = SecureRandom.hex
+    blobstore_agent_password = SecureRandom.hex
+    hm_password = SecureRandom.hex
+    director_nagios_password = SecureRandom.hex
+    nagios_password = SecureRandom.hex
+%>
 properties:
   micro: true
   vcenter:
@@ -6,18 +17,18 @@ properties:
     user: user
     password: password
     datacenters:
-    - name: uhuru
-      vm_folder: mng_vms
-      template_folder: mng_templates
-      disk_path: mitza_micro
-      datastore_pattern: nas-paragina
-      persistent_datastore_pattern: nas-paragina
-      allow_mixed_datastores: true
-      clusters:
-      - Staging
+      - name: uhuru_ucc
+        vm_folder: uhuru_ucc_vms
+        template_folder: uhuru_ucc_templates
+        disk_path: uhuru_ucc_deployer
+        datastore_pattern: datastore
+        persistent_datastore_pattern: datastore
+        allow_mixed_datastores: true
+        clusters:
+          - Cluster
   nats:
-    user: nats
-    password: nats
+    user: <%= nats_user %>
+    password: <%= nats_password %>
     auth_timeout: 10
     ping_max_outstanding: 5
     address: 127.0.0.1
@@ -30,11 +41,11 @@ properties:
       port: 9222
   redis:
     address: 127.0.0.1
-    password: redis
+    password: <%= redis_password %>
     port: 25255
     loglevel: info
   postgres: &4644840
-    password: bosh
+    password: <%= db_password %>
     host: 127.0.0.1
     listen_address: 127.0.0.1
     database: bosh
@@ -44,14 +55,14 @@ properties:
     connection_options:
       max_connections: 32
       pool_timeout: 10
-  blonats_filebstore:
+  blobstore:
     address: 127.0.0.1
     director:
       user: director
-      password: director
+      password: <%= blobstore_director_password %>
     agent:
       user: agent
-      password: agent
+      password: <%= blobstore_agent_password %>
     port: 25250
     backend_port: 25251
     provider: dav
@@ -74,7 +85,7 @@ properties:
   hm:
     http:
       user: hm
-      password: hm
+      password: <%= hm_password %>
       port: 25923
     director_account:
       user: admin
@@ -119,7 +130,7 @@ properties:
     db:
       adapter: postgres
       user: bosh
-      password: bosh
+      password: <%= db_password %>
       host: 127.0.0.1
       port: 5432
       database: bosh_registry
@@ -137,12 +148,13 @@ properties:
     alerts:
       email_to: alerts@mycompany.org
     admin: nagios
-    password: nagios1234!
+    password: <%= nagios_password %>
     director_user: nagiosuser
-    director_password: nagiospassword
+    director_password: <%= director_nagios_password %>
     email:
       from_alias: Nagios
       from: nagios@mycompany.org
       server: localhost
     legacy:
       enabled: false
+

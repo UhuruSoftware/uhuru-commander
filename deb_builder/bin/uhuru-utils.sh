@@ -97,6 +97,8 @@ EOF
 
     cp -R ${PATH_UHURU_COMMANDER}/web-ui uhuru-uccui/var/vcap/store/ucc/
 
+    rm uhuru-uccui/var/vcap/store/ucc/web-ui/config/properties.yml
+
     cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ucc_ctl uhuru-uccui/var/vcap/store/ucc/ucc_ctl
 
     cd uhuru-uccui/var/vcap/store/ucc/web-ui
@@ -125,6 +127,11 @@ EOF
 cd /var/vcap/store/ucc/web-ui
 GEM_HOME=/var/vcap/store/ucc/web-ui/gem_home
 /var/vcap/packages/ruby/bin/bundle install --local
+
+if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
+    erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
+fi
+
 monit restart ucc
 EOF
 
