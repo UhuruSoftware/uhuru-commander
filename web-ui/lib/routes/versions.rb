@@ -49,15 +49,15 @@ module Uhuru::BoshCommander
 
 
     post '/download' do
-      progress = nil
+      product = params[:product]
+      version = params[:version]
+
       Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
         if product[1].name == params[:product]
           product[1].versions.each do |version|
             if version[1].version == params[:version]
               Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
                 version[1].download_from_blobstore
-                progress = version[1].download_progress
-                #puts version[1].download_from_blobstore
               end
             end
           end
@@ -67,10 +67,31 @@ module Uhuru::BoshCommander
       render_erb do
         template :downloads
         layout :layout
-        var :progress, progress[0]
+        var :progress, 0
+        var :product, product
+        var :version, version
         help 'versions'
       end
     end
+
+    post '/download_state' do
+      progress = nil
+
+      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
+        if product[1].name == params[:product]
+          product[1].versions.each do |version|
+            if version[1].version == params[:version]
+              Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+                progress = version[1].download_progress
+              end
+            end
+          end
+        end
+      end
+
+      return progress[0].to_s
+    end
+
 
     get '/versions' do
       products = Uhuru::BoshCommander::Versioning::Product.get_products
