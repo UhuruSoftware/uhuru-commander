@@ -473,83 +473,53 @@ td.border_right
 
 .versions_div
 {
+    width: 600px;
     padding-top: 10px;
     overflow-y: hidden;
+    margin: 0px auto;
 }
 
 .versions_table
 {
-    width: 750px;
-    margin: 10px auto;
-}
-.versions_table .td_versions
-{
-    width: 20px;
-}
-.versions_table .td_deployments,
-.versions_table .td_state,
-.versions_table .td_size
-{
-    width: 5px;
+    width: 550px;
+    margin: 10px;
 }
 
-.versions_table .downloading,
-.versions_table .deployed,
-.versions_table .available,
-.versions_table .local,
-.versions_table .local_preparing,
-.versions_table .error,
 .versions_table .remote_only
 {
-    width: 55px;
-    height: 40px;
-    padding: 0;
-    background-repeat: no-repeat;
-    background-position: 95% 95%;
+    color: #bbbbbb;
 }
-.versions_table .remote_only
-{
-    color: #d8000c;
-    background-image: url("../icons/remote.ico");
-}
-.versions_table .error
-{
-    color: #d8000c;
-    background-image: url("../icons/delete.ico");
-}
-.versions_table .downloading
-{
-    background-image: url("../icons/downloading.ico");
-}
+
 .versions_table .local,
 .versions_table .local_preparing
 {
     color: #306da7;
-    background-image: url("../icons/local.ico");
 }
-.versions_table .available
-{
-    color: #13a12c;
-    background-image: url("../icons/available.ico");
-}
+
+.versions_table .available,
 .versions_table .deployed
 {
     color: #13a12c;
-    background-image: url("../icons/deployed.ico");
 }
 
+.versions_table .td_versions
+{
+    width: 30px;
+}
 
 .versions_table .td_descriptions
 {
-    width: 250px;
+    width: 300px;
 }
-.versions_table .td_actions
+
+.versions_table .td_state
 {
     width: 80px;
 }
-.versions_table .td_dependencies
+
+.versions_table .td_actions
 {
-    width: 350px;
+    width: 140px;
 }
 
 .table_title
@@ -577,6 +547,21 @@ tr td:last-child {
 {
     text-align: left;
 }
+
+.versions_table .info_box
+{
+    display:none;
+    width: 200px;
+    border: 1px solid black;
+    background-color: #fafad2;
+    position: absolute;
+    top: 20px;
+    left: -200px;
+    text-align: left;
+    padding: 5px;
+    z-index: 100;
+}
+
 .action_buttons
 {
     display: block;
@@ -590,73 +575,48 @@ tr td:last-child {
     background-color: transparent !important;
     background-repeat: no-repeat !important;m;
 }
+
 .action_buttons:hover
 {
     border: 0 !important;
     background-color: transparent !important;
 }
-.action_buttons.download
-{
-    background-image: url('../icons/download.ico');
+
+.action_buttons.info {
+    background-image: url('/icons/info.png');
 }
+
+.action_buttons.download,
 .action_buttons.download:hover
 {
-    background-image: url('../icons/download.ico');
+    background-image: url('/icons/download.png');
 }
-.action_buttons.delete
-{
-    background-image: url('../icons/delete.ico');
-}
+
+.action_buttons.delete,
 .action_buttons.delete:hover
 {
-    background-image: url('../icons/delete.ico');
+    background-image: url('/icons/delete.png');
 }
 
-
-/************************************************************************/
-/*Downloads Page
-/************************************************************************/
-
-.downloading_page
+.action_buttons.upload,
+.action_buttons.upload:hover
 {
-    width: 100%;
-    margin-left: -100px;
+    background-image: url('/icons/upload.png');
 }
-.downloading_page_div
+
+progress
 {
-    width: 700px;
-    height: 400px;
-    margin: 50px auto;
-    border: 2px solid #033e6b;
-}
-.downloading_page_div div:nth-child(1)
-{
+    background-color: #dddddd;
+    width: 60px;
+    height: 8px;
     margin: auto;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
 }
-.downloading_page_div div:nth-child(2)
+progress.hidden
 {
-    margin: 280px auto 0px;
-    padding: 10px;
-    text-align: center;
-}
-.downloading_page_div div:nth-child(2) progress
-{
-    border: 0;
-    width: 350px;
-    height: 20px;
-}
-.downloading_page_div div:nth-child(3)
-{
-    margin: 5px auto;
-    padding: 10px;
-    text-align: center;
+    display: none;
 }
 
-
-
+/* ensure all browsers */
 progress::-webkit-progress-bar
 {
     background-color: #dddddd;
