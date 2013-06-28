@@ -501,7 +501,7 @@ td.border_right
 .versions_table .error,
 .versions_table .remote_only
 {
-    width: 55px;
+    width: 70px;
     height: 40px;
     padding: 0;
     background-repeat: no-repeat;
@@ -613,50 +613,20 @@ tr td:last-child {
 }
 
 
-/************************************************************************/
-/*Downloads Page
-/************************************************************************/
 
-.downloading_page
+progress
 {
-    width: 100%;
-    margin-left: -100px;
-}
-.downloading_page_div
-{
-    width: 700px;
-    height: 400px;
-    margin: 50px auto;
-    border: 2px solid #033e6b;
-}
-.downloading_page_div div:nth-child(1)
-{
+    background-color: #dddddd;
+    width: 60px;
+    height: 8px;
     margin: auto;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
 }
-.downloading_page_div div:nth-child(2)
+progress.hidden
 {
-    margin: 280px auto 0px;
-    padding: 10px;
-    text-align: center;
-}
-.downloading_page_div div:nth-child(2) progress
-{
-    border: 0;
-    width: 350px;
-    height: 20px;
-}
-.downloading_page_div div:nth-child(3)
-{
-    margin: 5px auto;
-    padding: 10px;
-    text-align: center;
+    display: none;
 }
 
-
-
+/* ensure all browsers */
 progress::-webkit-progress-bar
 {
     background-color: #dddddd;
