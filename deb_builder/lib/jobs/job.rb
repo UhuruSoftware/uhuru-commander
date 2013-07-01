@@ -64,7 +64,7 @@ module Uhuru
             file.write(template.result(binding))
           end
 
-          `cd #{target_dir} ; dpkg-deb --build uhuru-ucc`
+          `cd #{target_dir} ; dpkg-deb --build uhuru-ucc .`
 
           puts 'Done.'
         end
@@ -200,7 +200,7 @@ module Uhuru
           puts 'Building deb package...'
 
           deb_dir = File.expand_path('..', @work_directory)
-          `cd #{deb_dir} ; dpkg-deb --build #{@spec['name']}`
+          `cd #{deb_dir} ; dpkg-deb --build #{@spec['name']} .`
         end
       end
     end

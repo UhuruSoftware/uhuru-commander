@@ -65,7 +65,7 @@ EOF
 
     chmod 755 uhuru-ttyjs/DEBIAN/postinst
 
-    dpkg-deb --build uhuru-ttyjs
+    dpkg-deb --build uhuru-ttyjs .
 }
 
 function make_uccui()
@@ -145,7 +145,7 @@ check process ucc
   group vcap
 EOF
 
-    dpkg-deb --build uhuru-uccui
+    dpkg-deb --build uhuru-uccui .
 }
 
 make_ttyjs
