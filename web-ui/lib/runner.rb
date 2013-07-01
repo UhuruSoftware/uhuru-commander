@@ -72,6 +72,13 @@ module Uhuru::BoshCommander
 
       Runner.setup_logging
       $config[:logger] = Runner.logger
+
+      #we need to created the default admin user
+      if User.users.size == 0
+        User.create("admin", "admin")
+        properties = YAML.load_file($config[:properties_file])
+        User.create(properties['properties']['hm']['director_account']['user'], properties['properties']['hm']['director_account']['password'])
+      end
     end
 
     def self.load_help_file(help_file)

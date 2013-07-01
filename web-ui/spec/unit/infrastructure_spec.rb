@@ -21,7 +21,5 @@ describe 'Setup Infrastructure' do
     director_yml = load_yaml_file(@infrastructure_dev_file)
     infrastructure = Uhuru::BoshCommander::BoshInfrastructure.new
     infrastructure.setup_micro(@infrastructure_dev_file)
-
   end
-
 end
