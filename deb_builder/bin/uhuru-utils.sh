@@ -118,6 +118,8 @@ EOF
 
     cp -f $PATH_UHURU_COMMANDER/web-ui/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
 
+    rm -rf ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/bundle
+
     cd $cwd
     
     cat <<EOF >uhuru-uccui/DEBIAN/postinst
