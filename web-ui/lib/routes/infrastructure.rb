@@ -33,8 +33,18 @@ module Uhuru::BoshCommander
           File.open(properties_yml, "w") do |file|
             file.write(volatile_data.to_yaml)
           end
-
-          redirect '/'
+          request_id = CommanderBoshRunner.execute_background(session) do
+            begin
+              say ('Setup infrastructure')
+              Uhuru::BoshCommander::ConfigUpdater.apply_spec_for_all_jobs
+              say ('Restarting services')
+              restart_monit
+            rescue Exception => e
+              err e
+            end
+          end
+          action_on_done = "Infrastructure setup done. Click <a href='/infrastructure'>here</a> to return to infrastructure view."
+          redirect Logs.log_url(request_id, action_on_done)
         end
       end
 
@@ -47,6 +57,13 @@ module Uhuru::BoshCommander
           help form.help(false)
         end
       end
+    end
+
+    private
+
+    def restart_monit
+      monit = Monit.new
+      monit.restart_services
     end
   end
 end

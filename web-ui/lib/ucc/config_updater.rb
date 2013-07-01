@@ -16,7 +16,7 @@ module Uhuru::BoshCommander
     def self.apply_spec_for_job(job)
       job_dir = File.join(JOBS_DIR, job)
       templates_dir = File.join(job_dir, 'uhuru_templates')
-      generate_templates_script = File.join(job_dir, 'generate_templates.rb')
+      generate_templates_script = File.join(job_dir, 'uhuru_templates' , 'generate_templates.rb')
       ruby_interpreter = File.join(RbConfig::CONFIG['bindir'], 'ruby')
 
       output = `#{ruby_interpreter} #{generate_templates_script} #{templates_dir} #{job_dir}`

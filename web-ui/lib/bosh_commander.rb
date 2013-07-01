@@ -37,6 +37,7 @@ require "ucc/release"
 require "ucc/stemcell"
 require "ucc/deployment_status"
 require "ucc/deployment_state"
+require "ucc/config_updater"
 
 require "routes/route_base"
 require "routes/login_screen"
