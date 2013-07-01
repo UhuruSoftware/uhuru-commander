@@ -23,6 +23,8 @@ module Uhuru
         attr_accessor :deployments
         attr_accessor :location
         attr_accessor :description
+        attr_accessor :size
+
 
         def initialize(product, version, details)
           @product = product
@@ -31,6 +33,7 @@ module Uhuru
           @description = details['description']
           @dependencies = details['dependencies']
           @location = details['location']
+          @size = details['location']['size']
           @deployments = nil
         end
 

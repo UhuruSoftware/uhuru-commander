@@ -1,4 +1,5 @@
 <div class="versions_div">
+  <% counter = 0 %>
   <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
       <% products.each do |product| %>
           <% if product[1].type == type %>
@@ -11,9 +12,6 @@
                   <td class="td_versions">Version</td>
                   <td class="td_descriptions">Description</td>
                   <td class="td_state">State</td>
-                  <td class="td_size">Size</td>
-                  <td class="td_deployments">Deployments</td>
-                  <td class="td_dependencies">Dependencies</td>
                   <td class="td_actions">Actions</td>
                 </tr>
                 </thead>
@@ -34,76 +32,84 @@
                       <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
 
                           <!-- STATE -->
+
+                          <%
+                             state_class = case version[1].get_state
+                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'local'
+                                             when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'remote_only'
+                                             when Uhuru::BoshCommander::Versioning::STATE_AVAILABLE then 'available'
+                                             when Uhuru::BoshCommander::Versioning::STATE_DEPLOYED then 'deployed'
+                                             when Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING then 'downloading'
+                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL_PREPARING then 'local_preparing'
+                             end
+
+                             state_label = case version[1].get_state
+                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'Local'
+                                             when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'Remote Only'
+                                             when Uhuru::BoshCommander::Versioning::STATE_AVAILABLE then 'Available for Deployment'
+                                             when Uhuru::BoshCommander::Versioning::STATE_DEPLOYED then 'Deployed'
+                                             when Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING then 'Downloading ...'
+                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL_PREPARING then 'Preparing ...'
+                                           end
+
+                          %>
+
                           <td class="td_state states <%= version[1].get_state.to_s %>">
-                            <div class="<%= product[1].name.to_s %>" id="<%= version[1].version.to_s %>">
-                                <% if version[1].get_state.to_s == '1' %>
-                                    <div class="remote_only">Remote Only</div>
-                                <% elsif version[1].get_state.to_s == '2' %>
-                                    <div class="downloading">Downloading</div>
-                                <% elsif version[1].get_state.to_s == '3' %>
-                                    <div class="local">Local</div>
-                                <% elsif version[1].get_state.to_s == '4' %>
-                                    <div class="local_preparing">Local Preparing</div>
-                                <% elsif version[1].get_state.to_s == '5' %>
-                                    <div class="available">Available</div>
-                                <% elsif version[1].get_state.to_s == '6' %>
-                                    <div class="deployed">Deployed</div>
-                                <% else %>
-                                    <div class="selected_state error">Error</div>
-                                <% end %>
+                            <div id="<%= version[1].version.to_s %>">
+                                <div class="<%= state_class %>"><%= state_label %></div>
                             </div>
                           </td>
 
-                          <!-- SIZE -->
-                          <td class="td_size">
-                            <%= version[1].location.size %>
-                          </td>
-
-                          <!-- DEPLOYMENTS -->
-                          <td class="td_deployments">
-                            <%= version[1].deployments %>
-                          </td>
-
-                          <!-- DEPENDENCIES -->
-                          <td class="td_dependencies">
-                            <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
-                                <% if product[1].type == type %>
-                                    <% version[1].dependencies.each do |dependency| %>
-                                        <%= dependency['dependency'] %>
-                                        (
-                                        <% if dependency['version'].count != nil %>
-                                            <% dependency['version'].each_with_index do |version, index| %>
-                                                <% if index < dependency['version'].length - 1 %>
-                                                    <%= version + ', ' %>
-                                                <% else %>
-                                                    <%= version %>
-                                                <% end %>
-                                            <% end %>
-                                        <% end %>
-                                        )
-                                        <br />
-                                    <% end %>
-                                <% end %>
-                            <% end %>
-                          </td>
-
                           <!-- ACTION -->
+
                           <td class="td_actions">
-                            <% if version[1].get_state.to_s == '5' %>
-                                <form method="post" action="">
-                                  <input type="hidden" value="<%= product[1].name.to_s %>" name="product">
-                                  <input type="hidden" value="<%= version[1].version.to_s %>" name="version">
-                                    <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
-                                </form>
+
+                            <% if version[1].get_state != Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING %>
+                                <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
+                                    <form method="post" action="">
+                                      <input type="hidden" value="<%= product[1].name.to_s %>" name="product" />
+                                      <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
+                                        <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                    </form>
+                                <% end %>
+
+                                <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
+                                    <form method="post" action="">
+                                      <input type="hidden" value="<%= product[1].name.to_s %>" name="product" />
+                                      <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
+
+                                      <input type="submit" value="" class="action_buttons upload" title="Upload <%= product[1].label %>&nbsp;<%= version[1].version %>" />
+                                    </form>
+                                <% end %>
+
+                                <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
+                                    <form method="post" action="/download">
+                                      <input type="hidden" value="<%= product[1].name.to_s %>" name="product" />
+                                      <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
+
+                                      <input type="submit" value="" class="action_buttons download" title="Download <%= product[1].label %>&nbsp;<%= version[1].version %>" />
+                                    </form>
+                                <% end %>
+
+                                <div class="action_buttons info" onmouseover="jQuery('div', this).show()" onmouseout="jQuery('div', this).hide()">
+                                  <div class="info_box">
+                                    <b>Size:</b> <%= pretty_size(version[1].size) %>
+                                    <br/><hr/><br/>
+                                    <b>Dependencies:</b> <%= version[1].dependencies.map {|d| "#{d['dependency']} (#{d['version'].join(', ')})" }.join('; ')  %>
+                                    <br/><hr/><br/>
+                                    <b>Deployments:</b> <%= version[1].deployments || 'None' %>
+                                    <br/><hr/><br/>
+                                  </div>
+                                </div>
+
                             <% end %>
 
-                            <% if version[1].get_state.to_s != '1' %>
-                                <form method="post" action="download">
-                                  <input type="hidden" value="<%= product[1].name.to_s %>" name="product">
-                                  <input type="hidden" value="<%= version[1].version.to_s %>" name="version">
-                                  <input type="submit" value="" class="action_buttons download" title="Download <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
-                                </form>
+                            <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING %>
+                                <progress id="progressbar_<%= counter %>" class="progress_bars <%= product[1].name.to_s %> <%= version[1].version.to_s %>" value="" max="100" >
+                                </progress>
                             <% end %>
+                            <% counter += 1 %>
+
                           </td>
                       <% end %>
 
@@ -115,44 +121,3 @@
       <% end %>
   <% end %>
 </div>
-
-<script type="text/javascript">
-    setInterval(
-            function(){
-                $('.states div:first-child').each(function(item, object){
-                    $.post('/versions/read_states',
-                        { product: object.classList[0], version: object.id },
-                        function(data){
-                            if(data.toString() == "1")
-                            {
-                                object.innerHTML = "<div class='remote_only'>Remote Only</div>";
-                            }
-                            if(data.toString() == "2")
-                            {
-                                object.innerHTML = "<div class='downloading'>Downloading</div>";
-                            }
-                            if(data.toString() == "3")
-                            {
-                                object.innerHTML = "<div class='local'>Local</div>";
-                            }
-                            if(data.toString() == "4")
-                            {
-                                object.innerHTML = "<div class='local_remote'>Local Preparing</div>";
-                            }
-                            if(data.toString() == "5")
-                            {
-                                object.innerHTML = "<div class='available'>Available</div>";
-                            }
-                            if(data.toString() == "6")
-                            {
-                                object.innerHTML = "<div class='deployed'>Deployed</div>";
-                            }
-                            if(data.toString() == "7")
-                            {
-                                object.innerHTML = "<div class='error'>Loading...</div>";
-                            }
-                    });
-                });
-            }, 3000
-    );
-</script>
