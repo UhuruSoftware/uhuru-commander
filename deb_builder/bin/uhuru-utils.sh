@@ -112,11 +112,9 @@ EOF
     bundle exec rake all:pre_stage_latest
 
     mkdir -p $cwd/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache
-    mkdir -p $cwd/uhuru-uccui/var/vcap/store/ucc/web-ui/gem_home
-    
+
     cp -f ${PATH_BOSH}/pkg/gems/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
     cp -f ${PATH_BOSH}/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
-    GEM_HOME=$cwd/uhuru-uccui/var/vcap/store/ucc/web-ui/gem_home
 
     cp -f $PATH_UHURU_COMMANDER/web-ui/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
 
