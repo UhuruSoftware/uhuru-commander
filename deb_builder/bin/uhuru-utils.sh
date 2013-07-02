@@ -106,6 +106,7 @@ EOF
     mv Gemfile Gemfile.bk
     cat Gemfile.bk|grep -v git >Gemfile;cat Gemfile.bk |grep git|cut -f 1 -d \:|rev|cut -b 3-|rev >>Gemfile
     rm Gemfile.bk Gemfile.lock
+    rm -rf .bundle
 
     cd ${PATH_BOSH}
 
