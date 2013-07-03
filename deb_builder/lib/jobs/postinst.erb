@@ -24,7 +24,7 @@ echo "startup=1" > /etc/default/monit
 mkdir -p /etc/monit/uhururc.d
 
 MONIT_PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1`
-echo "uhuru:${MONIT_PASSWORD}" > /etc/monit/monit.user
+echo "vcap:${MONIT_PASSWORD}" > /etc/monit/monit.user
 
 echo "set daemon 10
 

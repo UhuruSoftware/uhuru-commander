@@ -6,7 +6,7 @@ module Uhuru::BoshCommander
     BOSH_APP = BOSH_APP_USER = BOSH_APP_GROUP = "vcap"
 
     def base_dir
-      $config[:bosh][:base_dir]
+      '/etc'
     end
 
     def monit_dir
