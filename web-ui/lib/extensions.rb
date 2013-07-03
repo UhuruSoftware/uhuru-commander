@@ -5,4 +5,22 @@ class PluginManager
 
     add_definition_files(definition_files)
   end
+
+  class PluginDefinition
+    def load
+
+      s = Time.now
+      required_files.each {|file| $".delete(file) }
+      load_file = File.expand_path(File.join(File.dirname(definition_file), file))
+      $:.unshift(File.dirname(load_file))
+      new_files = log_requires do
+        Kernel.load "#{load_file}.rb"
+      end
+      required_files.unshift(*new_files)
+      if object.respond_to?(:loaded)
+        object.loaded
+      end
+      @load_time = Time.now - s
+    end
+  end
 end

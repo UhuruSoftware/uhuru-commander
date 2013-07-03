@@ -3,7 +3,7 @@ name: wp
 director_uuid: 14cd4dca-f4d5-49b3-9b9c-9bd697096331
 release:
   name: wordpress
-  version: 3.0.0
+  version: 3.0.1
 compilation:
   workers: 4
   network: default
@@ -46,7 +46,7 @@ resource_pools:
     ram: 2048
   env:
     bosh:
-      password: $6$dIFUXlb6Qe$37rbBy.SmHZayVeoNEm8bPOvNuKe0fnGsOd0KkIGngqh0xKMtsu1nnd89.ruTDV14k1fsAVJVY6.p7O1hGdmA.
+      password: $6$oU/TykGSK1xFZIx$pIcH3avmzd2eMTSw7E1CfpVHRMd2V8dadmfryWa2dsNUzT.u0.pusMw8wdNXV5UdZClxeXBNcVXUvXf3R41oe/
 jobs:
 - name: mysql
   template: mysql
@@ -83,18 +83,18 @@ properties:
     db:
       name: wp
       user: wordpress
-      pass: a07fd1a436d1d158fb7fc32999ed060a
-    auth_key: 76230ff4bb96637cfc30eeb1a5b0ed0b
-    secure_auth_key: 5b4340eddef475c50c1b3d1df6c8eb3e
-    logged_in_key: ee11f1a9f6f96ae4a0ad69b0622e44f2
-    nonce_key: 009c93f69ff994f89ab8e33a61c08c40
-    auth_salt: b862aabc15f8893c34f23f5053156022
-    secure_auth_salt: 41ba10e2f006fa22c80af996bdc09f30
-    logged_in_salt: df08955bd00918950a5ffa9e10e7fc5b
-    nonce_salt: 1ea05ec7ae0e6ef782b246d7445f1708
+      pass: 57df8db5279b7b799a8a2535ebbd9c62
+    auth_key: 8e6124661721ee419a370617bce25f1d
+    secure_auth_key: 34e47c777e3d5ae9459a81880635a174
+    logged_in_key: b1977d19b93d11f83556ab4298534bf3
+    nonce_key: e7ef07e34b83122491cc14268cdb6ac7
+    auth_salt: 15277926f34ee2b29d1718e65050ff0f
+    secure_auth_salt: 92cd35b6be2e5a9d525f48b3f0c9ac88
+    logged_in_salt: e56bae88c1d89a9e3b0f588cb173b1e8
+    nonce_salt: e64ebf97700f6503833873a1c13ee035
   mysql:
     address: 10.0.21.10
     port: 3306
-    password: 21e09b899d8d896a13aeb7c1ae5f777b
+    password: 11cc35ac7e3dfcc3593530e668a2a065
   nginx:
     workers: 1
