@@ -41,6 +41,8 @@ include /etc/monit/uhururc.d/*
 
 " > /etc/monit/monitrc
 
+chmod 600 /etc/monit/monitrc
+
 echo "Restarting monit ..."
 
 service monit restart
