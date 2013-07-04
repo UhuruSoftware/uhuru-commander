@@ -122,10 +122,6 @@ module Uhuru::BoshCommander
       def check_first_run!
         redirect '/infrastructure' if first_run?
       end
-
-      def forms_yml
-        $config[:forms_yml]
-      end
     end
   end
 end

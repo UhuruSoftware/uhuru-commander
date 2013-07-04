@@ -3,7 +3,7 @@ name: test2
 director_uuid: a0b9babc-e70f-4e0f-adf8-fa1195ce919e
 release: 
   name: bosh-release
-  version: 122.1-dev
+  version: 122.1
 compilation: 
   workers: 1
   reuse_compilation_vms: true

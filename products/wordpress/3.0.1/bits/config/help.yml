@@ -1,0 +1,68 @@
+clouds:
+  - help_item: 'Clouds'
+    content: |
+      Here you have a list of all clouds.
+      Click on the name of any one of them for configuration, monitoring and deployment options.
+      The status of a cloud can have one of the following values:<br>
+      <i>'Not Saved'</i> - the cloud has not been configured yet<br>
+      <i>'Saved'</i> - the cloud has been configured<br>
+      <i>'Deploying'</i> - the cloud is being deployed right now<br>
+      <i>'Deployed'</i> - the cloud has been deployed and can be used<br>
+      <i>'Error'</i> - there was an error while deploying the cloud<br>
+  - help_item: 'Creating a new cloud'
+    content: |
+      Just type in a cloud name in the 'Cloud Name' text field and click the 'Create Cloud' button - a new configuration will be created.
+tasks:
+  - help_item: 'Tasks'
+    content: |
+      Commander tasks are generated whenever you perform an action on a cloud. Here you can find a list of all tasks. Click on the ID of any one of them to see a detailed log.
+  - help_item: 'Filtering'
+    content: |
+      You can exclude day-to-day tasks from the list - using ssh, grabbing logs, listing vms.
+  - help_item: 'Task Jump'
+    content: |
+      If you know the ID of the task you're interested in, you can type it in and jump to its details directly.
+  - help_item: 'Navigation'
+    content: |
+      By default, only the last 30 tasks are displayed. You can load more by pressing the 'More...' button; you can also use the jump buttons to scroll to the top or bottom of the list.
+cloud_vms:
+  - help_item: 'VM List'
+    content: |
+      Here you have a list of all VMs that make up your App Cloud.<br />
+      The name of each VM represents the job (role) it has. Multiple VMs can run the same job; VMs with the same job name will have different indexes (the '#' column).
+      This list also reports the VMs state (running/failing) and its assigned IP addresses.
+  - help_item: 'Logs'
+    content: |
+      You can download a tarball containing all pertinent logs for a VM by clicking "Logs".<br />
+      If you are running Windows, a good tool for this is <a target='_blank' href='http://www.7-zip.org/'>7-Zip</a>.
+  - help_item: 'SSH'
+    content: |
+      If you need to interact with any of the servers, whether they're running Linux or Windows, you can start an SSH session directly from the browser.<br />
+      All major browsers are supported - but for a better experience (clipboard support), please use <a target='_blank' href='http://www.opera.com/'>Opera</a>.
+cloud_summary:
+  - help_item: 'Useful URLs'
+    content: |
+      This section contains a list of URLs that redirect you to various parts of the cloud.<br />
+      <i>Cloud API Enpoint</i> - this is the URL clients such as the Uhuru Cloud Admin use to connect to the cloud; it's a REST API service that allows the client to interact with the cloud<br />
+      <i>Web Interface</i> - this is a web interface that contains links to cloud tools, it enables user registration, password management and user management (for admins only) <br />
+users:
+  - help_item: 'Adding a new user'
+    content: |
+      You can create a new Uhuru Cloud Commander user by supplying a username and a password. Note that all users are administrators.
+logs:
+  - help_item: 'Task logs'
+    content: |
+      This page contains information about a Commander task. If the task is running, this page will stream events and display them in real-time.
+internal_logs:
+  - help_item: 'Internal Logs'
+    content: |
+      This page contains a list of Commander internal events.
+
+versions:
+  - help_item: 'New Versions!'
+    content: |
+      Here you have a list of all new versions, that appear on top of the current and old versions
+  - help_item: 'Available Versions'
+    content: |
+      A list of old versions.
+
