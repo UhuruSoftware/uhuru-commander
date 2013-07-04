@@ -126,6 +126,27 @@ module Uhuru::BoshCommander
       WordpressForm.new(saved_data, form_data, Deployment.new(cloud_name, product_name))
     end
 
+    def upgrade
+      unless (defined? Thread.current.request_id) && (Thread.current.request_id != nil)
+        raise "This method has to be called using a 'Commander BOSH Runner'"
+      end
+
+      blank_manifest_path = File.join(File.expand_path("../../config/#{product_name}.yml.erb", __FILE__))
+      blank_manifest_template = ERB.new(File.read(blank_manifest_path))
+
+      new_manifest = YAML.load(blank_manifest_template.result(binding))
+      @saved_data = new_manifest
+      is_ok = validate?(GenericForm::VALUE_TYPE_FORM)
+
+      if is_ok
+        generate_volatile_data!
+        deployment.save(get_data(GenericForm::VALUE_TYPE_VOLATILE))
+        is_ok = validate?(GenericForm::VALUE_TYPE_VOLATILE)
+      end
+
+      is_ok
+    end
+
     private
 
     def initialize(saved_data, form_data, deployment)

@@ -163,30 +163,23 @@ module Uhuru::BoshCommander
         if params["select_version"] != current_version
 
           current_version = params["select_version"]
-          new_version = product.versions[current_version]
+          version = product.versions[current_version]
 
-          blank_manifest_path = File.join(new_version.version_dir, "bits", "config", "#{product_name}.yml.erb")
+          blank_manifest_path = File.join(version.version_dir, "bits", "config", "#{product_name}.yml.erb")
           blank_manifest_template = ERB.new(File.read(blank_manifest_path))
 
           new_manifest = YAML.load(blank_manifest_template.result(binding))
 
           manager = PluginManager.new
-          manager.add_plugin_version_source(new_version.version_dir)
+          manager.add_plugin_version_source(version.version_dir)
           manager.load
 
           CommanderBoshRunner.execute(session) do
-            deployment = Deployment.new(cloud_name, product_name)
-            deployment.save(new_manifest)
 
             form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, params)
-            is_ok = form.validate?(GenericForm::VALUE_TYPE_FORM)
-
+            is_ok = form.upgrade
             if is_ok
-              form.generate_volatile_data!
               values_to_show = GenericForm::VALUE_TYPE_VOLATILE
-              form.deployment.save(form.get_data(GenericForm::VALUE_TYPE_VOLATILE))
-
-              is_ok = form.validate?(GenericForm::VALUE_TYPE_VOLATILE)
             end
             deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
           end
@@ -243,9 +236,8 @@ module Uhuru::BoshCommander
           redirect Logs.log_url request_id, action_on_done
         end
 
-      elsif params["select_version"] != current_version
-        current_version = params["select_version"]
-        params.delete("select_version")
+      elsif params.has_key?("version")
+        current_version = params["version"]
         version = product.versions[current_version]
 
         manager = PluginManager.new

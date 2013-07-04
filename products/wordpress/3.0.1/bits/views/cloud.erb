@@ -38,7 +38,7 @@
         <select name="select_version"
                 type="text"
                 id="select_version"
-                onchange="ChangeVersion()"
+                onchange="ChangeVersion(this.value)"
         >
           <% versions.each do |value| %>
               <option <%= value == current_version ? 'selected' : '' %> value="<%= value %>"><%= value %></option>
@@ -253,8 +253,10 @@
     switchCloudMenu(<%= "['#{@cloud_menu.keys.join js_splitter}']" %>, qs_default_menu);
     switchCloudMenu(<%= sub_menu_ids %>, qs_default_sub_menu);
 
-    function ChangeVersion()
+    function ChangeVersion(version)
     {
+        var action = document.cloud_config_form.action;
+        document.cloud_config_form.action = action + "?version=" + version
         document.cloud_config_form.submit();
     }
 </script>
