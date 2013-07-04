@@ -4,7 +4,7 @@ $(document).ready(function(){
 
             $('.progress_bars').each(function(index, object)
             {
-                if ($('#' + object.id).is(':visible') && $('#' + object.id).val < 100)
+                if ($('#' + object.id).is(':visible'))
                 {
                     $.get('download_state',
                         { product: object.classList[1], version: object.classList[2] },
@@ -18,6 +18,7 @@ $(document).ready(function(){
                             {
                                 $('#' + object.id).attr('value', parseInt(data));
                                 clearInterval(process);
+                                location.reload();
                             }
                         }
                     );

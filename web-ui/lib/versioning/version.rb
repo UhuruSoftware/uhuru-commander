@@ -145,7 +145,7 @@ module Uhuru
           if File.exist?(bits_full_local_path_dl)
             total_size = @location['size']
             dl_size = File.size(bits_full_local_path_dl)
-            [(dl_size / total_size) * 100, "Downloaded #{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
+            [((dl_size.to_f / total_size.to_f) * 100).to_i, "Downloaded #{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
           else
             if Dir.exist?(bits_full_local_path_unpacked)
               if File.exist?(bits_full_local_path_dl)

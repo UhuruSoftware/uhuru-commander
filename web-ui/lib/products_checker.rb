@@ -13,8 +13,11 @@ module Uhuru::BoshCommander
     end
 
     def self.check_for_updates
-      # TODO: was not yet properly tested
-      return Uhuru::BoshCommander::Versioning::Product.download_manifests
+      begin
+        return Uhuru::BoshCommander::Versioning::Product.download_manifests
+      rescue Exception => e
+        $logger.error "#{e.message} - #{e.backtrace}"
+      end
     end
 
   end

@@ -112,7 +112,7 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
-          release.upload("#{product_dir}/#{params[:version]}")#'/home/mitza/code/private-cf-release/dev_releases/app-cloud-122.3-dev.yml'
+          release.upload("#{product_dir}/#{params[:version]}/#{params[:version]}.yml") #'/home/marius/code/private-cf-release/dev_releases/marius-test-122.1-dev.yml'
 
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"

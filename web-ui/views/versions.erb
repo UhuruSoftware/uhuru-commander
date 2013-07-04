@@ -124,7 +124,7 @@
                             <% end %>
 
                             <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING %>
-                                <progress id="progressbar_<%= counter %>" class="progress_bars <%= product[1].name.to_s %> <%= version[1].version.to_s %>" value="" max="100" >
+                                <progress id="progressbar_<%= counter %>" class="progress_bars <%= product[1].name.to_s %> <%= version[1].version.to_s %>" value="0" max="100">
                                 </progress>
                             <% end %>
                             <% counter += 1 %>

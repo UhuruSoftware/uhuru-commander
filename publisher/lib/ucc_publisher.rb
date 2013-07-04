@@ -61,11 +61,11 @@ module Uhuru
                 opts.opt :name,         "Product name",                         :short => "-n", :long => "--name",        :type => :string
                 opts.opt :label,        "Product label",                        :short => "-l", :long => "--label",       :type => :string
                 opts.opt :description,  "Product description",                  :short => "-d", :long => "--description", :type => :string
-                opts.opt :type,         "Product type [ucc, stemcell]",         :short => "-t", :long => "--type",        :type => :string
+                opts.opt :type,         "Product type [ucc, software, stemcell]",         :short => "-t", :long => "--type",        :type => :string
                 opts.opt :force,        "Force overwrite",                      :short => :none, :long => "--force",       :type => :boolean, :default => false
                 opts.opt :blob_id,      "Overwrtire blobstore ID",              :short => "-b", :long => "--blob",        :type => :string,  :default => SecureRandom.hex.to_s
 
-                opts.validate(:type, "must be one of the following: [ucc, stemcell]") {|option| ["ucc", "stemcell"].include?(option) }
+                opts.validate(:type, "must be one of the following: [ucc, software, stemcell]") {|option| ["ucc", "software", "stemcell"].include?(option) }
 
                 opts.dependency :blob_id, :on => [{:force => false}]
               end
