@@ -3,7 +3,7 @@ name: vlad
 director_uuid: c4baac94-081d-42fa-8fb2-631534c6e58f
 release: 
   name: bosh-release
-  version: 122.1-dev
+  version: 122.1
 compilation: 
   workers: 1
   reuse_compilation_vms: true

@@ -16,12 +16,14 @@
   <table class="settings_table clouds">
     <tr class="settings_table_header">
       <td>Cloud</td>
+      <td>Version</td>
       <td>Status</td>
       <td>Resources</td>
     </tr>
     <% clouds.each do |cloud| %>
         <tr>
           <td class="cell_border cell_border_bottom bold"><a onclick="showPageLoading()" href="/products/<%= product_name %>/<%= cloud['name'] %>"><%= cloud['name'] %></a></td>
+          <td class="cell_border cell_border_bottom "><%= cloud['version'] %></td>
           <td class="cloud_state <%= cloud['state'].to_s().downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
           <td class="cell_border cell_border_bottom ">
             <% if cloud['resources'] != nil %>

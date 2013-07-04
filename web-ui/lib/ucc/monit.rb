@@ -5,6 +5,8 @@ module Uhuru::BoshCommander
 
     BOSH_APP = BOSH_APP_USER = BOSH_APP_GROUP = "vcap"
 
+    @tries = 3
+
     def base_dir
       '/etc'
     end
@@ -92,10 +94,18 @@ module Uhuru::BoshCommander
         end
 
       end
+
       if (i == 10)
+        @tries -= 1
+      end
+
+      if @tries <= 0
         error_msg = "Infrastructure services did not start did not start"
         raise error_msg
+      else
+        restart_services
       end
+
     end
 
     def service_group_state(num_retries=10)
