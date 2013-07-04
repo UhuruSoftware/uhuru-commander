@@ -143,7 +143,7 @@ check process ucc
   with pidfile /tmp/boshcommander.pid
   start program "/var/vcap/store/ucc/ucc_ctl start"
   stop program "/var/vcap/store/ucc/ucc_ctl stop"
-  group vcap
+  group ucc
 EOF
 
     dpkg-deb --build uhuru-uccui .
