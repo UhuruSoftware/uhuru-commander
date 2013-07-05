@@ -6,8 +6,6 @@ module Uhuru::BoshCommander
     end
 
     post '/download' do
-      # TODO: products array can pe passed at post
-      #products = params[:products_list]
 
       products = Uhuru::BoshCommander::Versioning::Product.get_products
       products.each do |product|
@@ -27,8 +25,6 @@ module Uhuru::BoshCommander
 
     get '/download_state' do
       progress = ''
-      # TODO: products array can pe passed at post
-      #products = params[:products_list]
 
       Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
         if product[1].name == params[:product]
@@ -43,8 +39,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      # needs to return a json array in order to show the progress span %
-      return progress[0].to_s
+      return "{ \"progressbar\" : \"#{progress[0].to_s}\", \"progressmessage\" : \"#{progress[1].to_s}\" }"
     end
 
     post '/delete_stemcell' do
@@ -55,7 +50,16 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
-          stemcell.delete(params[:name], params[:version])
+
+          stemcell.list_stemcells.each do |current_stemcell|
+            if current_stemcell["name"] == params[:name]
+              current_stemcell["stemcell_versions"].each do |ver|
+                if ver["version"] == params[:version]
+                  stemcell.delete(params[:name], params[:version])
+                end
+              end
+            end
+          end
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
@@ -75,7 +79,16 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
-          release.delete(params[:name], params[:version])
+
+          release.list_releases.each do |current_release|
+            if current_release["name"] == params[:name]
+              current_release["release_versions"].each do |ver|
+                if ver["version"] == params[:version]
+                  release.delete(params[:name], params[:version])
+                end
+              end
+            end
+          end
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
@@ -95,7 +108,7 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
-          stemcell.upload("#{product_dir}/#{params[:version]}/#{params[:version]}.tar.gz")
+          stemcell.upload("#{product_dir}/#{params[:version]}/bits")
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
@@ -112,7 +125,7 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
-          release.upload("#{product_dir}/#{params[:version]}/#{params[:version]}.yml") #'/home/marius/code/private-cf-release/dev_releases/marius-test-122.1-dev.yml'
+          release.upload("#{product_dir}/#{params[:version]}/bits/release.tgz")
 
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
