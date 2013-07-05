@@ -58,6 +58,7 @@ module Uhuru::BoshCommander
             blank_manifest_template = ERB.new(File.read(blank_manifest_path))
 
             new_manifest = YAML.load(blank_manifest_template.result(binding))
+            new_manifest["release"]["version"] = version.version
             deployment.save(new_manifest)
             clouds << DeploymentStatus.new(deployment).status
           else
