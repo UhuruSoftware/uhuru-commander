@@ -1,5 +1,6 @@
 module Uhuru::BoshCommander
   class Versions < RouteBase
+
     get '/new_versions' do
       session[:new_versions] = false
       redirect '/versions'
@@ -42,61 +43,47 @@ module Uhuru::BoshCommander
       return "{ \"progressbar\" : \"#{progress[0].to_s}\", \"progressmessage\" : \"#{progress[1].to_s}\" }"
     end
 
-    post '/delete_stemcell' do
-      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
-      product_dir = File.join(products_dir, params[:name])
-      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
 
+    post '/delete_stemcell_from_bosh' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
-
-          stemcell.list_stemcells.each do |current_stemcell|
-            if current_stemcell["name"] == params[:name]
-              current_stemcell["stemcell_versions"].each do |ver|
-                if ver["version"] == params[:version]
-                  stemcell.delete(params[:name], params[:version])
-                end
-              end
-            end
-          end
+          stemcell.delete(params[:name], params[:version])
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
       end
-
       action_on_done = "Stemcell '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to versions panel."
       redirect Logs.log_url(request_id, action_on_done)
-
       redirect '/versions'
     end
 
-    post '/delete_software' do
-      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
-      product_dir = File.join(products_dir, params[:name])
-      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
-
+    post '/delete_software_from_bosh' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
-
-          release.list_releases.each do |current_release|
-            if current_release["name"] == params[:name]
-              current_release["release_versions"].each do |ver|
-                if ver["version"] == params[:version]
-                  release.delete(params[:name], params[:version])
-                end
-              end
-            end
-          end
+          release.delete(params[:name], params[:version])
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
       end
-
       action_on_done = "Release '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to versions panel."
       redirect Logs.log_url(request_id, action_on_done)
+      redirect '/versions'
+    end
 
+
+    post '/delete_stemcell_local' do
+      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
+      product_dir = File.join(products_dir, params[:name])
+      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
+      redirect '/versions'
+    end
+
+    post '/delete_software_local' do
+      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
+      product_dir = File.join(products_dir, params[:name])
+      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
       redirect '/versions'
     end
 
