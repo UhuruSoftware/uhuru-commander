@@ -67,8 +67,15 @@
                             <% if version[1].get_state != Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING %>
 
                                 <% if product[1].type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL %>
-                                    <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL || version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
-                                        <form method="post" action="/delete_stemcell">
+                                    <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
+                                        <form method="post" action="/delete_stemcell_from_bosh">
+                                          <input type="hidden" value="<%= product[1].name.to_s %>" name="name" />
+                                          <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
+                                          <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                        </form>
+                                    <% end %>
+                                    <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
+                                        <form method="post" action="/delete_stemcell_local">
                                           <input type="hidden" value="<%= product[1].name.to_s %>" name="name" />
                                           <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
                                           <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
@@ -84,8 +91,15 @@
                                 <% end %>
 
                                 <% if product[1].type == Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE %>
-                                    <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL || version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
-                                        <form method="post" action="/delete_software">
+                                    <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
+                                        <form method="post" action="/delete_software_from_bosh">
+                                          <input type="hidden" value="<%= product[1].name.to_s %>" name="name" />
+                                          <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
+                                          <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
+                                        </form>
+                                    <% end %>
+                                    <% if version[1].get_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
+                                        <form method="post" action="/delete_software_local">
                                           <input type="hidden" value="<%= product[1].name.to_s %>" name="name" />
                                           <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
                                           <input type="submit" value="" class="action_buttons delete" title="Delete <%= product[1].label %>&nbsp;<%= version[1].version.downcase %>" />
