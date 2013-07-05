@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gem "blobstore_client", :git => "https://github.com/cloudfoundry/bosh"
+gem "blobstore_client", :git => "git@github.com:UhuruSoftware/private-bosh.git"
 gem "escort"
 gem "terminal-table"
