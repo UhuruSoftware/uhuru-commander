@@ -17,6 +17,7 @@ module Uhuru::BoshCommander
         return Uhuru::BoshCommander::Versioning::Product.download_manifests
       rescue Exception => e
         $logger.error "#{e.message} - #{e.backtrace}"
+        start_checking
       end
     end
 
