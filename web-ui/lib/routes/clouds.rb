@@ -89,7 +89,7 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
-      current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"]
+      current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"].to_s
       version = product.versions[current_version]
 
       manager = PluginManager.new
@@ -142,7 +142,7 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
-      current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"]
+      current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"].to_s
       version = product.versions[current_version]
 
       is_ok = true
@@ -162,7 +162,7 @@ module Uhuru::BoshCommander
 
         if params["select_version"] != current_version
 
-          current_version = params["select_version"]
+          current_version = params["select_version"].to_s
           version = product.versions[current_version]
 
           blank_manifest_path = File.join(version.version_dir, "bits", "config", "#{product_name}.yml.erb")
@@ -237,7 +237,7 @@ module Uhuru::BoshCommander
         end
 
       elsif params.has_key?("version")
-        current_version = params["version"]
+        current_version = params["version"].to_s
         version = product.versions[current_version]
 
         manager = PluginManager.new

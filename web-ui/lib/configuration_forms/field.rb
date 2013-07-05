@@ -341,11 +341,7 @@ module Uhuru::BoshCommander
                 end
               end
             end
-          end
-        end
-      elsif @form.name == 'monitoring'
-        if @screen.name == 'Nagios'
-          if @name == 'nagios_email_server'
+          elsif @name == 'nagios_email_server'
             email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
             email_from =  @screen.fields.find {|field| field.name == 'nagios_email_from' }.get_value(value_type)
             email_port = @screen.fields.find {|field| field.name == 'nagios_email_server_port' }.get_value(value_type)
@@ -410,52 +406,16 @@ END_OF_MESSAGE
 
       result = nil
       begin
-        if @form.name == 'cloud'
-          if @screen.name == 'Network'
-            if @name == 'dynamic_ip_range'
-              deployment = @form.get_data value_type
-
-              range = deployment["networks"][0]["subnets"][0]["range"]
-              gateway = deployment["networks"][0]["subnets"][0]["gateway"]
-              static_ips = deployment["networks"][0]["subnets"][0]["static"]
-
-              if gateway == nil || gateway.strip == ''
-                gateway = '0.0.0.0'
-              end
-
-              gateway.strip!
-              range = [IPHelper.get_subnet_limits(range)]
-              range = IPHelper.subtract_range(range, [gateway, gateway])
-
-              static_ips.each do |static_range|
-                range = IPHelper.subtract_range(range, static_range.split('-').map(&:strip).reject(&:empty?))
-              end
-
-              value.each do |reserved_range|
-                range = IPHelper.subtract_range(range, reserved_range.split('-').map(&:strip).reject(&:empty?))
-              end
-
-              result = IPHelper.to_string range
-            elsif @name == 'subnet_mask'
-              result = IPHelper.get_subnet_netmask(value)
-            end
-          end
-
-        elsif @form.name == 'monitoring'
-          if @screen.name == 'Nagios'
-            if @name == 'nagios_email_server_auth_method'
-              result = value.to_s
-            end
-          end
-
-        elsif @form.name == 'infrastructure'
+        if @form.name == 'infrastructure'
            if @screen.name == 'CPI'
              if @name == 'net_interface'
 
                #we get only ipv4 addresses
                Socket.ip_address_list.delete_if { |intfr| !intfr.ipv4? }.map {|intfr| intfr.ip_address}.each do |ipaddr|
                get_list_items[ipaddr.to_s] = ipaddr
-              end
+               end
+             elsif @name == 'nagios_email_server_auth_method'
+               result = value.to_s
              end
            end
         end
@@ -489,50 +449,14 @@ END_OF_MESSAGE
       end
 
       result = nil
-      if @form.name == 'cloud'
-        if @screen.name == 'Network'
-          if @name == 'dynamic_ip_range'
-            form_data = @form.get_data GenericForm::VALUE_TYPE_FORM
-            gateway = form_data['cloud:Network:gateway']
-            subnet_short = IPHelper.get_subnet_short(form_data['cloud:Network:subnet_mask'])
-            static_ips = IPHelper.from_string(form_data['cloud:Network:static_ip_range'])
-            dynamic_ips = IPHelper.from_string(form_data['cloud:Network:dynamic_ip_range'])
-            result_range = [IPHelper.get_subnet_limits("#{gateway}/#{subnet_short}")]
-            result_range = IPHelper.subtract_range(result_range, [gateway, gateway])
-            static_ips.each do |static_range|
-              result_range = IPHelper.subtract_range(result_range, static_range)
-            end
-            dynamic_ips.each do |dynamic_range|
-              result_range = IPHelper.subtract_range(result_range, dynamic_range)
-            end
-            result = result_range.map do |range|
-              "#{range[0]}-#{range[1]}"
-            end
-          elsif @name == 'subnet_mask'
-            form_data = @form.get_data GenericForm::VALUE_TYPE_FORM
-            subnet_short = IPHelper.get_subnet_short(value)
-            range = IPHelper.get_subnet_limits("#{form_data['cloud:Network:gateway']}/#{subnet_short}")
-            range = IPHelper.ip_to_string(IPHelper.ip_to_int(range[0]) - 1)
-            result = "#{range}/#{subnet_short}"
-          end
-        elsif @screen.name == 'Properties'
-          if @name == 'domain'
-            result = value.to_s.downcase
-          end
-        end
-      elsif @form.name == 'infrastructure'
+      if @form.name == 'infrastructure'
         if @screen.name == 'CPI'
           if @name == 'net_interface'
             #replace ip address in configuration file
             configuration = YAML.load_file($config[:configuration_file])
             configuration["bind_address"] = value
             File.open($config[:configuration_file], "w") {|f| f.write(configuration.to_yaml)}
-          end
-        end
-
-      elsif @form.name == 'monitoring'
-        if @screen.name == 'Nagios'
-          if @name == 'nagios_email_server_auth_method'
+          elsif @name == 'nagios_email_server_auth_method'
             result = value.to_sym
           end
         end

@@ -2,14 +2,9 @@ module Uhuru::BoshCommander
   class Monitoring < RouteBase
     get '/monitoring' do
 
-      form = MonitoringForm.from_config(nil)
-
       render_erb do
         template :monitoring
         layout :layout
-        var :form, form
-        var :value_type, GenericForm::VALUE_TYPE_SAVED
-        help form.help(false)
       end
     end
 

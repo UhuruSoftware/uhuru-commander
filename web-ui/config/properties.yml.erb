@@ -145,8 +145,11 @@ properties:
       description: vcd-cf
   event_nats_enabled: false
   nagios:
+    default_warn_level: 80
+    default_critical_level: 90
     alerts:
       email_to: alerts@mycompany.org
+      notification_interval: 0
     admin: nagios
     password: <%= nagios_password %>
     director_user: hm_user
@@ -155,6 +158,11 @@ properties:
       from_alias: Nagios
       from: nagios@mycompany.org
       server: localhost
+      port: 587
+      user: user
+      secret: secret
+      auth_method: ":plain"
+      enable_tls: true
     legacy:
       enabled: false
 
