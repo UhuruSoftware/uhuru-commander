@@ -473,16 +473,17 @@ td.border_right
 
 .versions_div
 {
-    width: 600px;
+    width: 700px;
     padding-top: 10px;
     overflow-y: hidden;
     margin: 0px auto;
+    padding-bottom: 100px;
 }
 
 .versions_table
 {
-    width: 550px;
-    margin: 10px;
+    width: 650px;
+    margin: 10px 10px 20px 10px;
 }
 
 .versions_table .remote_only
@@ -604,6 +605,11 @@ tr td:last-child {
     background-image: url('/icons/upload.png');
 }
 
+.progress_message
+{
+    font-size: 10px;
+    color: #bbbbbb;
+}
 progress
 {
     background-color: #dddddd;

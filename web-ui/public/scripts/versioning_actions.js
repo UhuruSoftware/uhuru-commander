@@ -10,13 +10,16 @@ $(document).ready(function(){
                         { product: object.classList[1], version: object.classList[2] },
                         function(data)
                         {
-                            if(data < 100)
+                            jsonString = jQuery.parseJSON(data);
+                            if(jsonString.progressbar < 100)
                             {
-                                $('#' + object.id).attr('value', parseInt(data));
+                                $('#' + object.id).attr('value', parseInt(jsonString.progressbar));
+                                $('#message_' + object.id).html(jsonString.progressmessage);
                             }
                             else
                             {
-                                $('#' + object.id).attr('value', parseInt(data));
+                                $('#' + object.id).attr('value', parseInt(jsonString.progressbar));
+                                $('#message_' + object.id).html(jsonString.progressmessage);
                                 clearInterval(process);
                                 location.reload();
                             }
