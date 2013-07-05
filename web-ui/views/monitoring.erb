@@ -10,32 +10,4 @@
       Click <a href="/nagios" target="_blank">here</a> to open the monitoring site.
     </span>
   </div>
-  <form method="post" action="/monitoring" onsubmit="return confirmForm()">
-
-    <div id="monitoring_div">
-      <table class="settings_table infrastructure">
-        <tr class="settings_table_header">
-          <td>Description</td>
-          <td>Local value</td>
-          <td>Live value</td>
-        </tr>
-
-        <% form.screens.each do |screen| %>
-            <% screen.fields.each do |field| %>
-                <%= erb(:config_row, :layout => false, :locals => {:field => field, :value_type => value_type}) %>
-            <% end %>
-        <% end %>
-      </table>
-    </div>
-
-    <div class="bottom_buttons_div">
-      <input name="btn_update"
-             type="submit"
-             value="Update"
-             id="update_monitoring_btn"
-             class="update"
-             onclick="setConfirm('Are you sure you want to update monitoring settings?'); showPageLoading();" />
-    </div>
-
-  </form>
 </div>

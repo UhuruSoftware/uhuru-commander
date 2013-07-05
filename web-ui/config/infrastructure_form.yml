@@ -3,6 +3,8 @@ infrastructure:
   - screen: CPI
     id: cpi
     fields:
+      - {name: infrastructure_sep,                                label: Infrastructure Settings,                        type: separator }
+
       - {name: vcenter,                                   label: vCenter Host,                                        type: ip,
       yml_key: '["properties"]["vcenter"]["address"]',
       description: 'vCenter Host IP Address. Make sure that Uhuru Commander can reach the IP you configure in this field.' }
@@ -42,3 +44,55 @@ infrastructure:
       - {name: net_interface,                                       label: Network Interface,                                         type: list, items: {'127.0.0.1' : '127.0.0.1'},
       yml_key: [ '["properties"]["nats"]["address"]', '["properties"]["postgres"]["host"]', '["properties"]["director"]["address"]', '["properties"]["dns"]["address"]' ],
       description: 'Network interface used for configuration' }
+
+      - {name: nagios_sep,                                label: Nagios Monitoring Settings,                        type: separator }
+
+      - {name: nagios_warn_level,                         label: Warning Level (%),                                 type: numeric,
+      yml_key: '["properties"]["nagios"]["default_warn_level"]',
+      description: 'This controls the threshold (percentage) at which various metrics will be considered to be in a <b>warning</b> state. Some metrics may override this setting.'}
+
+      - {name: nagios_critical_level,                     label: Critical Level (%),                                type: numeric,
+      yml_key: '["properties"]["nagios"]["default_critical_level"]',
+      description: 'This controls the threshold (percentage) at which various metrics will be considered to be in a <b>critical</b> state. Some metrics may override this setting.'}
+
+      - {name: nagios_email_to,                           label: Send E-mail Alerts To,                             type: string,
+      yml_key: '["properties"]["nagios"]["alerts"]["email_to"]',
+      description: 'Nagios will send notification e-mails to the e-mail address you specify here.'}
+
+      - {name: nagios_notification_interval,              label: Notification Interval,                             type: numeric,
+      yml_key: '["properties"]["nagios"]["alerts"]["notification_interval"]',
+      description: 'Nagios will keep sending notification e-mails for existing problems every X minutes. X must be greater than or equal to the default check interval (10 minutes). To only send notifications once (upon detection), set this to 0.'}
+
+      - {name: nagios_email_sep,                          label: E-mail Settings,                                   type: separator }
+
+      - {name: nagios_email_from,                         label: From Address,                                      type: string,
+      yml_key: '["properties"]["nagios"]["email"]["from"]',
+      description: 'The sender e-mail address for notification e-mail messages.'}
+
+      - {name: nagios_email_from_alias,                   label: From Alias,                                        type: string,
+      yml_key: '["properties"]["nagios"]["email"]["from_alias"]',
+      description: 'A friendly sender''s alias.'}
+
+      - {name: nagios_email_server,                       label: Server,                                            type: string,
+      yml_key: '["properties"]["nagios"]["email"]["server"]',
+      description: 'The SMTP server used for sending emails.'}
+
+      - {name: nagios_email_server_port,                  label: SMTP Port,                                         type: string,
+      yml_key: '["properties"]["nagios"]["email"]["port"]',
+      description: 'Port for connecting to the SMTP server.'}
+
+      - {name: nagios_email_server_user,                  label: Username,                                          type: string,
+      yml_key: '["properties"]["nagios"]["email"]["user"]',
+      description: 'Username for authenticating on the SMTP Server.'}
+
+      - {name: nagios_email_server_secret,                label: Password,                                          type: password,
+      yml_key: '["properties"]["nagios"]["email"]["secret"]',
+      description: 'Password for authenticating on the SMTP Server.'}
+
+      - {name: nagios_email_server_auth_method,           label: Authentication Method,                             type: list,       items: {'Plain': 'plain', 'Login': 'login', 'CRAM-MD5': 'cram_md5'},
+      yml_key: '["properties"]["nagios"]["email"]["auth_method"]',
+      description: 'Authentication Method used by the SMTP Server (Plain, Login or SMTP Authentication: [RFC2554]). Please consult your provider on which one of these you should use. The Commander verifies these settings, and you''ll be notified if they don''t work.'}
+
+      - {name: nagios_email_server_enable_tls,            label: Use TLS,                                           type: boolean,
+      yml_key: '["properties"]["nagios"]["email"]["enable_tls"]',
+      description: 'Specifies whether the SMTP server uses TLS.'}
