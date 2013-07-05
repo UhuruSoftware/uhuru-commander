@@ -5,7 +5,9 @@ module Uhuru::BoshCommander
 
     BOSH_APP = BOSH_APP_USER = BOSH_APP_GROUP = "vcap"
 
-    @tries = 3
+    def initialize
+      @tries = 3
+    end
 
     def base_dir
       '/etc'
