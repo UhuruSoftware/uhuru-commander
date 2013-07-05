@@ -60,7 +60,6 @@ EOF
     make install
     cd /var/vcap/store/tty.js
     npm install
-    monit restart ttyjs
 EOF
 
     chmod 755 uhuru-ttyjs/DEBIAN/postinst
@@ -133,7 +132,7 @@ if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
     erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
 fi
 
-monit restart ucc
+monit restart all
 EOF
 
 chmod 755 uhuru-uccui/DEBIAN/postinst
