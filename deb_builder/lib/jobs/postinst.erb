@@ -52,7 +52,7 @@ echo "Restarting monit ..."
 
 service monit restart
 
-echo "Restarting job ..."
-monit restart <%= job_name %>
+echo "Restarting jobs ..."
+monit restart all
 
 exit 0
