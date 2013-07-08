@@ -8,6 +8,7 @@ versioning:
   dir: /var/vcap/store/ucc/versions/
   blobstore_provider: swift
   blobstore_provider: dav
+  refresh_rate: 2
   blobstore_options:
     endpoint: http://10.0.207.122/
     user: 'vladi'
