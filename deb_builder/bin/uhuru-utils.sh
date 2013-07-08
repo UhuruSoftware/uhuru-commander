@@ -79,6 +79,7 @@ rm -rf /var/vcap/store/tty.js
 EOF
 
     chmod 755 uhuru-ttyjs/DEBIAN/postinst
+    chmod 755 uhuru-ttyjs/DEBIAN/postrm
 
     dpkg-deb --build uhuru-ttyjs .
 }
@@ -171,7 +172,8 @@ cp -f /tmp/ucc_properties.yml /var/vcap/store/ucc/web-ui/config/properties.yml
 EOF
 
 chmod 755 uhuru-uccui/DEBIAN/postinst
-    
+chmod 755 uhuru-uccui/DEBIAN/postrm
+
     cat <<EOF >uhuru-uccui/etc/monit/uhururc.d_pieces/ucc.monit
 check process ucc
   with pidfile /tmp/boshcommander.pid
