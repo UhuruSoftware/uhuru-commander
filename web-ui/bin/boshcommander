@@ -14,7 +14,5 @@ end
 require "rubygems"
 require "bundler/setup"
 require "runner"
-require "products_checker"
 
-Uhuru::BoshCommander::ProductsChecker.start_checking
 Uhuru::BoshCommander::Runner.new(ARGV).run!
