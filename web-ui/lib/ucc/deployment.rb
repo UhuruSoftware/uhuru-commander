@@ -44,11 +44,15 @@ module Uhuru::BoshCommander
 
     def set_vm_passwords()
 
-      #TODO fix this
-      #admin_password = @manifest["properties"]["cc"]["bootstrap_users"][0]["password"].to_s
-      admin_password = SecureRandom.hex
+      if @manifest["properties"]["sysadmin_password"]
+        admin_password = @manifest["properties"]["sysadmin_password"].to_s
+      else
+        admin_password = SecureRandom.hex
+      end
       @manifest["resource_pools"].each do |resource_pool|
-        if (resource_pool["stemcell"]["name"] == $config[:bosh][:stemcells][:linux_php_stemcell][:name])
+        if resource_pool["stemcell"]["name"].downcase.include? 'windows'
+          resource_pool["env"]["bosh"]["password"] = admin_password
+        else
           current_password = resource_pool["env"]["bosh"]["password"]
           salt_regex = /\$6\$([^$]+)\$/.match("#{current_password}")
           if salt_regex
@@ -59,8 +63,6 @@ module Uhuru::BoshCommander
             end
           end
           resource_pool["env"]["bosh"]["password"] = `mkpasswd -m sha-512 "#{admin_password}"`.to_s.strip
-        else
-          resource_pool["env"]["bosh"]["password"] = admin_password
         end
       end
 

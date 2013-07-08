@@ -58,6 +58,7 @@ module Uhuru::BoshCommander
             blank_manifest_template = ERB.new(File.read(blank_manifest_path))
 
             new_manifest = YAML.load(blank_manifest_template.result(binding))
+            new_manifest["release"]["version"] = version.version
             deployment.save(new_manifest)
             clouds << DeploymentStatus.new(deployment).status
           else
@@ -160,7 +161,7 @@ module Uhuru::BoshCommander
 
       if params.has_key?("btn_save") || params.has_key?("btn_save_and_deploy")
 
-        if params["select_version"] != current_version
+        if params["select_version"].to_s != current_version
 
           current_version = params["select_version"].to_s
           version = product.versions[current_version]

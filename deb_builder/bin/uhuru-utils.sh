@@ -64,7 +64,7 @@ EOF
     find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
 
     service monit restart
-    monit restart ttyjs
+    monit restart ttyjs    
 EOF
 
     chmod 755 uhuru-ttyjs/DEBIAN/postinst
@@ -140,12 +140,11 @@ fi
 find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
 
 service monit restart
-monit restart ucc
+monit restart all
 EOF
 
 chmod 755 uhuru-uccui/DEBIAN/postinst
-
-
+    
     cat <<EOF >uhuru-uccui/etc/monit/uhururc.d_pieces/ucc.monit
 check process ucc
   with pidfile /tmp/boshcommander.pid

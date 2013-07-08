@@ -1,13 +1,12 @@
 module Uhuru::BoshCommander
   class Versions < RouteBase
+
     get '/new_versions' do
       session[:new_versions] = false
       redirect '/versions'
     end
 
     post '/download' do
-      # TODO: products array can pe passed at post
-      #products = params[:products_list]
 
       products = Uhuru::BoshCommander::Versioning::Product.get_products
       products.each do |product|
@@ -27,8 +26,6 @@ module Uhuru::BoshCommander
 
     get '/download_state' do
       progress = ''
-      # TODO: products array can pe passed at post
-      #products = params[:products_list]
 
       Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
         if product[1].name == params[:product]
@@ -43,15 +40,11 @@ module Uhuru::BoshCommander
         end
       end
 
-      # needs to return a json array in order to show the progress span %
-      return progress[0].to_s
+      return "{ \"progressbar\" : \"#{progress[0].to_s}\", \"progressmessage\" : \"#{progress[1].to_s}\" }"
     end
 
-    post '/delete_stemcell' do
-      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
-      product_dir = File.join(products_dir, params[:name])
-      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
 
+    post '/delete_stemcell_from_bosh' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
@@ -60,18 +53,12 @@ module Uhuru::BoshCommander
           $logger.error "#{e.message} - #{e.backtrace}"
         end
       end
-
       action_on_done = "Stemcell '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to versions panel."
       redirect Logs.log_url(request_id, action_on_done)
-
       redirect '/versions'
     end
 
-    post '/delete_software' do
-      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
-      product_dir = File.join(products_dir, params[:name])
-      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
-
+    post '/delete_software_from_bosh' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
@@ -80,10 +67,23 @@ module Uhuru::BoshCommander
           $logger.error "#{e.message} - #{e.backtrace}"
         end
       end
-
       action_on_done = "Release '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to versions panel."
       redirect Logs.log_url(request_id, action_on_done)
+      redirect '/versions'
+    end
 
+
+    post '/delete_stemcell_local' do
+      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
+      product_dir = File.join(products_dir, params[:name])
+      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
+      redirect '/versions'
+    end
+
+    post '/delete_software_local' do
+      products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
+      product_dir = File.join(products_dir, params[:name])
+      FileUtils.rm_rf("#{product_dir}/#{params[:version]}")
       redirect '/versions'
     end
 
@@ -95,7 +95,7 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
-          stemcell.upload("#{product_dir}/#{params[:version]}/#{params[:version]}.tar.gz")
+          stemcell.upload("#{product_dir}/#{params[:version]}/bits")
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
@@ -112,7 +112,7 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
-          release.upload("#{product_dir}/#{params[:version]}/#{params[:version]}.yml") #'/home/marius/code/private-cf-release/dev_releases/marius-test-122.1-dev.yml'
+          release.upload("#{product_dir}/#{params[:version]}/bits/release.tgz")
 
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
