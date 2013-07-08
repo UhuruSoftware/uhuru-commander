@@ -1,13 +1,17 @@
 module Uhuru::BoshCommander
   class ProductsChecker
 
-    def self.start_checking
+    def self.start_checking()
+      refresh_rate = $config[:versioning][:refresh_rate].to_i
       Thread.new do
         1.upto(Float::INFINITY) do
           check_for_updates
 
-          # TODO: this variable needs to be configurable
-          sleep(1)
+          if refresh_rate != nil
+            sleep(refresh_rate)
+          else
+            sleep(60)
+          end
         end
       end
     end

@@ -7,6 +7,7 @@ require 'optparse'
 require "ucc/status_streamer"
 require 'yaml'
 require 'cgi'
+require "products_checker"
 
 
 class Rack::Session::Pool
@@ -69,6 +70,7 @@ module Uhuru::BoshCommander
       if File.exists?(version_file)
         $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
       end
+      Uhuru::BoshCommander::ProductsChecker.start_checking
 
       Runner.setup_logging
       $config[:logger] = Runner.logger
@@ -98,7 +100,7 @@ module Uhuru::BoshCommander
       @argv = argv
 
       # default to production. this may be overridden during opts parsing
-      ENV["RACK_ENV"] = "production"
+      ENV["RACK_ENV"] = "development"
 
       @config_file = File.expand_path("../../config/config.yml", __FILE__)
 
