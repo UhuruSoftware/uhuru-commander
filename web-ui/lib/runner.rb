@@ -7,6 +7,7 @@ require 'optparse'
 require "ucc/status_streamer"
 require 'yaml'
 require 'cgi'
+require "products_checker"
 
 
 class Rack::Session::Pool
@@ -69,6 +70,7 @@ module Uhuru::BoshCommander
       if File.exists?(version_file)
         $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
       end
+      Uhuru::BoshCommander::ProductsChecker.start_checking
 
       Runner.setup_logging
       $config[:logger] = Runner.logger

@@ -11,7 +11,8 @@ $(document).ready(function(){
                         function(data)
                         {
                             jsonString = jQuery.parseJSON(data);
-                            if(jsonString.progressbar < 100)
+                            state = jsonString.progressmessage.substring(0, 10);
+                            if(jsonString.progressbar < 100 || state == 'Downloaded' || state == 'Unpacking.')
                             {
                                 $('#' + object.id).attr('value', parseInt(jsonString.progressbar));
                                 $('#message_' + object.id).html(jsonString.progressmessage);
