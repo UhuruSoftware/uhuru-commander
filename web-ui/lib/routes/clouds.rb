@@ -161,7 +161,7 @@ module Uhuru::BoshCommander
 
       if params.has_key?("btn_save") || params.has_key?("btn_save_and_deploy")
 
-        if params["select_version"] != current_version
+        if params["select_version"].to_s != current_version
 
           current_version = params["select_version"].to_s
           version = product.versions[current_version]
