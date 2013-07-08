@@ -19,7 +19,7 @@ function make_ttyjs()
 
     mkdir -p uhuru-ttyjs/DEBIAN
     mkdir -p uhuru-ttyjs/var/vcap/store/tty.js
-    mkdir -p uhuru-ttyjs/etc/monit/uhururc.d
+    mkdir -p uhuru-ttyjs/etc/monit/uhururc.d_pieces
     mkdir -p uhuru-ttyjs/usr/src/uhuru/nodejs
 
     cd uhuru-ttyjs/usr/src/uhuru/nodejs
@@ -61,7 +61,7 @@ EOF
     cd /var/vcap/store/tty.js
     npm install
 
-    find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
+    find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
 
     service monit restart
     monit restart ttyjs    
@@ -73,7 +73,7 @@ EOF
 monit stop ttyjs
 
 rm -f /etc/monit/uhururc.d_pieces/ttyjs.monit
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
 rm -rf /var/vcap/store/tty.js
 
 EOF
@@ -94,7 +94,7 @@ function make_uccui()
 
     mkdir -p uhuru-uccui/DEBIAN
     mkdir -p uhuru-uccui/var/vcap/store/ucc
-    mkdir -p uhuru-uccui/etc/monit/uhururc.d
+    mkdir -p uhuru-uccui/etc/monit/uhururc.d_pieces
 
     cat <<EOF >uhuru-uccui/DEBIAN/control
 Package: uhuru-uccui
