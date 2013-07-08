@@ -15,6 +15,7 @@ module Uhuru
         attr_accessor :label
         attr_accessor :description
         attr_accessor :versions
+        attr_accessor :local_versions
         attr_accessor :type
 
         def self.version_directory
@@ -86,12 +87,16 @@ module Uhuru
           versions_manifest_file = File.join(dir, @name, 'manifest.yml')
 
           @versions = {}
+          @local_versions = {}
 
           if File.exist?(versions_manifest_file)
             versions_manifest = YAML.load_file(versions_manifest_file)
 
             versions_manifest['versions'].each do |version, details|
               @versions[version] = Version.new(self, version, details)
+              if (File.exist?(@versions[version].bits_full_local_path) || Dir.exist?(@versions[version].bits_full_local_path))
+                @local_versions[version] = @versions[version]
+              end
             end
           end
         end

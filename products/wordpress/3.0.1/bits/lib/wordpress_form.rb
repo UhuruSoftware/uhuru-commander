@@ -140,7 +140,9 @@ module Uhuru::BoshCommander
 
       if is_ok
         generate_volatile_data!
-        deployment.save(get_data(GenericForm::VALUE_TYPE_VOLATILE))
+        manifest = get_data(GenericForm::VALUE_TYPE_VOLATILE)
+        manifest["release"]["version"] = File.basename(File.expand_path("../../..", __FILE__)).to_s
+        deployment.save(manifest)
         is_ok = validate?(GenericForm::VALUE_TYPE_VOLATILE)
       end
 

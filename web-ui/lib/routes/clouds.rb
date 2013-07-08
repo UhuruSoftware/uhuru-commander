@@ -40,7 +40,8 @@ module Uhuru::BoshCommander
       product_name = params[:product_name]
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
-      version = product.versions[product.versions.keys.last]
+      local_versions = product.local_versions
+      version = local_versions[local_versions.keys.last]
 
       clouds = []
       message = ""
@@ -91,7 +92,7 @@ module Uhuru::BoshCommander
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
       current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"].to_s
-      version = product.versions[current_version]
+      version = product.local_versions[current_version]
 
       manager = PluginManager.new
       manager.add_plugin_version_source(version.version_dir)
@@ -129,7 +130,7 @@ module Uhuru::BoshCommander
         var :product_name, product_name
         var :cloud_name, cloud_name
         var :value_type, GenericForm::VALUE_TYPE_SAVED
-        var :versions, product.versions.keys
+        var :versions, product.local_versions.keys
         var :current_version, current_version
 
         help form.help
@@ -144,7 +145,7 @@ module Uhuru::BoshCommander
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
       current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"].to_s
-      version = product.versions[current_version]
+      version = product.local_versions[current_version]
 
       is_ok = true
       form = nil
@@ -164,7 +165,7 @@ module Uhuru::BoshCommander
         if params["select_version"].to_s != current_version
 
           current_version = params["select_version"].to_s
-          version = product.versions[current_version]
+          version = product.local_versions[current_version]
 
           blank_manifest_path = File.join(version.version_dir, "bits", "config", "#{product_name}.yml.erb")
           blank_manifest_template = ERB.new(File.read(blank_manifest_path))
@@ -218,7 +219,7 @@ module Uhuru::BoshCommander
             var :cloud_name, cloud_name
             var :summary, deployment_status
             var :value_type, values_to_show
-            var :versions, product.versions.keys
+            var :versions, product.local_versions.keys
             var :current_version, current_version
 
             help form.help
@@ -239,7 +240,7 @@ module Uhuru::BoshCommander
 
       elsif params.has_key?("version")
         current_version = params["version"].to_s
-        version = product.versions[current_version]
+        version = product.local_versions[current_version]
 
         manager = PluginManager.new
         manager.add_plugin_version_source(version.version_dir)
@@ -266,7 +267,7 @@ module Uhuru::BoshCommander
           var :cloud_name, cloud_name
           var :summary, deployment_status
           var :value_type, values_to_show
-          var :versions, product.versions.keys
+          var :versions, product.local_versions.keys
           var :current_version, current_version
 
           help form.help
@@ -398,7 +399,7 @@ module Uhuru::BoshCommander
           var :product_name, product_name
           var :cloud_name, cloud_name
           var :value_type, GenericForm::VALUE_TYPE_SAVED
-          var :versions, product.versions.keys
+          var :versions, product.local_versions.keys
           var :current_version, current_version
 
           help form.help
