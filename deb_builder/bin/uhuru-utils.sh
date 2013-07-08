@@ -44,7 +44,7 @@ EOF
 
     cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs_ctl uhuru-ttyjs/var/vcap/store/tty.js/ttyjs_ctl
 
-    cat <<EOF >uhuru-ttyjs/etc/monit/uhururc.d/ttyjs.monit
+    cat <<EOF >uhuru-ttyjs/etc/monit/uhururc.d_pieces/ttyjs.monit
 check process ttyjs
   with pidfile /var/run/ttyjs.pid
   start program "/var/vcap/store/tty.js/ttyjs_ctl start"
@@ -60,6 +60,10 @@ EOF
     make install
     cd /var/vcap/store/tty.js
     npm install
+
+    find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
+
+    service monit restart
     monit restart ttyjs
 EOF
 
@@ -133,17 +137,23 @@ if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
     erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
 fi
 
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
+
+service monit restart
 monit restart ucc
 EOF
 
 chmod 755 uhuru-uccui/DEBIAN/postinst
-    
-    cat <<EOF >uhuru-uccui/etc/monit/uhururc.d/ucc.monit
+
+
+    cat <<EOF >uhuru-uccui/etc/monit/uhururc.d_pieces/ucc.monit
 check process ucc
   with pidfile /tmp/boshcommander.pid
   start program "/var/vcap/store/ucc/ucc_ctl start"
   stop program "/var/vcap/store/ucc/ucc_ctl stop"
   group vcap
+
+  depends on postgres,director,nagios,ttyjs
 EOF
 
     dpkg-deb --build uhuru-uccui .

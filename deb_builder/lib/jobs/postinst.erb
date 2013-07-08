@@ -8,7 +8,13 @@ mkdir -p ${BOSH_INSTALL_TARGET}/uhuru_templates
 cp -Rf /<%= target_bits_dir %>/* ${BOSH_INSTALL_TARGET}/uhuru_templates/
 /var/vcap/packages/ruby/bin/ruby generate_templates.rb "/<%= target_bits_dir %>" "${BOSH_INSTALL_TARGET}"
 
-cp monit /etc/monit/uhururc.d/<%= job_name %>
+mkdir -p /etc/monit/uhururc.d
+mkdir -p /etc/monit/uhururc.d_pieces
+
+cp monit /etc/monit/uhururc.d_pieces/<%= job_name %>
+
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
+
 mkdir -p /var/vcap/jobs/
 rm -f /var/vcap/jobs/<%= job_name %>
 ln -s ${BOSH_INSTALL_TARGET} /var/vcap/jobs/<%= job_name %>
@@ -21,7 +27,6 @@ echo "Reconfiguring monit ..."
 
 echo "START=1" > /etc/default/monit
 
-mkdir -p /etc/monit/uhururc.d
 
 MONIT_PASSWORD=`tr -cd '[:alnum:]' < /dev/urandom | fold -w16 | head -n1`
 echo "vcap:${MONIT_PASSWORD}" > /etc/monit/monit.user
