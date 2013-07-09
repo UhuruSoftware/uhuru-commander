@@ -54,9 +54,11 @@ module Uhuru
           products_yaml_file = File.join(temp_dir, 'products.yml')
 
           if get_blobstore_client.exists?(BLOBSTORE_ID_PRODUCTS)
-            File.open(products_yaml_file, "w") do |file|
+            products_temp_file = "#{products_yaml_file}.tmp"
+            File.open(products_temp_file, "w") do |file|
               get_blobstore_client.get(BLOBSTORE_ID_PRODUCTS, file)
             end
+            FileUtils.mv(products_temp_file, products_yaml_file)
           end
 
           products_yaml = YAML.load_file(products_yaml_file)
@@ -68,9 +70,11 @@ module Uhuru
             versions_manifest_yaml_file = File.join(product_dir, 'manifest.yml')
 
             if (versions_manifest_id != nil) && (get_blobstore_client.exists?(versions_manifest_id))
-              File.open(versions_manifest_yaml_file, "w") do |file|
+              versions_manifest_temp_file = "#{versions_manifest_yaml_file}.tmp"
+              File.open(versions_manifest_temp_file, "w") do |file|
                 get_blobstore_client.get(versions_manifest_id, file)
               end
+              FileUtils.mv(versions_manifest_temp_file, versions_manifest_yaml_file)
             end
           end
 
