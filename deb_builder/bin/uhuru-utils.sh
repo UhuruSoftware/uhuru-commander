@@ -64,7 +64,9 @@ EOF
     find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
 
     service monit restart
-    monit restart ttyjs    
+    monit restart ttyjs
+
+    exit 0
 EOF
 
     cat <<EOF >uhuru-ttyjs/DEBIAN/postrm
@@ -76,6 +78,7 @@ rm -f /etc/monit/uhururc.d_pieces/ttyjs.monit
 find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
 rm -rf /var/vcap/store/tty.js
 
+exit 0
 EOF
 
     chmod 755 uhuru-ttyjs/DEBIAN/postinst
@@ -153,6 +156,8 @@ find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \
 
 service monit restart
 monit restart all
+
+exit 0
 EOF
 
     cat <<EOF >uhuru-uccui/DEBIAN/postrm
@@ -169,6 +174,7 @@ rm -rf /var/vcap/store/ucc/web-ui
 mkdir -p /var/vcap/store/ucc/web-ui/config/
 cp -f /tmp/ucc_properties.yml /var/vcap/store/ucc/web-ui/config/properties.yml
 
+exit 0
 EOF
 
 chmod 755 uhuru-uccui/DEBIAN/postinst

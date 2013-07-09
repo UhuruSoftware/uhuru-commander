@@ -19,3 +19,5 @@ mkdir -p /var/vcap/packages/
 rm -f /var/vcap/packages/<%= package_name %>
 ln -s ${BOSH_INSTALL_TARGET} /var/vcap/packages/<%= package_name %>
 rm -rf /<%= target_bits_dir %>
+
+exit 0
