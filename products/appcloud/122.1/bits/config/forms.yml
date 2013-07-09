@@ -30,6 +30,21 @@ appcloud:
   - screen: Resource Pools
     id: resource_pools
     fields:
+
+      - {name: stemcell_sep,                                  label: Stemcells,                     type: separator}
+
+      - {name: linux_stemcell, label: Linux Stemcell, type: stemcell_linux,
+      yml_key: ['["resource_pools"].select{|r| r["name"] == "tiny"}.first["stemcell"]', '["resource_pools"].select{|r| r["name"] == "small"}.first["stemcell"]', '["resource_pools"].select{|r| r["name"] == "medium"}.first["stemcell"]', '["resource_pools"].select{|r| r["name"] == "large"}.first["stemcell"], , '["resource_pools"].select{|r| r["name"] == "deas"}.first["stemcell"]'],
+      description: 'Specifies what VM stemcell should be used for deploying linux VMs.'}
+
+      - {name: windows_stemcell, label: Windows Stemcell, type: stemcell_windows,
+      yml_key: '["resource_pools"].select{|r| r["name"] == "windows"}.first["stemcell"]',
+      description: 'Specifies what VM stemcell should be used for deploying Windows DEAs and UhuruFS.'}
+
+      - {name: sqlserver_stemcell, label: SqlServer Stemcell, type: stemcell_windows,
+      yml_key: '["resource_pools"].select{|r| r["name"] == "sqlserver"}.first["stemcell"]',
+      description: 'Specifies what VM stemcell should be used for deploying SqlServer.'}
+
       - {name: vsms_sep,                                  label: Very small management servers,                     type: separator}
 
       - {name: tiny_cpu,                                  label: Virtual CPU count,                                 type: numeric,

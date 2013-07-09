@@ -86,6 +86,10 @@ module Uhuru::BoshCommander
           elsif @name == 'subnet_mask'
             result = IPHelper.get_subnet_netmask(value)
           end
+        elsif @screen.name == 'Resource Pools'
+          if @name == 'linux_stemcell'
+            result = "name:#{value["name"]},version:#{value["version"]}"
+          end
         end
 
         if result == nil
@@ -145,6 +149,12 @@ module Uhuru::BoshCommander
         elsif @screen.name == 'Properties'
           if @name == 'domain'
             result = value.to_s.downcase
+          end
+        elsif @screen.name == 'Resource Pools'
+          if @name == 'linux_stemcell'
+            name = value.match(/name:([^\/]*),version/)[1]
+            version = value.match(/version:([^\/]*)\z/)[1]
+            result = { "name" => name, "version" => version }
           end
         end
 

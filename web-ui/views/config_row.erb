@@ -20,7 +20,7 @@
                     type="<%= field.get_html_type %>"
                     class="<%= field.get_css_class %> local"
                     id="<%= field.html_form_id %>">
-              <% field.get_list_items.each do |key, value| %>
+              <% field.get_items.each do |key, value| %>
                   <option <%= value == field.get_value(value_type) ? 'selected' : '' %> value="<%= value %>" ><%= key %></option>
               <% end %>
             </select>
@@ -58,7 +58,7 @@
                     type="<%= field.get_html_type %>"
                     class="<%= field.get_css_class %> live"
                     id="<%= field.html_form_id %>">
-              <% field.get_list_items.each do |key, value| %>
+              <% field.get_items.each do |key, value| %>
                   <option <%= value == field.get_value(Uhuru::BoshCommander::GenericForm::VALUE_TYPE_LIVE) ? 'selected' : '' %> value="<%= value %>" ><%= key %></option>
               <% end %>
             </select>

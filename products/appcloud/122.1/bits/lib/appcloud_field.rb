@@ -130,6 +130,10 @@ END_OF_MESSAGE
           elsif @name == 'subnet_mask'
             result = IPHelper.get_subnet_netmask(value)
           end
+        elsif @screen.name == 'Resource Pools'
+          if [ 'linux_stemcell', 'windows_stemcell', 'sqlserver_stemcell'].include? @name
+            result = "name:#{value["name"]},version:#{value["version"]}"
+          end
         end
 
         if result == nil
@@ -189,6 +193,12 @@ END_OF_MESSAGE
       elsif @screen.name == 'Properties'
         if @name == 'domain'
           result = value.to_s.downcase
+        end
+      elsif @screen.name == 'Resource Pools'
+        if [ 'linux_stemcell', 'windows_stemcell', 'sqlserver_stemcell'].include? @name
+          name = value.match(/name:([^\/]*),version/)[1]
+          version = value.match(/version:([^\/]*)\z/)[1]
+          result = { "name" => name, "version" => version }
         end
       end
 
