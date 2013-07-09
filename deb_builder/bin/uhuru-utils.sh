@@ -49,7 +49,7 @@ check process ttyjs
   with pidfile /var/vcap/sys/run/ttyjs.pid
   start program "/var/vcap/store/tty.js/ttyjs_ctl start"
   stop program "/var/vcap/store/tty.js/ttyjs_ctl stop"
-  group vcap
+  group ucc
 EOF
 
     cat <<EOF >uhuru-ttyjs/DEBIAN/postinst
@@ -155,7 +155,7 @@ fi
 find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
 
 service monit restart
-monit restart all
+monit restart ucc
 
 exit 0
 EOF
@@ -185,7 +185,7 @@ check process ucc
   with pidfile /var/vcap/sys/run/ucc.pid
   start program "/var/vcap/store/ucc/ucc_ctl start"
   stop program "/var/vcap/store/ucc/ucc_ctl stop"
-  group vcap
+  group ucc
 
   depends on postgres,director,nagios,ttyjs
 EOF

@@ -53,6 +53,6 @@ echo "Restarting monit ..."
 service monit restart
 
 echo "Restarting jobs ..."
-monit restart all
+monit -g vcap restart
 
 exit 0

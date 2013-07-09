@@ -46,12 +46,12 @@ function status()
       exit 0
       } || {
       echo "UCC is not running although there is a pid file $pidfile. You can remove it..."
-      exit 1
+      exit 0
       }
     } ||
     {
     echo "UCC doesn't appear to be running"
-    exit 1
+    exit 0
     }
 }
 
@@ -69,3 +69,4 @@ case $1 in
   "status") status ;;
   *) help ;;
 esac
+exit 0

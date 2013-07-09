@@ -49,12 +49,12 @@ function status()
       exit 0
       } || {
       echo "tty.js is not running although there is a pid file $pidfile. You can remove it..."
-      exit 1
+      exit 0
       }
     } ||
     {
     echo "tty.js doesn't appear to be running"
-    exit 1
+    exit 0
     }
 }
 
@@ -72,3 +72,4 @@ case $1 in
   "status") status ;;
   *) help ;;
 esac
+exit 0
