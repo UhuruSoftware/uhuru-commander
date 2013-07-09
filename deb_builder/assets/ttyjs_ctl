@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pidfile="/var/run/ttyjs.pid"
+pidfile="/var/vcap/sys/run/ttyjs.pid"
 
 function start()
 {
