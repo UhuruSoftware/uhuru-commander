@@ -186,8 +186,6 @@ check process ucc
   start program "/var/vcap/store/ucc/ucc_ctl start"
   stop program "/var/vcap/store/ucc/ucc_ctl stop"
   group ucc
-
-  depends on postgres,director,nagios,ttyjs
 EOF
 
     dpkg-deb --build uhuru-uccui .
