@@ -1,4 +1,4 @@
-pid_filename: /tmp/boshcommander.pid
+pid_filename: /var/vcap/sys/run/ucc.pid
 bind_address: 8.8.8.8
 port: 80
 dev-mode: true

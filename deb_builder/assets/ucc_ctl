@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pidfile="/tmp/boshcommander.pid"
+pidfile="/var/vcap/sys/run/ucc.pid"
 
 function start()
 {

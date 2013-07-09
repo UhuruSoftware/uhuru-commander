@@ -46,7 +46,7 @@ EOF
 
     cat <<EOF >uhuru-ttyjs/etc/monit/uhururc.d_pieces/ttyjs.monit
 check process ttyjs
-  with pidfile /var/run/ttyjs.pid
+  with pidfile /var/vcap/sys/run/ttyjs.pid
   start program "/var/vcap/store/tty.js/ttyjs_ctl start"
   stop program "/var/vcap/store/tty.js/ttyjs_ctl stop"
   group vcap
@@ -176,7 +176,7 @@ chmod 755 uhuru-uccui/DEBIAN/postrm
 
     cat <<EOF >uhuru-uccui/etc/monit/uhururc.d_pieces/ucc.monit
 check process ucc
-  with pidfile /tmp/boshcommander.pid
+  with pidfile /var/vcap/sys/run/ucc.pid
   start program "/var/vcap/store/ucc/ucc_ctl start"
   stop program "/var/vcap/store/ucc/ucc_ctl stop"
   group vcap
