@@ -88,6 +88,9 @@ module Uhuru::BoshCommander
         products.each do |product|
           p = product[1]
           if p.type == "software"
+            if !Dir.exists?(File.join($config[:deployments_dir], product[0]))
+               Dir.mkdir(File.join($config[:deployments_dir], product[0]))
+            end
             p.versions.each do |version|
               v = version[1]
               if (File.exist?(v.bits_full_local_path) || Dir.exist?(v.bits_full_local_path))
