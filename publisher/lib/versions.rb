@@ -78,7 +78,7 @@ module Uhuru
             raise "Version #{version} for product #{product_name} does not exist"
           end
 
-          dependency = product_versions["versions"][version]["dependencies"].find {|d| d["dependency"] = dependency_name}
+          dependency = product_versions["versions"][version]["dependencies"].find {|d| d["dependency"] == dependency_name}
           if dependency.nil?
             dependency = {}
             dependency["dependency"] = dependency_name
