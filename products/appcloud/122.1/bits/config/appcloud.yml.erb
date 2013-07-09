@@ -5,8 +5,8 @@ director_uuid: "DO NOT CHANGE THIS STRING"
 <% simplewebui_user_password = SecureRandom.hex %>
 
 release:
-  name: <%=  YAML.load_file(`ls /var/vcap/store/ucc/dev_releases/*.yml | grep -v index.yml`.strip)['name'] %>
-  version: <%=  YAML.load_file(`ls /var/vcap/store/ucc/dev_releases/*.yml | grep -v index.yml`.strip)['version'] %>
+  name: appcloud
+  version: 122.1
 
 compilation:
   workers: 1
@@ -41,8 +41,8 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:windows_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:windows_stemcell][:version] %>
+    name: windows
+    version: 0.9.6
   cloud_properties:
     ram: 2048
     disk: 5000
@@ -58,8 +58,8 @@ resource_pools:
   network: default
   size: 0
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:mssql_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:mssql_stemcell][:version] %>
+    name: windows-sqlserver
+    version: 0.9.6
   cloud_properties:
     ram: 2048
     disk: 5000
@@ -74,8 +74,8 @@ resource_pools:
   network: default
   size: 6
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:version] %>
+    name: bosh-stemcell
+    version: 1.5.0.pre.3
   cloud_properties:
     ram: 300
     disk: 5000
@@ -88,8 +88,8 @@ resource_pools:
   network: default
   size: 5
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:version] %>
+    name: bosh-stemcell
+    version: 1.5.0.pre.3
   cloud_properties:
     ram: 512
     disk: 5000
@@ -103,8 +103,8 @@ resource_pools:
   network: default
   size: 10
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:version] %>
+    name: bosh-stemcell
+    version: 1.5.0.pre.3
   cloud_properties:
     ram: 1024
     disk: 5000
@@ -117,8 +117,8 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:version] %>
+    name: bosh-stemcell
+    version: 1.5.0.pre.3
   cloud_properties:
     ram: 2048
     disk: 10000
@@ -131,8 +131,8 @@ resource_pools:
   network: default
   size: 1
   stemcell:
-    name: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:name] %>
-    version: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:version] %>
+    name: bosh-stemcell
+    version: 1.5.0.pre.3
   cloud_properties:
     ram: 3072
     disk: 30000

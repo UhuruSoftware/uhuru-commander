@@ -39,8 +39,8 @@ resource_pools:
     network: default
     size: 6
     stemcell:
-      name: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:name] %>
-      version: <%= $config[:bosh][:stemcells][:linux_php_stemcell][:version] %>
+      name: bosh-stemcell
+      version: 1.5.0.pre.3
     cloud_properties:
       cpu: 1
       disk: 8192

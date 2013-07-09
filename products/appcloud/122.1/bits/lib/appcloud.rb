@@ -1,3 +1,3 @@
-require "appcloud_field"
-require "appcloud_form"
-require "appcloud_status"
+load "appcloud_field"
+load "appcloud_form"
+load "appcloud_status"

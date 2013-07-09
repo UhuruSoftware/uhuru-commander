@@ -9,6 +9,10 @@ module Uhuru::BoshCommander
       return PRODUCT_NAME
     end
 
+    def product_version
+      File.basename(File.expand_path("../../..", __FILE__)).to_s
+    end
+
     def generate_volatile_data!
       super
 

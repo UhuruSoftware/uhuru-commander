@@ -70,6 +70,8 @@ module Uhuru::BoshCommander
 
     #Returns an array of all the deployments
     def self.deployments(product_name)
+      Dir.mkdir(File.join($config[:deployments_dir], product_name)) unless File.exists?(File.join($config[:deployments_dir], product_name))
+
       folders = Dir.entries(File.join($config[:deployments_dir], product_name)).select do |entry|
         !(entry == '.' || entry == '..' || File.file?(File.join($config[:deployments_dir], product_name, entry))) &&
             (File.file?(File.join($config[:deployments_dir], product_name, entry, "#{entry}.yml")))

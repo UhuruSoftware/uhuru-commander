@@ -16,6 +16,8 @@ module Uhuru::BoshCommander
     TYPE_LIST = 'list'
     TYPE_CSV = 'csv'
     TYPE_IP_LIST = 'ip_list'
+    TYPE_STEMCELL_LINUX = 'stemcell_linux'
+    TYPE_STEMCELL_WINDOWS = 'stemcell_windows'
 
     TYPE_TO_HTML_TYPE_MAP = {
         'separator' => 'separator',
@@ -29,7 +31,9 @@ module Uhuru::BoshCommander
         'text' => 'textarea',
         'boolean' => 'checkbox',
         'list' => 'select',
-        'password' => 'password'
+        'password' => 'password',
+        'stemcell_linux' => 'select',
+        'stemcell_windows' => 'select'
     }
 
     attr_accessor :name
@@ -88,10 +92,55 @@ module Uhuru::BoshCommander
       ['config_field', get_data_type, get_html_type, @form.name, @screen.name, @name, changed ? 'changed' : '', @error == '' ? '' : 'error'].join(' ').strip
     end
 
-    def get_list_items
-      unless get_data_type == TYPE_LIST
-        raise "List items not available for type '#{get_data_type}"
+    def get_items
+      if get_data_type == TYPE_LIST
+        return get_list_items
+      elsif get_data_type == TYPE_STEMCELL_LINUX
+        return get_linux_stemcells
+      elsif get_data_type == TYPE_STEMCELL_WINDOWS
+        return get_windows_stemcells
+      else
+        raise "Items not available for type '#{get_data_type}"
       end
+    end
+
+    def get_linux_stemcells
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      current_product = products[@form.product_name]
+      stemcells = {}
+      current_product.versions[@form.product_version.to_s].dependencies.each do |dependency|
+        products[dependency["dependency"]].local_versions.each do |version|
+          if products[dependency["dependency"]].type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL
+            unless products[dependency["dependency"]].name.downcase.include? "windows"
+              if dependency["version"].include? version[0]
+                stemcells["#{products[dependency["dependency"]].label} v. #{version[0]}"] = "name:#{products[dependency["dependency"]].name},version:#{version[0]}"
+              end
+            end
+          end
+        end
+      end
+      stemcells
+    end
+
+    def get_windows_stemcells
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      current_product = products[@form.product_name]
+      stemcells = {}
+      current_product.versions[@form.product_version.to_s].dependencies.each do |dependency|
+        products[dependency["dependency"]].local_versions.each do |version|
+          if products[dependency["dependency"]].type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL
+            if products[dependency["dependency"]].name.downcase.include? "windows"
+              if dependency["version"].include? version[0]
+                stemcells["#{products[dependency["dependency"]].label} v. #{version[0]}"] = "name:#{products[dependency["dependency"]].name},version:#{version[0]}"
+              end
+            end
+          end
+        end
+      end
+      stemcells
+    end
+
+    def get_list_items
       get_field_config['items']
     end
 

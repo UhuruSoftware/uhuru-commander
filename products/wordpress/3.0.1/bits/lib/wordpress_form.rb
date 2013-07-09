@@ -11,6 +11,10 @@ module Uhuru::BoshCommander
       return "wordpress"
     end
 
+    def product_version
+      File.basename(File.expand_path("../../..", __FILE__)).to_s
+    end
+
     def generate_volatile_data!
       super
 
@@ -141,7 +145,7 @@ module Uhuru::BoshCommander
       if is_ok
         generate_volatile_data!
         manifest = get_data(GenericForm::VALUE_TYPE_VOLATILE)
-        manifest["release"]["version"] = File.basename(File.expand_path("../../..", __FILE__)).to_s
+        manifest["release"]["version"] = product_version
         deployment.save(manifest)
         is_ok = validate?(GenericForm::VALUE_TYPE_VOLATILE)
       end
