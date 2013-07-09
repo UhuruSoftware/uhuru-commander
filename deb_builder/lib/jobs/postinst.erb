@@ -13,7 +13,7 @@ mkdir -p /etc/monit/uhururc.d_pieces
 
 cp monit /etc/monit/uhururc.d_pieces/<%= job_name %>
 
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 
 mkdir -p /var/vcap/jobs/
 rm -f /var/vcap/jobs/<%= job_name %>

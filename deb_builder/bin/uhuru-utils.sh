@@ -61,7 +61,7 @@ EOF
     cd /var/vcap/store/tty.js
     npm install
 
-    find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
+    find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 
     service monit restart
     monit restart ttyjs
@@ -75,7 +75,7 @@ EOF
 monit stop ttyjs
 
 rm -f /etc/monit/uhururc.d_pieces/ttyjs.monit
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 rm -rf /var/vcap/store/tty.js
 
 exit 0
@@ -152,7 +152,7 @@ if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
     erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
 fi
 
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 
 service monit restart
 monit restart ucc
@@ -167,7 +167,7 @@ monit stop ucc
 
 rm -f /etc/monit/uhururc.d_pieces/ucc.monit
 
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n\n" \; > /etc/monit/uhururc.d/jobs
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 
 cp -f /var/vcap/store/ucc/web-ui/config/properties.yml /tmp/ucc_properties.yml
 rm -rf /var/vcap/store/ucc/web-ui

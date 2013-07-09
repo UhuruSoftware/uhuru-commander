@@ -6,7 +6,7 @@ monit stop <%= job_name %>
 
 rm -f /etc/monit/uhururc.d_pieces/<%= job_name %>
 
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n\n" \; > /etc/monit/uhururc.d/jobs
+find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 
 rm -f /var/vcap/jobs/<%= job_name %>
 rm -rf ${BOSH_INSTALL_TARGET}
