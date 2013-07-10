@@ -84,6 +84,7 @@ module Uhuru::BoshCommander
         client.restart(:group => BOSH_APP_GROUP)
       end
       say "Waiting for services to be online"
+      restart_done = false
 
       #waiting for the services to be online
       service_state = ""
@@ -92,6 +93,7 @@ module Uhuru::BoshCommander
         sleep 30
         if (service_group_state == "running")
           say "Services Online"
+          restart_done = true
           break
         end
 
@@ -105,7 +107,9 @@ module Uhuru::BoshCommander
         error_msg = "Infrastructure services did not start did not start"
         raise error_msg
       else
-        restart_services
+        if (!restart_done)
+          restart_services
+        end
       end
 
     end
