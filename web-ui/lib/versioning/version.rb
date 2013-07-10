@@ -55,7 +55,7 @@ module Uhuru
           "#{bits_full_local_path}.dl"
         end
 
-        def get_state
+        def get_state(stemcell_list = nil, release_list = nil)
           state = STATE_REMOTE_ONLY
 
           if File.exist?(bits_full_local_path_dl)
@@ -71,7 +71,7 @@ module Uhuru
               state = STATE_DEPLOYED
             end
           elsif @product.type == 'stemcell'
-            found_on_bosh = Uhuru::BoshCommander::Stemcell.new().list_stemcells.any? do |stemcell|
+            found_on_bosh = ( stemcell_list || Uhuru::BoshCommander::Stemcell.new().list_stemcells).any? do |stemcell|
               (stemcell['name'] == @product.name) && (stemcell['version'] == @version)
             end
 
@@ -93,7 +93,7 @@ module Uhuru
             end
 
           elsif @product.type == 'software'
-            bosh_releases = Uhuru::BoshCommander::Release.new().list_releases
+            bosh_releases = release_list || Uhuru::BoshCommander::Release.new().list_releases
 
             bosh_releases.each do |release|
               if (release['name'] == @product.name)
