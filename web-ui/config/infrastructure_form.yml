@@ -42,7 +42,7 @@ infrastructure:
       description: 'Network Time Protocol Servers. A semicolon separated list of NTP server that we use to keep time in sync across deployments.' }
 
       - {name: net_interface,                                       label: Network Interface,                                         type: list, items: {'127.0.0.1' : '127.0.0.1'},
-      yml_key: [ '["properties"]["nats"]["address"]', '["properties"]["postgres"]["host"]', '["properties"]["director"]["address"]', '["properties"]["dns"]["address"]' ],
+      yml_key: [ '["properties"]["nats"]["address"]', '["properties"]["postgres"]["host"]', '["properties"]["director"]["address"]', '["properties"]["dns"]["address"]', '["properties"]["blobstore"]["address"]' ],
       description: 'Network interface used for configuration' }
 
       - {name: nagios_sep,                                label: Nagios Monitoring Settings,                        type: separator }
