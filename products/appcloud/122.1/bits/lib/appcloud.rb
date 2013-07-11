@@ -1,3 +1,3 @@
-load "appcloud_field"
-load "appcloud_form"
-load "appcloud_status"
+load "appcloud_field.rb"
+load "appcloud_form.rb"
+load "appcloud_status.rb"

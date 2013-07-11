@@ -33,6 +33,22 @@ module Uhuru::BoshCommander
             error = "Not enough dynamic IPs! provided: #{dynamic_ips_provided} needed: #{dynamic_ip_needed}"
           end
         end
+      elsif @screen.name == 'Resource Pools'
+        if [ 'linux_stemcell', 'windows_stemcell', 'sqlserver_stemcell'].include? @name
+          if value == "name:,version:"
+            if @name == "windows_stemcell"
+              if (deployment['resource_pools'].select{|pool| pool["name"] == "windows"}.first["size"] != 0)
+                error = "Invalid stemcell"
+              end
+            elsif @name == "sqlserver_stemcell"
+              if (deployment['resource_pools'].select{|pool| pool["name"] == "sqlserver"}.first["size"] != 0)
+                error = "Invalid stemcell"
+              end
+            else
+              error = "Invalid stemcell"
+            end
+          end
+        end
       elsif @screen.name == 'Properties'
         if @name == 'admin_password'
           unless value.to_s.match(/(?=^.{6,20}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*/)
@@ -196,9 +212,13 @@ END_OF_MESSAGE
         end
       elsif @screen.name == 'Resource Pools'
         if [ 'linux_stemcell', 'windows_stemcell', 'sqlserver_stemcell'].include? @name
-          name = value.match(/name:([^\/]*),version/)[1]
-          version = value.match(/version:([^\/]*)\z/)[1]
-          result = { "name" => name, "version" => version }
+          if (value != "")
+            name = value.match(/name:([^\/]*),version/)[1]
+            version = value.match(/version:([^\/]*)\z/)[1]
+            result = { "name" => name, "version" => version }
+          else
+            result = { "name" => "", "version" => "" }
+          end
         end
       end
 
