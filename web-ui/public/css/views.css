@@ -482,7 +482,7 @@ td.border_right
 
 .versions_table
 {
-    width: 650px;
+    width: 690px;
     margin: 10px 10px 20px 10px;
 }
 
@@ -520,7 +520,7 @@ td.border_right
 
 .versions_table .td_actions
 {
-    width: 140px;
+    width: 180px;
 }
 
 .table_title
@@ -597,6 +597,18 @@ tr td:last-child {
 .action_buttons.download_disabled:hover
 {
     background-image: url('/icons/download_disabled.png');
+}
+
+.action_buttons.download_dependencies,
+.action_buttons.download_dependencies:hover
+{
+    background-image: url('/icons/download_dependencies.png');
+}
+
+.action_buttons.download_dependencies_disabled,
+.action_buttons.download_dependencies_disabled:hover
+{
+    background-image: url('/icons/download_dependencies_disabled.png');
 }
 
 .action_buttons.delete,
