@@ -13,7 +13,26 @@ mkdir -p /etc/monit/uhururc.d_pieces
 
 cp monit /etc/monit/uhururc.d_pieces/<%= job_name %>
 
-find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/redis >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/postgres >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/ttyjs.monit >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
+echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
 mkdir -p /var/vcap/jobs/
 rm -f /var/vcap/jobs/<%= job_name %>
