@@ -143,17 +143,15 @@ module Uhuru
 
         def download_progress
           if File.exist?(bits_full_local_path_dl)
-            total_size = @location['size']
-            dl_size = File.size(bits_full_local_path_dl)
-            [((dl_size.to_f / total_size.to_f) * 100).to_i, "Downloaded #{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
-          else
             if Dir.exist?(bits_full_local_path_unpacked)
-              if File.exist?(bits_full_local_path_dl)
-                [100, 'Unpacking...']
-              else
-                [100, 'Done']
-              end
-            elsif File.exist?(bits_full_local_path)
+              [100, 'Unpacking...']
+            else
+              total_size = @location['size']
+              dl_size = File.size(bits_full_local_path_dl)
+              [((dl_size.to_f / total_size.to_f) * 100).to_i, "Downloaded #{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
+            end
+          else
+            if Dir.exist?(bits_full_local_path_unpacked) || File.exist?(bits_full_local_path)
               [100, 'Done']
             else
               [0, 'N/A']
