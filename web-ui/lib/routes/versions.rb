@@ -126,12 +126,21 @@ module Uhuru::BoshCommander
 
 
     get '/versions' do
+      stemcells = nil
+      releases = nil
       products = Uhuru::BoshCommander::Versioning::Product.get_products
+
+      Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+        stemcells = Uhuru::BoshCommander::Stemcell.new().list_stemcells
+        releases = Uhuru::BoshCommander::Release.new().list_releases
+      end
 
       render_erb do
         template :versions
         layout :layout
         var :products, products
+        var :stemcells, stemcells
+        var :releases, releases
         help 'versions'
       end
     end
