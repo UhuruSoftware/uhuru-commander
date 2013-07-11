@@ -24,6 +24,10 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
+    post '/download_with_dependencies' do
+      redirect '/versions'
+    end
+
     get '/download_state' do
       progress = ''
 

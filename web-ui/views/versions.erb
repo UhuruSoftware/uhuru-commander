@@ -118,6 +118,18 @@
                                     <input type="button" value="" class="action_buttons upload_disabled" title="This version was not found localy and it can't be uploaded!" />
                                 <% end %>
 
+
+                                <% if version_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
+                                    <form method="post" action="/download_with_dependencies">
+                                      <input type="hidden" value="<%= product[1].name.to_s %>" name="product" />
+                                      <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
+
+                                      <input type="submit" value="" class="action_buttons download_dependencies" title="Download <%= product[1].label %>&nbsp;<%= version[1].version %>" />
+                                    </form>
+                                <% else %>
+                                    <input type="button" value="" class="action_buttons download_dependencies_disabled" title="This version was already downloaded!" />
+                                <% end %>
+
                                 <% if version_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
                                     <form method="post" action="/download">
                                       <input type="hidden" value="<%= product[1].name.to_s %>" name="product" />
