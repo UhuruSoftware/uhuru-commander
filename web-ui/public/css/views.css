@@ -593,16 +593,46 @@ tr td:last-child {
     background-image: url('/icons/download.png');
 }
 
+.action_buttons.download_disabled,
+.action_buttons.download_disabled:hover
+{
+    background-image: url('/icons/download_disabled.png');
+}
+
 .action_buttons.delete,
 .action_buttons.delete:hover
 {
     background-image: url('/icons/delete.png');
 }
 
+.action_buttons.delete_disabled,
+.action_buttons.delete_disabled:hover
+{
+    background-image: url('/icons/delete_disabled.png');
+}
+
+.action_buttons.trash,
+.action_buttons.trash:hover
+{
+    background-image: url('/icons/trash.png');
+}
+
+.action_buttons.trash_disabled,
+.action_buttons.trash_disabled:hover
+{
+    background-image: url('/icons/trash_disabled.png');
+}
+
 .action_buttons.upload,
 .action_buttons.upload:hover
 {
     background-image: url('/icons/upload.png');
+}
+
+.action_buttons.upload_disabled,
+.action_buttons.upload_disabled:hover
+{
+    background-image: url('/icons/upload_disabled.png');
 }
 
 .progress_message
