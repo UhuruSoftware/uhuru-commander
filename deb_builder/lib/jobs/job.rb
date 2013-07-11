@@ -46,6 +46,7 @@ module Uhuru
           work_directory = File.join(target_dir, 'uhuru-ucc')
           debian_dir = File.join(work_directory, 'DEBIAN')
           control_file = File.join(debian_dir, 'control')
+          postinst_file = File.join(debian_dir, 'postinst')
 
           FileUtils.mkdir_p work_directory
           FileUtils.mkdir_p debian_dir
@@ -53,16 +54,25 @@ module Uhuru
           erb_file = File.join(File.expand_path('..', __FILE__), 'uhuru-ucc-control.erb')
           template = ERB.new File.new(erb_file).read
 
+          erb_file_pi = File.join(File.expand_path('..', __FILE__), 'uhuru-ucc-postinst.erb')
+          template_pi = ERB.new File.new(erb_file_pi).read
+
+
           job_version = Job.version
           job_size = 0
 
           job_dependencies = all_jobs.map {|name| "#{name} (=#{Job.version})"}.uniq.join(', ')
-
           job_short_description = 'Uhuru Cloud Commander'
 
           File.open(control_file, 'w') do |file|
             file.write(template.result(binding))
           end
+
+          File.open(postinst_file, 'w') do |file|
+            file.write(template_pi.result(binding))
+          end
+
+          `chmod 755 #{postinst_file}`
 
           `cd #{target_dir} ; dpkg-deb --build uhuru-ucc .`
 

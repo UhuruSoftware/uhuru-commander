@@ -1,0 +1,10 @@
+#!/bin/bash
+
+/etc/init.d/apache2 stop
+update-rc.d -f apache2 remove
+
+service monit restart
+
+monit restart all
+
+exit 0

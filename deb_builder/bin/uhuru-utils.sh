@@ -63,9 +63,6 @@ EOF
 
     find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
 
-    service monit restart
-    monit restart ttyjs
-
     exit 0
 EOF
 
@@ -153,9 +150,6 @@ if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
 fi
 
 find /etc/monit/uhururc.d_pieces/ -type f -exec cat {} \; -exec echo -e "\n  mode manual\n\n" \; > /etc/monit/uhururc.d/jobs
-
-service monit restart
-monit restart ucc
 
 exit 0
 EOF
