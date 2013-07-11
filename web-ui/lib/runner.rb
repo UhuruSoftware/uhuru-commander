@@ -70,7 +70,6 @@ module Uhuru::BoshCommander
       if File.exists?(version_file)
         $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
       end
-      Uhuru::BoshCommander::ProductsChecker.start_checking
 
       Runner.setup_logging
       $config[:logger] = Runner.logger
@@ -81,6 +80,8 @@ module Uhuru::BoshCommander
         properties = YAML.load_file($config[:properties_file])
         User.create(properties['properties']['hm']['director_account']['user'], properties['properties']['hm']['director_account']['password'])
       end
+
+      Uhuru::BoshCommander::ProductsChecker.start_checking
     end
 
     def self.load_help_file(help_file)

@@ -18,6 +18,8 @@ module Uhuru
         attr_accessor :local_versions
         attr_accessor :type
 
+        @@semaphore = Mutex.new
+
         def self.version_directory
           dir = $config[:versioning][:dir]
           FileUtils.mkdir_p(dir)
@@ -28,8 +30,17 @@ module Uhuru
           dir = Product.version_directory
           products_yaml_file = File.join(dir, 'products.yml')
 
-          if File.exist? products_yaml_file
-            products_yaml = YAML.load_file(products_yaml_file)
+          products_yaml = {}
+          products_yaml_exists = false
+
+          Product.versions_semaphore.synchronize do
+            products_yaml_exists = File.exist? products_yaml_file
+            if products_yaml_exists
+              products_yaml = YAML.load_file(products_yaml_file)
+            end
+          end
+
+          if products_yaml_exists
             products = {}
             products_yaml['products'].each do |product, details|
               products[product] = Product.new(product, details['label'], details['type'], details['description'])
@@ -38,6 +49,7 @@ module Uhuru
           else
             {}
           end
+
         end
 
         def self.get_blobstore_client
@@ -45,6 +57,10 @@ module Uhuru
           bsc_options= $config[:versioning][:blobstore_options]
 
           Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
+        end
+
+        def self.versions_semaphore
+          @@semaphore
         end
 
         def self.download_manifests
@@ -78,7 +94,9 @@ module Uhuru
             end
           end
 
-          FileUtils.cp_r Dir.glob("#{temp_dir}/*"), dir
+          Product.versions_semaphore.synchronize do
+            FileUtils.cp_r Dir.glob("#{temp_dir}/*"), dir
+          end
         end
 
         def initialize(name, label, type, description)
@@ -93,12 +111,20 @@ module Uhuru
           @versions = {}
           @local_versions = {}
 
-          if File.exist?(versions_manifest_file)
-            versions_manifest = YAML.load_file(versions_manifest_file)
 
+          versions_manifest_exists = false
+          versions_manifest = {}
+          Product.versions_semaphore.synchronize do
+            versions_manifest_exists = File.exist?(versions_manifest_file)
+            if versions_manifest_exists
+              versions_manifest = YAML.load_file(versions_manifest_file)
+            end
+          end
+
+          if versions_manifest_exists
             versions_manifest['versions'].each do |version, details|
               @versions[version] = Version.new(self, version, details)
-              if (File.exist?(@versions[version].bits_full_local_path) || Dir.exist?(@versions[version].bits_full_local_path))
+              if File.exist?(@versions[version].bits_full_local_path) || Dir.exist?(@versions[version].bits_full_local_path)
                 @local_versions[version] = @versions[version]
               end
             end

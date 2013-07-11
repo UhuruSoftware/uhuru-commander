@@ -6,6 +6,7 @@ dev-mode: true
 test_email: test@uhurusoftware.com
 versioning: 
   dir: /home/mitza/code/private-uhuru-commander/web-ui/spec/assets/
+  refresh_rate: 5
   blobstore_provider: swift
   blobstore_options: 
     swift_provider: openstack
