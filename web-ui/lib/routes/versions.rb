@@ -7,9 +7,8 @@ module Uhuru::BoshCommander
     end
 
     post '/download' do
-
-      products = Uhuru::BoshCommander::Versioning::Product.get_products
-      products.each do |product|
+      #iterate throughout the products and match the selected version for downloading
+      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
         if product[1].name == params[:product]
           product[1].versions.each do |version|
             if version[1].version == params[:version]
@@ -25,12 +24,46 @@ module Uhuru::BoshCommander
     end
 
     post '/download_with_dependencies' do
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+
+      products.each do |product|
+        if product[1].name == params[:product]
+          product[1].versions.each do |version|
+            if version[1].version == params[:version]
+              Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+                #downloading the selected version
+                version[1].download_from_blobstore
+
+                #iterate all dependencies and versions of the selected version and download them
+                version[1].dependencies.each do |current_dependency|
+                  current_dependency['version'].each do |current_version|
+
+                    products.each do |product|
+                      if product[1].name == current_dependency['dependency']
+                        product[1].versions.each do |version|
+                          if version[1].version == current_version
+                            version[1].download_from_blobstore
+                          end
+                        end
+                      end
+                    end
+
+                  end
+                end
+
+              end
+            end
+          end
+        end
+      end
+
       redirect '/versions'
     end
 
     get '/download_state' do
       progress = ''
 
+      #this function will constantly get the state of all downloads
       Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
         if product[1].name == params[:product]
           product[1].versions.each do |version|
