@@ -11,7 +11,7 @@ module Uhuru::BoshCommander
           while true do
             begin
               Uhuru::BoshCommander::Versioning::Product.download_manifests
-            rescue
+            rescue Exception => e
               $logger.error "#{e.message} - #{e.backtrace}"
             end
 
