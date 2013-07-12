@@ -7,41 +7,41 @@ module Uhuru::BoshCommander
     end
 
     post '/download' do
-
-      products = Uhuru::BoshCommander::Versioning::Product.get_products
-      products.each do |product|
-        if product[1].name == params[:product]
-          product[1].versions.each do |version|
-            if version[1].version == params[:version]
-              Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-                version[1].download_from_blobstore
-              end
-            end
-          end
-        end
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[params[:product]]
+      Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+        product.versions[params[:version]].download_from_blobstore
       end
 
       redirect '/versions'
     end
 
     post '/download_with_dependencies' do
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[params[:product]]
+      version = product.versions[params[:version]]
+
+      Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+        version.download_from_blobstore
+
+        version.dependencies.each do |current_dependency|
+          current_dependency['version'].each do |current_version|
+            dependency = products[current_dependency['dependency']]
+            dependency.versions[current_version].download_from_blobstore
+          end
+        end
+
+      end
+
       redirect '/versions'
     end
 
     get '/download_state' do
       progress = ''
+      product = Uhuru::BoshCommander::Versioning::Product.get_products[params[:product]]
 
-      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
-        if product[1].name == params[:product]
-          product[1].versions.each do |version|
-            if version[1].version == params[:version]
-              Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-                progress = version[1].download_progress
-                puts progress
-              end
-            end
-          end
-        end
+      Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+        progress = product.versions[params[:version]].download_progress
+        puts progress
       end
 
       return "{ \"progressbar\" : \"#{progress[0].to_s}\", \"progressmessage\" : \"#{progress[1].to_s}\" }"

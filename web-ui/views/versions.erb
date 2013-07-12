@@ -6,7 +6,7 @@
 
               <span class="table_title"><%= product[1].label %></span>
 
-              <table class="versions_table">
+              <table class="versions_table" cellspacing="2" cellpadding="0">
                 <thead>
                 <tr class="settings_table_header">
                   <td class="td_versions">Version</td>
@@ -124,7 +124,7 @@
                                       <input type="hidden" value="<%= product[1].name.to_s %>" name="product" />
                                       <input type="hidden" value="<%= version[1].version.to_s %>" name="version" />
 
-                                      <input type="submit" value="" class="action_buttons download_dependencies" title="Download <%= product[1].label %>&nbsp;<%= version[1].version %>" />
+                                      <input type="submit" value="" class="action_buttons download_dependencies" title="Download <%= product[1].label %>&nbsp;<%= version[1].version %> with all the dependencies" />
                                     </form>
                                 <% else %>
                                     <input type="button" value="" class="action_buttons download_dependencies_disabled" title="This version was already downloaded!" />
@@ -161,7 +161,6 @@
                                 </progress>
                             <% end %>
                             <% counter += 1 %>
-
                           </td>
                       <% end %>
 
