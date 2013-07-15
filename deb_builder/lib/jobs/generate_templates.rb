@@ -67,17 +67,15 @@ properties['job'] = { 'name' => spec['name'] }
 properties['index'] = 0
 properties['properties'] = defaults['properties']
 
-
-
 if ENV
   ENV.each do |p_name, p_value|
-    if p_name.start_with?('uhuruconfig.')
+    if p_name.start_with?('uhuruconfig__')
 
       before_last = nil
       final_particle = nil
       last = properties['properties']
       default_value = defaults['properties']
-      p_name.split('.').each do |particle|
+      p_name.split('__').drop(1).each do |particle|
         last[particle] ||= {}
         before_last = last
         last = last[particle]
@@ -87,10 +85,11 @@ if ENV
         end
       end
 
-      before_last[final_particle] = ENV["uhuru.#{p_name}"]
+      before_last[final_particle] = p_value
     end
   end
 end
+
 
 puts 'Using the following properties:'
 pp properties['properties']
