@@ -191,8 +191,7 @@ if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
     erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
 fi
 
-
-
+echo -e "\nversion: ${VERSION}" > /var/vcap/store/ucc/web-ui/config/version.yml
 
 cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs

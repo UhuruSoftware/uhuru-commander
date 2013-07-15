@@ -652,14 +652,22 @@ tr td:last-child {
     font-size: 10px;
     color: #bbbbbb;
 }
-progress
+
+.progress_message.hidden
+{
+    display: none;
+}
+
+
+.progress_bars
 {
     background-color: #dddddd;
     width: 100px;
     height: 8px;
     margin: auto;
 }
-progress.hidden
+
+.progress_bars.hidden
 {
     display: none;
 }

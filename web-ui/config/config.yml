@@ -6,7 +6,6 @@ test_email: "spec@uhurusoftware.com" #setting used to spec smtp server
 
 versioning:
   dir: /var/vcap/store/ucc/versions/
-  #blobstore_provider: swift
   blobstore_provider: dav
   refresh_rate: 5
   blobstore_options:

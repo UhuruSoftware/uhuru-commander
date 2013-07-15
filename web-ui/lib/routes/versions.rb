@@ -29,22 +29,20 @@ module Uhuru::BoshCommander
     end
 
     get '/download_state' do
-      progress = ''
+      progress = {}
 
-      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product|
-        if product[1].name == params[:product]
-          product[1].versions.each do |version|
-            if version[1].version == params[:version]
-              Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-                progress = version[1].download_progress
-                puts progress
-              end
+      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product_name, product|
+        progress[product_name] = {}
+        product.versions.each do |version_number, version|
+          Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+            if version.get_state == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING
+              progress[product_name][version_number] = version.download_progress
             end
           end
         end
       end
 
-      return "{ \"progressbar\" : \"#{progress[0].to_s}\", \"progressmessage\" : \"#{progress[1].to_s}\" }"
+      progress.to_json
     end
 
 
