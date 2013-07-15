@@ -97,7 +97,7 @@ module Uhuru::BoshCommander
     def deploy()
 
       if File.exists? @lock_file
-         say "Deployment in process, please check tasks"
+        say "Deployment in process, please check tasks"
         return
       end
 
@@ -116,7 +116,7 @@ module Uhuru::BoshCommander
       software_state = Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
       stemcells = []
       deployment_manifest['resource_pools'].each do |resource_pool|
-           stemcells << resource_pool['stemcell']
+        stemcells << resource_pool['stemcell']
       end
 
       software = nil
@@ -127,9 +127,9 @@ module Uhuru::BoshCommander
         #check release
         if (product.type == 'software' && product.name == software_name)
           product.versions.each do |version|
-             if (version[0].to_s == software_version.to_s)
-               software = version[1]
-             end
+            if (version[0].to_s == software_version.to_s)
+              software = version[1]
+            end
           end
         end
       end
@@ -185,10 +185,14 @@ module Uhuru::BoshCommander
         release.upload(File.join(software.bits_full_local_path, "release.tgz"))
       end
 
+      uploaded_stemcells = []
       stemcells_state.each do |stemcell|
         if (stemcell["state"]== Uhuru::BoshCommander::Versioning::STATE_LOCAL)
-          stemcell_obj = Stemcell.new
-          stemcell_obj.upload(stemcell["version"].bits_full_local_path)
+          if (!uploaded_stemcells.include?)
+            stemcell_obj = Stemcell.new
+            stemcell_obj.upload(stemcell["version"].bits_full_local_path)
+            uploaded_stemcells << stemcell_obj["name"]
+          end
         end
       end
 
@@ -246,7 +250,7 @@ module Uhuru::BoshCommander
     end
 
     def stop_vm(job_name, index)
-       job_management_command.stop_job(job_name, index)
+      job_management_command.stop_job(job_name, index)
     end
 
     def recreate_vm(job_name, index)
