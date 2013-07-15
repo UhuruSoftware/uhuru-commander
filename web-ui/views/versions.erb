@@ -111,7 +111,7 @@
                                       <input type="hidden" value="<%= product.name.to_s %>" name="product" />
                                       <input type="hidden" value="<%= version.version.to_s %>" name="version" />
 
-                                      <input type="submit" value="" class="action_buttons download_dependencies" title="Download <%= product.label %>&nbsp;<%= version.version %>" />
+                                      <input type="submit" value="" class="action_buttons download_dependencies" title="Download <%= product.label %>&nbsp;<%= version.version %> with all the dependencies" />
                                     </form>
                                 <% else %>
                                     <input type="button" value="" class="action_buttons download_dependencies_disabled" title="This version was already downloaded!" />
