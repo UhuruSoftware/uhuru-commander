@@ -84,6 +84,9 @@ module Uhuru::BoshCommander
         @tabs = []
         products = Uhuru::BoshCommander::Versioning::Product.get_products
 
+        if !Dir.exists?($config[:deployments_dir])
+          Dir.mkdir($config[:deployments_dir])
+        end
 
         products.each do |product|
           p = product[1]
