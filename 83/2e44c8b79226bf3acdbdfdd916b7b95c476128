@@ -1,0 +1,9 @@
+Change-Id: I832e44c8b79226bf3acdbdfdd916b7b95c476128
+Verified+1: Jenkins 
+Code-Review+2: Stefan Schneider <stefan.schneider@uhurusoftware.com>
+Verified+1: Stefan Schneider <stefan.schneider@uhurusoftware.com>
+Submitted-by: Stefan Schneider <stefan.schneider@uhurusoftware.com>
+Submitted-at: Tue, 16 Jul 2013 12:12:11 +0300
+Reviewed-on: http://gerrit.uhurusoftware.org/1670
+Project: private-uhuru-commander
+Branch: refs/heads/master
