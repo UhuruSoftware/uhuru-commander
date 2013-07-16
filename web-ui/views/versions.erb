@@ -135,15 +135,15 @@
                                     <li>
                                       <% if version_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
 
-                                          <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/delete_stemcell_from_bosh' : '/delete_software_from_bosh' %>
+                                          <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/delete_stemcell_from_blobstore' : '/delete_software_from_blobstore' %>
 
                                           <form method="post" action="<%= form_action %>">
                                             <input type="hidden" value="<%= product.name.to_s %>" name="name" />
                                             <input type="hidden" value="<%= version.version.to_s %>" name="version" />
-                                            <input type="submit" value="Deactivate" class="action_buttons delete" title="Delete from bosh <%= product.label %>&nbsp;<%= version.version.downcase %>" />
+                                            <input type="submit" value="Deactivate" class="action_buttons delete" title="Delete <%= product.label %>&nbsp;<%= version.version.downcase %>" />
                                           </form>
                                       <% else %>
-                                          <input type="button" value="Deactivate" class="action_buttons delete_disabled" title="This version was not found on bosh!" />
+                                          <input type="button" value="Deactivate" class="action_buttons delete_disabled" title="This version was not found!" />
                                       <% end %>
                                     </li>
                                     <li>
