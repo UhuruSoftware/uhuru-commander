@@ -33,8 +33,12 @@
 
   <div class="cloud_configuration_form">
     <form id="cloud_config_form" name="cloud_config_form" enctype="multipart/form-data" method="post" action="/products/<%= product_name %>/<%= cloud_name %>" onsubmit="return confirmForm()">
+      <label style="font-weight:bold; position:relative; top:-40px; left:430px;">
+        Version:
+      </label>
 
-      <select name="select_version"
+      <select style="font-weight:bold; position:relative; top:-40px; left:430px;"
+              name="select_version"
               type="text"
               id="select_version"
               onchange="ChangeVersion(this.value)"

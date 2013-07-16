@@ -55,7 +55,7 @@ module Uhuru
           "#{bits_full_local_path}.dl"
         end
 
-        def get_state(stemcell_list = nil, release_list = nil)
+        def get_state(stemcell_list = nil, release_list = nil, deployment_list = nil)
           state = STATE_REMOTE_ONLY
 
           if File.exist?(bits_full_local_path_dl)
@@ -77,7 +77,7 @@ module Uhuru
 
             if found_on_bosh
               state = STATE_AVAILABLE
-              deployments = Deployment.get_director_deployments
+              deployments = deployment_list || Deployment.get_director_deployments
               deployments.each do |deployment|
                 deployment["stemcells"].each do |stemcell|
                   if (stemcell["name"] == @product.name) &&
@@ -144,11 +144,11 @@ module Uhuru
         def download_progress
           if File.exist?(bits_full_local_path_dl)
             if Dir.exist?(bits_full_local_path_unpacked)
-              [100, 'Unpacking...']
+              [100, 'Unpacking ...']
             else
               total_size = @location['size']
               dl_size = File.size(bits_full_local_path_dl)
-              [((dl_size.to_f / total_size.to_f) * 100).to_i, "Downloaded #{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
+              [((dl_size.to_f / total_size.to_f) * 100).to_i, "#{dl_size / 1048576}MB out of #{total_size / 1048576}MB"]
             end
           else
             if Dir.exist?(bits_full_local_path_unpacked) || File.exist?(bits_full_local_path)

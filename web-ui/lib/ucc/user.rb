@@ -2,7 +2,6 @@ require 'bcrypt'
 
 module Uhuru::BoshCommander
   class User
-
     def initialize(username, system_call = false)
       @username = username
       @db = User.get_db

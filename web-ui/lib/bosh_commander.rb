@@ -29,7 +29,7 @@ require "ucc/commander_bosh_runner"
 require "ucc/monit"
 require "ucc/deployment"
 require "ucc/step_deployment"
-require "ucc/user"
+
 require "ucc/vms"
 require "ucc/task"
 require "ucc/event_log_renderer_web"

@@ -81,27 +81,6 @@ module Uhuru::BoshCommander
           check_first_run!
         end
 
-        @tabs = []
-        products = Uhuru::BoshCommander::Versioning::Product.get_products
-
-
-        products.each do |product|
-          p = product[1]
-          if p.type == "software"
-            if !Dir.exists?(File.join($config[:deployments_dir], product[0]))
-               Dir.mkdir(File.join($config[:deployments_dir], product[0]))
-            end
-            p.versions.each do |version|
-              v = version[1]
-              if (File.exist?(v.bits_full_local_path) || Dir.exist?(v.bits_full_local_path))
-                #path and href to be configured for each type of software product
-                @tabs << {:path => "/products/#{product[0]}", :href => "/products/#{product[0]}", :name => p.label}
-                break
-              end
-            end
-          end
-        end
-
       end
     end
 

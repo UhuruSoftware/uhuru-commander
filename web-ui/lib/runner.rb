@@ -74,6 +74,13 @@ module Uhuru::BoshCommander
       Runner.setup_logging
       $config[:logger] = Runner.logger
 
+      if $config[:mock_backend]
+        require "ucc/mock/user"
+        require "ucc/mock/bosh"
+      else
+        require "ucc/user"
+      end
+
       #we need to created the default admin user
       if User.users.size == 0
         User.create("admin", "admin")

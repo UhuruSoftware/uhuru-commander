@@ -34,7 +34,7 @@
 
                           <%
 
-                             version_state = version.get_state(stemcells, releases)
+                             version_state = version.get_state(stemcells, releases, deployments)
                              state_class = case version_state
                                              when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'local'
                                              when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'remote_only'
@@ -64,71 +64,9 @@
                           <!-- ACTION -->
 
                           <td class="td_actions">
-
                             <% if version_state != Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING %>
 
-                                <% if version_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
-
-                                    <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/delete_stemcell_from_bosh' : '/delete_software_from_bosh' %>
-
-                                    <form method="post" action="<%= form_action %>">
-                                      <input type="hidden" value="<%= product.name.to_s %>" name="name" />
-                                      <input type="hidden" value="<%= version.version.to_s %>" name="version" />
-                                      <input type="submit" value="" class="action_buttons delete" title="Delete from bosh <%= product.label %>&nbsp;<%= version.version.downcase %>" />
-                                    </form>
-                                <% else %>
-                                    <input type="button" value="" class="action_buttons delete_disabled" title="This version was not found on bosh!" />
-                                <% end %>
-
-                                <% if version_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
-                                    <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/delete_stemcell_local' : '/delete_software_local' %>
-                                    <form method="post" action="<%= form_action %>">
-                                        <input type="hidden" value="<%= product.name.to_s %>" name="name" />
-                                        <input type="hidden" value="<%= version.version.to_s %>" name="version" />
-                                        <input type="submit" value="" class="action_buttons trash" title="Delete local version: <%= product.label %>&nbsp;<%= version.version.downcase %>" />
-                                    </form>
-                                <% else %>
-                                    <input type="button" value="" class="action_buttons trash_disabled" title="This version was not found locally!" />
-                                <% end %>
-
-
-                                <% if version_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
-
-                                    <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/upload_stemcell' : '/upload_software' %>
-
-                                    <form method="post" action="<%= form_action %>">
-                                      <input type="hidden" value="<%= product.name.to_s %>" name="name" />
-                                      <input type="hidden" value="<%= version.version.to_s %>" name="version" />
-                                      <input type="submit" value="" class="action_buttons upload" title="Upload <%= product.label %>&nbsp;<%= version.version %>" />
-                                    </form>
-                                <% else %>
-                                    <input type="button" value="" class="action_buttons upload_disabled" title="This version was not found locally and it can't be uploaded!" />
-                                <% end %>
-
-
-                                <% if version_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
-                                    <form method="post" action="/download_with_dependencies">
-                                      <input type="hidden" value="<%= product.name.to_s %>" name="product" />
-                                      <input type="hidden" value="<%= version.version.to_s %>" name="version" />
-
-                                      <input type="submit" value="" class="action_buttons download_dependencies" title="Download <%= product.label %>&nbsp;<%= version.version %> with all the dependencies" />
-                                    </form>
-                                <% else %>
-                                    <input type="button" value="" class="action_buttons download_dependencies_disabled" title="This version was already downloaded!" />
-                                <% end %>
-
-                                <% if version_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
-                                    <form method="post" action="/download">
-                                      <input type="hidden" value="<%= product.name.to_s %>" name="product" />
-                                      <input type="hidden" value="<%= version.version.to_s %>" name="version" />
-
-                                      <input type="submit" value="" class="action_buttons download" title="Download <%= product.label %>&nbsp;<%= version.version %>" />
-                                    </form>
-                                <% else %>
-                                    <input type="button" value="" class="action_buttons download_disabled" title="This version was already downloaded!" />
-                                <% end %>
-
-                                <div class="action_buttons info" onmouseover="jQuery('div', this).show()" onmouseout="jQuery('div', this).hide()">
+                                <div class="action_buttons parent info" onmouseover="jQuery('div', this).show()" onmouseout="jQuery('div', this).hide()">
                                   <div class="info_box">
                                     <b>Size:</b> <%= pretty_size(version.size) %>
                                     <br/><hr/><br/>
@@ -138,13 +76,97 @@
                                     <br/><hr/><br/>
                                   </div>
                                 </div>
+
+                                <div class="action_buttons parent actions" onclick="
+                                    $('.actions_menu').not($(this).find('ul')).addClass('hidden');
+                                    $('.action_buttons.parent.actions').not($(this)).removeClass('clicked');
+
+                                    if ($(this).find('ul').hasClass('hidden'))
+                                    {
+                                        $(this).find('ul').removeClass('hidden');
+                                        $(this).addClass('clicked');
+                                    }
+                                    else
+                                    {
+                                        $(this).find('ul').addClass('hidden');
+                                        $(this).removeClass('clicked');
+                                    }
+
+                                ">
+                                  <ul class="actions_menu hidden">
+                                    <li>
+                                      <% if version_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
+                                          <form method="post" action="/download">
+                                            <input type="hidden" value="<%= product.name.to_s %>" name="product" />
+                                            <input type="hidden" value="<%= version.version.to_s %>" name="version" />
+
+                                            <input type="submit" value="Download" class="action_buttons download" title="Download <%= product.label %>&nbsp;<%= version.version %>" />
+                                          </form>
+                                      <% else %>
+                                          <input type="button" value="Download" class="action_buttons download_disabled" title="This version was already downloaded!" />
+                                      <% end %>
+                                    </li>
+                                    <li>
+                                      <% if version_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY %>
+                                          <form method="post" action="/download_with_dependencies">
+                                            <input type="hidden" value="<%= product.name.to_s %>" name="product" />
+                                            <input type="hidden" value="<%= version.version.to_s %>" name="version" />
+
+                                            <input type="submit" value="Download with dependencies" class="action_buttons download_dependencies" title="Download <%= product.label %>&nbsp;<%= version.version %> with all the dependencies" />
+                                          </form>
+                                      <% else %>
+                                          <input type="button" value="Download with dependencies" class="action_buttons download_dependencies_disabled" title="This version was already downloaded!" />
+                                      <% end %>
+                                    </li>
+                                    <li>
+                                      <% if version_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
+
+                                          <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/upload_stemcell' : '/upload_software' %>
+
+                                          <form method="post" action="<%= form_action %>">
+                                            <input type="hidden" value="<%= product.name.to_s %>" name="name" />
+                                            <input type="hidden" value="<%= version.version.to_s %>" name="version" />
+                                            <input type="submit" value="Activate for deployment" class="action_buttons upload" title="Upload <%= product.label %>&nbsp;<%= version.version %>" />
+                                          </form>
+                                      <% else %>
+                                          <input type="button" value="Activate for deployment" class="action_buttons upload_disabled" title="This version was not found locally and it can't be uploaded!" />
+                                      <% end %>
+                                    </li>
+                                    <li>
+                                      <% if version_state == Uhuru::BoshCommander::Versioning::STATE_AVAILABLE %>
+
+                                          <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/delete_stemcell_from_bosh' : '/delete_software_from_bosh' %>
+
+                                          <form method="post" action="<%= form_action %>">
+                                            <input type="hidden" value="<%= product.name.to_s %>" name="name" />
+                                            <input type="hidden" value="<%= version.version.to_s %>" name="version" />
+                                            <input type="submit" value="Deactivate" class="action_buttons delete" title="Delete from bosh <%= product.label %>&nbsp;<%= version.version.downcase %>" />
+                                          </form>
+                                      <% else %>
+                                          <input type="button" value="Deactivate" class="action_buttons delete_disabled" title="This version was not found on bosh!" />
+                                      <% end %>
+                                    </li>
+                                    <li>
+                                      <% if version_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL %>
+                                          <% form_action = product.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL ? '/delete_stemcell_local' : '/delete_software_local' %>
+                                          <form method="post" action="<%= form_action %>">
+                                            <input type="hidden" value="<%= product.name.to_s %>" name="name" />
+                                            <input type="hidden" value="<%= version.version.to_s %>" name="version" />
+                                            <input type="submit" value="Remove" class="action_buttons trash" title="Delete local version: <%= product.label %>&nbsp;<%= version.version.downcase %>" />
+                                          </form>
+                                      <% else %>
+                                          <input type="button" value="Remove" class="action_buttons trash_disabled" title="This version was not found locally!" />
+                                      <% end %>
+                                    </li>
+                                  </ul>
+                                </div>
                             <% end %>
 
                             <%
                                hide_progress = version_state == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING ? '' : 'hidden'
                             %>
 
-                            <span id="message_progressbar_<%= "#{product_name}_#{version_number}" %>" class="progress_message <%= hide_progress %>" >Refreshing download information...</span>
+                            <span id="message_progressbar_<%= "#{product_name}_#{version_number}" %>" class="progress_message <%= hide_progress %>" >Refreshing ...</span>
 
                             <progress id="progressbar_<%= "#{product_name}_#{version_number}" %>" class="progress_bars <%= hide_progress %>" value="0" max="100">
                             </progress>
@@ -159,4 +181,7 @@
       <% end %>
   <% end %>
 </div>
-<script type="text/javascript" src="/scripts/versioning_actions.js" ></script>
+
+<% if products.any? { |_, product| product.versions.any? { |_, version| version.get_state(stemcells, releases, deployments) == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING } } %>
+    <script type="text/javascript" src="/scripts/versioning_actions.js" ></script>
+<% end %>

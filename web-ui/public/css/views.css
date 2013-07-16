@@ -477,7 +477,7 @@ td.border_right
     padding-top: 10px;
     overflow-y: hidden;
     margin: 0px auto;
-    padding-bottom: 100px;
+    padding-bottom: 150px;
 }
 
 .versions_table
@@ -507,22 +507,22 @@ td.border_right
 
 .versions_table .td_versions
 {
-    width: 30px;
+    width: 100px;
 }
 
 .versions_table .td_descriptions
 {
-    width: 300px;
+    width: 360px;
 }
 
 .versions_table .td_state
 {
-    width: 80px;
+    width: 100px;
 }
 
 .versions_table .td_actions
 {
-    width: 180px;
+    width: 120px;
 }
 
 .table_title
@@ -534,10 +534,10 @@ td.border_right
 
 .versions_table tbody tr td:last-child
 {
-    height: 40px;
+    padding: 2px;
 }
-.versions_table tbody tr td:first-child,
-tr td:last-child {
+
+.versions_table tbody tr td:first-child, tr td:last-child {
     text-align: right;
 }
 
@@ -559,10 +559,44 @@ tr td:last-child {
     background-color: #fafad2;
     position: absolute;
     top: 20px;
-    left: -200px;
+    left: -210px;
     text-align: left;
     padding: 5px;
     z-index: 100;
+}
+
+.actions_menu
+{
+    position: relative;
+    top: 20px;
+    left: -180px;
+    z-index: 99;
+    list-style: none;
+    width: 210px;
+    background: #ccc;
+    font-size: 12px;
+    border: 1px solid #333;
+    border-bottom: 0px;
+    padding: 0px;
+    text-align: left;
+}
+
+.actions_menu.hidden
+{
+    display: none;
+}
+
+.actions_menu li
+{
+    border-bottom: 1px solid #333;
+    padding: 4px;
+    display: block;
+    height: 20px;
+}
+
+.actions_menu li:hover
+{
+    background-color: #eee;
 }
 
 .action_buttons
@@ -572,11 +606,20 @@ tr td:last-child {
     float: right;
     margin-right: 5px;
     cursor: pointer;
-    width: 17px;
-    height: 17px;
     border: 0 !important;
+    width: 197px;
+    text-align: left;
     background-color: transparent !important;
-    background-repeat: no-repeat !important;m;
+    background-repeat: no-repeat !important;
+    color: #000 !important;
+    padding-left: 24px !important;
+}
+
+.action_buttons.parent
+{
+    width: 24px;
+    height: 20px;
+    padding-left: 0px !important;
 }
 
 .action_buttons:hover
@@ -589,6 +632,15 @@ tr td:last-child {
     background-image: url('/icons/info.png');
 }
 
+.action_buttons.actions {
+    background-image: url('/icons/actions.png');
+}
+
+.action_buttons.actions.clicked {
+    background-image: url('/icons/actions_hide.png');
+}
+
+
 .action_buttons.download,
 .action_buttons.download:hover
 {
@@ -599,6 +651,7 @@ tr td:last-child {
 .action_buttons.download_disabled:hover
 {
     background-image: url('/icons/download_disabled.png');
+    color: #777 !important;
 }
 
 .action_buttons.download_dependencies,
@@ -611,6 +664,7 @@ tr td:last-child {
 .action_buttons.download_dependencies_disabled:hover
 {
     background-image: url('/icons/download_dependencies_disabled.png');
+    color: #777 !important;
 }
 
 .action_buttons.delete,
@@ -623,6 +677,7 @@ tr td:last-child {
 .action_buttons.delete_disabled:hover
 {
     background-image: url('/icons/delete_disabled.png');
+    color: #777 !important;
 }
 
 .action_buttons.trash,
@@ -635,6 +690,7 @@ tr td:last-child {
 .action_buttons.trash_disabled:hover
 {
     background-image: url('/icons/trash_disabled.png');
+    color: #777 !important;
 }
 
 .action_buttons.upload,
@@ -647,6 +703,7 @@ tr td:last-child {
 .action_buttons.upload_disabled:hover
 {
     background-image: url('/icons/upload_disabled.png');
+    color: #777 !important;
 }
 
 .progress_message

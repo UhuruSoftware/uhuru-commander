@@ -36,13 +36,24 @@ module Uhuru::BoshCommander
     end
 
     get '/download_state' do
+
+      stemcells = nil
+      releases = nil
+      deployments = nil
+
+      Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+        stemcells = Uhuru::BoshCommander::Stemcell.new().list_stemcells
+        releases = Uhuru::BoshCommander::Release.new().list_releases
+        deployments = Deployment.get_director_deployments
+      end
+
       progress = {}
 
-      Uhuru::BoshCommander::Versioning::Product.get_products.each do |product_name, product|
-        progress[product_name] = {}
-        product.versions.each do |version_number, version|
-          Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-            if version.get_state == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING
+      Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+        Uhuru::BoshCommander::Versioning::Product.get_products.each do |product_name, product|
+          progress[product_name] = {}
+          product.versions.each do |version_number, version|
+            if version.get_state(stemcells, releases, deployments) == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING
               progress[product_name][version_number] = version.download_progress
             end
           end
@@ -137,11 +148,13 @@ module Uhuru::BoshCommander
     get '/versions' do
       stemcells = nil
       releases = nil
+      deployments = nil
       products = Uhuru::BoshCommander::Versioning::Product.get_products
 
       Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
         stemcells = Uhuru::BoshCommander::Stemcell.new().list_stemcells
         releases = Uhuru::BoshCommander::Release.new().list_releases
+        deployments = Deployment.get_director_deployments
       end
 
       render_erb do
@@ -150,6 +163,7 @@ module Uhuru::BoshCommander
         var :products, products
         var :stemcells, stemcells
         var :releases, releases
+        var :deployments, deployments
         help 'versions'
       end
     end
