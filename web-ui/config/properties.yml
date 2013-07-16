@@ -3,7 +3,7 @@
 properties:
   micro: true
   vcenter:
-    address: 127.0.0.1
+    address: 127.0.0.2
     user: user
     password: password
     datacenters:
@@ -72,6 +72,7 @@ properties:
     snapshot_schedule: 0 0 7 * * * UTC
     self_snapshot_schedule: 0 0 6 * * * UTC
     auto_fix_stateful_nodes: true
+    enable_snapshots: false
   hm:
     http:
       user: hm
