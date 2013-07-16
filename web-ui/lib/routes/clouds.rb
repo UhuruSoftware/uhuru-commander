@@ -368,6 +368,8 @@ module Uhuru::BoshCommander
           var :cloud_name, cloud_name
           var :summary, deployment_status
           var :value_type, values_to_show
+          var :versions, product.local_versions.keys
+          var :current_version, current_version
 
           help form.help
           help cloud_summary_help
