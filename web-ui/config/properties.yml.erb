@@ -83,6 +83,12 @@ properties:
     self_snapshot_schedule: 0 0 6 * * * UTC
     auto_fix_stateful_nodes: true
     enable_snapshots: false
+    compiled_package_cache:
+      provider: dav
+      options:
+        endpoint: http://roblob.uhurucloud.net:9988/
+        user: 'vladi'
+        password: 'password1234!'
   hm:
     http:
       user: hm
@@ -166,10 +172,5 @@ properties:
       enable_tls: true
     legacy:
       enabled: false
-  compiled_package_cache:
-    options:
-      endpoint: http://roblob.uhurucloud.net:9988/
-      user: 'vladi'
-      password: 'password1234!'
 
 
