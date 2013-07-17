@@ -110,6 +110,7 @@ properties:
       port: 8081
       address: 0.0.0.0
   compiled_package_cache:
+    read_only: false
     provider: dav
     options:
       endpoint: http://roblob.uhurucloud.net:9988/
