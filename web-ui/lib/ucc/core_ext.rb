@@ -122,6 +122,18 @@ module UccStringExtensions
     colorize(:yellow)
   end
 
+  def make_red
+    red
+  end
+
+  def make_green
+    green
+  end
+
+  def make_yellow
+    yellow
+  end
+
   def colorize(color_code)
     "#{COLOR_CODES[color_code]}#{CGI.escape_html self}***color_out_end***"
   end
