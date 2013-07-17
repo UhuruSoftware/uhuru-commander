@@ -66,6 +66,9 @@ module Uhuru::BoshCommander
 
       $config[:nagios][:config_path] = File.join($config[:bosh][:base_dir], 'jobs', 'nagios_dashboard', 'config', 'uhuru-dashboard.yml')
 
+      properties = YAML.load_file($config[:properties_file])
+      $config[:versioning][:blobstore_options][:endpoint] = properties["properties"]["compiled_package_cache"]["options"]["endpoint"]
+
       version_file = File.expand_path('../../config/version.yml', __FILE__)
       if File.exists?(version_file)
         $config[:version] = (File.open(version_file) { |file| YAML.load(file)})['version']
@@ -87,6 +90,8 @@ module Uhuru::BoshCommander
         properties = YAML.load_file($config[:properties_file])
         User.create(properties['properties']['hm']['director_account']['user'], properties['properties']['hm']['director_account']['password'])
       end
+
+
 
       Uhuru::BoshCommander::ProductsChecker.start_checking
     end
