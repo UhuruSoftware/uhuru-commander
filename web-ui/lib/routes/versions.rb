@@ -64,7 +64,7 @@ module Uhuru::BoshCommander
     end
 
 
-    post '/delete_stemcell_from_bosh' do
+    post '/delete_stemcell_from_blobstore' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
@@ -78,7 +78,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
-    post '/delete_software_from_bosh' do
+    post '/delete_software_from_blobstore' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
