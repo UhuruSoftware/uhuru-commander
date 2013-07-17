@@ -73,6 +73,7 @@ properties:
     self_snapshot_schedule: 0 0 6 * * * UTC
     auto_fix_stateful_nodes: true
     enable_snapshots: false
+    proxy_timeout: 900
     compiled_package_cache:
       provider: dav
       options:
