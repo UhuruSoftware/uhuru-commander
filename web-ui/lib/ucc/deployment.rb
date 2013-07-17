@@ -188,10 +188,10 @@ module Uhuru::BoshCommander
       uploaded_stemcells = []
       stemcells_state.each do |stemcell|
         if (stemcell["state"]== Uhuru::BoshCommander::Versioning::STATE_LOCAL)
-          if (!uploaded_stemcells.include?)
+          if (!uploaded_stemcells.include?(stemcell["name"]))
             stemcell_obj = Stemcell.new
             stemcell_obj.upload(stemcell["version"].bits_full_local_path)
-            uploaded_stemcells << stemcell_obj["name"]
+            uploaded_stemcells << stemcell["name"]
           end
         end
       end
