@@ -21,4 +21,15 @@ class Uhuru::BoshCommander::Config < VCAP::Config
     config = super(*args)
     config
   end
+
+  def self.symbolize_hash(hash)
+    hash.keys.each do |key|
+      sym    = key.to_sym
+      hash[sym] = hash.delete key
+      if hash[hash].kind_of? Hash
+        symbolize_hash! hash[sym]
+      end
+    end
+    hash
+  end
 end

@@ -8,12 +8,7 @@ test_email: test@uhurusoftware.com
 
 versioning:
   dir: /tmp/vlad_versions/
-  blobstore_provider: dav
   refresh_rate: 5
-  blobstore_options:
-    endpoint: http://roblob.uhurucloud.net:9988
-    user: 'vladi'
-    password: 'password1234!'
 
 bosh_commander: 
   domain: localhost

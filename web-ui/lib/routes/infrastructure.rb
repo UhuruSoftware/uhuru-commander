@@ -39,6 +39,10 @@ module Uhuru::BoshCommander
               Uhuru::BoshCommander::ConfigUpdater.apply_spec_for_all_jobs
               say ('Restarting services')
               restart_monit
+
+              properties = YAML.load_file($config[:properties_file])
+              $config[:versioning][:blobstore_provider] = properties["properties"]["compiled_package_cache"]["provider"]
+              $config[:versioning][:blobstore_options] = Config.symbolize_hash properties["properties"]["compiled_package_cache"]["options"]
             rescue Exception => e
               err e
             end
