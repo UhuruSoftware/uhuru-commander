@@ -120,6 +120,8 @@ properties:
       port: 8081
       address: 0.0.0.0
   compiled_package_cache:
+    # For the final release make sure read_only is set to 'true'
+    # and the blobstore credentials has only read permission.
     read_only: false
     provider: dav
     options:
