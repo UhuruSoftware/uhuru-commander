@@ -37,7 +37,7 @@ module UccExtensions
     end
 
     say("ERROR : #{message.to_s.red}")
-    $logger.error "This is err : #{message} - #{stack}"
+    $logger.error "This is the error : #{message} - #{stack}"
   end
 
   def quit(message = nil)

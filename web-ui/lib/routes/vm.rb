@@ -22,7 +22,7 @@ module Uhuru::BoshCommander
           end
 
         rescue Exception => e
-          err e.message.to_s
+          err e
         end
       end
 

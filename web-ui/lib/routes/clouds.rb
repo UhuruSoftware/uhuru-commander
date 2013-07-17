@@ -230,7 +230,7 @@ module Uhuru::BoshCommander
             begin
               form.deployment.deploy
             rescue Exception => e
-              err e.message.to_s
+              err e
             end
           end
 
@@ -279,7 +279,7 @@ module Uhuru::BoshCommander
             deployment = Deployment.new(cloud_name, product_name)
             deployment.tear_down
           rescue Exception => e
-            err e.message.to_s
+            err e
           end
         end
 
@@ -291,7 +291,7 @@ module Uhuru::BoshCommander
             deployment = Deployment.new(cloud_name, product_name)
             deployment.delete
           rescue Exception => e
-            err e.message.to_s
+            err e
           end
         end
 

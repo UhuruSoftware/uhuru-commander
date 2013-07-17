@@ -73,7 +73,7 @@ module Uhuru::BoshCommander
           deployment = Deployment.new(deployment)
           deployment.get_vm_logs(job, index, resource_id_file)
         rescue Exception => e
-          err e.message.to_s
+          err e
         end
       end
 
