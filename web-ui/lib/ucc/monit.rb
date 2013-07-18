@@ -4,6 +4,7 @@ module Uhuru::BoshCommander
   class Monit
 
     BOSH_APP = BOSH_APP_USER = BOSH_APP_GROUP = "vcap"
+    BOSH_APP_GROUP_BASE = "vcap_base"
 
     def initialize
       @tries = 3
@@ -79,9 +80,14 @@ module Uhuru::BoshCommander
       end
     end
 
-    def restart_services(attempts=20)
+    def restart_all_services
+      restart_services(20, BOSH_APP_GROUP_BASE)
+      restart_services(20, BOSH_APP_GROUP)
+    end
+
+    def restart_services(attempts=20, group= BOSH_APP_GROUP)
       retry_monit_request(attempts) do |client|
-        client.restart(:group => BOSH_APP_GROUP)
+        client.restart(:group => group)
       end
       say "Waiting for services to be online"
       restart_done = false
@@ -114,11 +120,11 @@ module Uhuru::BoshCommander
 
     end
 
-    def service_group_state(num_retries=10)
+    def service_group_state(num_retries=10, group = BOSH_APP_GROUP)
       # FIXME: state should be unknown if monit is disabled
       # However right now that would break director interaction
       # (at least in integration spec)
-      status = get_status(num_retries)
+      status = get_status(num_retries, group)
 
       not_running = status.reject do |name, data|
         # break early if any service is initializing
@@ -133,9 +139,9 @@ module Uhuru::BoshCommander
       "unknown"
     end
 
-    def get_status(num_retries=10)
+    def get_status(num_retries=10, group = BOSH_APP_GROUP)
       retry_monit_request(num_retries) do |client|
-        client.status(:group => BOSH_APP_GROUP)
+        client.status(:group => group)
       end
     end
   end

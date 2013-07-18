@@ -67,7 +67,7 @@ module Uhuru::BoshCommander
 
     def restart_monit
       monit = Monit.new
-      monit.restart_services
+      monit.restart_all_services
     end
   end
 end
