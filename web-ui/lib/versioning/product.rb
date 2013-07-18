@@ -124,14 +124,18 @@ module Uhuru
 
           if versions_manifest_exists
             versions_manifest['versions'].each do |version, details|
-              @versions[version] = Version.new(self, version, details)
-              if File.exist?(@versions[version].bits_full_local_path) || Dir.exist?(@versions[version].bits_full_local_path)
-                @local_versions[version] = @versions[version]
+              version_obj = Version.new(self, version, details)
+
+              if version_obj.available_on_blobstore || (File.exist?(version_obj.bits_full_local_path) || Dir.exist?(version_obj.bits_full_local_path))
+                @versions[version] = version_obj
+
+                if File.exist?(@versions[version].bits_full_local_path) || Dir.exist?(@versions[version].bits_full_local_path)
+                  @local_versions[version] = @versions[version]
+                end
               end
             end
 
             @latest_version = @versions.values.max
-
           end
         end
       end

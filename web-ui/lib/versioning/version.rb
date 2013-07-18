@@ -130,6 +130,12 @@ module Uhuru
           state
         end
 
+        def available_on_blobstore
+          blobstore_client = Product.get_blobstore_client
+          blobstore_id = @location['object_id']
+          blobstore_client.exists?(blobstore_id)
+        end
+
         def download_from_blobstore
           Thread.new do
             blobstore_client = Product.get_blobstore_client
