@@ -3,6 +3,12 @@ infrastructure:
   - screen: CPI
     id: cpi
     fields:
+      - {name: blobstore_sep,                                label: Blobstore Settings,                        type: separator }
+
+      - {name: blobstore_location,                           label: Blobstore Server,                          type: list, items: { 'Romania' : 'packagesro.uhurusoftware.com', 'US West' : 'packagesus.uhurusoftware.com' },
+            yml_key: '["properties"]["compiled_package_cache"]["options"]["endpoint"]',
+            description: 'Server used for software updates' }
+
       - {name: infrastructure_sep,                                label: Infrastructure Settings,                        type: separator }
 
       - {name: vcenter,                                   label: vCenter Host,                                        type: ip,
