@@ -1,11 +1,6 @@
 module Uhuru::BoshCommander
   class Versions < RouteBase
 
-    get '/new_versions' do
-      session[:new_versions] = false
-      redirect '/versions'
-    end
-
     post '/download' do
       product = Uhuru::BoshCommander::Versioning::Product.get_products[params[:product]]
       Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
@@ -23,11 +18,27 @@ module Uhuru::BoshCommander
       Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
         version.download_from_blobstore
 
+
         version.dependencies.each do |current_dependency|
+
+          latest_version = nil
+
           current_dependency['version'].each do |current_version|
+
             dependency = products[current_dependency['dependency']]
-            dependency.versions[current_version].download_from_blobstore
+            this_version = dependency.versions[current_version]  #.download_from_blobstore
+
+            if latest_version == nil
+              latest_version = this_version
+            end
+
+            if this_version > latest_version
+              latest_version = this_version
+            end
+
           end
+
+          latest_version.download_from_blobstore
         end
 
       end
@@ -146,6 +157,7 @@ module Uhuru::BoshCommander
 
 
     get '/versions' do
+      session[:new_versions] = false
       stemcells = nil
       releases = nil
       deployments = nil

@@ -210,12 +210,16 @@ module Uhuru
         end
 
         def ==(other_version)
-          if @version_major.to_i == other_version.version_major.to_i &&
-              @version_minor.to_i == other_version.version_minor.to_i &&
-              @version_build.to_i == other_version.version_build.to_i &&
-              version_type_to_integer(@version_type) == version_type_to_integer(other_version.version_type) &&
-              version_location_to_integer(@version_location) == version_location_to_integer(other_version.version_location)
-            true
+          if other_version != nil
+            if @version_major.to_i == other_version.version_major.to_i &&
+                @version_minor.to_i == other_version.version_minor.to_i &&
+                @version_build.to_i == other_version.version_build.to_i &&
+                version_type_to_integer(@version_type) == version_type_to_integer(other_version.version_type) &&
+                version_location_to_integer(@version_location) == version_location_to_integer(other_version.version_location)
+              true
+            else
+              false
+            end
           else
             false
           end

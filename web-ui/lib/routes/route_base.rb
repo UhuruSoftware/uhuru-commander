@@ -1,6 +1,3 @@
-require "versioning/product"
-require "versioning/version"
-
 module Uhuru::BoshCommander
 
   class ErbRenderHelper

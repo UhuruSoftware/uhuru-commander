@@ -47,6 +47,7 @@ module Uhuru::BoshCommander
 
     post '/login' do
       session['user_name'] = params[:username]
+      session[:new_versions] = false
       command, _, _ = login
 
       if command.logged_in?
@@ -55,6 +56,34 @@ module Uhuru::BoshCommander
         session['command_stemcell'] = stemcell_cmd
 
         redirect_path = params['path']
+
+        # check if newer versions of current deployments are available  ## this should be in each login session  #
+        products = Uhuru::BoshCommander::Versioning::Product.get_products
+
+        products.each do |_ , product|
+          latest_version = nil
+
+          product.versions.each do |_ , version|
+
+            if latest_version == nil
+              latest_version = version
+            end
+
+            if version > latest_version
+              latest_version = version
+            end
+
+            #if the current version is deployed and the latest version is not
+            Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+              if version.get_state == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED
+                if latest_version.get_state != Uhuru::BoshCommander::Versioning::STATE_DEPLOYED
+                  session[:new_versions] = true
+                end
+              end
+            end
+
+          end
+        end
 
         if redirect_path == nil
           redirect '/'
