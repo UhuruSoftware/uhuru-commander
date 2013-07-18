@@ -5,6 +5,9 @@ module Uhuru::BoshCommander
       true
     end
 
+    def logout
+    end
+
     def initialize
       @options = {}
       @director = MockBoshDirector.new
@@ -59,11 +62,26 @@ module Uhuru::BoshCommander
     end
 
     def list_deployments
-      []
+      [
+          {
+              "stemcells" =>
+                  [
+                      {
+                          "name" => "bosh-stemcell-php-vsphere",
+                          "version" => "1.5.0.pre.3"
+                      }
+                  ]
+          }
+      ]
     end
 
     def list_stemcells
-      []
+      [
+          {
+              "name" => "bosh-stemcell-php-vsphere",
+              "version" => "1.5.0.pre.3"
+          }
+      ]
     end
 
     def list_recent_tasks(count, verbose)

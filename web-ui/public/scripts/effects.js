@@ -1,6 +1,5 @@
-var color_changer;
 
-function randomValue(newVersions)
+function versionNotification(newVersions)
 {
     if(newVersions == true)
     {
@@ -8,33 +7,15 @@ function randomValue(newVersions)
     }
 }
 
-
 function changecolors() {
-    color_changer = 1;
-    setInterval(change, 1000);
+    setInterval(change, 700);
 }
 
 function change() {
-    if(color_changer == 1) {
-        color = "#0A3660";
-        border = "#033E6B";
-        color_changer = 2;
-    } else {
-        color = "#13A12C";
-        border = "#2BB944";
-        color_changer = 1;
-    }
+    var new_class = $('.versions').hasClass("notify_on") ? "notify_off" : "notify_on"
 
-    $('.versions').css("background-color", color);
-    $('.versions').css("border-color", border);
+    $('.versions').removeClass("notify_on");
+    $('.versions').removeClass("notify_off");
+
+    $('.versions').addClass(new_class);
 }
-
-
-
-
-
-//    function scroll() {
-//        $('.versions').css("border-color", "transparent");
-//        $('.versions').animate({ backgroundColor: "#0A3660" }, 500);
-//        $('.versions').animate({ backgroundColor: "#13A12C" }, 500, scroll);
-//    }

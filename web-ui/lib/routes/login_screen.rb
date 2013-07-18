@@ -13,7 +13,6 @@ module Uhuru::BoshCommander
         command = Bosh::Cli::Command::Misc.new
       end
 
-
       session['command'] = command
 
       #we do not care about local user
@@ -61,27 +60,11 @@ module Uhuru::BoshCommander
         products = Uhuru::BoshCommander::Versioning::Product.get_products
 
         products.each do |_ , product|
-          latest_version = nil
-
-          product.versions.each do |_ , version|
-
-            if latest_version == nil
-              latest_version = version
+          Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+            latest_deployed_version = product.versions.values.find_all {|version| version.get_state == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED }.max
+            if latest_deployed_version != nil && latest_deployed_version < product.latest_version
+              session[:new_versions] = true
             end
-
-            if version > latest_version
-              latest_version = version
-            end
-
-            #if the current version is deployed and the latest version is not
-            Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-              if version.get_state == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED
-                if latest_version.get_state != Uhuru::BoshCommander::Versioning::STATE_DEPLOYED
-                  session[:new_versions] = true
-                end
-              end
-            end
-
           end
         end
 

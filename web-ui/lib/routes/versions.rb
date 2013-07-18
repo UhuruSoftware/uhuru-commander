@@ -21,22 +21,9 @@ module Uhuru::BoshCommander
 
         version.dependencies.each do |current_dependency|
 
-          latest_version = nil
-
-          current_dependency['version'].each do |current_version|
-
-            dependency = products[current_dependency['dependency']]
-            this_version = dependency.versions[current_version]  #.download_from_blobstore
-
-            if latest_version == nil
-              latest_version = this_version
-            end
-
-            if this_version > latest_version
-              latest_version = this_version
-            end
-
-          end
+          latest_version = current_dependency['version'].map do |dep_version|
+            Uhuru::BoshCommander::Versioning::Product.get_products[current_dependency['dependency']].versions[dep_version]
+          end.max
 
           latest_version.download_from_blobstore
         end

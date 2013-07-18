@@ -17,6 +17,7 @@ module Uhuru
         attr_accessor :versions
         attr_accessor :local_versions
         attr_accessor :type
+        attr_accessor :latest_version
 
         @@semaphore = Mutex.new
 
@@ -128,6 +129,9 @@ module Uhuru
                 @local_versions[version] = @versions[version]
               end
             end
+
+            @latest_version = @versions.values.max
+
           end
         end
       end
