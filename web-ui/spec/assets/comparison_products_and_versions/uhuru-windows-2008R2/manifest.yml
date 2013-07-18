@@ -1,0 +1,29 @@
+--- 
+versions: 
+  0.9.10: 
+    type: beta
+    description: old stemcell
+    location: 
+      object_id: 240a5642db7dad4c690e45ace91c6e41
+      size: 4555293778
+      sha: b173432251482a61e3b99a203cb8a2754b6a161e
+    dependencies: []
+
+  0.9.9: 
+    type: beta
+    description: test
+    location: 
+      object_id: ca1ff877c0c68940afd2c60c5dda9d75
+      size: 4555293778
+      sha: b173432251482a61e3b99a203cb8a2754b6a161e
+    dependencies: []
+
+  0.9.11: 
+    type: beta
+    description: nou
+    location: 
+      object_id: c031d2a3d97861c28f9d1115f4002251
+      size: 4559793595
+      sha: 92fab10a32673f2aa53ff602079b73b3bcd6a57b
+    dependencies: []
+

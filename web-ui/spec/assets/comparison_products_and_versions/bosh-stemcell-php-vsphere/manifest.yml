@@ -1,0 +1,20 @@
+--- 
+versions: 
+  1.5.0.pre.3: 
+    type: alpha
+    description: marius testing download with dependencies
+    location: 
+      object_id: 2e8dec187233878e3b61ff07291ec959
+      size: 526550419
+      sha: d6dce5e5f384ba800eaca9ad537e07a935615928
+    dependencies: []
+
+  1.5.0.pre.4: 
+    type: alpha
+    description: marius testing download with dependencies
+    location: 
+      object_id: 18c5f1a0da6b973f5f70d850834d37e9
+      size: 347688475
+      sha: 3c8fc089d9ee8d2eafc9cbc8d512ba981308e964
+    dependencies: []
+

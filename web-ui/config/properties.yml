@@ -3,7 +3,7 @@
 properties:
   micro: true
   vcenter:
-    address: 127.0.0.1
+    address: 127.0.0.2
     user: user
     password: password
     datacenters:

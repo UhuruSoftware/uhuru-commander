@@ -1,0 +1,11 @@
+--- 
+versions: 
+  1.5.0.pre.4: 
+    type: beta
+    description: stemcell
+    location: 
+      object_id: 054a7ac02b45f2a58ebd6840a2b5cfd3
+      size: 347688475
+      sha: 3c8fc089d9ee8d2eafc9cbc8d512ba981308e964
+    dependencies: []
+

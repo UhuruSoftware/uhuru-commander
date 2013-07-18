@@ -1,0 +1,11 @@
+--- 
+versions: 
+  0.9.11: 
+    type: beta
+    description: new sqlserver stemcell
+    location: 
+      object_id: 084d0810de3c5f0c3e4d0738065ebb5e
+      size: 4716037704
+      sha: 3deebd63d1cc3ae5c917519dec72a768938c8db6
+    dependencies: []
+

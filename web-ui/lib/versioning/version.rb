@@ -31,7 +31,6 @@ module Uhuru
         attr_accessor :version_type
         attr_accessor :version_location
 
-
         def initialize(product, version, details)
           @product = product
           @version = version
@@ -206,106 +205,80 @@ module Uhuru
         #   operator overloading for versioning objects
         #
 
-        def ==(current_version)
-          if(@version_major.to_i == current_version.version_major.to_i &&
-             @version_minor.to_i == current_version.version_minor.to_i &&
-             @version_build.to_i == current_version.version_build.to_i &&
-             type_to_integer(@version_type) == type_to_integer(current_version.version_type) &&
-             location_to_integer(@version_location) == location_to_integer(current_version.version_location))
-              return true
+        def <=>(other_version)
+          self < other_version ? -1 : self == other_version ? 0 : 1
+        end
+
+        def ==(other_version)
+          if @version_major.to_i == other_version.version_major.to_i &&
+              @version_minor.to_i == other_version.version_minor.to_i &&
+              @version_build.to_i == other_version.version_build.to_i &&
+              version_type_to_integer(@version_type) == version_type_to_integer(other_version.version_type) &&
+              version_location_to_integer(@version_location) == version_location_to_integer(other_version.version_location)
+            true
           else
-            return false
+            false
           end
         end
 
-        def <(current_version)
-          if @version_major.to_i < current_version.version_major.to_i
-            return true
-          elsif @version_minor.to_i < current_version.version_minor.to_i
-            return true
-          elsif @version_build.to_i < current_version.version_build.to_i
-            return true
-          elsif type_to_integer(@version_type) < type_to_integer(current_version.version_type)
-            return true
-          elsif location_to_integer(@version_location) < location_to_integer(current_version.version_location)
-            return true
+        def <(other_version)
+          if @version_major.to_i < other_version.version_major.to_i
+            true
+          elsif @version_minor.to_i < other_version.version_minor.to_i
+            true
+          elsif @version_build.to_i < other_version.version_build.to_i
+            true
+          elsif version_type_to_integer(@version_type) < version_type_to_integer(other_version.version_type)
+            true
+          elsif version_location_to_integer(@version_location) < version_location_to_integer(other_version.version_location)
+            true
           else
-            return false
+            false
           end
         end
 
-        def >(current_version)
-          if @version_major.to_i > current_version.version_major.to_i
-            return true
-          elsif @version_minor.to_i > current_version.version_minor.to_i
-            return true
-          elsif @version_build.to_i > current_version.version_build.to_i
-            return true
-          elsif type_to_integer(@version_type) > type_to_integer(current_version.version_type)
-            return true
-          elsif location_to_integer(@version_location) > location_to_integer(current_version.version_location)
-            return true
+        def >(other_version)
+          if @version_major.to_i > other_version.version_major.to_i
+            true
+          elsif @version_minor.to_i > other_version.version_minor.to_i
+            true
+          elsif @version_build.to_i > other_version.version_build.to_i
+            true
+          elsif version_type_to_integer(@version_type) > version_type_to_integer(other_version.version_type)
+            true
+          elsif version_location_to_integer(@version_location) > version_location_to_integer(other_version.version_location)
+            true
           else
-            return false
+            false
           end
         end
 
         private
 
         #returns a numeric value for the given type
-        def type_to_integer(type = nil)
-          if type != nil
-            case(type.to_s)
-              when 'f'
-                return 6
-              when 'rc'
-                return 5
-              when 'b'
-                return 4
-              when 'a'
-                return 3
-              when 'nb'
-                return 2
-              when 'pre'
-                return 1
-              when '-dev'
-                return 1
-              else
-                return 0
-            end
-          else
-            return 0
-          end
+        def version_type_to_integer(type = nil)
+
+          version_type_values = {
+              :f => 7,
+              :rc => 6,
+              :b => 5,
+              :a => 4,
+              :nb => 3,
+              :pre => 2,
+              :dev => 1
+          }
+
+          version_type_values[type.to_s.to_sym] || 0
         end
 
         #returns a numeric value for the giver location
-        def location_to_integer(location = nil)
-          if location != nil
-            if is_an_integer?(location)
-              return location.to_i
-            else
-              case(location.to_s)
-                when 'r'
-                  return 2
-                when 'a'
-                  return 1
-                else
-                  return 0
-              end
-            end
-          else
-            return 0
-          end
-        end
+        def version_location_to_integer(location = nil)
+          version_location_values = {
+              :r => 2,
+              :a => 1
+          }
 
-        #return true if parameter is integer
-        def is_an_integer?(location)
-          begin
-            Integer(location)
-            return true
-          rescue Exception
-            return false
-          end
+          version_location_values[location.to_s.to_sym] || location.to_i
         end
       end
     end

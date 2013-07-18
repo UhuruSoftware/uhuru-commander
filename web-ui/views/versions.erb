@@ -1,5 +1,5 @@
 <div class="versions_div">
-  <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE].each do |type| %>
+  <% [Uhuru::BoshCommander::Versioning::Product::TYPE_UCC, Uhuru::BoshCommander::Versioning::Product::TYPE_SOFTWARE, Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL].each do |type| %>
       <% products.each do |product_name, product| %>
           <% if product.type == type %>
 
@@ -16,7 +16,9 @@
                 </thead>
 
                 <tbody>
-                <% product.versions.each do |version_number, version| %>
+
+                <% product.versions.values.sort.reverse.each do |version| %>
+
                     <tr>
                       <!-- VERSION -->
                       <td class="td_versions">
@@ -166,9 +168,9 @@
                                hide_progress = version_state == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING ? '' : 'hidden'
                             %>
 
-                            <span id="message_progressbar_<%= "#{product_name}_#{version_number}" %>" class="progress_message <%= hide_progress %>" >Refreshing ...</span>
+                            <span id="message_progressbar_<%= "#{product_name}_#{version.version}" %>" class="progress_message <%= hide_progress %>" >Refreshing ...</span>
 
-                            <progress id="progressbar_<%= "#{product_name}_#{version_number}" %>" class="progress_bars <%= hide_progress %>" value="0" max="100">
+                            <progress id="progressbar_<%= "#{product_name}_#{version.version}" %>" class="progress_bars <%= hide_progress %>" value="0" max="100">
                             </progress>
 
                           </td>

@@ -1,0 +1,20 @@
+--- 
+versions: 
+  122.1-dev: 
+    type: alpha
+    description: last cf release
+    location: 
+      object_id: 0c91594700fee3ed479a023de989a884
+      size: 1668004471
+      sha: 23e335e08705939717c68761e764cd3b62fa7dd8
+    dependencies: 
+    - dependency: bosh-stemcell-php
+      version: 
+      - 1.5.0.pre.4
+    - dependency: uhuru-windows-2008R2
+      version: 
+      - 0.9.10
+      - 0.9.11
+    - dependency: uhuru-windows-2008R2-sqlserver
+      version: 
+      - 0.9.11

@@ -1,0 +1,14 @@
+--- 
+versions: 
+  0.6.7: 
+    type: alpha
+    description: marius testing download with dependencies
+    location: 
+      object_id: 38f517d951e9e5c96a063c0d4db26154
+      size: 418594973
+      sha: b35b63e8b42df4dc4148b6b7bc1b7f36ff49ee98
+    dependencies: 
+    - dependency: bosh-stemcell-php-vsphere
+      version: 
+      - 1.5.0.pre.3
+      - 1.5.0.pre.4
