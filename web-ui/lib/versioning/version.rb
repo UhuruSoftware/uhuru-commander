@@ -25,6 +25,12 @@ module Uhuru
         attr_accessor :description
         attr_accessor :size
 
+        attr_accessor :version_major
+        attr_accessor :version_minor
+        attr_accessor :version_build
+        attr_accessor :version_type
+        attr_accessor :version_location
+
 
         def initialize(product, version, details)
           @product = product
@@ -35,6 +41,17 @@ module Uhuru
           @location = details['location']
           @size = details['location']['size']
           @deployments = nil
+          get_version_identifiers
+        end
+
+        def get_version_identifiers
+          identifiers = version.split('.')
+
+          @version_major = identifiers[0]
+          @version_minor = identifiers[1]
+          @version_build = identifiers[2]
+          @version_type = identifiers[3]
+          @version_location = identifiers[4]
         end
 
         def version_dir
@@ -183,6 +200,112 @@ module Uhuru
             end
           end
           is_ok
+        end
+
+        #
+        #   operator overloading for versioning objects
+        #
+
+        def ==(current_version)
+          if(@version_major.to_i == current_version.version_major.to_i &&
+             @version_minor.to_i == current_version.version_minor.to_i &&
+             @version_build.to_i == current_version.version_build.to_i &&
+             type_to_integer(@version_type) == type_to_integer(current_version.version_type) &&
+             location_to_integer(@version_location) == location_to_integer(current_version.version_location))
+              return true
+          else
+            return false
+          end
+        end
+
+        def <(current_version)
+          if @version_major.to_i < current_version.version_major.to_i
+            return true
+          elsif @version_minor.to_i < current_version.version_minor.to_i
+            return true
+          elsif @version_build.to_i < current_version.version_build.to_i
+            return true
+          elsif type_to_integer(@version_type) < type_to_integer(current_version.version_type)
+            return true
+          elsif location_to_integer(@version_location) < location_to_integer(current_version.version_location)
+            return true
+          else
+            return false
+          end
+        end
+
+        def >(current_version)
+          if @version_major.to_i > current_version.version_major.to_i
+            return true
+          elsif @version_minor.to_i > current_version.version_minor.to_i
+            return true
+          elsif @version_build.to_i > current_version.version_build.to_i
+            return true
+          elsif type_to_integer(@version_type) > type_to_integer(current_version.version_type)
+            return true
+          elsif location_to_integer(@version_location) > location_to_integer(current_version.version_location)
+            return true
+          else
+            return false
+          end
+        end
+
+        private
+
+        #returns a numeric value for the given type
+        def type_to_integer(type = nil)
+          if type != nil
+            case(type.to_s)
+              when 'f'
+                return 6
+              when 'rc'
+                return 5
+              when 'b'
+                return 4
+              when 'a'
+                return 3
+              when 'nb'
+                return 2
+              when 'pre'
+                return 1
+              when '-dev'
+                return 1
+              else
+                return 0
+            end
+          else
+            return 0
+          end
+        end
+
+        #returns a numeric value for the giver location
+        def location_to_integer(location = nil)
+          if location != nil
+            if is_an_integer?(location)
+              return location.to_i
+            else
+              case(location.to_s)
+                when 'r'
+                  return 2
+                when 'a'
+                  return 1
+                else
+                  return 0
+              end
+            end
+          else
+            return 0
+          end
+        end
+
+        #return true if parameter is integer
+        def is_an_integer?(location)
+          begin
+            Integer(location)
+            return true
+          rescue Exception
+            return false
+          end
         end
       end
     end
