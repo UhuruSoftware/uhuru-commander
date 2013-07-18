@@ -5,7 +5,7 @@ infrastructure:
     fields:
       - {name: blobstore_sep,                                label: Blobstore Settings,                        type: separator }
 
-      - {name: blobstore_location,                           label: Blobstore Server,                          type: list, items: { 'Romania' : 'packagesro.uhurusoftware.com', 'US West' : 'packagesus.uhurusoftware.com' },
+      - {name: blobstore_location,                           label: Blobstore Server,                          type: list, items: { 'Romania' : 'http://packagesro.uhurusoftware.com:9988', 'US West' : 'http://packages.uhurusoftware.com:9988' },
             yml_key: '["properties"]["compiled_package_cache"]["options"]["endpoint"]',
             description: 'Server used for software updates' }
 
