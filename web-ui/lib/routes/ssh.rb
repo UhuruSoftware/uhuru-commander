@@ -1,9 +1,9 @@
 module Uhuru::BoshCommander
   class Ssh < RouteBase
-    get '/ssh_connect/:deployment/:job/:index' do
+    get '/ssh_connect/:product_name/:deployment/:job/:index' do
 
       ssh_data = {}
-      ssh_data[:deployment] = Deployment.new(params[:deployment]).deployment_manifest_path
+      ssh_data[:deployment] = Deployment.new(params[:deployment], params[:product_name]).deployment_manifest_path
       ssh_data[:job] = params[:job]
       ssh_data[:index] = params[:index]
       ssh_data[:token] = env['rack.session.options'][:id]
