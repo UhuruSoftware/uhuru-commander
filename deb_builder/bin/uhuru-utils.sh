@@ -23,7 +23,11 @@ function make_ttyjs()
     mkdir -p uhuru-ttyjs/usr/src/uhuru/nodejs
 
     cd uhuru-ttyjs/usr/src/uhuru/nodejs
-    wget -N http://nodejs.org/dist/node-latest.tar.gz
+
+    cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs/node-latest.tar.gz .
+    cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs/node_modules.tar.gz .
+    #wget -N http://nodejs.org/dist/node-latest.tar.gz
+
     cd $cwd
 
     cat <<EOF >uhuru-ttyjs/DEBIAN/control
@@ -55,11 +59,12 @@ EOF
     cat <<EOF >uhuru-ttyjs/DEBIAN/postinst
 #!/bin/bash
     cd /usr/src/uhuru/nodejs
+    tar xzvf node_modules.tar.gz
     tar xzvf node-latest.tar.gz && cd \`ls -rd node-v*\`
     ./configure
     make install
     cd /var/vcap/store/tty.js
-    npm install
+    cp -R /usr/src/uhuru/nodejs/node_modules .
 
     cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
     echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
