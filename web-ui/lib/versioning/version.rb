@@ -24,6 +24,7 @@ module Uhuru
         attr_accessor :location
         attr_accessor :description
         attr_accessor :size
+        attr_accessor :missing
 
         attr_accessor :version_major
         attr_accessor :version_minor
@@ -39,6 +40,7 @@ module Uhuru
           @dependencies = details['dependencies']
           @location = details['location']
           @size = details['location']['size']
+          @missing = details['location']['missing']
           @deployments = nil
           get_version_identifiers
         end
@@ -130,12 +132,6 @@ module Uhuru
           state
         end
 
-        def available_on_blobstore
-          blobstore_client = Product.get_blobstore_client
-          blobstore_id = @location['object_id']
-          blobstore_client.exists?(blobstore_id)
-        end
-
         def download_from_blobstore
           Thread.new do
             blobstore_client = Product.get_blobstore_client
@@ -144,11 +140,30 @@ module Uhuru
             FileUtils.mkdir_p version_dir
 
             if blobstore_client.exists?(blobstore_id)
-              File.open(bits_full_local_path_dl, "w") do |file|
-                blobstore_client.get(blobstore_id, file)
+              open_mode = "wb"
+              retry_count = 0
+              done = false
+
+              while !done && retry_count < 5
+                File.open(bits_full_local_path_dl, open_mode) do |file|
+                  begin
+                    blobstore_client.get(blobstore_id, file)
+                    done = true
+                  rescue => e
+                    open_mode = "ab"
+                    retry_count += 1
+                    $logger.warn "There was an error while downloading #{product.name} v#{version}. Retrying... ##{retry_count}. Error was #{e.to_s}"
+                    sleep 5
+                  end
+                end
+              end
+
+              unless done
+                $logger.error "Could not download #{product.name} v#{version}."
+                FileUtils.rm_f bits_full_local_path_dl
               end
             else
-              raise "Could not find bits on blobstore."
+              $logger.warn "Could not find bits for #{product.name} v#{version}."
             end
 
             if @product.type != Product::TYPE_STEMCELL
