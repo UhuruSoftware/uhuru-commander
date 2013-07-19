@@ -91,7 +91,17 @@ module Uhuru
               File.open(versions_manifest_temp_file, "w") do |file|
                 get_blobstore_client.get(versions_manifest_id, file)
               end
-              FileUtils.mv(versions_manifest_temp_file, versions_manifest_yaml_file)
+
+              versions_info = YAML.load_file(versions_manifest_temp_file)
+              versions_info['versions'].each do |_, version|
+                unless get_blobstore_client.exists?(version['location']['object_id'])
+                  version['location']['missing'] = true
+                end
+              end
+
+              File.open(versions_manifest_yaml_file, "w") do |file|
+                file.write versions_info.to_yaml
+              end
             end
           end
 
@@ -126,7 +136,7 @@ module Uhuru
             versions_manifest['versions'].each do |version, details|
               version_obj = Version.new(self, version, details)
 
-              if version_obj.available_on_blobstore || (File.exist?(version_obj.bits_full_local_path) || Dir.exist?(version_obj.bits_full_local_path))
+              if !version_obj.missing || (File.exist?(version_obj.bits_full_local_path) || Dir.exist?(version_obj.bits_full_local_path))
                 @versions[version] = version_obj
 
                 if File.exist?(@versions[version].bits_full_local_path) || Dir.exist?(@versions[version].bits_full_local_path)
