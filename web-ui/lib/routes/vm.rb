@@ -1,15 +1,16 @@
 module Uhuru::BoshCommander
   class VM < RouteBase
 
-    get '/vm/:method/:deployment/:job/:index' do
+    get '/vm/:method/:product/:deployment/:job/:index' do
       deployment = params[:deployment]
+      product = params[:product]
       job = params[:job]
       index = params[:index]
       vm_method = params[:method]
 
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
-          deployment_obj = Deployment.new(deployment)
+          deployment_obj = Deployment.new(deployment, product)
           case vm_method
             when 'start'
               deployment_obj.start_vm(job, index)

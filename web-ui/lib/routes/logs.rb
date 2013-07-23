@@ -54,8 +54,9 @@ module Uhuru::BoshCommander
       end
     end
 
-    get '/vmlog/:deployment/:job/:index' do
+    get '/vmlog/:product/:deployment/:job/:index' do
       deployment = params[:deployment]
+      product = params[:product]
       job = params[:job]
       index = params[:index]
 
@@ -70,7 +71,7 @@ module Uhuru::BoshCommander
 
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
-          deployment = Deployment.new(deployment)
+          deployment = Deployment.new(deployment, product)
           deployment.get_vm_logs(job, index, resource_id_file)
         rescue Exception => e
           err e
