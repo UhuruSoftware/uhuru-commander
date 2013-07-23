@@ -24,16 +24,70 @@
       <file leaf-file-name="job.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/job.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="114" column="86" selection-start="3602" selection-end="3602" vertical-scroll-proportion="0.0">
+            <state line="133" column="21" selection-start="4458" selection-end="4514" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="postinst.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="package.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/package.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="86" column="75" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.43410853">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="control.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/control.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="postinst.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/postinst.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="36" selection-start="840" selection-end="840" vertical-scroll-proportion="0.51194537">
+            <state line="30" column="36" selection-start="840" selection-end="840" vertical-scroll-proportion="-18.75">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ssh.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/ssh.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="74" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.yml.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="62" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="control.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/control.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="33" selection-start="308" selection-end="308" vertical-scroll-proportion="-6.875">
               <folding />
             </state>
           </provider>
@@ -42,7 +96,7 @@
       <file leaf-file-name="uhuru-utils.sh" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="65" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0">
+            <state line="39" column="21" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -70,13 +124,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
         <option value="$PROJECT_DIR$/web-ui/public/css/layout.css" />
         <option value="$PROJECT_DIR$/web-ui/public/scripts/effects.js" />
-        <option value="$PROJECT_DIR$/deb_builder/config/config.yml" />
         <option value="$PROJECT_DIR$/deb_builder/config/config.yml.erb" />
         <option value="$PROJECT_DIR$/deb_builder/Gemfile" />
-        <option value="$PROJECT_DIR$/deb_builder/lib/packages/package.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/versioning/product.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/versioning/version.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/ssh.rb" />
@@ -84,8 +135,11 @@
         <option value="$PROJECT_DIR$/web-ui/config/properties.yml.erb" />
         <option value="$PROJECT_DIR$/web-ui/config/properties.yml" />
         <option value="$PROJECT_DIR$/products/appcloud/release_builder.sh" />
-        <option value="$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh" />
         <option value="$PROJECT_DIR$/deb_builder/lib/packages/postinst.erb" />
+        <option value="$PROJECT_DIR$/deb_builder/config/config.yml" />
+        <option value="$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh" />
+        <option value="$PROJECT_DIR$/deb_builder/lib/jobs/job.rb" />
+        <option value="$PROJECT_DIR$/deb_builder/lib/packages/package.rb" />
       </list>
     </option>
   </component>
@@ -140,6 +194,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="web-ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="routes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -298,6 +392,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="jobs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="deb_builder" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -700,12 +812,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-6" width="1928" height="1055" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.185029" sideWeight="0.61248654" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.185029" sideWeight="0.61248654" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39827773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -774,42 +886,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web-ui/config/config_dev.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="32" selection-start="419" selection-end="419" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="48" selection-start="4983" selection-end="4983" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rvm/gems/ruby-1.9.3-p327@global/bundler/gems/private-bosh-c90efd7de741/bosh_cli/lib/cli/base_command.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="10" selection-start="417" selection-end="417" vertical-scroll-proportion="0.33333334" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/mock/bosh.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/ucc/deployment.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="43" selection-start="641" selection-end="641" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/ssh.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="30" selection-start="541" selection-end="541" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -859,23 +935,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/job.rb">
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/ssh.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="86" selection-start="3602" selection-end="3602" vertical-scroll-proportion="0.0">
+        <state line="28" column="74" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/control.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="33" selection-start="308" selection-end="308" vertical-scroll-proportion="-6.875">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="65" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0">
+        <state line="39" column="21" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/postinst.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="36" selection-start="840" selection-end="840" vertical-scroll-proportion="0.51194537">
+        <state line="30" column="36" selection-start="840" selection-end="840" vertical-scroll-proportion="-18.75">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="62" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/job.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="133" column="21" selection-start="4458" selection-end="4514" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/control.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/package.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="75" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.43410853">
           <folding />
         </state>
       </provider>

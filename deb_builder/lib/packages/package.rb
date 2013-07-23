@@ -85,7 +85,7 @@ module Uhuru
 
           package_name = @spec['name']
           package_version = version
-          package_size = 0
+          package_size = $config['deb_sizes']['package'][@spec['original_name']] || 0
 
           package_dependencies = ''
 

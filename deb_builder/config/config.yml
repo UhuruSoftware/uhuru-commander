@@ -4,3 +4,28 @@ version: 1.0.0
 blobstore_provider: s3
 blobstore_options:
   bucket_name: blob.cfblob.com
+deb_sizes:
+  job:
+    blobstore: 112
+    director: 204
+    health_monitor: 80
+    nagios_dashboard: 396
+    nats: 76
+    postgres: 76
+    powerdns: 76
+    redis: 76
+  package:
+    powerdns: 9523
+    nagios_dashboard: 27648
+    mysql: 93184
+    health_monitor: 33792
+    nagios: 139264
+    redis: 13312
+    nginx: 4710
+    common: 12
+    postgres: 57344
+    libpq: 4198
+    ruby: 164864
+    nats: 20480
+    director: 97280
+    genisoimage: 600

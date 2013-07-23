@@ -131,7 +131,7 @@ module Uhuru
 
           job_name = @spec['name']
           job_version = Job.version
-          job_size = 0
+          job_size = $config['deb_sizes']['job'][@spec['original_name']] || 0
 
           job_dependencies = ''
 

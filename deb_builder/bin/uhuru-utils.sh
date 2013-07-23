@@ -37,7 +37,7 @@ Section: Utilities
 Priority: important
 Architecture: amd64
 Suggests: uhuru-ucc
-Installed-Size: 0
+Installed-Size: 20480
 Depends: monit, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
 Description: Uhuru tty.js utility
@@ -155,7 +155,7 @@ Section: Utilities
 Priority: important
 Architecture: amd64
 Suggests: uhuru-ucc
-Installed-Size: 0
+Installed-Size: 13312
 Depends: monit, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, uhuru-bosh-package-ruby
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
 Description: Uhuru Cloud Commander User Interface utility
