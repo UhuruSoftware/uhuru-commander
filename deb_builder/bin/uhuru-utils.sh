@@ -91,6 +91,11 @@ EOF
     cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
     echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
+
+    echo "Restarting monit ..."
+
+    service monit restart
+
     exit 0
 EOF
 
@@ -125,6 +130,7 @@ echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
 
 rm -rf /var/vcap/store/tty.js
+
 
 exit 0
 EOF
@@ -222,6 +228,10 @@ cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+
+echo "Restarting monit ..."
+
+service monit restart
 
 exit 0
 EOF
