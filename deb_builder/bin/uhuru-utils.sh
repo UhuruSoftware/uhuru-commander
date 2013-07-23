@@ -99,7 +99,7 @@ EOF
     exit 0
 EOF
 
-    cat <<EOF >uhuru-ttyjs/DEBIAN/postrm
+    cat <<EOF >uhuru-ttyjs/DEBIAN/prerm
 #!/bin/bash
 
 monit stop ttyjs
@@ -136,7 +136,7 @@ exit 0
 EOF
 
     chmod 755 uhuru-ttyjs/DEBIAN/postinst
-    chmod 755 uhuru-ttyjs/DEBIAN/postrm
+    chmod 755 uhuru-ttyjs/DEBIAN/prerm
 
     dpkg-deb --build uhuru-ttyjs .
 }
@@ -236,7 +236,7 @@ service monit restart
 exit 0
 EOF
 
-    cat <<EOF >uhuru-uccui/DEBIAN/postrm
+    cat <<EOF >uhuru-uccui/DEBIAN/prerm
 #!/bin/bash
 
 monit stop ucc
@@ -273,7 +273,7 @@ exit 0
 EOF
 
 chmod 755 uhuru-uccui/DEBIAN/postinst
-chmod 755 uhuru-uccui/DEBIAN/postrm
+chmod 755 uhuru-uccui/DEBIAN/prerm
 
     cat <<EOF >uhuru-uccui/etc/monit/uhururc.d_pieces/ucc.monit
 check process ucc

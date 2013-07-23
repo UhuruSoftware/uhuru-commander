@@ -23,7 +23,7 @@ module Uhuru
             pc.create_control_file
             pc.copy_bits
             pc.generate_postinst
-            pc.generate_postrm
+            pc.generate_prerm
             pc.create_deb
           end
         end
@@ -69,7 +69,7 @@ module Uhuru
           @struct['debian_dir'] = File.join(@work_directory, 'DEBIAN')
           @struct['control_file'] = File.join(@struct['debian_dir'], 'control')
           @struct['postinst_file'] = File.join(@struct['debian_dir'], 'postinst')
-          @struct['postrm_file'] = File.join(@struct['debian_dir'], 'postrm')
+          @struct['prerm_file'] = File.join(@struct['debian_dir'], 'prerm')
           @struct['target_bits_dir'] = "usr/src/uhuru/#{@spec['name']}"
           @struct['bits_dir'] = File.join(@work_directory, @struct['target_bits_dir'])
 
@@ -113,20 +113,20 @@ module Uhuru
           end
         end
 
-        def generate_postrm
-          puts 'Generating postrm file...'
+        def generate_prerm
+          puts 'Generating prerm file...'
 
-          erb_file = File.join(File.expand_path('..', __FILE__), 'postrm.erb')
+          erb_file = File.join(File.expand_path('..', __FILE__), 'prerm.erb')
           template = ERB.new File.new(erb_file).read
 
           package_name = @spec['original_name']
           package_version = version
 
-          File.open(@struct['postrm_file'], 'w') do |file|
+          File.open(@struct['prerm_file'], 'w') do |file|
             file.write(template.result(binding))
           end
 
-          `chmod 755 #{@struct['postrm_file']}`
+          `chmod 755 #{@struct['prerm_file']}`
         end
 
         def generate_postinst
