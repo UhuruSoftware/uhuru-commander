@@ -187,7 +187,7 @@ module Uhuru
             file.write(template.result(binding))
           end
 
-          `chmod 755 #{@struct['pretrm_file']}`
+          `chmod 755 #{@struct['prerm_file']}`
         end
 
         def generate_postinst
