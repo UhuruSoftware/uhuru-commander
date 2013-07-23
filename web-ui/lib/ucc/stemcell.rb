@@ -10,11 +10,7 @@ module Uhuru::BoshCommander
     end
 
     def list_stemcells
-      stemcells = director.list_stemcells.sort do |sc1, sc2|
-        sc1["name"] == sc2["name"] ?
-            version_cmp(sc1["version"], sc2["version"]) :
-            sc1["name"] <=> sc2["name"]
-      end
+      director.list_stemcells
     end
 
     private
