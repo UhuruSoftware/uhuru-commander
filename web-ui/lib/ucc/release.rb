@@ -26,6 +26,7 @@ module Uhuru::BoshCommander
       release_cmd = Bosh::Cli::Command::Release.new
       release_cmd.instance_variable_set("@options", command.instance_variable_get("@options"))
       release_cmd.add_option(:force, true)
+      release_cmd.add_option(:rebase, true)
       release_cmd
     end
 

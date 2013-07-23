@@ -59,10 +59,13 @@ internal_logs:
       This page contains a list of Commander internal events.
 
 versions:
-  - help_item: 'New Versions!'
+  - help_item: 'Library'
     content: |
-      Here you have a list of all new versions, that appear on top of the current and old versions
-  - help_item: 'Available Versions'
-    content: |
-      A list of old versions.
+      Here you have all the products, each one represented by a table. Each product has a list of all versions.<br />
+      Each version has a set of actions and a number of states in which the version is:
+                                                     <br /><br /><b><i>Download:</i></b> downloads the version from the blobstore, this action is active only when the state of the version is 'Remote Only'.<br />
+                                                     <b><i>Download with dependencies:</i></b> downloads the version with all its dependencies, this action is active only when the state of the version is 'Remote Only'.<br />
+                                                     <b><i>Activate for deployment:</i></b> activates the selected version for deployment(the console will pop-up), this action is active when the state is 'Local'.<br />
+                                                     <b><i>Deactivate:</i></b> dezactivates the version, this action is available only when the state is 'Available for Deployment'.<br />
+                                                     <b><i>Remove:</i></b> removes the version, this action is available when the state is 'Local'.<br />
 
