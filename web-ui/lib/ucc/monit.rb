@@ -110,7 +110,7 @@ module Uhuru::BoshCommander
       end
 
       if @tries <= 0
-        error_msg = "Infrastructure services did not start did not start"
+        error_msg = "Infrastructure services did not start properly."
         raise error_msg
       else
         if (!restart_done)
