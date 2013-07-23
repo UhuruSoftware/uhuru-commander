@@ -71,7 +71,7 @@ module Uhuru::BoshCommander
           $logger.error "#{e.message} - #{e.backtrace}"
         end
       end
-      action_on_done = "Stemcell '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to versions panel."
+      action_on_done = "Stemcell '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to library panel."
       redirect Logs.log_url(request_id, action_on_done)
       redirect '/versions'
     end
@@ -85,7 +85,7 @@ module Uhuru::BoshCommander
           $logger.error "#{e.message} - #{e.backtrace}"
         end
       end
-      action_on_done = "Release '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to versions panel."
+      action_on_done = "Release '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to library panel."
       redirect Logs.log_url(request_id, action_on_done)
       redirect '/versions'
     end
@@ -119,7 +119,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      action_on_done = "Release uploaded. Click <a href='/versions'>here</a> to return to versions panel."
+      action_on_done = "Release uploaded. Click <a href='/versions'>here</a> to return to library panel."
       redirect Logs.log_url(request_id, action_on_done)
     end
 
@@ -137,7 +137,7 @@ module Uhuru::BoshCommander
         end
       end
 
-      action_on_done = "Release uploaded. Click <a href='/versions'>here</a> to return to versions panel."
+      action_on_done = "Release uploaded. Click <a href='/versions'>here</a> to return to library panel."
       redirect Logs.log_url(request_id, action_on_done)
     end
 
