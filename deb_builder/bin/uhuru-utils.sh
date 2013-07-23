@@ -59,12 +59,16 @@ EOF
     cat <<EOF >uhuru-ttyjs/DEBIAN/postinst
 #!/bin/bash
     cd /usr/src/uhuru/nodejs
+
+    echo "Install logs available here: /tmp/ucc_install/ttyjs.log"
+    (
     tar xzvf node_modules.tar.gz
     tar xzvf node-latest.tar.gz && cd \`ls -rd node-v*\`
     ./configure
     make install
     cd /var/vcap/store/tty.js
     cp -R /usr/src/uhuru/nodejs/node_modules .
+    ) 2>&1 1>/tmp/ucc_install/ttyjs.log
 
     cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
     echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
