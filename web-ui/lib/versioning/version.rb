@@ -166,14 +166,21 @@ module Uhuru
               $logger.warn "Could not find bits for #{product.name} v#{version}."
             end
 
-            if @product.type != Product::TYPE_STEMCELL
-              FileUtils.mkdir_p bits_full_local_path_unpacked
-              tgz = Zlib::GzipReader.new(File.open(bits_full_local_path_dl, 'rb'))
-              Minitar.unpack(tgz, bits_full_local_path_unpacked)
-              FileUtils.mv bits_full_local_path_unpacked, bits_full_local_path, :force => true
+            begin
+              if @product.type != Product::TYPE_STEMCELL
+                FileUtils.mkdir_p bits_full_local_path_unpacked
+                tgz = Zlib::GzipReader.new(File.open(bits_full_local_path_dl, 'rb'))
+                Minitar.unpack(tgz, bits_full_local_path_unpacked)
+                FileUtils.mv bits_full_local_path_unpacked, bits_full_local_path, :force => true
+                FileUtils.rm_f bits_full_local_path_dl
+              else
+                FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
+              end
+            rescue => e
+              $logger.error "Could not unpack #{product.name} v#{version}."
+              FileUtils.rm_f bits_full_local_path_unpacked
+              FileUtils.rm_f bits_full_local_path
               FileUtils.rm_f bits_full_local_path_dl
-            else
-              FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
             end
           end
         end
