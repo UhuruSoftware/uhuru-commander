@@ -13,7 +13,15 @@ BOSH_INSTALL_TARGET=/var/vcap/data/packages/<%= package_name %>/<%= package_vers
 cd /<%= target_bits_dir %>
 mkdir -p ${BOSH_INSTALL_TARGET}
 
+echo "Install logs available here: /tmp/ucc_install/<%= package_name %>.log"
+
+mkdir -p /tmp/ucc_install/
+
+(
+BOSH_INSTALL_TARGET=/var/vcap/data/packages/<%= package_name %>/<%= package_version %>
+
 <%= packaging %>
+) 2>&1 1>/tmp/ucc_install/<%= package_name %>.log
 
 mkdir -p /var/vcap/packages/
 rm -f /var/vcap/packages/<%= package_name %>

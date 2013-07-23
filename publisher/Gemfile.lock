@@ -43,6 +43,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
     nokogiri (1.5.10)
+    rb-readline (0.5.0)
     ruby-atmos-pure (1.0.5)
       log4r (>= 1.1.9)
       ruby-hmac (>= 0.4.0)
@@ -56,4 +57,5 @@ PLATFORMS
 DEPENDENCIES
   blobstore_client!
   escort
+  rb-readline
   terminal-table
