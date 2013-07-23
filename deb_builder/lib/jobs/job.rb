@@ -31,7 +31,7 @@ module Uhuru
             pc.copy_bits
             pc.create_control_file
             pc.generate_postinst
-            pc.generate_postrm
+            pc.generate_prerm
             pc.create_deb
 
             if is_job_needed_for_cpi(pc.spec['original_name'])
@@ -115,7 +115,7 @@ module Uhuru
           @struct['debian_dir'] = File.join(@work_directory, 'DEBIAN')
           @struct['control_file'] = File.join(@struct['debian_dir'], 'control')
           @struct['postinst_file'] = File.join(@struct['debian_dir'], 'postinst')
-          @struct['postrm_file'] = File.join(@struct['debian_dir'], 'postrm')
+          @struct['prerm_file'] = File.join(@struct['debian_dir'], 'prerm')
           @struct['target_bits_dir'] = "usr/src/uhuru/#{@spec['name']}"
           @struct['bits_dir'] = File.join(@work_directory, @struct['target_bits_dir'])
 
@@ -174,20 +174,20 @@ module Uhuru
           @spec['packages'] = YAML.load_file(spec_file)['packages']
         end
 
-        def generate_postrm
-          puts 'Generating postrm file...'
+        def generate_prerm
+          puts 'Generating prerm file...'
 
-          erb_file = File.join(File.expand_path('..', __FILE__), 'postrm.erb')
+          erb_file = File.join(File.expand_path('..', __FILE__), 'prerm.erb')
           template = ERB.new File.new(erb_file).read
 
           job_name = @spec['original_name']
           job_version = Job.version
 
-          File.open(@struct['postrm_file'], 'w') do |file|
+          File.open(@struct['prerm_file'], 'w') do |file|
             file.write(template.result(binding))
           end
 
-          `chmod 755 #{@struct['postrm_file']}`
+          `chmod 755 #{@struct['pretrm_file']}`
         end
 
         def generate_postinst
