@@ -3,13 +3,21 @@ infrastructure:
   - screen: CPI
     id: cpi
     fields:
-      - {name: blobstore_sep,                                label: Blobstore Settings,                        type: separator }
+      - {name: blobstore_sep,                             label: Blobstore Settings,                                  type: separator }
 
-      - {name: blobstore_location,                           label: Blobstore Server,                          type: list, items: { 'Romania' : 'http://packagesro.uhurusoftware.com:9988', 'US West' : 'http://packages.uhurusoftware.com:9988' },
-            yml_key: '["properties"]["compiled_package_cache"]["options"]["endpoint"]',
-            description: 'Server used for software updates' }
+      - {name: blobstore_location,                        label: Blobstore Server,                                    type: list, items: { 'US West' : 'http://packages.uhurusoftware.com:9988', 'Europe Lab' : 'http://packagesro.uhurusoftware.com:9988' },
+      yml_key: '["properties"]["compiled_package_cache"]["options"]["endpoint"]',
+      description: 'Server used for software updates' }
 
-      - {name: infrastructure_sep,                                label: Infrastructure Settings,                        type: separator }
+      - {name: blobstore_user,                        label: Blobstore Account,                                       type: string,
+      yml_key: '["properties"]["compiled_package_cache"]["options"]["user"]',
+      description: 'The account provided to you by Uhuru Software' }
+
+      - {name: blobstore_password,                        label: Blobstore Account Password,                          type: password,
+      yml_key: '["properties"]["compiled_package_cache"]["options"]["password"]',
+      description: 'The password for the Uhuru blobstore account.' }
+
+      - {name: infrastructure_sep,                                label: Infrastructure Settings,                     type: separator }
 
       - {name: vcenter,                                   label: vCenter Host,                                        type: ip,
       yml_key: '["properties"]["vcenter"]["address"]',
