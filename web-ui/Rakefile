@@ -5,6 +5,7 @@ ENV["BUNDLE_GEMFILE"] ||= File.expand_path("Gemfile", __FILE__)
 require "rubygems"
 require "bundler"
 
+
 Bundler.setup(:default, :test)
 
 require "rake"
@@ -18,7 +19,8 @@ require "./rake/ci_task"
 
 if defined?(RSpec)
   namespace :spec do
-    SPEC_OPTS = %w(--format progress --colour)
+
+    SPEC_OPTS = %w(--require ./spec/junit.rb --format JUnit --out ./spec/reports/results.xml --format progress --colour)
 
     desc "Run unit tests"
     unit_rspec_task = RSpec::Core::RakeTask.new(:unit) do |t|
