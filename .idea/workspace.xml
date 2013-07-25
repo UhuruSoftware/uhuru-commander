@@ -22,9 +22,9 @@
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="release_builder.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/products/appcloud/release_builder.sh">
+        <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/release_builder.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="42" selection-start="2696" selection-end="2696" vertical-scroll-proportion="-14.72">
+            <state line="86" column="42" selection-start="2696" selection-end="2696" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -42,7 +42,7 @@
       <file leaf-file-name="layout.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="133" selection-start="3702" selection-end="3702" vertical-scroll-proportion="-7.625">
+            <state line="85" column="133" selection-start="3702" selection-end="3702" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -69,7 +69,7 @@
       <file leaf-file-name="plugin.rb.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/plugin.rb.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="-3.75">
+            <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="0.0">
               <folding>
                 <marker date="1374571111000" expanded="true" signature="14:162" placeholder="do ... end" />
               </folding>
@@ -81,11 +81,7 @@
         <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/dependencies.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state line="2" column="32" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1374670001000" expanded="true" signature="0:41" placeholder="uhuru-windows-2008R2:" />
-                <marker date="1374670001000" expanded="true" signature="43:84" placeholder="uhuru-windows-2008R2-sqlserver:" />
-                <marker date="1374670001000" expanded="true" signature="86:118" placeholder="bosh-stemcell-php:" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -102,7 +98,7 @@
       <file leaf-file-name="products.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/publisher/lib/products.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="85" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.5701358">
+            <state line="26" column="46" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.016611295">
               <folding />
             </state>
           </provider>
@@ -111,7 +107,7 @@
       <file leaf-file-name="appcloud.yml.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/appcloud.yml.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="34" selection-start="318" selection-end="318" vertical-scroll-proportion="-6.875">
+            <state line="17" column="34" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0">
               <folding>
                 <marker date="1374571111000" expanded="true" signature="120:184" placeholder="release:" />
                 <marker date="1374571111000" expanded="true" signature="184:319" placeholder="compilation:" />
@@ -320,6 +316,22 @@
     <option name="width" value="1928" />
     <option name="height" value="1055" />
   </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Bash</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -363,10 +375,6 @@
               <option name="myItemId" value="private-uhuru-commander" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -378,94 +386,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
+              <option name="myItemId" value="private-cf-release" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="routes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="publisher" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="publisher" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -476,12 +398,12 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="false" />
+    <property name="options.lastSelected" value="ruby.project.structure" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/modules/private-cf-release" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -492,11 +414,11 @@
       <recent name="$PROJECT_DIR$/deb_builder/lib/jobs/uhuru-ucc" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/modules/private-cf-release/ucc-plugin" />
       <recent name="$PROJECT_DIR$/web-ui/lib/ucc/mock" />
       <recent name="$PROJECT_DIR$/deb_builder/assets" />
       <recent name="$PROJECT_DIR$/deb_builder/bin" />
       <recent name="$PROJECT_DIR$/deb_builder/lib/jobs" />
-      <recent name="$PROJECT_DIR$/deb_builder/config" />
     </key>
   </component>
   <component name="RunManager" selected="Ruby.ucc_ctl">
@@ -849,16 +771,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-6" width="1928" height="1055" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23405378" sideWeight="0.7416577" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23405378" sideWeight="0.7416577" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39827773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2583423" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25786164" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -965,17 +887,13 @@
     <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/dependencies.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="32" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1374670001000" expanded="true" signature="0:41" placeholder="uhuru-windows-2008R2:" />
-            <marker date="1374670001000" expanded="true" signature="43:84" placeholder="uhuru-windows-2008R2-sqlserver:" />
-            <marker date="1374670001000" expanded="true" signature="86:118" placeholder="bosh-stemcell-php:" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/appcloud.yml.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="34" selection-start="318" selection-end="318" vertical-scroll-proportion="-6.875">
+        <state line="17" column="34" selection-start="318" selection-end="318" vertical-scroll-proportion="0.0">
           <folding>
             <marker date="1374571111000" expanded="true" signature="120:184" placeholder="release:" />
             <marker date="1374571111000" expanded="true" signature="184:319" placeholder="compilation:" />
@@ -1154,16 +1072,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/plugin.rb.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="-3.75">
+        <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="0.0">
           <folding>
             <marker date="1374571111000" expanded="true" signature="14:162" placeholder="do ... end" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/products/appcloud/release_builder.sh">
+    <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/release_builder.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="42" selection-start="2696" selection-end="2696" vertical-scroll-proportion="-14.72">
+        <state line="86" column="42" selection-start="2696" selection-end="2696" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1184,14 +1102,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="133" selection-start="3702" selection-end="3702" vertical-scroll-proportion="-7.625">
+        <state line="85" column="133" selection-start="3702" selection-end="3702" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/publisher/lib/products.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="85" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.5701358">
+        <state line="26" column="46" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.016611295">
           <folding />
         </state>
       </provider>

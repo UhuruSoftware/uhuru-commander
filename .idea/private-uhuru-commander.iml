@@ -16,7 +16,6 @@
       <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/releases" />
       <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/src" />
     </content>
-    <content url="file://$MODULE_DIR$/products" />
     <content url="file://$MODULE_DIR$/publisher" />
     <content url="file://$MODULE_DIR$/web-ui" />
     <orderEntry type="inheritedJdk" />
