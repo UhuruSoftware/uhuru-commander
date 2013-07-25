@@ -2,7 +2,20 @@
 <module type="RUBY_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/deb_builder" />
-    <content url="file://$MODULE_DIR$/image_builder" />
+    <content url="file://$MODULE_DIR$/modules/private-cf-release">
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/.blobs" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/.cache" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/.dev_builds" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/.final_builds" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/blobs" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/dev_releases" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/git" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/micro" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/releases" />
+      <excludeFolder url="file://$MODULE_DIR$/modules/private-cf-release/src" />
+    </content>
     <content url="file://$MODULE_DIR$/products" />
     <content url="file://$MODULE_DIR$/publisher" />
     <content url="file://$MODULE_DIR$/web-ui" />

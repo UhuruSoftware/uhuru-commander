@@ -21,92 +21,263 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="job.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/job.rb">
+      <file leaf-file-name="release_builder.sh" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/products/appcloud/release_builder.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="133" column="21" selection-start="4458" selection-end="4514" vertical-scroll-proportion="0.0">
+            <state line="86" column="42" selection-start="2696" selection-end="2696" vertical-scroll-proportion="-14.72">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/package.rb">
+      <file leaf-file-name="logs.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/logs.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="75" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.43410853">
+            <state line="47" column="15" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="control.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/control.erb">
+      <file leaf-file-name="layout.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="85" column="133" selection-start="3702" selection-end="3702" vertical-scroll-proportion="-7.625">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="postinst.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/postinst.erb">
+      <file leaf-file-name="layout.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/private-cf-release/private-uhuru-commander/web-ui/public/css/layout.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="36" selection-start="840" selection-end="840" vertical-scroll-proportion="-18.75">
+            <state line="44" column="0" selection-start="833" selection-end="833" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ssh.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/ssh.rb">
+      <file leaf-file-name="publisher.config" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/publisher/config/publisher.config">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="74" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.yml.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml.erb">
+      <file leaf-file-name="plugin.rb.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/plugin.rb.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="-3.75">
+              <folding>
+                <marker date="1374571111000" expanded="true" signature="14:162" placeholder="do ... end" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dependencies.yml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/dependencies.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="32" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
+              <folding>
+                <marker date="1374670001000" expanded="true" signature="0:41" placeholder="uhuru-windows-2008R2:" />
+                <marker date="1374670001000" expanded="true" signature="43:84" placeholder="uhuru-windows-2008R2-sqlserver:" />
+                <marker date="1374670001000" expanded="true" signature="86:118" placeholder="bosh-stemcell-php:" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ucc_publisher.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/publisher/lib/ucc_publisher.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="76" selection-start="1019" selection-end="1019" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml">
+      <file leaf-file-name="products.rb" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/publisher/lib/products.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="62" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
+            <state line="26" column="85" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.5701358">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="control.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/control.erb">
+      <file leaf-file-name="appcloud.yml.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/appcloud.yml.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="33" selection-start="308" selection-end="308" vertical-scroll-proportion="-6.875">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="uhuru-utils.sh" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="21" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="postinst.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/postinst.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="39" selection-start="1140" selection-end="1140" vertical-scroll-proportion="-16.25">
-              <folding />
+            <state line="17" column="34" selection-start="318" selection-end="318" vertical-scroll-proportion="-6.875">
+              <folding>
+                <marker date="1374571111000" expanded="true" signature="120:184" placeholder="release:" />
+                <marker date="1374571111000" expanded="true" signature="184:319" placeholder="compilation:" />
+                <marker date="1374571111000" expanded="true" signature="261:319" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="320:427" placeholder="update:" />
+                <marker date="1374571111000" expanded="true" signature="428:569" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="457:569" placeholder="subnets:" />
+                <marker date="1374571111000" expanded="true" signature="470:481" placeholder="reserved:" />
+                <marker date="1374571111000" expanded="true" signature="487:496" placeholder="static:" />
+                <marker date="1374571111000" expanded="true" signature="526:532" placeholder="dns:" />
+                <marker date="1374571111000" expanded="true" signature="538:569" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="569:2646" placeholder="resource_pools:" />
+                <marker date="1374571111000" expanded="true" signature="633:679" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="682:739" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="742:847" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="751:808" placeholder="windows:" />
+                <marker date="1374571111000" expanded="true" signature="813:847" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="897:953" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="956:1013" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="1016:1120" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="1025:1082" placeholder="windows:" />
+                <marker date="1374571111000" expanded="true" signature="1087:1120" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="1165:1223" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="1226:1282" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="1285:1423" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="1294:1423" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="1469:1527" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="1530:1586" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="1589:1728" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="1598:1728" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="1776:1834" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="1837:1894" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="1897:2035" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="1906:2035" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="2081:2139" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="2142:2200" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="2203:2341" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="2212:2341" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="2386:2444" placeholder="stemcell:" />
+                <marker date="1374571111000" expanded="true" signature="2447:2505" placeholder="cloud_properties:" />
+                <marker date="1374571111000" expanded="true" signature="2508:2646" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="2517:2646" placeholder="bosh:" />
+                <marker date="1374571111000" expanded="true" signature="2647:6298" placeholder="jobs:" />
+                <marker date="1374571111000" expanded="true" signature="2775:2820" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="2941:2986" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3056:3101" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3201:3247" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3247:3272" placeholder="properties:" />
+                <marker date="1374571111000" expanded="true" signature="3380:3425" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3520:3548" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3624:3652" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3728:3801" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3760:3782" placeholder="default:" />
+                <marker date="1374571111000" expanded="true" signature="3891:3919" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="3987:4015" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4124:4169" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4281:4326" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4417:4445" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4553:4598" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4685:4713" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4801:4829" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="4940:4985" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5074:5102" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5221:5266" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5363:5391" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5479:5524" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5611:5639" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5731:5759" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5838:5866" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="5955:5983" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="6097:6142" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="6253:6298" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="6298:15124" placeholder="properties:" />
+                <marker date="1374571111000" expanded="true" signature="6429:6435" placeholder="env:" />
+                <marker date="1374571111000" expanded="true" signature="6440:6492" placeholder="networks:" />
+                <marker date="1374571111000" expanded="true" signature="6495:8323" placeholder="uhuru:" />
+                <marker date="1374571111000" expanded="true" signature="6506:8323" placeholder="simple_webui:" />
+                <marker date="1374571111000" expanded="true" signature="7532:7753" placeholder="email:" />
+                <marker date="1374571111000" expanded="true" signature="7760:7895" placeholder="contact:" />
+                <marker date="1374571111000" expanded="true" signature="7902:8323" placeholder="monitoring:" />
+                <marker date="1374571111000" expanded="true" signature="8070:8323" placeholder="components:" />
+                <marker date="1374571111000" expanded="true" signature="8326:8399" placeholder="win_dea:" />
+                <marker date="1374571111000" expanded="true" signature="8402:8611" placeholder="uhurufs_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="8537:8568" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="8573:8611" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="8614:8693" placeholder="uhurufs_node:" />
+                <marker date="1374571111000" expanded="true" signature="8696:8905" placeholder="mssql_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="8829:8861" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="8866:8905" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="8908:9181" placeholder="mssql_node:" />
+                <marker date="1374571111000" expanded="true" signature="9184:9333" placeholder="nats:" />
+                <marker date="1374571111000" expanded="true" signature="9336:9889" placeholder="ccdb:" />
+                <marker date="1374571111000" expanded="true" signature="9610:9732" placeholder="databases:" />
+                <marker date="1374571111000" expanded="true" signature="9737:9889" placeholder="roles:" />
+                <marker date="1374571111000" expanded="true" signature="9900:10818" placeholder="cc:" />
+                <marker date="1374571111000" expanded="true" signature="10275:10546" placeholder="bootstrap_users:" />
+                <marker date="1374571111000" expanded="true" signature="10551:10619" placeholder="admins:" />
+                <marker date="1374571111000" expanded="true" signature="10624:10717" placeholder="default_account_capacity:" />
+                <marker date="1374571111000" expanded="true" signature="10722:10818" placeholder="admin_account_capacity:" />
+                <marker date="1374571111000" expanded="true" signature="10821:10938" placeholder="vcap_redis:" />
+                <marker date="1374571111000" expanded="true" signature="10941:11169" placeholder="router:" />
+                <marker date="1374571111000" expanded="true" signature="11020:11125" placeholder="status:" />
+                <marker date="1374571111000" expanded="true" signature="11172:11198" placeholder="dea:" />
+                <marker date="1374571111000" expanded="true" signature="11201:11266" placeholder="nfs_server:" />
+                <marker date="1374571111000" expanded="true" signature="11269:13300" placeholder="service_plans:" />
+                <marker date="1374571111000" expanded="true" signature="11288:11576" placeholder="mysql:" />
+                <marker date="1374571111000" expanded="true" signature="11301:11576" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="11315:11382" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="11391:11576" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="11581:11875" placeholder="postgresql:" />
+                <marker date="1374571111000" expanded="true" signature="11599:11875" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="11613:11680" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="11689:11875" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="11880:12115" placeholder="mongodb:" />
+                <marker date="1374571111000" expanded="true" signature="11895:12115" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="11909:11976" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="11985:12115" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="12120:12376" placeholder="redis:" />
+                <marker date="1374571111000" expanded="true" signature="12133:12376" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="12147:12214" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="12223:12376" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="12381:12623" placeholder="rabbit:" />
+                <marker date="1374571111000" expanded="true" signature="12395:12623" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="12409:12476" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="12485:12623" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="12628:13036" placeholder="mssql:" />
+                <marker date="1374571111000" expanded="true" signature="12641:13036" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="12655:12722" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="12731:13036" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="12927:13036" placeholder="lifecycle:" />
+                <marker date="1374571111000" expanded="true" signature="13003:13036" placeholder="snapshot:" />
+                <marker date="1374571111000" expanded="true" signature="13041:13300" placeholder="uhurufs:" />
+                <marker date="1374571111000" expanded="true" signature="13056:13300" placeholder="free:" />
+                <marker date="1374571111000" expanded="true" signature="13070:13137" placeholder="job_management:" />
+                <marker date="1374571111000" expanded="true" signature="13146:13300" placeholder="configuration:" />
+                <marker date="1374571111000" expanded="true" signature="13303:13506" placeholder="mysql_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="13322:13348" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="13354:13391" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="13509:13663" placeholder="mysql_node:" />
+                <marker date="1374571111000" expanded="true" signature="13525:13551" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="13666:13868" placeholder="redis_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="13685:13711" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="13717:13754" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="13871:13965" placeholder="redis_node:" />
+                <marker date="1374571111000" expanded="true" signature="13887:13913" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="13968:14203" placeholder="mongodb_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="13989:14022" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="14028:14089" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="14206:14308" placeholder="mongodb_node:" />
+                <marker date="1374571111000" expanded="true" signature="14224:14257" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="14311:14515" placeholder="rabbit_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="14331:14357" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="14363:14400" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="14518:14613" placeholder="rabbit_node:" />
+                <marker date="1374571111000" expanded="true" signature="14535:14561" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="14616:14779" placeholder="postgresql_gateway:" />
+                <marker date="1374571111000" expanded="true" signature="14709:14735" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="14741:14779" placeholder="version_aliases:" />
+                <marker date="1374571111000" expanded="true" signature="14782:14879" placeholder="postgresql_node:" />
+                <marker date="1374571111000" expanded="true" signature="14824:14850" placeholder="supported_versions:" />
+                <marker date="1374571111000" expanded="true" signature="14882:14943" placeholder="syslog_aggregator:" />
+                <marker date="1374571111000" expanded="true" signature="14946:15033" placeholder="report_processor:" />
+                <marker date="1374571111000" expanded="true" signature="14968:15033" placeholder="syslog_aggregator:" />
+                <marker date="1374571111000" expanded="true" signature="15036:15124" placeholder="stager:" />
+                <marker date="1374571111000" expanded="true" signature="15103:15124" placeholder="queues:" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,22 +295,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/web-ui/public/css/layout.css" />
-        <option value="$PROJECT_DIR$/web-ui/public/scripts/effects.js" />
-        <option value="$PROJECT_DIR$/deb_builder/config/config.yml.erb" />
-        <option value="$PROJECT_DIR$/deb_builder/Gemfile" />
-        <option value="$PROJECT_DIR$/web-ui/lib/versioning/product.rb" />
-        <option value="$PROJECT_DIR$/web-ui/lib/versioning/version.rb" />
         <option value="$PROJECT_DIR$/web-ui/lib/routes/ssh.rb" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/web-ui/config/properties.yml.erb" />
         <option value="$PROJECT_DIR$/web-ui/config/properties.yml" />
-        <option value="$PROJECT_DIR$/products/appcloud/release_builder.sh" />
         <option value="$PROJECT_DIR$/deb_builder/lib/packages/postinst.erb" />
         <option value="$PROJECT_DIR$/deb_builder/config/config.yml" />
         <option value="$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh" />
-        <option value="$PROJECT_DIR$/deb_builder/lib/jobs/job.rb" />
         <option value="$PROJECT_DIR$/deb_builder/lib/packages/package.rb" />
+        <option value="$PROJECT_DIR$/deb_builder/lib/jobs/job.rb" />
+        <option value="$PROJECT_DIR$/web-ui/lib/versioning/version.rb" />
+        <option value="$PROJECT_DIR$/web-ui/config/infrastructure_form.yml" />
+        <option value="$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/Changelog" />
+        <option value="$PROJECT_DIR$/publisher/lib/products.rb" />
+        <option value="$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/dependencies.yml" />
+        <option value="$PROJECT_DIR$/products/appcloud/release_builder.sh" />
+        <option value="$PROJECT_DIR$/web-ui/views/layout.erb" />
       </list>
     </option>
   </component>
@@ -211,6 +382,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private-uhuru-commander" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web-ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -247,24 +436,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="publisher" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -283,95 +454,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="products" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="products" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="wordpress" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="products" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="appcloud" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deb_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deb_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -381,54 +466,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="private-uhuru-commander" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deb_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jobs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deb_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="private-uhuru-commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="deb_builder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -439,12 +476,12 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="ruby.project.structure" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/modules/private-cf-release" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="options.searchVisible" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/modules/private-cf-release" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -817,11 +854,11 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.185029" sideWeight="0.61248654" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23405378" sideWeight="0.7416577" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39827773" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38751346" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2583423" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -886,31 +923,225 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/publisher/bin/publisher">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="7" column="16" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitmodules">
+    <entry file="file://$PROJECT_DIR$/publisher/lib/versions.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="17" selection-start="55" selection-end="55" vertical-scroll-proportion="0.016611295">
-          <folding />
-        </state>
+        <state line="38" column="66" selection-start="1218" selection-end="1256" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/versioning/version.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="183" column="82" selection-start="6286" selection-end="6286" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web-ui/config/properties.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.0">
+        <state line="111" column="50" selection-start="2537" selection-end="2537" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web-ui/config/infrastructure_form.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="28" selection-start="1449" selection-end="1449" vertical-scroll-proportion="0.6226415" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/Changelog">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="24" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/config/properties.yml.erb">
+    <entry file="file://$PROJECT_DIR$/publisher/lib/ucc_publisher.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="36" selection-start="1458" selection-end="1458" vertical-scroll-proportion="-16.0">
+        <state line="37" column="76" selection-start="1019" selection-end="1019" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/dependencies.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="32" selection-start="118" selection-end="118" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1374670001000" expanded="true" signature="0:41" placeholder="uhuru-windows-2008R2:" />
+            <marker date="1374670001000" expanded="true" signature="43:84" placeholder="uhuru-windows-2008R2-sqlserver:" />
+            <marker date="1374670001000" expanded="true" signature="86:118" placeholder="bosh-stemcell-php:" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/config/appcloud.yml.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="34" selection-start="318" selection-end="318" vertical-scroll-proportion="-6.875">
+          <folding>
+            <marker date="1374571111000" expanded="true" signature="120:184" placeholder="release:" />
+            <marker date="1374571111000" expanded="true" signature="184:319" placeholder="compilation:" />
+            <marker date="1374571111000" expanded="true" signature="261:319" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="320:427" placeholder="update:" />
+            <marker date="1374571111000" expanded="true" signature="428:569" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="457:569" placeholder="subnets:" />
+            <marker date="1374571111000" expanded="true" signature="470:481" placeholder="reserved:" />
+            <marker date="1374571111000" expanded="true" signature="487:496" placeholder="static:" />
+            <marker date="1374571111000" expanded="true" signature="526:532" placeholder="dns:" />
+            <marker date="1374571111000" expanded="true" signature="538:569" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="569:2646" placeholder="resource_pools:" />
+            <marker date="1374571111000" expanded="true" signature="633:679" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="682:739" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="742:847" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="751:808" placeholder="windows:" />
+            <marker date="1374571111000" expanded="true" signature="813:847" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="897:953" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="956:1013" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="1016:1120" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="1025:1082" placeholder="windows:" />
+            <marker date="1374571111000" expanded="true" signature="1087:1120" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="1165:1223" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="1226:1282" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="1285:1423" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="1294:1423" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="1469:1527" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="1530:1586" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="1589:1728" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="1598:1728" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="1776:1834" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="1837:1894" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="1897:2035" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="1906:2035" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="2081:2139" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="2142:2200" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="2203:2341" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="2212:2341" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="2386:2444" placeholder="stemcell:" />
+            <marker date="1374571111000" expanded="true" signature="2447:2505" placeholder="cloud_properties:" />
+            <marker date="1374571111000" expanded="true" signature="2508:2646" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="2517:2646" placeholder="bosh:" />
+            <marker date="1374571111000" expanded="true" signature="2647:6298" placeholder="jobs:" />
+            <marker date="1374571111000" expanded="true" signature="2775:2820" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="2941:2986" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3056:3101" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3201:3247" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3247:3272" placeholder="properties:" />
+            <marker date="1374571111000" expanded="true" signature="3380:3425" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3520:3548" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3624:3652" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3728:3801" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3760:3782" placeholder="default:" />
+            <marker date="1374571111000" expanded="true" signature="3891:3919" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="3987:4015" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4124:4169" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4281:4326" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4417:4445" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4553:4598" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4685:4713" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4801:4829" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="4940:4985" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5074:5102" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5221:5266" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5363:5391" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5479:5524" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5611:5639" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5731:5759" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5838:5866" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="5955:5983" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="6097:6142" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="6253:6298" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="6298:15124" placeholder="properties:" />
+            <marker date="1374571111000" expanded="true" signature="6429:6435" placeholder="env:" />
+            <marker date="1374571111000" expanded="true" signature="6440:6492" placeholder="networks:" />
+            <marker date="1374571111000" expanded="true" signature="6495:8323" placeholder="uhuru:" />
+            <marker date="1374571111000" expanded="true" signature="6506:8323" placeholder="simple_webui:" />
+            <marker date="1374571111000" expanded="true" signature="7532:7753" placeholder="email:" />
+            <marker date="1374571111000" expanded="true" signature="7760:7895" placeholder="contact:" />
+            <marker date="1374571111000" expanded="true" signature="7902:8323" placeholder="monitoring:" />
+            <marker date="1374571111000" expanded="true" signature="8070:8323" placeholder="components:" />
+            <marker date="1374571111000" expanded="true" signature="8326:8399" placeholder="win_dea:" />
+            <marker date="1374571111000" expanded="true" signature="8402:8611" placeholder="uhurufs_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="8537:8568" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="8573:8611" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="8614:8693" placeholder="uhurufs_node:" />
+            <marker date="1374571111000" expanded="true" signature="8696:8905" placeholder="mssql_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="8829:8861" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="8866:8905" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="8908:9181" placeholder="mssql_node:" />
+            <marker date="1374571111000" expanded="true" signature="9184:9333" placeholder="nats:" />
+            <marker date="1374571111000" expanded="true" signature="9336:9889" placeholder="ccdb:" />
+            <marker date="1374571111000" expanded="true" signature="9610:9732" placeholder="databases:" />
+            <marker date="1374571111000" expanded="true" signature="9737:9889" placeholder="roles:" />
+            <marker date="1374571111000" expanded="true" signature="9900:10818" placeholder="cc:" />
+            <marker date="1374571111000" expanded="true" signature="10275:10546" placeholder="bootstrap_users:" />
+            <marker date="1374571111000" expanded="true" signature="10551:10619" placeholder="admins:" />
+            <marker date="1374571111000" expanded="true" signature="10624:10717" placeholder="default_account_capacity:" />
+            <marker date="1374571111000" expanded="true" signature="10722:10818" placeholder="admin_account_capacity:" />
+            <marker date="1374571111000" expanded="true" signature="10821:10938" placeholder="vcap_redis:" />
+            <marker date="1374571111000" expanded="true" signature="10941:11169" placeholder="router:" />
+            <marker date="1374571111000" expanded="true" signature="11020:11125" placeholder="status:" />
+            <marker date="1374571111000" expanded="true" signature="11172:11198" placeholder="dea:" />
+            <marker date="1374571111000" expanded="true" signature="11201:11266" placeholder="nfs_server:" />
+            <marker date="1374571111000" expanded="true" signature="11269:13300" placeholder="service_plans:" />
+            <marker date="1374571111000" expanded="true" signature="11288:11576" placeholder="mysql:" />
+            <marker date="1374571111000" expanded="true" signature="11301:11576" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="11315:11382" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="11391:11576" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="11581:11875" placeholder="postgresql:" />
+            <marker date="1374571111000" expanded="true" signature="11599:11875" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="11613:11680" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="11689:11875" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="11880:12115" placeholder="mongodb:" />
+            <marker date="1374571111000" expanded="true" signature="11895:12115" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="11909:11976" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="11985:12115" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="12120:12376" placeholder="redis:" />
+            <marker date="1374571111000" expanded="true" signature="12133:12376" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="12147:12214" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="12223:12376" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="12381:12623" placeholder="rabbit:" />
+            <marker date="1374571111000" expanded="true" signature="12395:12623" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="12409:12476" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="12485:12623" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="12628:13036" placeholder="mssql:" />
+            <marker date="1374571111000" expanded="true" signature="12641:13036" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="12655:12722" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="12731:13036" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="12927:13036" placeholder="lifecycle:" />
+            <marker date="1374571111000" expanded="true" signature="13003:13036" placeholder="snapshot:" />
+            <marker date="1374571111000" expanded="true" signature="13041:13300" placeholder="uhurufs:" />
+            <marker date="1374571111000" expanded="true" signature="13056:13300" placeholder="free:" />
+            <marker date="1374571111000" expanded="true" signature="13070:13137" placeholder="job_management:" />
+            <marker date="1374571111000" expanded="true" signature="13146:13300" placeholder="configuration:" />
+            <marker date="1374571111000" expanded="true" signature="13303:13506" placeholder="mysql_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="13322:13348" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="13354:13391" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="13509:13663" placeholder="mysql_node:" />
+            <marker date="1374571111000" expanded="true" signature="13525:13551" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="13666:13868" placeholder="redis_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="13685:13711" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="13717:13754" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="13871:13965" placeholder="redis_node:" />
+            <marker date="1374571111000" expanded="true" signature="13887:13913" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="13968:14203" placeholder="mongodb_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="13989:14022" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="14028:14089" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="14206:14308" placeholder="mongodb_node:" />
+            <marker date="1374571111000" expanded="true" signature="14224:14257" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="14311:14515" placeholder="rabbit_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="14331:14357" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="14363:14400" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="14518:14613" placeholder="rabbit_node:" />
+            <marker date="1374571111000" expanded="true" signature="14535:14561" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="14616:14779" placeholder="postgresql_gateway:" />
+            <marker date="1374571111000" expanded="true" signature="14709:14735" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="14741:14779" placeholder="version_aliases:" />
+            <marker date="1374571111000" expanded="true" signature="14782:14879" placeholder="postgresql_node:" />
+            <marker date="1374571111000" expanded="true" signature="14824:14850" placeholder="supported_versions:" />
+            <marker date="1374571111000" expanded="true" signature="14882:14943" placeholder="syslog_aggregator:" />
+            <marker date="1374571111000" expanded="true" signature="14946:15033" placeholder="report_processor:" />
+            <marker date="1374571111000" expanded="true" signature="14968:15033" placeholder="syslog_aggregator:" />
+            <marker date="1374571111000" expanded="true" signature="15036:15124" placeholder="stager:" />
+            <marker date="1374571111000" expanded="true" signature="15103:15124" placeholder="queues:" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -921,83 +1152,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/modules/private-cf-release/ucc-plugin/plugin.rb.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="40" selection-start="163" selection-end="163" vertical-scroll-proportion="-3.75">
+          <folding>
+            <marker date="1374571111000" expanded="true" signature="14:162" placeholder="do ... end" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/products/appcloud/release_builder.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="76" selection-start="973" selection-end="973" vertical-scroll-proportion="0.0">
+        <state line="86" column="42" selection-start="2696" selection-end="2696" vertical-scroll-proportion="-14.72">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/postinst.erb">
+    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/logs.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="39" selection-start="1140" selection-end="1140" vertical-scroll-proportion="-16.25">
+        <state line="47" column="15" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-ui/lib/routes/ssh.rb">
+    <entry file="file://$PROJECT_DIR$/modules/private-cf-release/private-uhuru-commander/web-ui/public/css/layout.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="74" selection-start="927" selection-end="927" vertical-scroll-proportion="0.0">
+        <state line="44" column="0" selection-start="833" selection-end="833" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml.erb">
+    <entry file="file://$PROJECT_DIR$/web-ui/views/layout.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="85" column="133" selection-start="3702" selection-end="3702" vertical-scroll-proportion="-7.625">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/control.erb">
+    <entry file="file://$PROJECT_DIR$/publisher/lib/products.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="33" selection-start="308" selection-end="308" vertical-scroll-proportion="-6.875">
+        <state line="26" column="85" selection-start="1022" selection-end="1022" vertical-scroll-proportion="0.5701358">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/bin/uhuru-utils.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="21" selection-start="938" selection-end="938" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/postinst.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="36" selection-start="840" selection-end="840" vertical-scroll-proportion="-18.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="62" selection-start="396" selection-end="396" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/jobs/job.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="21" selection-start="4458" selection-end="4514" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/control.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deb_builder/lib/packages/package.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="75" selection-start="2967" selection-end="2967" vertical-scroll-proportion="0.43410853">
-          <folding />
-        </state>
-      </provider>
-    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 

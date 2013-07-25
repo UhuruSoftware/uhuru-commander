@@ -8,7 +8,7 @@ module Uhuru
           rows = []
           products = client.get_products
           products["products"].keys.each do |key|
-            rows << [key, products["products"][key]["type"], products["products"][key]["label"], products["products"][key]["description"]]
+            rows << [key, products["products"][key]["type"], products["products"][key]["label"], products["products"][key]["description"][0..30].gsub(/\s\w+$/, '...')]
           end
           table = Terminal::Table.new :title => "Products", :headings => ["Name", "Type", "Label", "Description"], :rows => rows
           puts table
