@@ -10,6 +10,12 @@ products:
     description: "Minimal Ubuntu 10.04 operating system."
     type: stemcell
     blobstore_id: d0ab454500aed07141ba262900b7f783
+  bosh-stemcell-php-vsphere:
+    label: "Ubuntu Linux 10.04 (Lucid) OS"
+    description: "Minimal Ubuntu 10.04 operating system."
+    type: stemcell
+    blobstore_id: d0ab454500aed07141ba262900b7f783
+
   appcloud:
     label: "Uhuru AppCloud PaaS"
     description: "The Uhuru AppCloud - Enterprise Edition brings all the benefits of the versatile Uhuru Platform as a Service to your private network. You can run AppCloud - EE in your own datacenter or private cloud, providing complete control of security and servers without sacrificing any of the application deployment and management capabilities available to Uhuru AppCloud users in the public services."
