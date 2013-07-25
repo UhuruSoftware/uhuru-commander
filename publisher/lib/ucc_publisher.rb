@@ -112,7 +112,7 @@ module Uhuru
           end
 
           app.command :delete do |command|
-            command.summary "[product]"
+            command.summary "[product, version]"
             command.command :product do |delete_product|
               delete_product.summary "Delete product"
               delete_product.description "Delete an existing product"
@@ -122,6 +122,18 @@ module Uhuru
               end
               delete_product.action do |options, arguments|
                 Uhuru::UCC::Publisher::Products.new(options, arguments).delete_product
+              end
+            end
+
+            command.command :version do |delete_version|
+              delete_version.summary "Delete version"
+              delete_version.description "Delete product version"
+              delete_version.options do |opts|
+                opts.opt :name,         "Product name",           :short => "-n", :long => "--name",            :type => :string
+                opts.opt :prod_version, "Product version",        :short => "-r", :long => "--release_version", :type => :string
+              end
+              delete_version.action do |options, arguments|
+                Uhuru::UCC::Publisher::Versions.new(options, arguments).delete_version
               end
             end
           end
