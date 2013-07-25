@@ -168,7 +168,7 @@ Priority: important
 Architecture: amd64
 Suggests: uhuru-ucc
 Installed-Size: 13312
-Depends: monit, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, uhuru-bosh-package-ruby
+Depends: monit, mkpasswd, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, uhuru-bosh-package-ruby
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
 Description: Uhuru Cloud Commander User Interface utility
  .
