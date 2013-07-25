@@ -1,6 +1,6 @@
 require "rspec"
 require 'fileutils'
-require 'spec_helper'
+require File.expand_path("../../spec_helper.rb", __FILE__)
 
 describe 'Version number comparison' do
 

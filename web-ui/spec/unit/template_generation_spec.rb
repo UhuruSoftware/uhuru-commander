@@ -1,6 +1,6 @@
 require "rspec"
 require 'fileutils'
-require 'spec_helper'
+require File.expand_path("../../spec_helper.rb", __FILE__)
 require 'tmpdir'
 require File.expand_path('../../../../deb_builder/lib/jobs/job.rb', __FILE__)
 
