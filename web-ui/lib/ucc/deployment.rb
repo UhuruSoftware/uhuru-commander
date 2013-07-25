@@ -59,7 +59,7 @@ module Uhuru::BoshCommander
             salt = salt_regex.captures[0]
             new_password = `mkpasswd -m sha-512 -S #{salt} "#{admin_password}"`.to_s.strip
             if (current_password.to_s.strip == new_password)
-              return
+              next
             end
           end
           resource_pool["env"]["bosh"]["password"] = `mkpasswd -m sha-512 "#{admin_password}"`.to_s.strip
