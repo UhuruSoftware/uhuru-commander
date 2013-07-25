@@ -1,11 +1,10 @@
 require "rspec"
 require 'fileutils'
-require 'spec_helper'
+require File.expand_path("../../spec_helper.rb", __FILE__)
 
 describe 'Blobstore client' do
   before(:each) do
-    @config_file = File.expand_path("../../../config/config_dev.yml", __FILE__)
-    Uhuru::BoshCommander::Runner.init_config @config_file
+    load_config
   end
 
   it 'should retrieve products manifest from blobstore' do
@@ -17,24 +16,31 @@ describe 'Blobstore client' do
   end
 
   it 'should download version bits locally' do
-    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
-    FileUtils.rm_rf $config[:versioning][:dir]
-    Uhuru::BoshCommander::Versioning::Product.download_manifests
-    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+    Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+      $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+      FileUtils.rm_rf $config[:versioning][:dir]
+      Uhuru::BoshCommander::Versioning::Product.download_manifests
+      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
 
-    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_LOCAL
+      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_LOCAL
+    end
+
   end
 end
 
 describe 'Bits Management' do
   it 'should delete local bits for a version properly, if there are no deployments' do
-    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
-    FileUtils.rm_rf $config[:versioning][:dir]
-    Uhuru::BoshCommander::Versioning::Product.download_manifests
-    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
-    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits
+    Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
 
-    Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_REMOTE_ONLY
+      $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+      FileUtils.rm_rf $config[:versioning][:dir]
+      Uhuru::BoshCommander::Versioning::Product.download_manifests
+      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits
+
+      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
+    end
+
   end
 
   it 'should not allow deletion of local bits for a version that is in use' do
@@ -51,6 +57,7 @@ describe "Product loading from configuration" do
   before(:each) do
     @config_file = File.expand_path("../../../config/config_dev.yml", __FILE__)
     Uhuru::BoshCommander::Runner.init_config @config_file
+    $config[:versioning][:dir] = File.expand_path("../../assets/versioning_spec_dir/", __FILE__)
   end
 
   it "should be empty if there's no products.yml" do
@@ -83,17 +90,17 @@ describe "Product loading from configuration" do
 
   it "should detect remote only state" do
     products = Uhuru::BoshCommander::Versioning::Product.get_products
-    products['ucc'].versions['1.0.7'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_REMOTE_ONLY
+    products['ucc'].versions['1.0.7'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
   end
 
   it "should detect downloading state" do
     products = Uhuru::BoshCommander::Versioning::Product.get_products
-    products['ucc'].versions['1.0.8'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_DOWNLOADING
+    products['ucc'].versions['1.0.8'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING
   end
 
   it "should detect local state" do
     products = Uhuru::BoshCommander::Versioning::Product.get_products
-    products['ucc'].versions['1.0.9'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_LOCAL
+    products['ucc'].versions['1.0.9'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_LOCAL
   end
 
   it "should detect missing dependencies" do
@@ -103,7 +110,7 @@ describe "Product loading from configuration" do
 
   it "should detect installed UCC version" do
     products = Uhuru::BoshCommander::Versioning::Product.get_products
-    products['ucc'].versions['1.0.9.f'].get_state.should == Uhuru::BoshCommander::Versioning::Version::STATE_DEPLOYED
+    products['ucc'].versions['1.0.9.f'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED
   end
 
   it "should detect available dependencies" do
@@ -112,8 +119,11 @@ describe "Product loading from configuration" do
   end
 
   it "should detect partial missing dependencies" do
-    products = Uhuru::BoshCommander::Versioning::Product.get_products
-    products['uhuru-windows-2008R2'].versions['0.0.8'].dependencies_ok?.should == false
+    Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
+      products['uhuru-windows-2008R2'].versions['0.0.8'].dependencies_ok?.should == false
+    end
+
   end
 
   it "should detect invalid dependencies" do
@@ -122,12 +132,11 @@ describe "Product loading from configuration" do
   end
 
   it "should check bosh for stemcell version" do
-    session = bosh_login
-    products = Uhuru::BoshCommander::Versioning::Product.get_products
 
     Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+      products = Uhuru::BoshCommander::Versioning::Product.get_products
       products['uhuru-windows-2008R2'].versions['0.9.9'].get_state.should satisfy { |s|
-        [Uhuru::BoshCommander::Versioning::Version::STATE_AVAILABLE, Uhuru::BoshCommander::Versioning::Version::STATE_DEPLOYED].include?(s)
+        [Uhuru::BoshCommander::Versioning::STATE_AVAILABLE, Uhuru::BoshCommander::Versioning::STATE_DEPLOYED].include?(s)
       }
     end
   end

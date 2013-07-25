@@ -70,6 +70,20 @@ module Uhuru::BoshCommander
       state
     end
 
+    get '/monit/test' do
+      CommanderBoshRunner.execute(session) do
+        begin
+       restart_monit
+        end
+      end
+    end
+
+    def restart_monit
+      monit = Monit.new
+      monit.restart_all_services
+    end
+
+
 
     get '/stemcells' do
       stemcells = nil

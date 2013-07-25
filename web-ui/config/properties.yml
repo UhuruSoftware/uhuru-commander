@@ -1,24 +1,23 @@
 ---
-
 properties:
   micro: true
   vcenter:
-    address: 127.0.0.2
+    address: 127.0.0.1
     user: user
     password: password
     datacenters:
-      - name: uhuru_ucc
-        vm_folder: uhuru_ucc_vms
-        template_folder: uhuru_ucc_templates
-        disk_path: uhuru_ucc_deployer
-        datastore_pattern: datastore
-        persistent_datastore_pattern: datastore
-        allow_mixed_datastores: true
-        clusters:
-          - Cluster
+    - name: uhuru_ucc
+      vm_folder: uhuru_ucc_vms
+      template_folder: uhuru_ucc_templates
+      disk_path: uhuru_ucc_deployer
+      datastore_pattern: datastore
+      persistent_datastore_pattern: datastore
+      allow_mixed_datastores: true
+      clusters:
+      - Cluster
   nats:
-    user: c8329f8a7a93b60cfda14fa24a7d80db
-    password: 1486cf7bd66801a070a7bc22879c85dd
+    user: d635494bf03a978d34e18dec8f135932
+    password: fc05e2afc575c091d5168023e0e44ab1
     auth_timeout: 10
     ping_max_outstanding: 5
     address: 127.0.0.1
@@ -31,11 +30,11 @@ properties:
       port: 9222
   redis:
     address: 127.0.0.1
-    password: aba2cf9f6e9951a7cbe144a909510c33
+    password: 38af67965364350fc7a34646297f00ef
     port: 25255
     loglevel: info
-  postgres: &4644840
-    password: 6489d5fd3186df63a1497bc263622329
+  postgres: &17776380
+    password: 171989697cf72f12766f27932e1c3677
     host: 127.0.0.1
     listen_address: 127.0.0.1
     database: bosh
@@ -49,10 +48,10 @@ properties:
     address: 127.0.0.1
     director:
       user: director
-      password: cfefdfe95a791bdbc05953360bef1f9c
+      password: 2ab2f61c57203017353a32dd1a179d56
     agent:
       user: agent
-      password: 96a54ae31b549b3cbcd584411f0587a3
+      password: 429f026cbc266cb63c5e32ad8869e5f0
     port: 25250
     backend_port: 25251
     provider: dav
@@ -60,7 +59,7 @@ properties:
     address: 127.0.0.1
     name: micro
     port: 25555
-    db: *4644840
+    db: *17776380
     backend_port: 25556
     nginx:
       workers: 2
@@ -75,11 +74,11 @@ properties:
   hm:
     http:
       user: hm
-      password: 45a469e10219c14eb5b1eb8d24f64971
+      password: e3493b41d8f8d6c7877b7e8a251db6ea
       port: 25923
     director_account:
-      user: admin
-      password: admin
+      user: hm_user
+      password: bcf1c6f87bf63842df582f2375856918
     intervals:
       log_stats: 300
       agent_timeout: 180
@@ -103,7 +102,7 @@ properties:
   dns:
     address: 127.0.0.1
     domain_name: microbosh
-    db: *4644840
+    db: *17776380
     webserver:
       port: 8081
       address: 0.0.0.0
@@ -112,11 +111,11 @@ properties:
     provider: dav
     options:
       endpoint: http://roblob.uhurucloud.net:9988/
-      user: 'vladi'
-      password: 'password1234!'
+      user: vladi
+      password: password1234!
   ntp:
-   - 0.pool.ntp.org
-   - 1.pool.ntp.org
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
   registry:
     http:
       port: 25777
@@ -125,7 +124,7 @@ properties:
     db:
       adapter: postgres
       user: bosh
-      password: 6489d5fd3186df63a1497bc263622329
+      password: 171989697cf72f12766f27932e1c3677
       host: 127.0.0.1
       port: 5432
       database: bosh_registry
@@ -146,9 +145,9 @@ properties:
       email_to: alerts@mycompany.org
       notification_interval: 0
     admin: nagios
-    password: 39a3bdffb4eda7e184f92d9c078d397f
-    director_user: nagiosuser
-    director_password: c9c3214dc099c2108903f0e166844563
+    password: 3dd64de40c0222b586f6f0c1d9197cce
+    director_user: hm_user
+    director_password: bcf1c6f87bf63842df582f2375856918
     email:
       from_alias: Nagios
       from: nagios@mycompany.org
@@ -156,8 +155,7 @@ properties:
       port: 587
       user: user
       secret: secret
-      auth_method: ":plain"
+      auth_method: ':plain'
       enable_tls: true
     legacy:
       enabled: false
-

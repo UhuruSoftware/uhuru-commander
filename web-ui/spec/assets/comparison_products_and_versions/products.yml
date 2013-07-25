@@ -1,32 +1,28 @@
---- 
-products: 
-  uhuru-windows-2008R2: 
-    label: Windows Stemcell
-    description: Windows 2008 R2 Stemcell
+---
+products:
+  uhuru-windows-2008R2:
+    label: "Windows 2008 R2 OS"
+    description: "Windows 2008 R2 operating system with IIS installed."
     type: stemcell
     blobstore_id: 68976e3e7b2a2f0013738149aa7c8afe
-  bosh-stemcell-php: 
-    label: BOSH Stemcell
-    description: BOSH Stemcell with PHP
+  bosh-stemcell-php:
+    label: "Ubuntu Linux 10.04 (Lucid) OS"
+    description: "Minimal Ubuntu 10.04 operating system."
     type: stemcell
     blobstore_id: d0ab454500aed07141ba262900b7f783
-  appcloud: 
-    label: Appcloud
-    description: Uhuru App Cloud
+  bosh-stemcell-php-vsphere:
+    label: "Ubuntu Linux 10.04 (Lucid) OS"
+    description: "Minimal Ubuntu 10.04 operating system."
+    type: stemcell
+    blobstore_id: d0ab454500aed07141ba262900b7f783
+
+  appcloud:
+    label: "Uhuru AppCloud PaaS"
+    description: "The Uhuru AppCloud - Enterprise Edition brings all the benefits of the versatile Uhuru Platform as a Service to your private network. You can run AppCloud - EE in your own datacenter or private cloud, providing complete control of security and servers without sacrificing any of the application deployment and management capabilities available to Uhuru AppCloud users in the public services."
     type: software
     blobstore_id: eb6dbf01125a02aa6d9846cae3216613
-  bosh-stemcell-vsphere: 
-    label: bosh-stemcell-vsphere
-    description: none
-    type: stemcell
-    blobstore_id: 8ebf3678d8a3f9a46cc1bd09fea49016
-  bosh-stemcell-php-vsphere: 
-    label: bosh-stemcell-php
-    description: none
-    type: stemcell
-    blobstore_id: c118316fad1a4f1b049c3e4945c4536b
-  uhuru-windows-2008R2-sqlserver: 
-    label: SqlServer Stemcell
-    description: Windows 2008 R2 Stemcell with SqlServer
+  uhuru-windows-2008R2-sqlserver:
+    label: "Windows 2008 R2 OS with Microsoft SQL Server"
+    description: "Windows 2008 R2 operating system with Microsoft SQL Server installed."
     type: stemcell
     blobstore_id: b3229ba8012c1a301fb3b2c453379490
