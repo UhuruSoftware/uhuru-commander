@@ -1,0 +1,8 @@
+Change-Id: Iab934a2958a0152627b0f0ab87043522732265e2
+Verified+1: Jenkins 
+Code-Review+2: Florin Dragos <florind@uhurusoftware.com>
+Submitted-by: Florin Dragos <florind@uhurusoftware.com>
+Submitted-at: Thu, 25 Jul 2013 18:07:40 +0300
+Reviewed-on: http://gerrit.uhurusoftware.org/1736
+Project: private-uhuru-commander
+Branch: refs/heads/master
