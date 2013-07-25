@@ -69,6 +69,10 @@ module Uhuru::BoshCommander
                       {
                           "name" => "bosh-stemcell-php-vsphere",
                           "version" => "1.5.0.pre.3"
+                      },
+                      {
+                          "name" => "uhuru-windows-2008R2",
+                          "version" => "0.9.9"
                       }
                   ]
           }
@@ -80,6 +84,10 @@ module Uhuru::BoshCommander
           {
               "name" => "bosh-stemcell-php-vsphere",
               "version" => "1.5.0.pre.3"
+          },
+          {
+              "name" => "uhuru-windows-2008R2",
+              "version" => "0.9.9"
           }
       ]
     end

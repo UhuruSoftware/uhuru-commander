@@ -1,0 +1,34 @@
+---
+versions:
+  0.0.1:
+    type: beta
+    description: "This version of the OS is the same as the one used in the 1.0.0 release of UCC."
+    location:
+      object_id: ucc.blob
+      size: 8
+      sha: 4a558c8fbbb634bbda0ecedab431b1c0c588ce07
+    dependencies: []
+  1.0.7:
+    type: beta
+    description: "This version of the OS is the same as the one used in the 1.0.0 release of UCC."
+    location:
+      object_id: ucc.blob
+      size: 8
+      sha: 4a558c8fbbb634bbda0ecedab431b1c0c588ce07
+    dependencies: []
+  1.0.8:
+    type: beta
+    description: "This version of the OS is the same as the one used in the 1.0.0 release of UCC."
+    location:
+      object_id: ucc.blob
+      size: 8
+      sha: 4a558c8fbbb634bbda0ecedab431b1c0c588ce07
+    dependencies: []
+  1.0.9:
+    type: beta
+    description: "This version of the OS is the same as the one used in the 1.0.0 release of UCC."
+    location:
+      object_id: ucc.blob
+      size: 8
+      sha: 4a558c8fbbb634bbda0ecedab431b1c0c588ce07
+    dependencies: []

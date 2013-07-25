@@ -1,0 +1,22 @@
+---
+products:
+  ucc:
+    label: "Windows 2008 R2 OS"
+    description: "Windows 2008 R2 operating system with IIS installed."
+    type: stemcell
+    blobstore_id: ucc_versions.yml
+  ucc1:
+    label: "Windows 2008 R2 OS"
+    description: "Windows 2008 R2 operating system with IIS installed."
+    type: software
+    blobstore_id: ucc_versions.yml
+  ucc2:
+    label: "Windows 2008 R2 OS"
+    description: "Windows 2008 R2 operating system with IIS installed."
+    type: ucc
+    blobstore_id: ucc_versions.yml
+  ucc3:
+    label: "Windows 2008 R2 OS"
+    description: "Windows 2008 R2 operating system with IIS installed."
+    type: stemcell
+    blobstore_id: ucc_versions.yml

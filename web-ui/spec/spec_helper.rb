@@ -9,28 +9,18 @@ require "ucc/stemcell"
 require "ucc/commander_bosh_runner"
 
 
-def bosh_login
-  session = {}
 
-  command = Bosh::Cli::Command::Misc.new
-  session[:command] = command
+def load_config
+  @config_file = File.expand_path("../../config/config_dev.yml", __FILE__)
+  Uhuru::BoshCommander::Runner.init_config @config_file
 
-  tmpdir = Dir.mktmpdir
+  $config[:versioning][:blobstore_provider] = "local"
+  $config[:versioning][:blobstore_options] = {:blobstore_path => File.expand_path("../assets/dummy_blobstore/", __FILE__)}
 
-  config = File.join(tmpdir, "bosh_config")
-  cache = File.join(tmpdir, "bosh_cache")
+end
 
-  command.add_option(:config, config)
-  command.add_option(:cache_dir, cache)
-  command.add_option(:non_interactive, true)
-
-  Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-    Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(cache)
-    command.set_target($config[:bosh][:target])
-    command.login('admin', 'admin')
-  end
-
-  session
+def session
+  {:command =>  Uhuru::BoshCommander::MockBoshCommand.new}
 end
 
 RSpec.configure do |conf|
