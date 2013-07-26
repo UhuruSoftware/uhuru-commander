@@ -270,10 +270,17 @@ echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
+rm -rf /tmp/deployments_bkp
+mkdir -p /tmp/deployments_bkp
+
+cp -Rf /var/vcap/store/ucc/web-ui/deployments /tmp/deployments_bkp
+
 cp -f /var/vcap/store/ucc/web-ui/config/properties.yml /tmp/ucc_properties.yml
 rm -rf /var/vcap/store/ucc/web-ui
 mkdir -p /var/vcap/store/ucc/web-ui/config/
+
 cp -f /tmp/ucc_properties.yml /var/vcap/store/ucc/web-ui/config/properties.yml
+cp -Rf /tmp/deployments_bkp/deployments /var/vcap/store/ucc/web-ui/
 
 exit 0
 EOF
