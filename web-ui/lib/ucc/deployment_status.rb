@@ -23,6 +23,7 @@ module Uhuru::BoshCommander
       stats["state"] = state
       stats["version"] = current_manifest["release"]["version"]
       stats["resources"] = @deployment.get_resources current_manifest
+      stats["track_url"] = @deployment.get_track_url
       stats
     end
   end

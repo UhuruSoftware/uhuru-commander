@@ -102,8 +102,6 @@ module Uhuru::BoshCommander
       end
 
 
-
-
       command = deployment_command
       current_file = File.join(@deployment_dir, "#{@deployment_name}.yml")
 
@@ -178,7 +176,7 @@ module Uhuru::BoshCommander
       end
 
       say 'Deploying missing components'
-      File.open(@lock_file, 'w') {|f| f.write("locked") }
+      File.open(@lock_file, 'w') {|f| f.write(@log_url) }
 
       if (software_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL)
         release = Release.new
@@ -204,6 +202,22 @@ module Uhuru::BoshCommander
 
       say "Deployment finished".green
 
+    end
+
+    def set_log_url(url)
+      if (File.exist?(@lock_file))
+        File.open(@lock_file, 'w') { |file| file.write(url) }
+      else
+        @log_url = url
+      end
+    end
+
+    def get_track_url
+      if (File.exist?(@lock_file))
+        File.read(@lock_file)
+      else
+        ""
+      end
     end
 
     def get_vm_logs(job_name, index, request_path)
