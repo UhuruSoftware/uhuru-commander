@@ -49,7 +49,7 @@ module Uhuru::BoshCommander
       render_erb do
         template :internal_logs
         layout :layout
-        var :logs, logs
+        var :logs, logs.reverse[0..199].reverse
         help 'internal_logs'
       end
     end
@@ -87,5 +87,56 @@ module Uhuru::BoshCommander
       resource_file = File.join(Dir.tmpdir, 'ucc_log_resources', resource_file_id)
       redirect "/vmlog-dl/#{File.read(resource_file)}"
     end
+
+
+
+    get '/get_last_log' do
+      log_file = $config[:logging][:file]
+      json = File.read log_file
+      logs = []
+
+      Yajl::Parser.parse(json) { |obj|
+        logs << obj
+      }
+
+      response = logs.index(logs.last) + 1
+      return response.to_s
+    end
+
+    get '/new_logs' do
+      last_log = params[:latest_log].to_i - 1
+      log_file = $config[:logging][:file]
+      json = File.read log_file
+      logs = []
+
+      Yajl::Parser.parse(json) { |obj|
+        logs << obj
+      }
+
+      if last_log < logs.index(logs.last)
+        #add another key in the hash for number of new logs and send the last log in the list
+
+        log = logs.last
+        log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
+
+          if logs.index(logs.last) - last_log > 1
+            log['counter'] = logs.index(logs.last) - last_log
+          else
+            log['counter'] = 0
+          end
+
+        return log.to_json
+      else
+        #no new logs
+        return 'none'
+      end
+
+    end
+
+    get '/download_log_file' do
+      log_file = $config[:logging][:file]
+      send_file log_file, :filename => "logs", :type => 'Application/octet-stream'
+    end
+
   end
 end
