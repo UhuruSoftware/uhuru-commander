@@ -22,6 +22,9 @@
     </table>
   </div>
   <div class="more_tasks_button_footer">
+    <form action="/download_log_file" method="get">
+      <input type="submit" value="Download logs" />
+    </form>
     <input type="button" value="Jump to top" onclick="$('#tasks_overflow_div').scrollTop(0)"/>
     <input type="button" value="Jump to bottom" onclick="$('#tasks_overflow_div').scrollTop($('#tasks_overflow_div')[0].scrollHeight)"/>
   </div>
