@@ -40,7 +40,7 @@ module Uhuru
               versions["versions"][version]["dependencies"].each do |dep|
                 version_rows << ["#{dep['dependency']}-#{dep['version']}"]
               end
-              all_rows << [version, versions["versions"][version]["type"], versions["versions"][version]["description"], version_rows.join("\n")]
+              all_rows << [version, versions["versions"][version]["type"], versions["versions"][version]["description"][0..30].gsub(/\s\w+$/, '...'), version_rows.join("\n")]
 
             end
             table = Terminal::Table.new :title => name, :headings => ["Version", "Type", "Description", "Dpendencies"]
