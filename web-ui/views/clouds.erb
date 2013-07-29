@@ -26,12 +26,12 @@
           <td class="cell_border cell_border_bottom "><%= cloud['version'] %></td>
           <td class="cloud_state <%= cloud['state'].to_s().downcase.gsub(' ', '_') %>"><%= cloud['state'] %></td>
           <td class="cell_border cell_border_bottom ">
-            <% if cloud['resources'] != nil %>
+            <% if cloud['state'].to_s() == "Deploying" %>
+                <a href="/<%= cloud['track_url'] %>"> Processing... </a>
+            <% elsif cloud['resources'] != nil %>
                 <%= cloud['resources']['total_cpu'] %> Virtual Cores<br />
                 <%= (cloud['resources']['total_RAM'] / 1024.0).round(2) %> GB of RAM<br />
                 <%= (cloud['resources']['total_disk'] / 1024.0).round(2) %> GB of Storage<br />
-            <% elsif cloud['state'].to_s() == "Deploying" %>
-                <a href="/<%= cloud['track_url'] %>"> Processing... </a>
             <%  else %>
                 <img src="/icons/none.png" alt="No services available">
             <% end %>
