@@ -14,6 +14,8 @@ module Uhuru::BoshCommander
       @deployment_dir = File.join($config[:deployments_dir], product_name, deployment_name)
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
       @lock_file = File.join("#{@deployment_dir}","deployment.lock")
+      @error_file = File.join("#{@deployment_dir}","deployment.error")
+
       #create deployment folder
       if (Dir["#{@deployment_dir}"].empty?)
         Dir.mkdir @deployment_dir
@@ -213,8 +215,10 @@ module Uhuru::BoshCommander
     end
 
     def get_track_url
-      if (File.exist?(@lock_file))
+      if File.exist?(@lock_file)
         File.read(@lock_file)
+      elsif File.exist?(@error_file)
+        File.read(@error_file)
       else
         ""
       end
@@ -330,12 +334,12 @@ module Uhuru::BoshCommander
       director =  Thread.current.current_session[:command].instance_variable_get("@director")
       deployments = director.list_deployments
 
-      local_manifest = false
-      local_manifest = true if (File.exist? @deployment_manifest_path)
+      local_manifest = (File.exist? @deployment_manifest_path)
 
       remote_manifest = nil
 
-      deployment_locked = true if (File.exist? @lock_file)
+      deployment_locked = (File.exist? @lock_file)
+      deployment_error = (File.exist? @error_file)
 
       #determine if director contains the deployment
       director_deployment = false
@@ -351,10 +355,10 @@ module Uhuru::BoshCommander
 
       if director_deployment
         if local_manifest
-          if (deployment_locked)
+          if deployment_locked
             DeploymentState::DEPLOYING
           else
-            if (remote_manifest)
+            if remote_manifest
               DeploymentState::DEPLOYED
             else
               DeploymentState::ERROR
@@ -364,16 +368,24 @@ module Uhuru::BoshCommander
           DeploymentState::ERROR
         end
       else
-        if local_manifest
-          manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
-          gateway = manifest['networks'][0]['subnets'][0]['gateway']
-          if (gateway == nil) || (gateway.strip == '')
-            DeploymentState::NOT_CONFIGURED
-          else
-            DeploymentState::SAVED
-          end
+        if deployment_locked
+          DeploymentState::DEPLOYING
         else
-          DeploymentState::ERROR
+          if deployment_error
+            DeploymentState::ERROR
+          else
+            if local_manifest
+              manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
+              gateway = manifest['networks'][0]['subnets'][0]['gateway']
+              if (gateway == nil) || (gateway.strip == '')
+                DeploymentState::NOT_CONFIGURED
+              else
+                DeploymentState::SAVED
+              end
+            else
+              DeploymentState::ERROR
+            end
+          end
         end
       end
     end
