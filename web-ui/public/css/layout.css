@@ -65,6 +65,34 @@ a
 {
     padding-top: 10px;
 }
+.popup_div
+{
+    height: 20px;
+}
+
+.popup_error
+{
+    display: none;
+    border: 1px solid #d8000c;
+    background-color: #FFBABA;
+    width: 200px;
+    float: right;
+    clear: both;
+}
+.popup_error a
+{
+    color: #D8000C;
+    display: inline-block;
+}
+.popup_close_btn
+{
+    display: inline-block;
+    float: right;
+    font-weight: 900;
+    color: #d8000c;
+    padding-right: 2px;
+    cursor: pointer;
+}
 
 /************************************************************************/
 /*Middle of the web-page, the actual content*/
