@@ -50,6 +50,7 @@ module Uhuru::BoshCommander
         template :internal_logs
         layout :layout
         var :logs, logs.reverse[0..199].reverse
+        var :logs_total, logs.size
         help 'internal_logs'
       end
     end
@@ -102,8 +103,10 @@ module Uhuru::BoshCommander
       log = {}
       if last_log < logs.index(logs.last)
         log = logs.last
-        log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
-        log['counter'] = logs.index(logs.last) - last_log
+        if log['log_level'] == 'error'
+          log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
+          log['counter'] = logs.index(logs.last) - last_log
+        end
       end
 
       session['last_log'] = logs.index(logs.last)
