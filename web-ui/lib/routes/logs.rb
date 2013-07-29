@@ -50,6 +50,7 @@ module Uhuru::BoshCommander
         template :internal_logs
         layout :layout
         var :logs, logs.reverse[0..199].reverse
+        var :logs_total, logs.size
         help 'internal_logs'
       end
     end
@@ -99,16 +100,34 @@ module Uhuru::BoshCommander
         logs << obj
       }
 
-      log = {}
       if last_log < logs.index(logs.last)
-        log = logs.last
-        log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
-        log['counter'] = logs.index(logs.last) - last_log
+        send_log = nil #logs.last
+
+        is_last = 0
+        logs.reverse.each do |log|
+          if logs.index(log) >= last_log
+            if log['log_level'] == 'error'
+
+              #count the logs that have error type
+              is_last += 1
+
+              #modify message and counter if the log is the type of error
+              log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
+              log['counter'] = logs.index(logs.last) - last_log
+
+              #check if this is the last logged error
+              if is_last == 1
+                send_log = log
+              end
+            end
+          end
+        end
+
       end
 
       session['last_log'] = logs.index(logs.last)
 
-      log.to_json
+      send_log.to_json
     end
 
     get '/download_log_file' do
