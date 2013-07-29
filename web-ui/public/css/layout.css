@@ -65,24 +65,34 @@ a
 {
     padding-top: 10px;
 }
+
+/************************************************************************/
+/*Error Pop-up Section
+/************************************************************************/
+
 .popup_div
 {
-    height: 20px;
+    height: 25px;
+    display: none;
 }
 
 .popup_error
 {
-    display: none;
+    width: 300px;
     border: 1px solid #d8000c;
     background-color: #FFBABA;
-    width: 200px;
     float: right;
     clear: both;
+    margin-top: 5px;
+    margin-right: 5px;
+    padding: 2px;
 }
+
 .popup_error a
 {
     color: #D8000C;
     display: inline-block;
+    text-decoration: none;
 }
 .popup_close_btn
 {

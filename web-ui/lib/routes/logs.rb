@@ -88,23 +88,9 @@ module Uhuru::BoshCommander
       redirect "/vmlog-dl/#{File.read(resource_file)}"
     end
 
-
-
-    get '/get_last_log' do
-      log_file = $config[:logging][:file]
-      json = File.read log_file
-      logs = []
-
-      Yajl::Parser.parse(json) { |obj|
-        logs << obj
-      }
-
-      response = logs.index(logs.last) + 1
-      return response.to_s
-    end
-
     get '/new_logs' do
-      last_log = params[:latest_log].to_i - 1
+      last_log = session['last_log']
+
       log_file = $config[:logging][:file]
       json = File.read log_file
       logs = []
@@ -113,24 +99,16 @@ module Uhuru::BoshCommander
         logs << obj
       }
 
+      log = {}
       if last_log < logs.index(logs.last)
-        #add another key in the hash for number of new logs and send the last log in the list
-
         log = logs.last
         log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
-
-          if logs.index(logs.last) - last_log > 1
-            log['counter'] = logs.index(logs.last) - last_log
-          else
-            log['counter'] = 0
-          end
-
-        return log.to_json
-      else
-        #no new logs
-        return 'none'
+        log['counter'] = logs.index(logs.last) - last_log
       end
 
+      session['last_log'] = logs.index(logs.last)
+
+      log.to_json
     end
 
     get '/download_log_file' do
