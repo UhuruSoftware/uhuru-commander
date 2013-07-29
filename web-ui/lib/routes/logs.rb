@@ -89,7 +89,7 @@ module Uhuru::BoshCommander
     end
 
     get '/new_logs' do
-      last_log = session['last_log']
+      last_log = session['last_log'] || 0
 
       log_file = $config[:logging][:file]
       json = File.read log_file
@@ -100,7 +100,7 @@ module Uhuru::BoshCommander
       }
 
       log = {}
-      if last_log < logs.index(logs.last)
+      if (logs.size > 0) && (last_log < logs.index(logs.last))
         log = logs.last
         log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
         log['counter'] = logs.index(logs.last) - last_log
@@ -113,6 +113,7 @@ module Uhuru::BoshCommander
 
     get '/download_log_file' do
       log_file = $config[:logging][:file]
+
       send_file log_file, :filename => "logs", :type => :log
     end
 

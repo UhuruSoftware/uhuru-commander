@@ -30,6 +30,15 @@
     var lastUpdateContent = "";
     var timerId = null;
 
+    var colorLineFeedRegex = new RegExp(/\n[^\n\r]*\r/g);
+    var colorLineBreakRegex = new RegExp(/\n/g);
+    var colorX20Regex = new RegExp(/\x20/g);
+    var colorEndRegex = new RegExp(/\*\*\*color_out_end\*\*\*/g);
+    var colorGreenRegex = new RegExp(/\*\*\*color_out_start_green\*\*\*/g);
+    var colorRedRegex = new RegExp(/\*\*\*color_out_start_red\*\*\*/g);
+    var colorYellowRegex = new RegExp(/\*\*\*color_out_start_yellow\*\*\*/g);
+
+
     logDiv.onscroll = function () {
         if (scrollToEnd && !(logDiv.scrollTop >= 0.95 * (logDiv.scrollHeight - logDiv.clientHeight))) {
             scrollToEnd = false;
@@ -75,22 +84,23 @@
                             {
 
                                 logData = logData + newText;
-                                var existingText = logData;
-                                var replacedText = "";
+                                var replacedText = logData;
 
-                                while (existingText !== replacedText)
+                                var replaced = true;
+
+                                while (replaced)
                                 {
-                                    replacedText = existingText;
-                                    existingText = existingText.replace(/\n[^\n\r]*\r/g, "\n");
+                                    replaced = false;
+                                    replacedText = replacedText.replace(colorLineFeedRegex, function(token) { replaced = true; return "\n"; });
                                 }
 
-                                replacedText = replacedText.replace(/\n/g, "<br/>");
+                                replacedText = replacedText.replace(colorLineBreakRegex, "<br/>");
 
-                                replacedText = replacedText.replace(/\x20/g, "&nbsp;");
-                                replacedText = replacedText.replace(/\*\*\*color_out_end\*\*\*/g, "</span>");
-                                replacedText = replacedText.replace(/\*\*\*color_out_start_green\*\*\*/g, "<span class='isa_success'>");
-                                replacedText = replacedText.replace(/\*\*\*color_out_start_red\*\*\*/g, "<span class='isa_error'>");
-                                replacedText = replacedText.replace(/\*\*\*color_out_start_yellow\*\*\*/g, "<span class='isa_warning'>");
+                                replacedText = replacedText.replace(colorX20Regex, "&nbsp;");
+                                replacedText = replacedText.replace(colorEndRegex, "</span>");
+                                replacedText = replacedText.replace(colorGreenRegex, "<span class='isa_success'>");
+                                replacedText = replacedText.replace(colorRedRegex, "<span class='isa_error'>");
+                                replacedText = replacedText.replace(colorYellowRegex, "<span class='isa_warning'>");
 
                                 for (var i = 1; i <= 20; i++)
                                 {
