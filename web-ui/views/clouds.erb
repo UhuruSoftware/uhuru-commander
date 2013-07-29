@@ -28,6 +28,8 @@
           <td class="cell_border cell_border_bottom ">
             <% if cloud['state'].to_s() == "Deploying" %>
                 <a href="/<%= cloud['track_url'] %>"> Processing... </a>
+            <% elsif cloud['state'] == "Error"  %>
+                <a href="/<%= cloud['track_url'] %>"> Deployment failed. </a>
             <% elsif cloud['resources'] != nil %>
                 <%= cloud['resources']['total_cpu'] %> Virtual Cores<br />
                 <%= (cloud['resources']['total_RAM'] / 1024.0).round(2) %> GB of RAM<br />
