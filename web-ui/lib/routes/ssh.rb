@@ -6,7 +6,7 @@ module Uhuru::BoshCommander
       ssh_data[:deployment] = Deployment.new(params[:deployment], params[:product_name]).deployment_manifest_path
       ssh_data[:job] = params[:job]
       ssh_data[:index] = params[:index]
-      ssh_data[:token] = env['rack.session.options'][:id]
+      ssh_data[:token] = env['rack.request.cookie_hash']['rack.session']
       tty_js_param = CGI::escape(Base64.encode64(ssh_data.to_json))
       redirect "/ssh/?connectionData=#{tty_js_param}"
     end
