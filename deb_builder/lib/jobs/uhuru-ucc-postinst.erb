@@ -4,12 +4,6 @@
 update-rc.d -f apache2 remove
 
 
-[ ! -e /root/.ssh/id_rsa ] &&
-{
-    rm -f /root/.ssh/id_rsa
-    ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
-}
-
 
 cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
