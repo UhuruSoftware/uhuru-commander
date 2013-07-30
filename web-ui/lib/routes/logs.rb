@@ -103,13 +103,13 @@ module Uhuru::BoshCommander
       }
 
       log = {}
-      if (logs.size > 0) && (last_log < logs.index(logs.last))
+      if (logs.size > 0) && (last_log < logs.length - 1)
         log = logs.last
         log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
-        log['counter'] = logs.index(logs.last) - last_log
+        log['counter'] = logs.length - 1 - last_log
       end
 
-      session['last_log'] = logs.index(logs.last)
+      session['last_log'] = logs.length - 1
 
       log.to_json
     end

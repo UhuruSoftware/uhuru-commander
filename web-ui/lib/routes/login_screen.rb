@@ -113,7 +113,7 @@ module Uhuru::BoshCommander
         logs << obj
       }
 
-      session['last_log'] = logs.index(logs.last)
+      session['last_log'] = logs.length - 1
     end
   end
 end
