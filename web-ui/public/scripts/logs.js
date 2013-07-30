@@ -1,6 +1,20 @@
-$(document).ready(function(){
+var focused;
 
-    setInterval(function(){
+$(document).ready(function(){
+    checkForLogs();
+});
+$(window).focus(function(){
+    checkForLogs();
+});
+
+$(window).blur(function(){
+    clearInterval(focused);
+});
+
+
+function checkForLogs()
+{
+    focused = setInterval(function(){
 
         $.ajax(
             {
@@ -22,6 +36,5 @@ $(document).ready(function(){
                 }
             });
 
-    }, 3000);
-
-});
+    }, 2000);
+}
