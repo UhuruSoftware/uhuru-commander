@@ -49,7 +49,8 @@ module Uhuru::BoshCommander
       render_erb do
         template :internal_logs
         layout :layout
-        var :logs, logs.reverse[0..199].reverse
+        var :original_size, logs.size
+        var :logs, logs.reverse[0..199]
         help 'internal_logs'
       end
     end
@@ -96,7 +97,9 @@ module Uhuru::BoshCommander
       logs = []
 
       Yajl::Parser.parse(json) { |obj|
-        logs << obj
+        if obj['log_level'] == 'error'
+          logs << obj
+        end
       }
 
       log = {}

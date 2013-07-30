@@ -9,14 +9,15 @@
         <td>Log Level</td>
         <td>Message</td>
       </tr>
-      <% i = logs.size %>
-      <% logs.reverse.each do |log| %>
+      <% i = original_size %>
+      <% logs.each do |log| %>
           <tr>
             <td class="cell_border cell_border_bottom"><%= i %></td>
             <td class="cell_border cell_border_bottom bold"><%= Time.at(log["timestamp"]) %></td>
             <td class="log_level <%= log['log_level'] %>"><%= log['log_level'] %></td>
             <td class="cell_border cell_border_bottom"><textarea><%= log["message"] %></textarea></td>
           </tr>
+
           <% i = i - 1 %>
       <% end%>
     </table>
