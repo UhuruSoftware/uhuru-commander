@@ -13,7 +13,7 @@ SHELL=/bin/bash \
 TERM=xterm \
 USER=root \
 USERNAME=root \
-PATH=/var/vcap/packages/ruby/bin:/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin \
+PATH=/var/vcap/bosh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/X11R6/bin \
 ./bin/tty.js --config config/config.json 1>/var/vcap/store/tty.js/ttyjs.stdout.log 2>/var/vcap/store/tty.js/ttyjs.stderr.log &
 
   sleep 1
