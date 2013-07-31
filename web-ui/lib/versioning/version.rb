@@ -148,6 +148,9 @@ module Uhuru
                 File.open(bits_full_local_path_dl, open_mode) do |file|
                   begin
                     blobstore_client.get(blobstore_id, file)
+
+                    raise "Download interruped for #{blobstore_id} at #{file.size} bytes out of #{@location['size']} bytes." if file.size < @location['size']
+
                     done = true
                   rescue => e
                     open_mode = "ab"
