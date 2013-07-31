@@ -9,19 +9,23 @@
         <td>Log Level</td>
         <td>Message</td>
       </tr>
-      <% i = logs.size %>
-      <% logs.reverse.each do |log| %>
+      <% i = original_size %>
+      <% logs.each do |log| %>
           <tr>
             <td class="cell_border cell_border_bottom"><%= i %></td>
             <td class="cell_border cell_border_bottom bold"><%= Time.at(log["timestamp"]) %></td>
             <td class="log_level <%= log['log_level'] %>"><%= log['log_level'] %></td>
             <td class="cell_border cell_border_bottom"><textarea><%= log["message"] %></textarea></td>
           </tr>
+
           <% i = i - 1 %>
       <% end%>
     </table>
   </div>
   <div class="more_tasks_button_footer">
+    <form action="/download_log_file" method="get">
+      <input type="submit" value="Download logs" />
+    </form>
     <input type="button" value="Jump to top" onclick="$('#tasks_overflow_div').scrollTop(0)"/>
     <input type="button" value="Jump to bottom" onclick="$('#tasks_overflow_div').scrollTop($('#tasks_overflow_div')[0].scrollHeight)"/>
   </div>

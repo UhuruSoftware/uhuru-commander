@@ -1,7 +1,6 @@
 pid_filename: /var/vcap/sys/run/ucc.pid
 bind_address: 8.8.8.8
 port: 80
-dev-mode: true
 test_email: "spec@uhurusoftware.com" #setting used to spec smtp server
 
 versioning:

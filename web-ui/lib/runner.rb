@@ -187,7 +187,7 @@ module Uhuru::BoshCommander
           nagios_location = "http://#{$config[:nagios][:host]}:#{$config[:nagios][:port]}"
 
           director_port = YAML.load_file($config[:properties_file])['properties']['director']['port']
-          director_location = "http://#{$config[:bosh][:target]}:#{director_port}/resources"
+          director_location = "#{$config[:bosh][:target]}:#{director_port}/resources"
 
           reverse_proxy "/user.js", "#{tty_js_location}/user.js"
           reverse_proxy "/user.css", "#{tty_js_location}/user.css"

@@ -226,6 +226,7 @@ module Uhuru::BoshCommander
             help cloud_summary_help
           end
         elsif params.has_key?("btn_save_and_deploy")
+          action_on_done = "Deployment of cloud '#{cloud_name}' finished. Click <a href='/products/#{product_name}/#{cloud_name}?menu=tab_summary'>here</a> to view cloud summary."
           request_id = CommanderBoshRunner.execute_background(session) do
             begin
               form.deployment.deploy
@@ -233,9 +234,9 @@ module Uhuru::BoshCommander
               err e
             end
           end
-
-          action_on_done = "Deployment of cloud '#{cloud_name}' finished. Click <a href='/products/#{product_name}/#{cloud_name}?menu=tab_summary'>here</a> to view cloud summary."
-          redirect Logs.log_url request_id, action_on_done
+          log_url = Logs.log_url request_id, action_on_done
+          form.deployment.set_log_url(log_url)
+          redirect log_url
         end
 
       elsif params.has_key?("version")

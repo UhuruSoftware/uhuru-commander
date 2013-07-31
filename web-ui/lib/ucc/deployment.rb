@@ -14,6 +14,8 @@ module Uhuru::BoshCommander
       @deployment_dir = File.join($config[:deployments_dir], product_name, deployment_name)
       @deployment_manifest_path = File.join("#{@deployment_dir}","#{deployment_name}.yml")
       @lock_file = File.join("#{@deployment_dir}","deployment.lock")
+      @error_file = File.join("#{@deployment_dir}","deployment.error")
+
       #create deployment folder
       if (Dir["#{@deployment_dir}"].empty?)
         Dir.mkdir @deployment_dir
@@ -59,7 +61,7 @@ module Uhuru::BoshCommander
             salt = salt_regex.captures[0]
             new_password = `mkpasswd -m sha-512 -S #{salt} "#{admin_password}"`.to_s.strip
             if (current_password.to_s.strip == new_password)
-              return
+              next
             end
           end
           resource_pool["env"]["bosh"]["password"] = `mkpasswd -m sha-512 "#{admin_password}"`.to_s.strip
@@ -97,12 +99,9 @@ module Uhuru::BoshCommander
     def deploy()
 
       if File.exists? @lock_file
-        say "Deployment in process, please check tasks"
+        say "Deployment in process, please check tasks."
         return
       end
-
-
-
 
       command = deployment_command
       current_file = File.join(@deployment_dir, "#{@deployment_name}.yml")
@@ -121,7 +120,8 @@ module Uhuru::BoshCommander
 
       software = nil
 
-      say "Checking if software exist"
+
+      say "Checking if '#{software_name} #{software_version}' is present ..."
       products.each  do |prod|
         product = prod[1]
         #check release
@@ -134,17 +134,17 @@ module Uhuru::BoshCommander
         end
       end
 
-      if (software)
+      if software
         software_state = software.get_state
       end
 
 
       if (software_state == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY)
-        raise "The software #{software_name} #{software_version} you are trying to deploy does not exist locally, please download it first"
+        raise "The software '#{software_name} #{software_version}' you are trying to deploy does not exist locally, please download it first."
       end
 
       stemcells_state = []
-      say 'Checking if stemcell exists'
+      say 'Checking if OS images exist ...'
       stemcells.each do |stemcell|
         stemcell_state = Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
         stemcell_version = nil
@@ -169,7 +169,7 @@ module Uhuru::BoshCommander
       message = ''
       stemcells_state.each do |stemcell|
         if (stemcell["state"] == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY || stemcell["state"] == nil)
-          message = message + "The stemcell #{stemcell} #{software_version} you are trying to deploy does not exist locally, please download it first \n"
+          message = message + "The OS image '#{stemcell} #{software_version}' you are trying to deploy does not exist locally, please download it first.\n"
         end
       end
 
@@ -177,33 +177,68 @@ module Uhuru::BoshCommander
         raise message
       end
 
-      say 'Deploying missing components'
-      File.open(@lock_file, 'w') {|f| f.write("locked") }
+      dependency_had_errors = false
 
-      if (software_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL)
-        release = Release.new
-        release.upload(File.join(software.bits_full_local_path, "release.tgz"))
-      end
+      begin
+        say 'Deploying missing components ...'
+        File.open(@lock_file, 'w') {|f| f.write(@log_url) }
 
-      uploaded_stemcells = []
-      stemcells_state.each do |stemcell|
-        if (stemcell["state"]== Uhuru::BoshCommander::Versioning::STATE_LOCAL)
-          if (!uploaded_stemcells.include?(stemcell["name"]))
-            stemcell_obj = Stemcell.new
-            stemcell_obj.upload(stemcell["version"].bits_full_local_path)
-            uploaded_stemcells << stemcell["name"]
+        if (software_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL)
+          release = Release.new
+          release.upload(File.join(software.bits_full_local_path, "release.tgz"))
+        end
+
+        uploaded_stemcells = []
+        stemcells_state.each do |stemcell|
+          if (stemcell["state"]== Uhuru::BoshCommander::Versioning::STATE_LOCAL)
+            if (!uploaded_stemcells.include?(stemcell["name"]))
+              stemcell_obj = Stemcell.new
+              stemcell_obj.upload(stemcell["version"].bits_full_local_path)
+              uploaded_stemcells << stemcell["name"]
+            end
           end
         end
+
+        say "Dependency setup complete.".green
+      rescue => e
+        $logger.error("There was an error while trying to prepare dependencies for '#{software_name} #{software_version}': #{e.to_s}")
+        dependency_had_errors = true
+
+        FileUtils.mv @lock_file, @error_file
       end
 
+      unless dependency_had_errors
+        begin
+          command.set_current(current_file)
+          command.perform
 
-      command.set_current(current_file)
-      command.perform
+          FileUtils.rm_f(@lock_file)
+          FileUtils.rm_f(@error_file)
 
-      File.delete(@lock_file)
+          say "Deployment finished.".green
+        rescue => e
+          $logger.error("There was an error while trying to deploy '#{software_name} #{software_version}': #{e.to_s}")
+          FileUtils.mv @lock_file, @error_file
+        end
+      end
+    end
 
-      say "Deployment finished".green
+    def set_log_url(url)
+      if (File.exist?(@lock_file))
+        File.open(@lock_file, 'w') { |file| file.write(url) }
+      else
+        @log_url = url
+      end
+    end
 
+    def get_track_url
+      if File.exist?(@lock_file)
+        File.read(@lock_file)
+      elsif File.exist?(@error_file)
+        File.read(@error_file)
+      else
+        "#"
+      end
     end
 
     def get_vm_logs(job_name, index, request_path)
@@ -316,12 +351,12 @@ module Uhuru::BoshCommander
       director =  Thread.current.current_session[:command].instance_variable_get("@director")
       deployments = director.list_deployments
 
-      local_manifest = false
-      local_manifest = true if (File.exist? @deployment_manifest_path)
+      local_manifest = (File.exist? @deployment_manifest_path)
 
       remote_manifest = nil
 
-      deployment_locked = true if (File.exist? @lock_file)
+      deployment_locked = (File.exist? @lock_file)
+      deployment_error = (File.exist? @error_file)
 
       #determine if director contains the deployment
       director_deployment = false
@@ -337,10 +372,10 @@ module Uhuru::BoshCommander
 
       if director_deployment
         if local_manifest
-          if (deployment_locked)
+          if deployment_locked
             DeploymentState::DEPLOYING
           else
-            if (remote_manifest)
+            if remote_manifest
               DeploymentState::DEPLOYED
             else
               DeploymentState::ERROR
@@ -350,16 +385,24 @@ module Uhuru::BoshCommander
           DeploymentState::ERROR
         end
       else
-        if local_manifest
-          manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
-          gateway = manifest['networks'][0]['subnets'][0]['gateway']
-          if (gateway == nil) || (gateway.strip == '')
-            DeploymentState::NOT_CONFIGURED
-          else
-            DeploymentState::SAVED
-          end
+        if deployment_locked
+          DeploymentState::DEPLOYING
         else
-          DeploymentState::ERROR
+          if deployment_error
+            DeploymentState::ERROR
+          else
+            if local_manifest
+              manifest = File.open(@deployment_manifest_path) { |file| YAML.load(file)}
+              gateway = manifest['networks'][0]['subnets'][0]['gateway']
+              if (gateway == nil) || (gateway.strip == '')
+                DeploymentState::NOT_CONFIGURED
+              else
+                DeploymentState::SAVED
+              end
+            else
+              DeploymentState::ERROR
+            end
+          end
         end
       end
     end

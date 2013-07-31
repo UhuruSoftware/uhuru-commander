@@ -377,6 +377,10 @@ td.border_right
     float: right;
 }
 
+.more_tasks_button_footer form
+{
+    display: inline-block;
+}
 
 /************************************************************************/
 /*VM State DIV

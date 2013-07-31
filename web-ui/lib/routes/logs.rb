@@ -49,7 +49,8 @@ module Uhuru::BoshCommander
       render_erb do
         template :internal_logs
         layout :layout
-        var :logs, logs
+        var :original_size, logs.size
+        var :logs, logs.reverse[0..199]
         help 'internal_logs'
       end
     end
@@ -87,5 +88,37 @@ module Uhuru::BoshCommander
       resource_file = File.join(Dir.tmpdir, 'ucc_log_resources', resource_file_id)
       redirect "/vmlog-dl/#{File.read(resource_file)}"
     end
+
+    get '/new_logs' do
+      last_log = session['last_log'] || 0
+
+      log_file = $config[:logging][:file]
+      json = File.read log_file
+      logs = []
+
+      Yajl::Parser.parse(json) { |obj|
+        if obj['log_level'] == 'error'
+          logs << obj
+        end
+      }
+
+      log = {}
+      if (logs.size > 0) && (last_log < logs.length - 1)
+        log = logs.last
+        log['message'] = log['message'][0..30].gsub(/\s\w+$/, '...')
+        log['counter'] = logs.length - 1 - last_log
+      end
+
+      session['last_log'] = logs.length - 1
+
+      log.to_json
+    end
+
+    get '/download_log_file' do
+      log_file = $config[:logging][:file]
+
+      send_file log_file, :filename => "logs", :type => :log
+    end
+
   end
 end

@@ -15,6 +15,8 @@ module Uhuru::BoshCommander
 
       session['command'] = command
 
+      set_last_log
+
       #we do not care about local user
       tmpdir = Dir.mktmpdir
 
@@ -99,6 +101,19 @@ module Uhuru::BoshCommander
 
       end
       state
+    end
+
+    private
+
+    def set_last_log
+      log_file = $config[:logging][:file]
+      json = File.read log_file
+      logs = []
+      Yajl::Parser.parse(json) { |obj|
+        logs << obj
+      }
+
+      session['last_log'] = logs.length - 1
     end
   end
 end

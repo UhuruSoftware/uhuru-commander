@@ -26,7 +26,6 @@ function make_ttyjs()
 
     cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs/node-latest.tar.gz .
     cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs/node_modules.tar.gz .
-    #wget -N http://nodejs.org/dist/node-latest.tar.gz
 
     cd $cwd
 
@@ -60,41 +59,22 @@ EOF
 #!/bin/bash
     cd /usr/src/uhuru/nodejs
 
+    mkdir -p /tmp/ucc_install/
+
     echo "Install logs available here: /tmp/ucc_install/ttyjs.log"
     (
-    tar xzvf node_modules.tar.gz
-    tar xzvf node-latest.tar.gz && cd \`ls -rd node-v*\`
+    tar xzvf node-latest.tar.gz
+    cd \`ls -rd node-v*\`
     ./configure
     make install
+
+    cd ..
+
+    tar xzvf node_modules.tar.gz
+
     cd /var/vcap/store/tty.js
     cp -R /usr/src/uhuru/nodejs/node_modules .
     ) 2>&1 1>/tmp/ucc_install/ttyjs.log
-
-    cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/redis >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/postgres >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/ttyjs.monit >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-    cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
-    echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-
-
-    echo "Restarting monit ..."
-
-    service monit restart
 
     exit 0
 EOF
@@ -106,31 +86,7 @@ monit stop ttyjs
 
 rm -f /etc/monit/uhururc.d_pieces/ttyjs.monit
 
-
-cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/redis >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/postgres >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ttyjs.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-
-
 rm -rf /var/vcap/store/tty.js
-
 
 exit 0
 EOF
@@ -162,7 +118,7 @@ Priority: important
 Architecture: amd64
 Suggests: uhuru-ucc
 Installed-Size: 13312
-Depends: monit, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, uhuru-bosh-package-ruby
+Depends: monit, mkpasswd, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, uhuru-bosh-package-ruby
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
 Description: Uhuru Cloud Commander User Interface utility
  .
@@ -208,31 +164,6 @@ fi
 
 echo -e "\nversion: ${VERSION}" > /var/vcap/store/ucc/web-ui/config/version.yml
 
-cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/redis >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/postgres >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ttyjs.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-
-echo "Restarting monit ..."
-
-service monit restart
-
 exit 0
 EOF
 
@@ -243,31 +174,17 @@ monit stop ucc
 
 rm -f /etc/monit/uhururc.d_pieces/ucc.monit
 
-cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/redis >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/postgres >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ttyjs.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+rm -rf /tmp/deployments_bkp
+mkdir -p /tmp/deployments_bkp
+
+cp -Rf /var/vcap/store/ucc/web-ui/deployments /tmp/deployments_bkp
 
 cp -f /var/vcap/store/ucc/web-ui/config/properties.yml /tmp/ucc_properties.yml
 rm -rf /var/vcap/store/ucc/web-ui
 mkdir -p /var/vcap/store/ucc/web-ui/config/
+
 cp -f /tmp/ucc_properties.yml /var/vcap/store/ucc/web-ui/config/properties.yml
+cp -Rf /tmp/deployments_bkp/deployments /var/vcap/store/ucc/web-ui/
 
 exit 0
 EOF

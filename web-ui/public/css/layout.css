@@ -67,6 +67,45 @@ a
 }
 
 /************************************************************************/
+/*Error Pop-up Section
+/************************************************************************/
+
+.popup_div
+{
+    height: 25px;
+    display: none;
+    padding-bottom: 2px;
+}
+
+.popup_error
+{
+    width: 300px;
+    border: 1px solid #d8000c;
+    background-color: #FFBABA;
+    float: right;
+    clear: both;
+    margin-top: 5px;
+    margin-right: 5px;
+    padding: 2px;
+}
+
+.popup_error a
+{
+    color: #D8000C;
+    display: inline-block;
+    text-decoration: none;
+}
+.popup_close_btn
+{
+    display: inline-block;
+    float: right;
+    font-weight: 900;
+    color: #d8000c;
+    padding-right: 2px;
+    cursor: pointer;
+}
+
+/************************************************************************/
 /*Middle of the web-page, the actual content*/
 /************************************************************************/
 .actual_body

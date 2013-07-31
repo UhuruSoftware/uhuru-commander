@@ -47,6 +47,34 @@ module Uhuru
           client.upload(product_blob_id, YAML::dump(versions))
         end
 
+        def delete_version
+          product_name = command_options[:name]
+          version = command_options[:prod_version]
+
+          client = Uhuru::UCC::Publisher::Client.new()
+
+          unless client.product_exists?(product_name)
+            raise "Product does not exist: #{product_name}"
+          end
+
+          product_blob_id = client.get_products["products"][product_name]["blobstore_id"]
+          content = client.get(product_blob_id)
+
+          if content
+            versions = YAML.load content
+          else
+            versions = {}
+            versions["versions"] = {}
+          end
+          unless versions["versions"].has_key?(version)
+            raise "Version does not exist"
+          end
+          client.delete(versions["versions"][version]["location"]["object_id"])
+          versions["versions"].delete(version)
+
+          client.upload(product_blob_id, YAML::dump(versions))
+        end
+
         def add_dependency
           product_name = command_options[:name]
           version = command_options[:prod_version]
