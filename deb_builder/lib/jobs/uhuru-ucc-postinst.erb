@@ -9,7 +9,7 @@ update-rc.d -f apache2 remove
   ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
 }
 
-cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/nagios_dashboard > /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
 cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
@@ -24,7 +24,7 @@ echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
-cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
+cat /etc/monit/uhururc.d_pieces/powerdns >> /etc/monit/uhururc.d/jobs
 echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
 
 cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
@@ -68,7 +68,7 @@ echo "Restarting monit ..."
 
 service monit restart
 
-echo "Starting services ..."
+echo -e "\nStarting services ..."
 
 sleep 30
 
