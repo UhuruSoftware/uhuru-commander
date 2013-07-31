@@ -63,8 +63,8 @@ module Uhuru::BoshCommander
 
         products.each do |_ , product|
           Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-            latest_deployed_version = product.versions.values.find_all {|version| version.get_state == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED }.max
-            if latest_deployed_version != nil && latest_deployed_version < product.latest_version
+            latest_deployed_version = product.versions.values.find_all {|version| version.get_state == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED }.min
+            if (latest_deployed_version != nil) && (latest_deployed_version < product.latest_version)
               session[:new_versions] = true
             end
           end
