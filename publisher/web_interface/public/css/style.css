@@ -1,0 +1,119 @@
+/*******************************************************************************************************/
+/************************************       LAYOUT        **********************************************/
+/*******************************************************************************************************/
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    color: #fff;
+}
+
+body
+{
+    text-align: center;
+    background-color: #111;
+    font-size: 12px;
+}
+
+#wrapper
+{
+    margin-top: 5px;
+    padding-bottom: 20px;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+header
+{
+    display: block;
+    border: 1px solid #306DA7;
+    border-top: none;
+    background: #0A3660;
+    color: #fff;
+    padding: 3px;
+    text-align: center;
+}
+
+footer
+{
+    display: block;
+    border: 1px solid #306DA7;
+    border-top: none;
+    background: #0A3660;
+    color: #fff;
+    padding: 3px;
+    text-align: center;
+}
+
+.content
+{
+    display: block;
+    position: relative;
+    margin: 25px 0 20px 0;
+    padding: 0;
+    border-right: 1px solid #306da7;
+    border-left: 1px solid #306da7;
+    min-height: 400px;
+}
+
+
+/*******************************************************************************************************/
+/************************************       VIEWS         **********************************************/
+/*******************************************************************************************************/
+
+
+
+.tables
+{
+    padding-top: 40px;
+    display: block;
+    position: relative;
+}
+
+.products_tile
+{
+    display: block;
+    position: relative;
+    width: 900px;
+    min-height: 30px;
+    margin: 10px auto;
+    padding-bottom: 10px;
+    background-color: #0a3660;
+}
+
+.versions_tile
+{
+    display: block;
+    position: relative;
+    width: 800px;
+    min-height: 30px;
+    margin-top: 10px;
+    background-color: #306DA7;
+}
+
+.product_label, .product_type, .product_description,
+.version_version, .version_type, .version_description
+{
+    font-size: 14px;
+    padding: 5px;
+    color: #ddd;
+}
+.product_label
+{
+    font-size: 18px;
+    font-weight: 700;
+}
+.product_type
+{
+    display: block;
+    position: relative;
+    float: right;
+}
+.product_description
+{
+    display: block;
+    position: relative;
+}

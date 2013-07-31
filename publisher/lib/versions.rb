@@ -1,3 +1,5 @@
+require 'escort'
+
 module Uhuru
   module UCC
     module Publisher

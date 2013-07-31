@@ -1,0 +1,18 @@
+<div class="tables">
+  <% products.each do |product| %>
+      <div class="products_tile">
+        <span class="product_label"><%= product[:label] %></span>
+        <span class="product_type"><%= product[:type] %></span>
+        <span class="product_description"><%= product[:description] %></span>
+
+        <% product[:versions].each do |version| %>
+            <div class="versions_tile">
+              <span class="version_version"><%= version[:version] %></span>
+              <span class="version_type"><%= version[:type] %></span>
+              <span class="version_description"><%= version[:description] %></span>
+            </div>
+        <% end %>
+
+      </div>
+  <% end %>
+</div>
