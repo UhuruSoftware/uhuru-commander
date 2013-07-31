@@ -2,30 +2,13 @@
 
 BOSH_INSTALL_TARGET=/var/vcap/data/jobs/<%= job_name %>
 
+echo "Stopping <%= job_name %>"
 monit stop <%= job_name %>
 
-rm -f /etc/monit/uhururc.d_pieces/<%= job_name %>
+echo "Waiting for <%= job_name %> to stop ..."
+sleep 15
 
-cat /etc/monit/uhururc.d_pieces/powerdns > /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nagios_dashboard >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/health_monitor >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/redis >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/postgres >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ttyjs.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/blobstore >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/nats >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/director >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
-cat /etc/monit/uhururc.d_pieces/ucc.monit >> /etc/monit/uhururc.d/jobs
-echo -e "\n\n" >> /etc/monit/uhururc.d/jobs
+rm -f /etc/monit/uhururc.d_pieces/<%= job_name %>
 
 rm -f /var/vcap/jobs/<%= job_name %>
 rm -rf ${BOSH_INSTALL_TARGET}
