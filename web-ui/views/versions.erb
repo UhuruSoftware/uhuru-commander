@@ -4,6 +4,7 @@
           <% if product.type == type %>
 
               <span class="table_title"><%= product.label %></span>
+              <span class="table_description"><%= product.description %></span>
 
               <table class="versions_table">
                 <thead>
@@ -16,50 +17,50 @@
                 </thead>
 
                 <tbody>
-
                 <% product.versions.values.sort.reverse.each do |version| %>
+                    <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
 
-                    <tr>
-                      <!-- VERSION -->
-                      <td class="td_versions">
-                        <%= version.version %>
-                      </td>
+                        <!-- STATE -->
 
-                      <!-- DESCRIPTION -->
-                      <td class="td_descriptions">
-                        <%= version.description %>
-                      </td>
+                        <%
 
-                      <% Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do %>
+                           version_state = version.get_state(stemcells, releases, deployments)
+                           state_class = case version_state
+                                           when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'local'
+                                           when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'remote_only'
+                                           when Uhuru::BoshCommander::Versioning::STATE_AVAILABLE then 'available'
+                                           when Uhuru::BoshCommander::Versioning::STATE_DEPLOYED then 'deployed'
+                                           when Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING then 'downloading'
+                                           when Uhuru::BoshCommander::Versioning::STATE_LOCAL_PREPARING then 'local_preparing'
+                                         end
 
-                          <!-- STATE -->
+                           state_label = case version_state
+                                           when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'Local'
+                                           when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'Remote Only'
+                                           when Uhuru::BoshCommander::Versioning::STATE_AVAILABLE then 'Available for Deployment'
+                                           when Uhuru::BoshCommander::Versioning::STATE_DEPLOYED then 'Deployed'
+                                           when Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING then 'Downloading ...'
+                                           when Uhuru::BoshCommander::Versioning::STATE_LOCAL_PREPARING then 'Preparing ...'
+                                         end
 
-                          <%
+                           is_latest = "yellow" if(product.latest_version != version) && (version_state == Uhuru::BoshCommander::Versioning::STATE_DEPLOYED)
 
-                             version_state = version.get_state(stemcells, releases, deployments)
-                             state_class = case version_state
-                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'local'
-                                             when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'remote_only'
-                                             when Uhuru::BoshCommander::Versioning::STATE_AVAILABLE then 'available'
-                                             when Uhuru::BoshCommander::Versioning::STATE_DEPLOYED then 'deployed'
-                                             when Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING then 'downloading'
-                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL_PREPARING then 'local_preparing'
-                             end
+                        %>
 
-                             state_label = case version_state
-                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL then 'Local'
-                                             when Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY then 'Remote Only'
-                                             when Uhuru::BoshCommander::Versioning::STATE_AVAILABLE then 'Available for Deployment'
-                                             when Uhuru::BoshCommander::Versioning::STATE_DEPLOYED then 'Deployed'
-                                             when Uhuru::BoshCommander::Versioning::STATE_DOWNLOADING then 'Downloading ...'
-                                             when Uhuru::BoshCommander::Versioning::STATE_LOCAL_PREPARING then 'Preparing ...'
-                                           end
+                        <tr class="latest_versions_<%= is_latest %>" >
+                          <!-- VERSION -->
+                          <td class="td_versions">
+                            <%= version.version %>
+                          </td>
 
-                          %>
+                          <!-- DESCRIPTION -->
+                          <td class="td_descriptions">
+                            <%= version.description %>
+                          </td>
 
                           <td class="td_state states <%= version_state.to_s %>">
                             <div id="<%= version.version.to_s %>">
-                                <div class="<%= state_class %>"><%= state_label %></div>
+                              <div class="<%= state_class %>"><%= state_label %></div>
                             </div>
                           </td>
 
@@ -80,19 +81,19 @@
                                 </div>
 
                                 <div class="action_buttons parent actions" onclick="
-                                    $('.actions_menu').not($(this).find('ul')).addClass('hidden');
-                                    $('.action_buttons.parent.actions').not($(this)).removeClass('clicked');
+                                $('.actions_menu').not($(this).find('ul')).addClass('hidden');
+                                        $('.action_buttons.parent.actions').not($(this)).removeClass('clicked');
 
-                                    if ($(this).find('ul').hasClass('hidden'))
-                                    {
-                                        $(this).find('ul').removeClass('hidden');
-                                        $(this).addClass('clicked');
-                                    }
-                                    else
-                                    {
-                                        $(this).find('ul').addClass('hidden');
-                                        $(this).removeClass('clicked');
-                                    }
+                                        if ($(this).find('ul').hasClass('hidden'))
+                                                {
+                                                        $(this).find('ul').removeClass('hidden');
+                                                        $(this).addClass('clicked');
+                                                        }
+                                                else
+                                                {
+                                                        $(this).find('ul').addClass('hidden');
+                                                        $(this).removeClass('clicked');
+                                                        }
 
                                 ">
                                   <ul class="actions_menu hidden">
@@ -174,8 +175,8 @@
                             </progress>
 
                           </td>
-                      <% end %>
-                    </tr>
+                        </tr>
+                    <% end %>
                 <% end %>
                 </tbody>
               </table>

@@ -62,6 +62,7 @@ versions:
   - help_item: 'Library'
     content: |
       Here you have all the products, each one represented by a table. Each product has a list of all versions.<br />
+      When you have a new version of a product wich was not deployed, the old and deployed version will be highlighted.<br />
       Each version has a set of actions and a number of states in which the version is:
                                                      <br /><br /><b><i>Download:</i></b> downloads the version from the blobstore, this action is active only when the state of the version is 'Remote Only'.<br />
                                                      <b><i>Download with dependencies:</i></b> downloads the version with all its dependencies, this action is active only when the state of the version is 'Remote Only'.<br />

@@ -492,6 +492,10 @@ td.border_right
     border-collapse: collapse;
 }
 
+.versions_table .latest_versions_yellow
+{
+    background-color: #ffe073;
+}
 .versions_table .remote_only
 {
     color: #bbbbbb;
@@ -534,6 +538,12 @@ td.border_right
     font-size: 18px;
     padding-left: 10px;
     color: #306DA7;
+}
+.table_description
+{
+    display: block;
+    position: relative;
+    padding: 15px 0 0 10px;
 }
 
 .versions_table tbody tr td:last-child
