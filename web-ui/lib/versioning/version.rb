@@ -264,13 +264,23 @@ module Uhuru
         def <(other_version)
           if @version_major.to_i < other_version.version_major.to_i
             true
-          elsif @version_minor.to_i < other_version.version_minor.to_i
+          elsif (@version_major.to_i == other_version.version_major.to_i) &&
+              (@version_minor.to_i < other_version.version_minor.to_i)
             true
-          elsif @version_build.to_i < other_version.version_build.to_i
+          elsif (@version_major.to_i == other_version.version_major.to_i) &&
+              (@version_minor.to_i == other_version.version_minor.to_i) &&
+              (@version_build.to_i < other_version.version_build.to_i)
             true
-          elsif version_type_to_integer(@version_type) < version_type_to_integer(other_version.version_type)
+          elsif (@version_major.to_i == other_version.version_major.to_i) &&
+              (@version_minor.to_i == other_version.version_minor.to_i) &&
+              (@version_build.to_i == other_version.version_build.to_i) &&
+              (version_type_to_integer(@version_type) < version_type_to_integer(other_version.version_type))
             true
-          elsif version_location_to_integer(@version_location) < version_location_to_integer(other_version.version_location)
+          elsif (@version_major.to_i == other_version.version_major.to_i) &&
+              (@version_minor.to_i == other_version.version_minor.to_i) &&
+              (@version_build.to_i == other_version.version_build.to_i) &&
+              (version_type_to_integer(@version_type) == version_type_to_integer(other_version.version_type)) &&
+              (version_location_to_integer(@version_location) < version_location_to_integer(other_version.version_location))
             true
           else
             false
@@ -278,19 +288,7 @@ module Uhuru
         end
 
         def >(other_version)
-          if @version_major.to_i > other_version.version_major.to_i
-            true
-          elsif @version_minor.to_i > other_version.version_minor.to_i
-            true
-          elsif @version_build.to_i > other_version.version_build.to_i
-            true
-          elsif version_type_to_integer(@version_type) > version_type_to_integer(other_version.version_type)
-            true
-          elsif version_location_to_integer(@version_location) > version_location_to_integer(other_version.version_location)
-            true
-          else
-            false
-          end
+          (!(self < other_version)) && (self != other_version)
         end
 
         private

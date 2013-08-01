@@ -92,9 +92,6 @@ module Uhuru::BoshCommander
         User.create(properties['properties']['hm']['director_account']['user'], properties['properties']['hm']['director_account']['password'])
       end
 
-
-
-      Uhuru::BoshCommander::ProductsChecker.start_checking
     end
 
     def self.load_help_file(help_file)
@@ -121,6 +118,8 @@ module Uhuru::BoshCommander
       parse_options!
 
       Runner.init_config @config_file
+
+      Uhuru::BoshCommander::ProductsChecker.start_checking
 
       create_pidfile
     end

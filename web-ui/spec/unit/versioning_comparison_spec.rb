@@ -29,6 +29,24 @@ describe 'Version number comparison' do
     (products['bosh-stemcell-php-vsphere'].versions['1.5.0.pre.3'] == products['bosh-stemcell-php-vsphere'].versions['1.5.0.pre.4']).should == false
   end
 
+  it "should properly detect equality" do
+    products = Uhuru::BoshCommander::Versioning::Product.get_products
+
+    (products['bosh-stemcell-php-vsphere'].versions['1.5.0.pre.3'] == products['bosh-stemcell-php-vsphere'].versions['1.5.0.pre.3']).should == true
+    (products['bosh-stemcell-php-vsphere'].versions['0.9.12.a.a'] == products['bosh-stemcell-php-vsphere'].versions['0.9.12.a.a']).should == true
+    (products['bosh-stemcell-php'].versions['0.9.12.a.a'] == products['bosh-stemcell-php'].versions['0.9.12.a.a']).should == true
+
+    (products['bosh-stemcell-php'].versions['0.9.12.a.a'] > products['bosh-stemcell-php'].versions['0.9.12.a.a']).should == false
+    (products['bosh-stemcell-php'].versions['0.9.12.a.a'] < products['bosh-stemcell-php'].versions['0.9.12.a.a']).should == false
+  end
+
+  it "should properly detect inequality" do
+    products = Uhuru::BoshCommander::Versioning::Product.get_products
+
+    (products['bosh-stemcell-php-vsphere'].versions['1.5.0.pre.3'] > products['bosh-stemcell-php-vsphere'].versions['0.9.12.a.a']).should == true
+    (products['bosh-stemcell-php-vsphere'].versions['1.5.0.pre.3'] < products['bosh-stemcell-php-vsphere'].versions['0.9.12.a.a']).should == false
+  end
+
   it "should be able to compare anything" do
     Uhuru::BoshCommander::Versioning::Product.get_products.each do |_, product|
       product.versions.values.each do |version_a|
