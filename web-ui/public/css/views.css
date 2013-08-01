@@ -535,6 +535,12 @@ td.border_right
     padding-left: 10px;
     color: #306DA7;
 }
+.table_description
+{
+    display: block;
+    position: relative;
+    padding: 15px 0 0 10px;
+}
 
 .versions_table tbody tr td:last-child
 {
@@ -634,6 +640,11 @@ td.border_right
 
 .action_buttons.info {
     background-image: url('/icons/info.png');
+}
+
+.action_buttons.outdated {
+    background-image: url('/icons/outdated.png');
+
 }
 
 .action_buttons.actions {
