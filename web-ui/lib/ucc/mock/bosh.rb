@@ -67,8 +67,12 @@ module Uhuru::BoshCommander
               "stemcells" =>
                   [
                       {
-                          "name" => "bosh-stemcell-php-vsphere",
-                          "version" => "1.5.0.pre.3"
+                          "name" => "bosh-stemcell-php",
+                          "version" => "0.9.12.a.a"
+                      },
+                      {
+                          "name" => "uhuru-windows-stemcell",
+                          "version" => "1.1.2.a.a"
                       },
                       {
                           "name" => "uhuru-windows-2008R2",
@@ -82,8 +86,12 @@ module Uhuru::BoshCommander
     def list_stemcells
       [
           {
-              "name" => "bosh-stemcell-php-vsphere",
-              "version" => "1.5.0.pre.3"
+              "name" => "bosh-stemcell-php",
+              "version" => "0.9.12.a.a"
+          },
+          {
+              "name" => "uhuru-windows-stemcell",
+              "version" => "1.1.2.a.a"
           },
           {
               "name" => "uhuru-windows-2008R2",
@@ -97,7 +105,9 @@ module Uhuru::BoshCommander
     end
 
     def list_releases
-      []
+      [
+
+      ]
     end
 
     def fetch_vm_state(deployment)
