@@ -1,16 +1,19 @@
 require 'bundler/setup'
 require 'rubygems'
-require "yaml"
-require "securerandom"
+require 'sinatra'
+require 'yaml'
+require 'securerandom'
 
-require "escort"
-require "terminal-table"
-require "blobstore_client"
+require 'escort'
+require 'terminal-table'
+require 'blobstore_client'
 
-require "client"
-require "products"
-require "versions"
-require "web_controller"
+require 'client'
+require 'products'
+require 'versions'
+require 'web_controller'
+require 'web_modal'
+
 
 if defined?(YAML::ENGINE.yamler)
   YAML::ENGINE.yamler = RUBY_VERSION >= "2.0.0" ? "psych" : "syck"

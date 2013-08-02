@@ -1,7 +1,3 @@
-require 'client'
-require 'escort'
-require 'blobstore_client'
-
 module  Uhuru
   module UCC
     module Publisher
@@ -38,17 +34,17 @@ module  Uhuru
             versions = YAML.load client.get(products["products"][product_name]["blobstore_id"])
 
             versions["versions"].keys.each do |version|
-              version_rows = []
+              dependencies = []
 
               versions["versions"][version]["dependencies"].each do |dep|
-                version_rows << ["#{dep['dependency']}-#{dep['version']}"]
+                dependencies << { :product_name => dep['dependency'], :versions => dep['version'] }
               end
 
               rows << {
                   :version => version,
                   :type => versions["versions"][version]["type"],
                   :description => versions["versions"][version]["description"],
-                  :dependencies => version_rows
+                  :dependencies => dependencies
               }
             end
           end
@@ -59,7 +55,7 @@ module  Uhuru
         #########################   PRODUCTS and VERSIONS FUNCTIONS  #######################################
 
 
-        def self.delete_products(product_name, with_dependencies = nil)
+        def self.delete_products(product_name)
           name = product_name
           client = Uhuru::UCC::Publisher::Client.new()
           content = client.get(BLOBSTORE_ID_PRODUCTS)
@@ -77,12 +73,7 @@ module  Uhuru
           versions["versions"].each do |version|
             version.each do |v|
               if (v.kind_of?(Hash) && !v["location"]["object_id"].nil?)
-
-                if to_boolean(with_dependencies)
-                  delete_dependencies(version)
-                end
                 client.delete(v["location"]["object_id"])
-
               end
             end
           end
@@ -123,29 +114,89 @@ module  Uhuru
 
 
 
-        def self.delete_dependencies(version)
-          version[1]['dependencies'].each do |dependency|
-            product = dependency['dependency']
-            dependency['version'].each do |version|
-              delete_versions(product, version)
+        def self.add_dependency(product_name, version, dependency_name, dependency_version)
+          unless product_name == dependency_name && version == dependency_version
+
+            client = Uhuru::UCC::Publisher::Client.new()
+
+            unless client.product_exists?(product_name)
+              raise "Product does not exist: #{product_name}"
             end
+            unless client.product_exists?(dependency_name)
+              raise "Product does not exist: #{dependency_name}"
+            end
+
+            products = client.get_products
+
+            content = client.get(products["products"][product_name]["blobstore_id"])
+            unless content
+              raise "Product #{product_name} has no release uploaded"
+            end
+
+            product_versions = YAML.load content
+            content = client.get(products["products"][dependency_name]["blobstore_id"])
+
+            unless content
+              raise "Product #{dependency_name} has no release uploaded"
+            end
+
+            dependency_versions = YAML.load content
+
+            unless product_versions["versions"].has_key?(version)
+              raise "Version #{version} for product #{product_name} does not exist"
+            end
+
+            dependency = product_versions["versions"][version]["dependencies"].find {|d| d["dependency"] == dependency_name}
+            if dependency.nil?
+              dependency = {}
+              dependency["dependency"] = dependency_name
+              dependency["version"] = []
+              product_versions["versions"][version]["dependencies"] << dependency
+            end
+
+            if dependency["version"].include?(dependency_version)
+              raise "Product dependency already exists"
+            end
+
+            dependency["version"] << dependency_version
+            client.upload(products["products"][product_name]["blobstore_id"], YAML::dump(product_versions))
+          else
+            raise "Can't add a dependency to itself"
           end
         end
 
-        def self.add_dependency(version_name = nil)
+        def self.remove_dependency(product_name, version, dependency_name, dependency_version)
 
+          client = Uhuru::UCC::Publisher::Client.new()
+          products = client.get_products
+          content = client.get(products["products"][product_name]["blobstore_id"])
+          product_versions = YAML.load content
+
+
+          dependency = product_versions["versions"][version]["dependencies"].find {|d| d["dependency"] == dependency_name}
+          unless dependency.nil?
+            dependency['version'].each do |version|
+              if version == dependency_version
+                position = dependency['version'].index(version)
+                product_versions["versions"][version]["dependencies"] << dependency['version'].delete_at(position)
+              end
+            end
+          end
+
+          client.upload(products["products"][product_name]["blobstore_id"], YAML::dump(product_versions))
         end
 
 
-
-        def self.to_boolean(string)
-          return true   if string == true   || string =~ (/(true|t|yes|y|1)$/i)
-          return false  if string == false || string.blank? || string =~ (/(false|f|no|n|0)$/i)
-          raise ArgumentError.new("invalid value for Boolean: \"#{string}\"")
-        end
       end
-
-
     end
   end
 end
+
+#def self.delete_dependencies(version)
+#  version[1]['dependencies'].each do |dependency|
+#    product = dependency['dependency']
+#    dependency['version'].each do |version|
+#      delete_versions(product, version)
+#    end
+#  end
+#end

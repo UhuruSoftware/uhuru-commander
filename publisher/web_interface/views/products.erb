@@ -1,0 +1,61 @@
+<form action="/add_dependency" method="post">
+      <select name="dependent_product_name" >
+        <% products.each do |product| %>
+            <option value="<%= product[:name] %>"><%= product[:label] %></option>
+        <% end %>
+      </select>
+
+      <input type="text" value="" name="dependent_version" />
+
+      <select name="dependency_product_name" >
+        <% products.each do |product| %>
+            <option value="<%= product[:name] %>"><%= product[:label] %></option>
+        <% end %>
+      </select>
+
+      <input type="text" value="" name="dependency_version" />
+
+
+
+  <input type="submit" value="Add Dependency" class="version_btn add" />
+</form>
+
+
+<div class="tables">
+  <% products.each do |product| %>
+      <div class="products_tile">
+        <span class="product_label"><%= product[:label] %></span>
+        <span class="product_type"><%= product[:type] %></span>
+        <span class="product_description"><%= product[:description] %></span>
+
+        <% product[:versions].each do |version| %>
+            <a href="/products/<%= product[:name] %>/<%= version[:version] %>">
+                <div class="versions_tile">
+                  <span class="version_version"><%= version[:version] %></span>
+                  <span class="version_type"><%= version[:type] %></span>
+                  <span class="version_description"><%= version[:description] %></span>
+
+
+                  <form action="/delete_versions" method="post">
+                    <input type="hidden" value="<%= product[:name] %>" name="product" />
+                    <input type="hidden" value="<%= version[:version] %>" name="version" />
+                    <input type="submit" value="Delete" onclick="return confirm('Are you sure do you want to delete this version from the blobstore?');" class="version_btn" />
+                  </form>
+
+                  <form action="/remove_dependencies" method="post">
+                    <input type="hidden" value="<%= product[:name] %>" name="product" />
+                    <input type="hidden" value="<%= version[:version] %>" name="version" />
+                    <input type="submit" value="Remove dependencies" onclick="return confirm('Are you sure do you want to remove all dependencies?');" class="version_btn" />
+                  </form>
+                </div>
+            </a>
+        <% end %>
+
+        <form action="/delete_products" method="post">
+          <input type="hidden" value="<%= product[:name] %>" name="product" />
+          <input type="submit" value="Delete" onclick="return confirm('Are you sure do you want to delete this product from the blobstore?');" class="product_btn" />
+        </form>
+
+      </div>
+  <% end %>
+</div>
