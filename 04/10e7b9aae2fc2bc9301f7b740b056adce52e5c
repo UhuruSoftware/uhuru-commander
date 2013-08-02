@@ -1,0 +1,8 @@
+Change-Id: I0410e7b9aae2fc2bc9301f7b740b056adce52e5c
+Code-Review+2: Vlad Iovanov <vlad.iovanov@uhurusoftware.com>
+Verified+1: Jenkins 
+Submitted-by: Florin Dragos <florind@uhurusoftware.com>
+Submitted-at: Fri, 02 Aug 2013 16:28:38 +0300
+Reviewed-on: http://gerrit.uhurusoftware.org/1778
+Project: private-uhuru-commander
+Branch: refs/heads/master
