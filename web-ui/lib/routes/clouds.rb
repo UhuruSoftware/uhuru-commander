@@ -250,11 +250,6 @@ module Uhuru::BoshCommander
         CommanderBoshRunner.execute(session) do
           form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, params)
           is_ok = form.validate?(GenericForm::VALUE_TYPE_FORM)
-
-          if is_ok
-            form.generate_volatile_data!
-            values_to_show = GenericForm::VALUE_TYPE_VOLATILE
-          end
           deployment_status = Uhuru::BoshCommander.const_get(status_class_name).new(form.deployment).status
         end
         erb = File.join(version.version_dir, "bits", "views", "cloud.erb")
