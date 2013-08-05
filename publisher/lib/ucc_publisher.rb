@@ -13,6 +13,7 @@ require 'products'
 require 'versions'
 require 'web_controller'
 require 'web_modal'
+require 'json'
 
 
 if defined?(YAML::ENGINE.yamler)

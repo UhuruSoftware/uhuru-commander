@@ -11,6 +11,14 @@ module Uhuru
         set :bind => config['web_interface']['domain']    || 'localhost'
         set :port => config['web_interface']['port']      || '9000'
 
+        set :dump_errors => true
+        set :raise_errors => false
+        set :show_exceptions => false
+
+        error do
+          erb :error, :layout => :layout
+        end
+
         get '/' do
           redirect '/products'
         end
@@ -49,9 +57,6 @@ module Uhuru
           erb :versions, :locals => { :product => params[:product], :version => current_version }, :layout => :layout
         end
 
-
-
-
         post '/delete_products' do
           Uhuru::UCC::Publisher::WebModal.delete_products(params[:product])
           redirect '/products'
@@ -62,8 +67,6 @@ module Uhuru
           redirect '/products'
         end
 
-
-
         post '/add_dependency' do
           Uhuru::UCC::Publisher::WebModal.add_dependency(params[:dependent_product_name], params[:dependent_version], params[:dependency_product_name], params[:dependency_version])
           redirect '/products'
@@ -71,8 +74,6 @@ module Uhuru
 
         post '/remove_dependency' do
           Uhuru::UCC::Publisher::WebModal.remove_dependency(params[:dependent_product_name], params[:dependent_version], params[:dependency_product_name], params[:dependency_version])
-
-
 
           if params[:product_name] == nil
             redirect "/products"
@@ -82,7 +83,6 @@ module Uhuru
             redirect "/products/#{params[:product_name]}/#{params[:version]}"
           end
         end
-
       end
     end
   end
