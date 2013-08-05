@@ -20,42 +20,42 @@ infrastructure:
       - {name: infrastructure_sep,                                label: Infrastructure Settings,                     type: separator }
 
       - {name: vcenter,                                   label: vCenter Host,                                        type: ip,
-      yml_key: '["properties"]["vcenter"]["address"]',
+      yml_key: '["properties"]["vcenter"]["address"]',    disable_update: true,
       description: 'vCenter Host IP Address. Make sure that Uhuru Commander can reach the IP you configure in this field.' }
 
       - {name: vcenter_user,                              label: vCenter User,                                        type: string,
-      yml_key: '["properties"]["vcenter"]["user"]',
+      yml_key: '["properties"]["vcenter"]["user"]',       disable_update: true,
       description: 'vCenter Host User. The user you configure here must have access rights as described <a target="_blank" href="/help_assets/permissions.txt">here</a>.' }
 
       - {name: vcenter_password,                          label: vCenter Password,                                    type: password,
-      yml_key: '["properties"]["vcenter"]["password"]',
+      yml_key: '["properties"]["vcenter"]["password"]',   disable_update: true,
       description: 'vCenter Host User Password' }
 
       - {name: vcenter_datacenter,                        label: vCenter DataCenter,                                  type: string,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["name"]',
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["name"]',        disable_update: true,
       description: 'Datacenter name to be used for deployments. The Datacenter must already exist.' }
 
       - {name: vcenter_clusters,                          label: vCenter Clusters,                                    type: csv,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["clusters"]',
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["clusters"]',    disable_update: true,
       description: 'Cluster name inside the datacenter. The Cluster must already exist.' }
 
       - {name: vcenter_datastore,                         label: vCenter Datastores,                                  type: string,
-      yml_key: [ '["properties"]["vcenter"]["datacenters"][0]["datastore_pattern"]', '["properties"]["vcenter"]["datacenters"][0]["persistent_datastore_pattern"]' ],
+      yml_key: [ '["properties"]["vcenter"]["datacenters"][0]["datastore_pattern"]', '["properties"]["vcenter"]["datacenters"][0]["persistent_datastore_pattern"]' ],               disable_update: true,
       description: 'Regex pattern for identifying the datastores used for storing VMs. If you want to specify an exact name for only one of your datastores, you should use the following regex to avoid conflicts: ^my_datastore_name$' }
 
       - {name: vcenter_vm_folder,                         label: vCenter VM Folder,                                   type: string,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["vm_folder"]',
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["vm_folder"]',                         disable_update: true,
       description: 'vCenter Folder for storing VMs. This folder must exist in the datacenter you configured.' }
 
       - {name: vcenter_template_folder,                   label: vCenter Template Folder,                             type: string,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["template_folder"]',
+      yml_key: '["properties"]["vcenter"]["datacenters"][0]["template_folder"]',                     disable_update: true,
       description: 'vCenter Folder for storing VM Templates. This folder must exist in the Datacenter you configured.' }
 
       - {name: ntp,                                       label: NTP Servers,                                         type: csv,
-      yml_key: '["properties"]["ntp"]',
+      yml_key: '["properties"]["ntp"]',                   disable_update: true,
       description: 'Network Time Protocol Servers. A semicolon separated list of NTP server that we use to keep time in sync across deployments.' }
 
-      - {name: net_interface,                                       label: Network Interface,                                         type: list, items: {'127.0.0.1' : '127.0.0.1'},
+      - {name: net_interface,                                       label: Network Interface,                                         type: list, items: {'127.0.0.1' : '127.0.0.1'},       disable_update: true,
       yml_key: [ '["properties"]["nats"]["address"]', '["properties"]["postgres"]["host"]', '["properties"]["director"]["address"]', '["properties"]["dns"]["address"]', '["properties"]["blobstore"]["address"]', '["properties"]["nagios"]["listen_address"]' ],
       description: 'Network interface used for configuration' }
 

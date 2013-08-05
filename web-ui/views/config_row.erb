@@ -1,3 +1,5 @@
+<% updated = first_run? ? false : true %>
+
 <% if field.get_html_type == 'separator' %>
     <tr>
       <td colspan="3">
@@ -17,6 +19,7 @@
       <td>
         <% if field.get_html_type == 'select' %>
             <select name="<%= field.html_form_id %>"
+                    <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
                     type="<%= field.get_html_type %>"
                     class="<%= field.get_css_class %> local"
                     id="<%= field.html_form_id %>">
@@ -26,10 +29,12 @@
             </select>
         <% elsif field.get_html_type == 'textarea' %>
             <textarea name="<%= field.html_form_id %>"
+                      <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
                       class="<%= field.get_css_class %> local"
                       id="<%= field.html_form_id %>"><%= field.get_value(value_type) %></textarea>
         <% elsif field.get_html_type == 'checkbox' %>
             <input name="<%= field.html_form_id %>"
+                   <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
                    type="<%= field.get_html_type %>"
                    class="<%= field.get_css_class %> local"
                    id="<%= field.html_form_id %>"
@@ -40,6 +45,7 @@
                    />
         <% else %>
             <input name="<%= field.html_form_id %>"
+                   <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
                    type="<%= field.get_html_type %>"
                    class="<%= field.get_css_class %> local"
                    <% if field.get_html_type == 'password' %>
