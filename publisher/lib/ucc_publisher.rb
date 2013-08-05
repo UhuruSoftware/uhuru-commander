@@ -1,15 +1,19 @@
 require 'bundler/setup'
 require 'rubygems'
-require "yaml"
-require "securerandom"
+require 'sinatra'
+require 'yaml'
+require 'securerandom'
 
-require "escort"
-require "terminal-table"
-require "blobstore_client"
+require 'escort'
+require 'terminal-table'
+require 'blobstore_client'
 
-require "client"
-require "products"
-require "versions"
+require 'client'
+require 'products'
+require 'versions'
+require 'web_controller'
+require 'web_modal'
+
 
 if defined?(YAML::ENGINE.yamler)
   YAML::ENGINE.yamler = RUBY_VERSION >= "2.0.0" ? "psych" : "syck"
@@ -110,6 +114,25 @@ module Uhuru
               end
             end
           end
+
+          app.command :website do |command|
+            command.summary "Web Interface"
+
+            command.command :start do |start_web_interface|
+              start_web_interface.summary "Start web-server"
+              start_web_interface.description "Start web-server with web interface"
+
+              start_web_interface.options do |opts|
+                opts.opt :port,         "Port for web interface",           :short => "-p",   :long => "--port",            :type => :string
+                opts.opt :domain, "Ip or domain for web interface",         :short => "-d",   :long => "--domain",          :type => :string
+              end
+
+              start_web_interface.action do |_, _|
+                Uhuru::UCC::Publisher::WebInterface.run!
+              end
+            end
+          end
+
 
           app.command :delete do |command|
             command.summary "[product, version]"

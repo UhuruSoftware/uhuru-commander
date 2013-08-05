@@ -10,8 +10,26 @@
               <span class="version_version"><%= version[:version] %></span>
               <span class="version_type"><%= version[:type] %></span>
               <span class="version_description"><%= version[:description] %></span>
+
+
+              <form action="/delete_versions" method="post">
+                <input type="hidden" value="<%= product[:name] %>" name="product" />
+                <input type="hidden" value="<%= version[:version] %>" name="version" />
+                <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+              </form>
             </div>
         <% end %>
+
+        <form action="/delete_products" method="post">
+          <input type="hidden" value="<%= product[:name] %>" name="product" />
+          <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+        </form>
+
+        <form action="/delete_products" method="post">
+          <input type="hidden" value="<%= product[:name] %>" name="product" />
+          <input type="hidden" value="<%= true %>" name="with_dependencies" />
+          <input type="submit" value="Delete with dependencies" onclick="return confirm('Are you sure?');" />
+        </form>
 
       </div>
   <% end %>

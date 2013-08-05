@@ -7,6 +7,7 @@
     padding: 0;
     font-family: Tahoma, Arial, sans-serif;
     color: #fff;
+    text-decoration: none;
 }
 
 body
@@ -59,6 +60,25 @@ footer
     min-height: 400px;
 }
 
+input[type=submit],
+input[type=button],
+input[type=text],
+select
+{
+    color: #ffffff;
+    margin: 3px;
+    border: 1px solid #306DA7;
+    background-color: #0A3660;
+}
+
+input[type=submit],
+input[type=button]
+{
+    padding: 3px 3px 3px 18px;
+    background-image: url('/icons/delete.png');
+    background-repeat: no-repeat;
+    background-position: 2% 50%;
+}
 
 /*******************************************************************************************************/
 /************************************       VIEWS         **********************************************/
@@ -80,8 +100,13 @@ footer
     width: 900px;
     min-height: 30px;
     margin: 10px auto;
-    padding-bottom: 10px;
     background-color: #0a3660;
+    padding-bottom: 30px;
+}
+
+.product_btn
+{
+    float: right;
 }
 
 .versions_tile
@@ -92,11 +117,25 @@ footer
     min-height: 30px;
     margin-top: 10px;
     background-color: #306DA7;
+    padding-bottom: 30px;
 }
+
+.version_btn
+{
+    background-color: #306DA7;
+    border: 1px solid #0a3660;
+    float: right;
+}
+.version_btn.add
+{
+    background-image: url('/icons/add.png');
+}
+
 
 .product_label, .product_type, .product_description,
 .version_version, .version_type, .version_description
 {
+    display: block;
     font-size: 14px;
     padding: 5px;
     color: #ddd;
@@ -106,14 +145,18 @@ footer
     font-size: 18px;
     font-weight: 700;
 }
-.product_type
+.product_type,
+.version_type
 {
-    display: block;
-    position: relative;
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: 900;
 }
-.product_description
+.product_description,
+.version_description
 {
     display: block;
     position: relative;
+    margin-bottom: 10px;
 }

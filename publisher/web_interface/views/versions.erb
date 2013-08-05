@@ -1,0 +1,38 @@
+
+<div class="tables">
+
+  <div class="products_tile">
+    <span class="product_label">Version: <%= version[:version] %></span>
+    <span class="product_type"><%= version[:type] %></span>
+    <span class="product_description"><%= version[:description] %></span>
+
+    <% unless version[:dependencies].empty? %>
+        <% version[:dependencies][0][:versions].each do |dependency| %>
+            <a href="/products/<%= version[:dependencies][0][:product_name] %>/<%= dependency %>">
+              <div class="versions_tile">
+                <span class="version_version"><%= version[:dependencies][0][:product_name] %></span>
+                <span class="version_version"><%= dependency %></span>
+
+
+                <form action="/remove_dependency" method="post">
+                    <input type="hidden" value="<%= product %>" name="dependent_product_name" />
+                    <input type="hidden" value="<%= version[:version] %>" name="dependent_version" />
+                    <input type="hidden" value="<%= version[:dependencies][0][:product_name] %>" name="dependency_product_name" />
+                    <input type="hidden" value="<%= dependency %>" name="dependency_version" />
+                    <input type="submit" value="Remove Dependency" onclick="return confirm('Are you sure you want to remove this dependency?');" class="version_btn" />
+                </form>
+              </div>
+            </a>
+        <% end %>
+    <% else %>
+        <br /><br />
+        <span class="version_version">This version has no dependencies.</span>
+    <% end %>
+
+    <!--<form action="/delete_versions" method="post">-->
+      <!--<input type="hidden" value="<= version[:version] %>" name="product" />-->
+      <!--<input type="submit" value="Delete" onclick="return confirm('Are you sure?');" class="product_btn" />-->
+    <!--</form>-->
+
+  </div>
+</div>
