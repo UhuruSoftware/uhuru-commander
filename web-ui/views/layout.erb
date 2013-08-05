@@ -41,7 +41,6 @@
   <script type="text/javascript" src="/scripts/bosh_display.js" ></script>
   <script type="text/javascript" src="/scripts/query_strings.js" ></script>
   <script type="text/javascript" src="/scripts/effects.js" ></script>
-  <!--<script type="text/javascript" src="/scripts/logs.js" ></script>-->
 </head>
 
 <body onload="versionNotification(<%= session[:new_versions] %>);">
@@ -79,12 +78,6 @@
       <div id="page_loading" class="page_loading hidden">
         <span>Loading ...</span>
         <img src="/images/page_loading.gif"/>
-      </div>
-    </div>
-
-    <div class="popup_div">
-      <div class="popup_error">
-        <a href="/internal_logs" class="popup_message">This is an error message from the log file!</a><span class="popup_close_btn" onclick="$('.popup_div').fadeOut('slow');">X</span>
       </div>
     </div>
 

@@ -20,6 +20,32 @@ module Uhuru::BoshCommander
       end
     end
 
+    get '/logs_test' do
+      request_id = CommanderBoshRunner.execute_background(session) do
+        begin
+
+          50.times do |i|
+            10.times do |word|
+              say "0123456789".red
+              say "0123456789\r".green
+              say "0123456789".yellow
+              say "|ooooooooooooooooo      |"
+              say "Proposition: #{word}"
+            end
+
+            say "Paragraph ##{i.to_s}"
+            sleep 1
+          end
+
+        rescue Exception => e
+          err e
+        end
+      end
+
+      action_on_done = "Apasa-l <a href='/logs_test'>din nou</a>."
+      redirect Logs.log_url request_id, action_on_done
+    end
+
     get '/screen/:screen_id' do
       status_streamer = CommanderBoshRunner.status_streamer(session)
       screen_id = params[:screen_id]
@@ -27,11 +53,33 @@ module Uhuru::BoshCommander
       if status_streamer.screen_exists? screen_id
         if status_streamer.screen_done? screen_id
           headers 'X-Commander-Log-Instructions' => 'stop'
-          CommanderBoshRunner.status_streamer(session).read_screen(screen_id)
         else
           headers 'X-Commander-Log-Instructions' => 'continue'
-          CommanderBoshRunner.status_streamer(session).read_screen(screen_id)
         end
+
+        output = CommanderBoshRunner.status_streamer(session).read_screen(screen_id)
+
+        if output
+          output = output.gsub(/\n/i, '</div><div>&nbsp;')
+
+          output = output.gsub(/\x20/i, "&nbsp;")
+          output = output.gsub(/\*\*\*color_out_end\*\*\*/i, "</span>")
+          output = output.gsub(/\*\*\*color_out_start_green\*\*\*/i, "<span class='isa_success'>")
+          output = output.gsub(/\*\*\*color_out_start_red\*\*\*/i, "<span class='isa_error'>")
+          output = output.gsub(/\*\*\*color_out_start_yellow\*\*\*/i, "<span class='isa_warning'>")
+
+
+          pb_value = output.scan(/\|(o*)(&nbsp;)*\|/i)
+          if (pb_value[0]) && (pb_value[0][0])
+            pb_value = pb_value[0][0].length
+
+            output = output.gsub(/\|(o*)(&nbsp;)*\|/i, "<span class='progress_out'><span class='progress_in p#{ pb_value }'></span></span>")
+          end
+
+          output = output.gsub(/\r/i, "<span class='remove_me'></span></div><div>")
+        end
+
+        output
       else
         headers 'X-Commander-Log-Instructions' => 'missing'
       end
