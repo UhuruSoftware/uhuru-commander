@@ -3,8 +3,6 @@ module  Uhuru
     module Publisher
       class WebModal
 
-        #####################################   READ PRODUCTS   ############################################
-
         def self.get_all_products
           client = Uhuru::UCC::Publisher::Client.new()
           rows = []
@@ -51,9 +49,6 @@ module  Uhuru
 
           return rows
         end
-
-        #########################   PRODUCTS and VERSIONS FUNCTIONS  #######################################
-
 
         def self.delete_products(product_name)
           name = product_name
@@ -108,11 +103,7 @@ module  Uhuru
           versions["versions"].delete(version)
 
           client.upload(product_blob_id, YAML::dump(versions))
-
         end
-
-
-
 
         def self.add_dependency(product_name, version, dependency_name, dependency_version)
           unless product_name == dependency_name && version == dependency_version
@@ -185,8 +176,6 @@ module  Uhuru
 
           client.upload(products["products"][product_name]["blobstore_id"], YAML::dump(product_versions))
         end
-
-
       end
     end
   end

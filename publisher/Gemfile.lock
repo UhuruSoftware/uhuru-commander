@@ -65,6 +65,7 @@ PLATFORMS
 DEPENDENCIES
   blobstore_client!
   escort
+  json
   rb-readline
   sinatra
   terminal-table

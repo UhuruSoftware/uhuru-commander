@@ -1,21 +1,31 @@
 <form action="/add_dependency" method="post">
-      <select name="dependent_product_name" >
+      <select id="dependent_products" name="dependent_product_name" onchange="selectDependentVersions()">
         <% products.each do |product| %>
             <option value="<%= product[:name] %>"><%= product[:label] %></option>
         <% end %>
       </select>
+      <% products.each do |product| %>
+          <select id="<%= product[:name] + "_dependent_versions" %>" class="hidden_dependent_versions" name="dependent_version" style="<%= "display: none;" if products[0] != product %>">
+            <% product[:versions].reverse.each do |version| %>
+                <option value="<%= version[:version] %>"><%= version[:version] %></option>
+            <% end %>
+          </select>
+      <% end %>
 
-      <input type="text" value="" name="dependent_version" />
+      <span>&nbsp;||&nbsp;</span>
 
-      <select name="dependency_product_name" >
+      <select id="dependency_products" name="dependency_product_name" onchange="selectDependencyVersions()">
         <% products.each do |product| %>
             <option value="<%= product[:name] %>"><%= product[:label] %></option>
         <% end %>
       </select>
-
-      <input type="text" value="" name="dependency_version" />
-
-
+      <% products.each do |product| %>
+          <select id="<%= product[:name] + "_dependency_versions" %>" class="hidden_dependency_versions" name="dependency_version" style="<%= "display: none;" if products[0] != product %>">
+            <% product[:versions].reverse.each do |version| %>
+                <option value="<%= version[:version] %>"><%= version[:version] %></option>
+            <% end %>
+          </select>
+      <% end %>
 
   <input type="submit" value="Add Dependency" class="version_btn add" />
 </form>
