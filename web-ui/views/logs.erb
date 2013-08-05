@@ -26,18 +26,25 @@
     var logDiv = document.getElementById("logDiv");
     var lastHeight = -1;
     var scrollToEnd = true;
-    var logData = "";
-    var lastUpdateContent = "";
+    var logData = "<div>";
     var timerId = null;
 
-    var colorLineFeedRegex = new RegExp(/\n[^\n\r]*\r/g);
-    var colorLineBreakRegex = new RegExp(/\n/g);
-    var colorX20Regex = new RegExp(/\x20/g);
-    var colorEndRegex = new RegExp(/\*\*\*color_out_end\*\*\*/g);
-    var colorGreenRegex = new RegExp(/\*\*\*color_out_start_green\*\*\*/g);
-    var colorRedRegex = new RegExp(/\*\*\*color_out_start_red\*\*\*/g);
-    var colorYellowRegex = new RegExp(/\*\*\*color_out_start_yellow\*\*\*/g);
-
+    function lineFeed()
+    {
+        $.each($('.remove_me'), function(index, value)
+                {
+                    var element = value.parentNode;
+                    if (element.tagName == 'SPAN')
+                    {
+                        element.parentNode.parentNode.removeChild(element.parentNode);
+                    }
+                    else
+                    {
+                        element.parentNode.removeChild(element);
+                    }
+                }
+        );
+    }
 
     logDiv.onscroll = function () {
         if (scrollToEnd && !(logDiv.scrollTop >= 0.95 * (logDiv.scrollHeight - logDiv.clientHeight))) {
@@ -82,40 +89,9 @@
                             var newText = response;
                             if (newText !== '')
                             {
-
                                 logData = logData + newText;
-                                var replacedText = logData;
-
-                                var replaced = true;
-
-                                while (replaced)
-                                {
-                                    replaced = false;
-                                    replacedText = replacedText.replace(colorLineFeedRegex, function(token) { replaced = true; return "\n"; });
-                                }
-
-                                replacedText = replacedText.replace(colorLineBreakRegex, "<br/>");
-
-                                replacedText = replacedText.replace(colorX20Regex, "&nbsp;");
-                                replacedText = replacedText.replace(colorEndRegex, "</span>");
-                                replacedText = replacedText.replace(colorGreenRegex, "<span class='isa_success'>");
-                                replacedText = replacedText.replace(colorRedRegex, "<span class='isa_error'>");
-                                replacedText = replacedText.replace(colorYellowRegex, "<span class='isa_warning'>");
-
-                                for (var i = 1; i <= 20; i++)
-                                {
-                                    var pb_raw_done = new Array(i).join('o');
-                                    var pb_raw_remaining = new Array(20 - (i - 1)).join('&nbsp;');
-                                    var pb_raw = '\\|' + pb_raw_done + pb_raw_remaining + '\\|';
-
-                                    replacedText = replacedText.replace(new RegExp(pb_raw, 'g'), "<span class='progress_out'><span class='progress_in p" + (i - 1).toString() + "'></span></span>");
-                                }
-
-                                if (lastUpdateContent !== replacedText)
-                                {
-                                    logDiv.innerHTML = replacedText;
-                                    lastUpdateContent = replacedText;
-                                }
+                                logDiv.innerHTML = logData + "</div>";
+                                lineFeed();
 
                                 var currentHeight = logDiv.scrollHeight;
                                 if (lastHeight != currentHeight && scrollToEnd) {
