@@ -19,22 +19,28 @@
       <td>
         <% if field.get_html_type == 'select' %>
             <select name="<%= field.html_form_id %>"
-                    <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
                     type="<%= field.get_html_type %>"
                     class="<%= field.get_css_class %> local"
                     id="<%= field.html_form_id %>">
               <% field.get_items.each do |key, value| %>
-                  <option <%= value == field.get_value(value_type) ? 'selected' : '' %> value="<%= value %>" ><%= key %></option>
+                  <option
+                  <% if value == field.get_value(value_type) %>
+                  selected
+                  <% elsif updated && field.get_field_config["disable_update"] %>
+                  disabled="disabled"
+                  <% end %>
+                  value="<%= value %>" ><%= key %>
+                  </option>
               <% end %>
             </select>
         <% elsif field.get_html_type == 'textarea' %>
             <textarea name="<%= field.html_form_id %>"
-                      <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
+                      <% if updated && field.get_field_config["disable_update"] %> readonly <% end %>
                       class="<%= field.get_css_class %> local"
                       id="<%= field.html_form_id %>"><%= field.get_value(value_type) %></textarea>
         <% elsif field.get_html_type == 'checkbox' %>
             <input name="<%= field.html_form_id %>"
-                   <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
+                   <% if updated && field.get_field_config["disable_update"] %> readonly <% end %>
                    type="<%= field.get_html_type %>"
                    class="<%= field.get_css_class %> local"
                    id="<%= field.html_form_id %>"
@@ -45,7 +51,7 @@
                    />
         <% else %>
             <input name="<%= field.html_form_id %>"
-                   <% if updated && field.get_field_config["disable_update"] %> disabled <% end %>
+                   <% if updated && field.get_field_config["disable_update"] %> readonly <% end %>
                    type="<%= field.get_html_type %>"
                    class="<%= field.get_css_class %> local"
                    <% if field.get_html_type == 'password' %>

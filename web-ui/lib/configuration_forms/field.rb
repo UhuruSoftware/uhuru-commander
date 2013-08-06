@@ -390,6 +390,18 @@ module Uhuru::BoshCommander
                 end
               end
             end
+          elsif @name == 'blobstore_location'
+            bsc_provider= $config[:versioning][:blobstore_provider]
+            bsc_options= $config[:versioning][:blobstore_options].clone
+            bsc_options[:endpoint] = value
+            client = Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
+            begin
+              unless client.exists?(Uhuru::BoshCommander::Versioning::Product::BLOBSTORE_ID_PRODUCTS)
+                error = 'Can not get products list'
+              end
+            rescue
+              error = "Could not connect to server"
+            end
           elsif @name == 'nagios_email_server'
             email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
             email_from =  @screen.fields.find {|field| field.name == 'nagios_email_from' }.get_value(value_type)
