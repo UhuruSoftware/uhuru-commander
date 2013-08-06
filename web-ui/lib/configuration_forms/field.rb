@@ -391,16 +391,28 @@ module Uhuru::BoshCommander
               end
             end
           elsif @name == 'blobstore_location'
-            bsc_provider= $config[:versioning][:blobstore_provider]
-            bsc_options= $config[:versioning][:blobstore_options].clone
+
+            blobstore_user = @screen.fields.find {|field| field.name == 'blobstore_user' }
+            blobstore_password = @screen.fields.find {|field| field.name == 'blobstore_password' }
+
+            bsc_provider= "dav"
+            bsc_options= {}
             bsc_options[:endpoint] = value
+            bsc_options[:user] = blobstore_user.get_value(value_type)
+            bsc_options[:password] = blobstore_password.get_value(value_type)
             client = Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
             begin
               unless client.exists?(Uhuru::BoshCommander::Versioning::Product::BLOBSTORE_ID_PRODUCTS)
                 error = 'Can not get products list'
               end
-            rescue
-              error = "Could not connect to server"
+            rescue Exception => e
+              if e.message.include? 'Could not get object existence, 401'
+                blobstore_user.error = "User may be incorrect"
+                blobstore_password.error = "Password may be incorrect"
+                error = 'Please rectify incorrect settings'
+              else
+                error = "Could not connect to server"
+              end
             end
           elsif @name == 'nagios_email_server'
             email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
