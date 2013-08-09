@@ -55,6 +55,16 @@
 {
     padding: 5px;
 }
+#browser_warning
+{
+    display: none;
+    color: #d22719;
+    font-size: 12px;
+    padding: 5px 5px 5px 20px;
+    background-image: url("/icons/info.png");
+    background-repeat: no-repeat;
+    background-position: 0% 40%;
+}
 
 /************************************************************************/
 /*Cloud sub-menu CSS - Network/Resource Pools/etc. */
