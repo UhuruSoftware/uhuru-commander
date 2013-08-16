@@ -4,6 +4,10 @@
 
 <%
 
+   def is_tab_selected?(tab_route)
+     (request.path_info.to_s == tab_route) || (request.path_info.to_s.start_with?("#{tab_route}/"))
+   end
+
    @tabs = []
    products = Uhuru::BoshCommander::Versioning::Product.get_products
 
@@ -56,20 +60,20 @@
   </div>
   <div id="main_menu">
     <ul class="main_menu">
-      <li><a onclick="showPageLoading()" class="<%= request.path_info.to_s.start_with?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
+      <li><a onclick="showPageLoading()" class="<%= is_tab_selected?('/infrastructure') ? 'selected' : ''  %>" href="/infrastructure">Infrastructure</a></li>
       <% unless first_run? %>
           <% if defined? @tabs %>
             <% for @item in @tabs %>
-                <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?(@item[:path]) ? 'selected' : ''  %>" href=<%= @item[:href] %> ><%= @item[:name] %></a></li>
+                <li><a onclick="showPageLoading()" class="<%= is_tab_selected?(@item[:path]) ? 'selected' : ''  %>" href=<%= @item[:href] %> ><%= @item[:name] %></a></li>
             <% end %>
           <% end %>
-          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
-          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
-          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/monitoring') ? 'selected' : ''  %>" href="/monitoring">Monitoring</a></li>
-          <li><a onclick="showPageLoading()" class="<%= request.path_info.start_with?('/versions') ? 'selected' : ''  %> versions"  href="/versions">Library</a></li>
+          <li><a onclick="showPageLoading()" class="<%= is_tab_selected?('/users') ? 'selected' : ''  %>" href="/users">Users</a></li>
+          <li><a onclick="showPageLoading()" class="<%= is_tab_selected?('/tasks') ? 'selected' : ''  %>" href="/tasks/30/false">Tasks</a></li>
+          <li><a onclick="showPageLoading()" class="<%= is_tab_selected?('/monitoring') ? 'selected' : ''  %>" href="/monitoring">Monitoring</a></li>
+          <li><a onclick="showPageLoading()" class="<%= is_tab_selected?('/versions') ? 'selected' : ''  %> versions"  href="/versions">Library</a></li>
       <% end %>
       <li class="right"><a onclick="check_services()" href="#">Logout</a></li>
-      <li class="right"><a onclick="showPageLoading()" href="/internal_logs">Internal Logs</a></li>
+      <li class="right"><a onclick="showPageLoading()" class="<%= is_tab_selected?('/internal_logs') ? 'selected' : ''  %>" href="/internal_logs">Internal Logs</a></li>
     </ul>
   </div>
 
