@@ -163,7 +163,12 @@ module Uhuru::BoshCommander
       end
 
       yml_keys.each do |key|
-        eval('@form.volatile_data' + key + ' = value')
+        begin
+          eval('@form.volatile_data' + key + ' = value')
+        rescue => e
+          $logger.error("Failed to evaluate key '#{key}' for generating volatile data: #{e.inspect}")
+          raise e
+        end
       end
     end
 
@@ -282,7 +287,7 @@ module Uhuru::BoshCommander
           when "csv"
             error = ''
           when "password"
-            error = ''
+            error = value.include?('|') ? "Passwords cannot contain the pipe '|' character." : ''
           when "ip_list"
             ips = value.gsub(/,/, ';').split(';').map(&:strip).reject(&:empty?)
             invalid_ips = ips.any? do |ip|
