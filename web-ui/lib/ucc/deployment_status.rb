@@ -21,7 +21,11 @@ module Uhuru::BoshCommander
       properties = current_manifest["properties"]
       stats["name"] = @deployment.deployment_name
       stats["state"] = state
-      stats["version"] = current_manifest["release"]["version"]
+      if (current_manifest["release"])
+        stats["version"] = current_manifest["release"]["version"]
+      else
+        stats["version"] = current_manifest["releases"][0]["version"]
+      end
       stats["resources"] = @deployment.get_resources current_manifest
       stats["track_url"] = @deployment.get_track_url
       stats

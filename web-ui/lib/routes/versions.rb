@@ -79,8 +79,22 @@ module Uhuru::BoshCommander
     post '/delete_software_from_blobstore' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
-          release = Uhuru::BoshCommander::Release.new
-          release.delete(params[:name], params[:version])
+          release_manifest_path = File.join(Uhuru::BoshCommander::Versioning::Product.version_directory, params[:name], params[:version], 'bits' , 'config', "#{params[:name]}.yml.erb" )
+          deployment_erb = File.read(release_manifest_path)
+          deployment_rendered = ERB.new(deployment_erb).result()
+          deployment_yaml = YAML.load(deployment_rendered)
+
+          if (deployment_yaml["release"])
+            release = Uhuru::BoshCommander::Release.new
+            release.delete(deployment_yaml["release"]["name"], deployment_yaml["release"]["version"])
+          else
+            deployment_yaml["releases"].each do |spec_release|
+              release = Uhuru::BoshCommander::Release.new
+              release.delete(spec_release["name"], spec_release["version"])
+            end
+          end
+
+
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"
         end
@@ -130,7 +144,11 @@ module Uhuru::BoshCommander
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           release = Uhuru::BoshCommander::Release.new
-          release.upload("#{product_dir}/#{params[:version]}/bits/release.tgz")
+          release_files = Dir["#{product_dir}/#{params[:version]}/bits/*release.tgz"]
+          release_files.each do |release_file|
+            say "Uploading releases #{release_file}"
+            release.upload(release_file)
+          end
 
         rescue Exception => e
           $logger.error "#{e.message} - #{e.backtrace}"

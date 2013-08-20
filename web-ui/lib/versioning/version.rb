@@ -111,19 +111,41 @@ module Uhuru
             end
 
           elsif @product.type == 'software'
-            bosh_releases = release_list || Uhuru::BoshCommander::Release.new().list_releases
+            if (state == STATE_LOCAL)
 
-            bosh_releases.each do |release|
-              if (release['name'] == @product.name)
-                release['release_versions'].each do |release_version|
-                  if release_version['version'] == @version.to_s
-                    if (release_version['currently_deployed'])
-                      state = STATE_DEPLOYED
-                    else
-                      state = STATE_AVAILABLE
+              bosh_releases = release_list || Uhuru::BoshCommander::Release.new().list_releases
+
+              deployment_erb = File.read(File.join(bits_full_local_path, 'config', "#{@product.name}.yml.erb"))
+              deployment_rendered = ERB.new(deployment_erb).result()
+              deployment_yaml = YAML.load(deployment_rendered)
+
+              releases = []
+              if (deployment_yaml["release"])
+                releases << deployment_yaml["release"]
+              else
+                deployment_yaml["releases"].each do |release|
+                  releases << release
+                end
+
+              end
+
+              releases.each do |release|
+                bosh_releases.each do |bosh_release|
+                  if (bosh_release['name'] == release['name'])
+                    bosh_release['release_versions'].each do |release_version|
+                      if release_version['version'] == release['version'].to_s
+                        if (release_version['currently_deployed'])
+                          state = STATE_DEPLOYED
+                        else
+                          state = STATE_AVAILABLE
+                        end
+                        break
+                      end
                     end
-                    break
                   end
+                end
+                if (state !=  STATE_DEPLOYED)
+                  break
                 end
               end
             end
