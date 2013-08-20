@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
+gemfile
+
 gem "blobstore_client", :git => "git@github.com:UhuruSoftware/private-bosh.git"
-gem "escort"
-gem "terminal-table"
-gem "rb-readline"
-gem "sinatra"
-gem "json"
