@@ -59,7 +59,14 @@ module Uhuru::BoshCommander
             blank_manifest_template = ERB.new(File.read(blank_manifest_path))
 
             new_manifest = YAML.load(blank_manifest_template.result(binding))
-            new_manifest["release"]["version"] = version.version
+            if new_manifest["release"]
+              new_manifest["release"]["version"] = version.version
+            else
+              new_manifest["releases"].each do |release|
+                release["version"] = version.version
+              end
+            end
+
             deployment.save(new_manifest)
             clouds << DeploymentStatus.new(deployment).status
           else
@@ -91,7 +98,16 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
-      current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"].to_s
+      current_deployment_manifest = YAML.load_file (Deployment.new(cloud_name, product_name).deployment_manifest_path)
+
+      current_version = ""
+
+      if current_deployment_manifest["release"]
+        current_version =  current_deployment_manifest["release"]["version"].to_s
+      else
+        current_version = current_deployment_manifest["releases"][0]["version"].to_s
+      end
+
       version = product.local_versions[current_version]
 
       manager = PluginManager.new
@@ -144,7 +160,17 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
 
       product = Uhuru::BoshCommander::Versioning::Product.get_products[product_name]
-      current_version = File.open(Deployment.new(cloud_name, product_name).deployment_manifest_path) { |file| YAML.load(file)}["release"]["version"].to_s
+
+      current_deployment_manifest = YAML.load_file (Deployment.new(cloud_name, product_name).deployment_manifest_path)
+
+      current_version = ""
+
+      if current_deployment_manifest["release"]
+        current_version =  current_deployment_manifest["release"]["version"].to_s
+      else
+        current_version = current_deployment_manifest["releases"][0]["version"].to_s
+      end
+
       version = product.local_versions[current_version]
 
       is_ok = true
