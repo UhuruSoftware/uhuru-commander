@@ -15,6 +15,8 @@ require 'web_controller'
 require 'web_modal'
 require 'json'
 
+require 'release_builder/packager'
+require 'colorize'
 
 if defined?(YAML::ENGINE.yamler)
   YAML::ENGINE.yamler = RUBY_VERSION >= "2.0.0" ? "psych" : "syck"
@@ -36,11 +38,47 @@ module Uhuru
           #  opts.opt :config, "Configuration file", :short => "-c", :long => "--config", :type => :string
           #  opts.validate(:config, "file does not exist") {|config| File.exists?(config)}
           #end
+
+
           app.command :products do |command|
             command.summary "Display products"
             command.description "Display all available products"
             command.action do |options, arguments|
               Uhuru::UCC::Publisher::Products.new(options, arguments).products
+            end
+          end
+
+          app.command :build do |command|
+            command.summary "Builds BOSH releases and packages them into a product"
+            command.options do |opts|
+              opts.opt :build_manifest, "Build manifest", :short => "-m", :long => "--manifest", :type => :string
+              opts.opt :destination, "Destination directory", :short => "-d", :long => "--destination", :type => :string
+              opts.opt :plugin_dir, "UCC Plugin directory", :short => "-p", :long => "--plugin", :type => :string
+
+              opts.validate(:build_manifest, "Must be able to read manifest file.") {|option| File.exist?(option) }
+              opts.validate(:plugin_dir, "Plugin directory must exist.") {|option| Dir.exist?(option) }
+            end
+
+            command.action do |options, arguments|
+
+              build_options = options[:global][:commands][:build][:options]
+              destination = build_options[:destination]
+              plugin_dir = build_options[:plugin_dir]
+              build_manifest = build_options[:build_manifest]
+
+              manifest = YAML.load_file(build_manifest)
+
+              packager = UhuruProductBuilder::Packager.new(destination, plugin_dir, manifest['product'], manifest['type'])
+
+              manifest['releases'].each do |release|
+                if release['git_repo']
+                  packager.add_release(release['name'], release['tarball'], release['path'], release['git_repo'])
+                else
+                  packager.add_release(release['name'], release['tarball'], File.expand_path(release['path'], '.'), nil)
+                end
+              end
+
+              packager.build
             end
           end
 
@@ -68,7 +106,7 @@ module Uhuru
                 opts.opt :description,  "Product description",                  :short => "-d", :long => "--description", :type => :string
                 opts.opt :type,         "Product type [ucc, software, stemcell]",         :short => "-t", :long => "--type",        :type => :string
                 opts.opt :force,        "Force overwrite",                      :short => :none, :long => "--force",       :type => :boolean, :default => false
-                opts.opt :blob_id,      "Overwrtire blobstore ID",              :short => "-b", :long => "--blob",        :type => :string,  :default => SecureRandom.hex.to_s
+                opts.opt :blob_id,      "Overwrite blobstore ID",              :short => "-b", :long => "--blob",        :type => :string,  :default => SecureRandom.hex.to_s
 
                 opts.validate(:type, "must be one of the following: [ucc, software, stemcell]") {|option| ["ucc", "software", "stemcell"].include?(option) }
 

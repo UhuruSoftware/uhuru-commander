@@ -110,8 +110,15 @@ module Uhuru::BoshCommander
 
       deployment_manifest = YAML.load_file(current_file)
 
-      software_name = deployment_manifest['release']['name']
-      software_version = deployment_manifest['release']['version']
+
+      software_name = @product_name
+      software_version = nil
+      if (deployment_manifest['release'])
+        software_version = deployment_manifest['release']['version']
+      else
+        software_version = deployment_manifest['releases'][0]['version']
+      end
+
       software_state = Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
       stemcells = []
       deployment_manifest['resource_pools'].each do |resource_pool|
@@ -184,8 +191,12 @@ module Uhuru::BoshCommander
         File.open(@lock_file, 'w') {|f| f.write(@log_url) }
 
         if (software_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL)
-          release = Release.new
-          release.upload(File.join(software.bits_full_local_path, "release.tgz"))
+          release_files = Dir["#{software.bits_full_local_path}/*release.tgz"]
+          release_files.each do |release_file|
+            release = Uhuru::BoshCommander::Release.new
+            say "Uploading releases #{release_file}"
+            release.upload(release_file)
+          end
         end
 
         uploaded_stemcells = []
