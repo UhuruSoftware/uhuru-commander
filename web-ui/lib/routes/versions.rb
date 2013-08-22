@@ -86,11 +86,11 @@ module Uhuru::BoshCommander
 
           if (deployment_yaml["release"])
             release = Uhuru::BoshCommander::Release.new
-            release.delete(deployment_yaml["release"]["name"], deployment_yaml["release"]["version"])
+            release.delete(deployment_yaml["release"]["name"],params[:version])
           else
             deployment_yaml["releases"].each do |spec_release|
               release = Uhuru::BoshCommander::Release.new
-              release.delete(spec_release["name"], spec_release["version"])
+              release.delete(spec_release["name"], params[:version])
             end
           end
 
