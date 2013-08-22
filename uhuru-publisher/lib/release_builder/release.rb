@@ -51,6 +51,10 @@ module UhuruProductBuilder
     end
 
     def create_release
+      puts "Cleaning up the ucc version package.".green
+      FileUtils.rm_rf(File.join(@release_dir, 'packages', 'ucc_version_pack'))
+      FileUtils.rm_rf(File.join(@release_dir, 'src', 'ucc_version_pack'))
+
       puts "Setting up a ucc version package to help with rebase.".green
 
       Dir.mkdir(File.join(@release_dir, 'packages', 'ucc_version_pack'))
@@ -73,8 +77,8 @@ module UhuruProductBuilder
           File.join(Dir.pwd, 'dev_releases', "#{@release_tarball}.tgz"))
 
       puts "Cleaning up the ucc version package.".green
-      FileUtils.rm_f(File.join(@release_dir, 'packages', 'ucc_version_pack'))
-      FileUtils.rm_f(File.join(@release_dir, 'src', 'ucc_version_pack'))
+      FileUtils.rm_rf(File.join(@release_dir, 'packages', 'ucc_version_pack'))
+      FileUtils.rm_rf(File.join(@release_dir, 'src', 'ucc_version_pack'))
     end
 
     def change_release_version
