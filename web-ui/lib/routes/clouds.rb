@@ -440,7 +440,8 @@ module Uhuru::BoshCommander
       cloud_name = params[:cloud_name]
 
       CommanderBoshRunner.execute(session) do
-        if Deployment.new(cloud_name, product_name).get_state() == DeploymentState::DEPLOYED
+        if Deployment.new(cloud_name, product_name).get_state() == DeploymentState::DEPLOYED ||
+            Deployment.new(cloud_name, product_name).get_state() == DeploymentState::ERROR
           vms = Vms.new()
           vms_list = vms.list(cloud_name)
         end
