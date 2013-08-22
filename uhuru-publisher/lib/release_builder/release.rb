@@ -51,12 +51,30 @@ module UhuruProductBuilder
     end
 
     def create_release
+      puts "Setting up a ucc version package to help with rebase.".green
+
+      Dir.mkdir(File.join(@release_dir, 'packages', 'ucc_version_pack'))
+      File.write(File.join(@release_dir, 'packages', 'ucc_version_pack', 'packaging'), 'set -e')
+      File.write(File.join(@release_dir, 'packages', 'ucc_version_pack', 'pre_packaging'), 'set -e')
+      ucc_version_pack_spec = {}
+      ucc_version_pack_spec['name'] = 'ucc_version_pack'
+      ucc_version_pack_spec['files'] = ['ucc_version_pack/**/*']
+      File.write(File.join(@release_dir, 'packages', 'ucc_version_pack', 'spec'), ucc_version_pack_spec.to_yaml)
+
+      Dir.mkdir(File.join(@release_dir, 'src', 'ucc_version_pack'))
+      File.write(File.join(@release_dir, 'src', 'ucc_version_pack', 'version'), {'version' => @version}.to_yaml)
+
       puts "Creating BOSH release... This will take some time.".yellow
+
       puts `bosh --non-interactive create release --with-tarball --force`
 
       File.rename(
           Dir.glob(File.join(Dir.pwd, 'dev_releases', '*.tgz'))[0],
           File.join(Dir.pwd, 'dev_releases', "#{@release_tarball}.tgz"))
+
+      puts "Cleaning up the ucc version package.".green
+      FileUtils.rm_f(File.join(@release_dir, 'packages', 'ucc_version_pack'))
+      FileUtils.rm_f(File.join(@release_dir, 'src', 'ucc_version_pack'))
     end
 
     def change_release_version
