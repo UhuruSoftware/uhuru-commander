@@ -133,7 +133,7 @@ module Uhuru
                 bosh_releases.each do |bosh_release|
                   if (bosh_release['name'] == release['name'])
                     bosh_release['release_versions'].each do |release_version|
-                      if release_version['version'] == release['version'].to_s
+                      if release_version['version'] == @version.to_s
                         if (release_version['currently_deployed'])
                           state = STATE_DEPLOYED
                         else
