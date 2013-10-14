@@ -87,6 +87,16 @@ git reset --hard origin/master
       end
 
       FileUtils.rm_f(File.join(@target_directory, 'plugin.rb.erb'))
+
+      #set version in deployment template
+      deployment_template = File.join(@target_directory, 'config', "#{@product_name}.yml.erb")
+      file_content = File.read(deployment_template)
+      replace = file_content!(/###ucc_product_version###/, "#{@version}")
+      if (replace)
+        File.open(deployment_template, "w") { |file| file.puts replace }
+      end
+
+
       puts "  Version is '#{@version}'".green
     end
 
