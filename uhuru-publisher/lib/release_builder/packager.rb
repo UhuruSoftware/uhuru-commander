@@ -91,7 +91,7 @@ git reset --hard origin/master
       #set version in deployment template
       deployment_template = File.join(@target_directory, 'config', "#{@product_name}.yml.erb")
       file_content = File.read(deployment_template)
-      replace = file_content!(/###ucc_product_version###/, "#{@version}")
+      replace = file_content.gsub!(/###ucc_product_version###/, "#{@version.to_s}")
       if (replace)
         File.open(deployment_template, "w") { |file| file.puts replace }
       end
