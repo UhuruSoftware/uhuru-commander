@@ -108,7 +108,7 @@ module Uhuru
           Product.versions_semaphore.synchronize do
             FileUtils.cp_r Dir.glob("#{temp_dir}/*"), dir
           end
-
+        ensure
           FileUtils.rm_rf(temp_dir)
         end
 
