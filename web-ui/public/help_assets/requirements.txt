@@ -38,7 +38,7 @@ Min Spec
 * 256 GB hard disk
 * Server Brand : vSphere 5.0 compliant
 
-Recommeded Spec
+Recommended Spec
 
 * 2 CPUs Intel Xeon E5620, 4 cores per CPU
 * 8 GB RAM

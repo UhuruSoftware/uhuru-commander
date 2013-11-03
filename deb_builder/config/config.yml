@@ -1,5 +1,5 @@
 ---
-cpi_target: vsphere
+cpi_target: openstack
 version: 1.0.0
 blobstore_provider: s3
 blobstore_options:

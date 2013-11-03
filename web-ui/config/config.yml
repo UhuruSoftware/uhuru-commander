@@ -25,7 +25,7 @@ bosh:
   #base_dir: "/home/mitza/testing/assets/vcap"
   #base_dir: "/home/vladi/tmp/testing/assets/vcap"
   base_dir: "/var/vcap"
-  infrastructure: "vsphere"
+  infrastructure: "openstack"
   stemcells:
     linux_php_stemcell:
       name: "bosh-stemcell-php"

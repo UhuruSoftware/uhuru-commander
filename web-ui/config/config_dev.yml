@@ -23,7 +23,7 @@ nagios:
 bosh: 
   target: 10.0.37.37
   base_dir: /var/vcap
-  infrastructure: vsphere
+  infrastructure: openstack
   stemcells: 
     linux_php_stemcell: 
       name: bosh-stemcell-php
