@@ -103,7 +103,7 @@ module Uhuru::BoshCommander
 
     helpers do
       def first_run?
-        YAML.load_file($config[:properties_file])['properties']['vcenter']['address'] == "127.0.0.1"
+        YAML.load_file($config[:properties_file])['properties']['openstack_auth_url']['address'] == "http://127.0.0.1:5000/v2.0"
       end
 
       def check_first_run!

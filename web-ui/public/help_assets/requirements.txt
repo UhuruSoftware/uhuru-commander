@@ -1,4 +1,4 @@
-Harware requirement for Cloud Foundry Installation
+Hardware requirement for Cloud Foundry Installation
 In this section we list the recommended hardware requirement for installing BOSH and Cloud Foundry.
 
 Hardware Components

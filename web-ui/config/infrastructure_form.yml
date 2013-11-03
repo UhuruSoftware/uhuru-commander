@@ -17,39 +17,68 @@ infrastructure:
       yml_key: '["properties"]["compiled_package_cache"]["options"]["endpoint"]',
       description: 'Server used for software updates' }
 
+
       - {name: infrastructure_sep,                                label: Infrastructure Settings,                     type: separator }
 
-      - {name: vcenter,                                   label: vCenter Host,                                        type: ip,
-      yml_key: '["properties"]["vcenter"]["address"]',    disable_update: true,
-      description: 'vCenter Host IP Address. Make sure that Uhuru Commander can reach the IP you configure in this field.' }
+      - {name: 'openstack_auth_url', yml_key: '["properties"]["openstack"]["auth_url"]',
+      label: Identity Endpoint,
+      description: URL of the OpenStack Identity endpoint to connect to,
+      type: string,
+      disable_update: true }
 
-      - {name: vcenter_user,                              label: vCenter User,                                        type: string,
-      yml_key: '["properties"]["vcenter"]["user"]',       disable_update: true,
-      description: 'vCenter Host User. The user you configure here must have access rights as described <a target="_blank" href="/help_assets/permissions.txt">here</a>.' }
+      - {name: 'openstack_username', yml_key: '["properties"]["openstack"]["username"]',
+      label: Username,
+      description: OpenStack user name,
+      type: string,
+      disable_update: true }
 
-      - {name: vcenter_password,                          label: vCenter Password,                                    type: password,
-      yml_key: '["properties"]["vcenter"]["password"]',   disable_update: true,
-      description: 'vCenter Host User Password' }
+      - {name: 'openstack_api_key',y ml_key: '["properties"]["openstack"]["api_key"]',
+      label: API key,
+      description: OpenStack API key,
+      type: string,
+      disable_update: true }
 
-      - {name: vcenter_datacenter,                        label: vCenter DataCenter,                                  type: string,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["name"]',        disable_update: true,
-      description: 'Datacenter name to be used for deployments. The Datacenter must already exist.' }
+      - {name: 'openstack_tenant', yml_key: '["properties"]["openstack"]["tenant"]'
+      label: Tenant Name,
+      description: OpenStack tenant name,
+      type: string,
+      disable_update: true }
 
-      - {name: vcenter_clusters,                          label: vCenter Clusters,                                    type: csv,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["clusters"]',    disable_update: true,
-      description: 'Cluster name inside the datacenter. The Cluster must already exist.' }
+      - {name: 'openstack_region', yml_key: '["properties"]["openstack"]["region"]'
+      label: Region (optional),
+      description: OpenStack region (optional),
+      type: string,
+      disable_update: true }
 
-      - {name: vcenter_datastore,                         label: vCenter Datastores,                                  type: string,
-      yml_key: [ '["properties"]["vcenter"]["datacenters"][0]["datastore_pattern"]', '["properties"]["vcenter"]["datacenters"][0]["persistent_datastore_pattern"]' ],               disable_update: true,
-      description: 'Regex pattern for identifying the datastores used for storing VMs. If you want to specify an exact name for only one of your datastores, you should use the following regex to avoid conflicts: ^my_datastore_name$' }
+      - {name: 'openstack_endpoint_type', yml_key: '["properties"]["openstack"]["endpoint_type"]',
+      label: Endpoint Yype (optional),
+      description: OpenStack endpoint type (optional, by default publicURL),
+      type: string,
+      disable_update: true }
 
-      - {name: vcenter_vm_folder,                         label: vCenter VM Folder,                                   type: string,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["vm_folder"]',                         disable_update: true,
-      description: 'vCenter Folder for storing VMs. This folder must exist in the datacenter you configured.' }
+      - {name: 'openstack_state_timeout', yml_key: '["properties"]["openstack"]["state_timeout"]'
+      label: Timeout (seconds),
+      description: Timeout (in seconds) for OpenStack resources desired state (optional, by default 300),
+      type: numeric,
+      disable_update: true }
 
-      - {name: vcenter_template_folder,                   label: vCenter Template Folder,                             type: string,
-      yml_key: '["properties"]["vcenter"]["datacenters"][0]["template_folder"]',                     disable_update: true,
-      description: 'vCenter Folder for storing VM Templates. This folder must exist in the Datacenter you configured.' }
+      - {name: 'openstack_stemcell_public_visibility', yml_key: '["properties"]["openstack"]["stemcell_public_visibility"]'
+      label: Public Visibility,
+      description: Set public visibility for stemcells (optional, false by default),
+      type: boolean,
+      disable_update: true }
+
+      - {name: 'openstack_default_key_name', yml_key: '["properties"]["openstack"]["default_key_name"]'
+      label: VM Key Name,
+      description: Default OpenStack keypair to use when spinning up new vms"],
+      type: string,
+      disable_update: true }
+
+      - {name: 'openstack_default_security_groups', yml_key: '["properties"]["openstack"]["default_security_groups"]'
+      label: VM Security Groups,
+      description: Default OpenStack security groups to use when spinning up new vms,
+      type: string,
+      disable_update: true }
 
       - {name: ntp,                                       label: NTP Servers,                                         type: csv,
       yml_key: '["properties"]["ntp"]',                   disable_update: true,

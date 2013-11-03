@@ -12,20 +12,18 @@
 %>
 properties:
   micro: true
-  vcenter:
-    address: 127.0.0.1
-    user: user
-    password: password
-    datacenters:
-      - name: uhuru_ucc
-        vm_folder: uhuru_ucc_vms
-        template_folder: uhuru_ucc_templates
-        disk_path: uhuru_ucc_deployer
-        datastore_pattern: datastore
-        persistent_datastore_pattern: datastore
-        allow_mixed_datastores: true
-        clusters:
-          - Cluster
+  openstack:
+    auth_url: http://127.0.0.1:5000/v2.0
+    username: <username>
+    api_key: <password>
+    tenant: <tenant>
+    region: <region> # Optional
+    default_security_groups: ["ssh", "bosh"]
+    default_key_name: <microbosh_keypair>
+    private_key: <path_to_microbosh_keypar_private_key>
+    state_timeout: 300
+    stemcell_public_visibility: false
+    endpoint_type: publicURL
   nats:
     user: <%= nats_user %>
     password: <%= nats_password %>
@@ -144,8 +142,6 @@ properties:
       connection_options:
         max_connections: 32
         pool_timeout: 10
-  openstack:
-    endpoint_type: publicURL
   vcd:
     entities:
       vm_metadata_key: vcd-cf
