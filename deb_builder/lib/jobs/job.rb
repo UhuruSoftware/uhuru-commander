@@ -8,7 +8,7 @@ module Uhuru
   module BOSH
     module Converter
       class Job
-        DEB_JOB_PREFIX = 'uhuru-bosh-job-'
+        DEB_JOB_PREFIX = 'uhuru-openstack-bosh-job-'
 
         attr_accessor :spec
 

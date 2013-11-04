@@ -7,7 +7,7 @@ module Uhuru
   module BOSH
     module Converter
       class Package
-        DEB_PACKAGE_PREFIX = 'uhuru-bosh-package-'
+        DEB_PACKAGE_PREFIX = 'uhuru-openstack-bosh-package-'
 
 
         def self.create_packages(target_dir, release_dir, release_file)

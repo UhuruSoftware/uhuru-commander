@@ -4,6 +4,7 @@ PATH_UHURU_COMMANDER=$1
 PATH_TTY_JS="${PATH_UHURU_COMMANDER}/modules/private-tty.js"
 PATH_TARGET=$2
 PATH_BOSH="${PATH_UHURU_COMMANDER}/modules/private-bosh"
+PREFIX="uhuru-openstack-"
 
 VERSION=$3
 
@@ -15,27 +16,27 @@ function make_ttyjs()
 {
     local cwd=`pwd`
 
-    rm -rf uhuru-ttyjs uhuru-ttyjs.deb
+    rm -rf ${PREFIX}ttyjs ${PREFIX}ttyjs.deb
 
-    mkdir -p uhuru-ttyjs/DEBIAN
-    mkdir -p uhuru-ttyjs/var/vcap/store/tty.js
-    mkdir -p uhuru-ttyjs/etc/monit/uhururc.d_pieces
-    mkdir -p uhuru-ttyjs/usr/src/uhuru/nodejs
+    mkdir -p ${PREFIX}ttyjs/DEBIAN
+    mkdir -p ${PREFIX}ttyjs/var/vcap/store/tty.js
+    mkdir -p ${PREFIX}ttyjs/etc/monit/uhururc.d_pieces
+    mkdir -p ${PREFIX}ttyjs/usr/src/uhuru/nodejs
 
-    cd uhuru-ttyjs/usr/src/uhuru/nodejs
+    cd ${PREFIX}ttyjs/usr/src/uhuru/nodejs
 
     cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs/node-latest.tar.gz .
     cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs/node_modules.tar.gz .
 
     cd $cwd
 
-    cat <<EOF >uhuru-ttyjs/DEBIAN/control
-Package: uhuru-ttyjs
+    cat <<EOF >${PREFIX}ttyjs/DEBIAN/control
+Package: ${PREFIX}ttyjs
 Version: ${VERSION}
 Section: Utilities
 Priority: important
 Architecture: amd64
-Suggests: uhuru-ucc
+Suggests: ${PREFIX}ucc
 Installed-Size: 20480
 Depends: monit, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
@@ -43,11 +44,11 @@ Description: Uhuru tty.js utility
  .
 EOF
 
-    cp -R ${PATH_TTY_JS}/* uhuru-ttyjs/var/vcap/store/tty.js/
+    cp -R ${PATH_TTY_JS}/* ${PREFIX}ttyjs/var/vcap/store/tty.js/
 
-    cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs_ctl uhuru-ttyjs/var/vcap/store/tty.js/ttyjs_ctl
+    cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ttyjs_ctl ${PREFIX}ttyjs/var/vcap/store/tty.js/ttyjs_ctl
 
-    cat <<EOF >uhuru-ttyjs/etc/monit/uhururc.d_pieces/ttyjs.monit
+    cat <<EOF >${PREFIX}ttyjs/etc/monit/uhururc.d_pieces/ttyjs.monit
 check process ttyjs
   with pidfile /var/vcap/sys/run/ttyjs.pid
   start program "/var/vcap/store/tty.js/ttyjs_ctl start"
@@ -55,7 +56,7 @@ check process ttyjs
   group ucc
 EOF
 
-    cat <<EOF >uhuru-ttyjs/DEBIAN/postinst
+    cat <<EOF >${PREFIX}ttyjs/DEBIAN/postinst
 #!/bin/bash
     cd /usr/src/uhuru/nodejs
 
@@ -79,7 +80,7 @@ EOF
     exit 0
 EOF
 
-    cat <<EOF >uhuru-ttyjs/DEBIAN/prerm
+    cat <<EOF >${PREFIX}ttyjs/DEBIAN/prerm
 #!/bin/bash
 
 monit stop ttyjs
@@ -91,10 +92,10 @@ rm -rf /var/vcap/store/tty.js
 exit 0
 EOF
 
-    chmod 755 uhuru-ttyjs/DEBIAN/postinst
-    chmod 755 uhuru-ttyjs/DEBIAN/prerm
+    chmod 755 ${PREFIX}ttyjs/DEBIAN/postinst
+    chmod 755 ${PREFIX}ttyjs/DEBIAN/prerm
 
-    dpkg-deb --build uhuru-ttyjs .
+    dpkg-deb --build ${PREFIX}ttyjs .
 }
 
 function make_uccui()
@@ -104,33 +105,33 @@ function make_uccui()
     echo "Generating gems..."
 
     rm -rf ${PATH_BOSH}/pkg
-    rm -rf uhuru-uccui uhuru-uccui.deb
+    rm -rf ${PREFIX}uccui ${PREFIX}uccui.deb
 
-    mkdir -p uhuru-uccui/DEBIAN
-    mkdir -p uhuru-uccui/var/vcap/store/ucc
-    mkdir -p uhuru-uccui/etc/monit/uhururc.d_pieces
+    mkdir -p ${PREFIX}uccui/DEBIAN
+    mkdir -p ${PREFIX}uccui/var/vcap/store/ucc
+    mkdir -p ${PREFIX}uccui/etc/monit/uhururc.d_pieces
 
-    cat <<EOF >uhuru-uccui/DEBIAN/control
-Package: uhuru-uccui
+    cat <<EOF >${PREFIX}uccui/DEBIAN/control
+Package: ${PREFIX}uccui
 Version: ${VERSION}
 Section: Utilities
 Priority: important
 Architecture: amd64
-Suggests: uhuru-ucc
+Suggests: ${PREFIX}ucc
 Installed-Size: 13312
-Depends: monit, mkpasswd, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, uhuru-bosh-package-ruby
+Depends: monit, mkpasswd, libxml2-dev, libxslt-dev, libsqlite3-dev, screen, libpq-dev, ${PREFIX}bosh-package-ruby
 Maintainer: Uhuru Software <debs@uhurusoftware.com>
 Description: Uhuru Cloud Commander User Interface utility
  .
 EOF
 
-    cp -R ${PATH_UHURU_COMMANDER}/web-ui uhuru-uccui/var/vcap/store/ucc/
+    cp -R ${PATH_UHURU_COMMANDER}/web-ui ${PREFIX}uccui/var/vcap/store/ucc/
 
-    rm uhuru-uccui/var/vcap/store/ucc/web-ui/config/properties.yml
+    rm ${PREFIX}uccui/var/vcap/store/ucc/web-ui/config/properties.yml
 
-    cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ucc_ctl uhuru-uccui/var/vcap/store/ucc/ucc_ctl
+    cp ${PATH_UHURU_COMMANDER}/deb_builder/assets/ucc_ctl ${PREFIX}uccui/var/vcap/store/ucc/ucc_ctl
 
-    cd uhuru-uccui/var/vcap/store/ucc/web-ui
+    cd ${PREFIX}uccui/var/vcap/store/ucc/web-ui
 
     mv Gemfile Gemfile.bk
     cat Gemfile.bk|grep -v git >Gemfile;cat Gemfile.bk |grep git|cut -f 1 -d \:|rev|cut -b 3-|rev >>Gemfile
@@ -141,18 +142,18 @@ EOF
 
     bundle exec rake all:pre_stage_latest
 
-    mkdir -p $cwd/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache
+    mkdir -p $cwd/${PREFIX}uccui/var/vcap/store/ucc/web-ui/vendor/cache
 
-    cp -f ${PATH_BOSH}/pkg/gems/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
-    cp -f ${PATH_BOSH}/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
+    cp -f ${PATH_BOSH}/pkg/gems/* ${cwd}/${PREFIX}uccui/var/vcap/store/ucc/web-ui/vendor/cache/
+    cp -f ${PATH_BOSH}/vendor/cache/* ${cwd}/${PREFIX}uccui/var/vcap/store/ucc/web-ui/vendor/cache/
 
-    cp -f $PATH_UHURU_COMMANDER/web-ui/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
+    cp -f $PATH_UHURU_COMMANDER/web-ui/vendor/cache/* ${cwd}/${PREFIX}uccui/var/vcap/store/ucc/web-ui/vendor/cache/
 
-    rm -rf ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/bundle
+    rm -rf ${cwd}/${PREFIX}uccui/var/vcap/store/ucc/web-ui/vendor/bundle
 
     cd $cwd
     
-    cat <<EOF >uhuru-uccui/DEBIAN/postinst
+    cat <<EOF >${PREFIX}uccui/DEBIAN/postinst
 #!/bin/bash
 cd /var/vcap/store/ucc/web-ui
 GEM_HOME=/var/vcap/store/ucc/web-ui/gem_home
@@ -167,7 +168,7 @@ echo -e "\nversion: ${VERSION}" > /var/vcap/store/ucc/web-ui/config/version.yml
 exit 0
 EOF
 
-    cat <<EOF >uhuru-uccui/DEBIAN/prerm
+    cat <<EOF >${PREFIX}uccui/DEBIAN/prerm
 #!/bin/bash
 
 monit stop ucc
@@ -189,10 +190,10 @@ cp -Rf /tmp/deployments_bkp/deployments /var/vcap/store/ucc/web-ui/
 exit 0
 EOF
 
-chmod 755 uhuru-uccui/DEBIAN/postinst
-chmod 755 uhuru-uccui/DEBIAN/prerm
+chmod 755 ${PREFIX}uccui/DEBIAN/postinst
+chmod 755 ${PREFIX}uccui/DEBIAN/prerm
 
-    cat <<EOF >uhuru-uccui/etc/monit/uhururc.d_pieces/ucc.monit
+    cat <<EOF >${PREFIX}uccui/etc/monit/uhururc.d_pieces/ucc.monit
 check process ucc
   with pidfile /var/vcap/sys/run/ucc.pid
   start program "/var/vcap/store/ucc/ucc_ctl start"
@@ -200,7 +201,7 @@ check process ucc
   group ucc
 EOF
 
-    dpkg-deb --build uhuru-uccui .
+    dpkg-deb --build ${PREFIX}uccui .
 }
 
 make_ttyjs
