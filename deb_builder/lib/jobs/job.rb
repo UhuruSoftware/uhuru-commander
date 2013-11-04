@@ -74,7 +74,7 @@ module Uhuru
 
           `chmod 755 #{postinst_file}`
 
-          `cd #{target_dir} ; dpkg-deb --build uhuru-ucc .`
+          `cd #{target_dir} ; dpkg-deb --build uhuru-openstack-ucc .`
 
           puts 'Done.'
         end
