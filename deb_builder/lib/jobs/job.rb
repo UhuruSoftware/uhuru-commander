@@ -43,7 +43,7 @@ module Uhuru
 
           puts 'Creating master package ...'
 
-          work_directory = File.join(target_dir, 'uhuru-ucc')
+          work_directory = File.join(target_dir, 'uhuru-openstack-ucc')
           debian_dir = File.join(work_directory, 'DEBIAN')
           control_file = File.join(debian_dir, 'control')
           postinst_file = File.join(debian_dir, 'postinst')
