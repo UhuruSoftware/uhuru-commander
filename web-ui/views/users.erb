@@ -17,30 +17,30 @@
   </div>
 
   <table class="settings_table users">
-    <form action="/users" method="post" onsubmit="return confirmForm()">
+
       <tr class="settings_table_header">
         <td>Name</td>
-        <td></td>
         <td></td>
       </tr>
       <% users.each do |user| %>
           <tr>
             <td><%= user %></td>
             <td>
-              <input name="new_password" type="password" id="new_password"/>
-              <input name="btn_change_password_<%= user %>" type="submit" value="Reset password" id="change_password" class="change_password"/>
-            </td>
-            <td>
+              <form action="/users" method="post" onsubmit="return confirmForm()">
+
+              <input name="new_password" type="password" id="new_password" style="float: left"/>
+              <input name="btn_change_password_<%= user %>" type="submit" value="Change password" id="change_password" class="change_password"/>
               <input name="btn_delete_user_<%= user %>"
                      type="submit"
                      value="Delete User"
                      id="delete_user"
                      onclick="setConfirm('Are you sure you want to delete this user?');"
                      class="delete"/>
+              </form>
             </td>
           </tr>
       <% end %>
-    </form>
+
   </table>
 
   <span style="vertical-align: bottom;"><%= message %></span>

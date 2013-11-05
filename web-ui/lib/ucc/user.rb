@@ -27,7 +27,7 @@ module Uhuru::BoshCommander
 
     def self.users
       db = get_db
-      db[:users].select(:username).map(:username)
+      db[:users].select(:username).order(:username).map(:username)
     end
 
     def self.create(username, password)

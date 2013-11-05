@@ -268,7 +268,6 @@ module Uhuru::BoshCommander
       elsif params.has_key?("version")
         current_version = params["version"].to_s
         version = product.local_versions[current_version]
-
         manager = PluginManager.new
         manager.add_plugin_version_source(version.version_dir)
         manager.load
