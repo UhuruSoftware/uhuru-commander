@@ -272,6 +272,36 @@ module Uhuru::BoshCommander
         manager.add_plugin_version_source(version.version_dir)
         manager.load
 
+        new_manifest_path = File.join(version.version_dir, "bits", "config", "#{product_name}.yml.erb")
+        new_manifest_template = ERB.new(File.read(new_manifest_path))
+        new_manifest = YAML.load(new_manifest_template.result(binding))
+
+        new_forms_path = File.join(version.version_dir, "bits", "config", "forms.yml")
+        new_forms = YAML::load_file new_forms_path
+
+        new_forms[product_name].each do |screen|
+          screen["fields"].each do |field|
+            next if field['type'] == Uhuru::BoshCommander::Field::TYPE_SEPARATOR
+            key = "#{product_name}:#{screen['screen']}:#{field['name']}"
+            if key != ""
+              unless params.has_key? key
+                begin
+                  yml_key = field["yml_key"]
+                  if yml_key.is_a? Array
+                    yml_key = yml_key[0]
+                  end
+                  default_value = ''
+                  eval('default_value = new_manifest' + yml_key)
+                  params[key] = default_value
+                  $logger.info("Upgrade #{product_name} to version #{current_version}: new configuration field found: #{key}. Using default value: #{default_value}")
+                rescue
+                  $logger.warn("Upgrade #{product_name} to version #{current_version}: could not set default value for field #{key}")
+                end
+              end
+            end
+          end
+        end
+
         CommanderBoshRunner.execute(session) do
           form = Uhuru::BoshCommander.const_get(class_name).send(:from_cloud_name, cloud_name, params)
           is_ok = form.validate?(GenericForm::VALUE_TYPE_FORM)
