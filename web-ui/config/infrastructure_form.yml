@@ -21,63 +21,63 @@ infrastructure:
       - {name: infrastructure_sep,                                label: Infrastructure Settings,                     type: separator }
 
       - {name: 'openstack_auth_url', yml_key: '["properties"]["openstack"]["auth_url"]',
-      label: Identity Endpoint,
-      description: URL of the OpenStack Identity endpoint to connect to,
+      label: 'Identity Endpoint',
+      description: 'URL of the OpenStack Identity endpoint to connect to',
       type: string,
       disable_update: true }
 
       - {name: 'openstack_username', yml_key: '["properties"]["openstack"]["username"]',
-      label: Username,
-      description: OpenStack user name,
+      label: 'Username',
+      description: 'OpenStack user name',
       type: string,
       disable_update: true }
 
-      - {name: 'openstack_api_key',y ml_key: '["properties"]["openstack"]["api_key"]',
-      label: API key,
-      description: OpenStack API key,
+      - {name: 'openstack_api_key', yml_key: '["properties"]["openstack"]["api_key"]',
+      label: 'API key',
+      description: 'OpenStack API key',
       type: string,
       disable_update: true }
 
-      - {name: 'openstack_tenant', yml_key: '["properties"]["openstack"]["tenant"]'
-      label: Tenant Name,
-      description: OpenStack tenant name,
+      - {name: 'openstack_tenant', yml_key: '["properties"]["openstack"]["tenant"]',
+      label: 'Tenant Name',
+      description: 'OpenStack tenant name',
       type: string,
       disable_update: true }
 
-      - {name: 'openstack_region', yml_key: '["properties"]["openstack"]["region"]'
-      label: Region (optional),
-      description: OpenStack region (optional),
+      - {name: 'openstack_region', yml_key: '["properties"]["openstack"]["region"]',
+      label: 'Region (optional)',
+      description: 'OpenStack region (optional)',
       type: string,
       disable_update: true }
 
       - {name: 'openstack_endpoint_type', yml_key: '["properties"]["openstack"]["endpoint_type"]',
-      label: Endpoint Yype (optional),
-      description: OpenStack endpoint type (optional, by default publicURL),
+      label: 'Endpoint Type (optional)',
+      description: 'OpenStack endpoint type (optional, by default publicURL)',
       type: string,
       disable_update: true }
 
-      - {name: 'openstack_state_timeout', yml_key: '["properties"]["openstack"]["state_timeout"]'
-      label: Timeout (seconds),
-      description: Timeout (in seconds) for OpenStack resources desired state (optional, by default 300),
+      - {name: 'openstack_state_timeout', yml_key: '["properties"]["openstack"]["state_timeout"]',
+      label: 'Timeout (seconds)',
+      description: 'Timeout (in seconds) for OpenStack resources desired state (optional, by default 300)',
       type: numeric,
       disable_update: true }
 
-      - {name: 'openstack_stemcell_public_visibility', yml_key: '["properties"]["openstack"]["stemcell_public_visibility"]'
-      label: Public Visibility,
-      description: Set public visibility for stemcells (optional, false by default),
+      - {name: 'openstack_stemcell_public_visibility', yml_key: '["properties"]["openstack"]["stemcell_public_visibility"]',
+      label: 'Public Visibility',
+      description: 'Set public visibility for stemcells (optional, false by default)',
       type: boolean,
       disable_update: true }
 
-      - {name: 'openstack_default_key_name', yml_key: '["properties"]["openstack"]["default_key_name"]'
-      label: VM Key Name,
-      description: Default OpenStack keypair to use when spinning up new vms"],
+      - {name: 'openstack_default_key_name', yml_key: '["properties"]["openstack"]["default_key_name"]',
+      label: 'VM Key Name',
+      description: 'Default OpenStack keypair to use when spinning up new vms',
       type: string,
       disable_update: true }
 
-      - {name: 'openstack_default_security_groups', yml_key: '["properties"]["openstack"]["default_security_groups"]'
-      label: VM Security Groups,
-      description: Default OpenStack security groups to use when spinning up new vms,
-      type: string,
+      - {name: 'openstack_default_security_groups', yml_key: '["properties"]["openstack"]["default_security_groups"]',
+      label: 'VM Security Groups',
+      description: 'Default OpenStack security groups to use when spinning up new vms',
+      type: csv,
       disable_update: true }
 
       - {name: ntp,                                       label: NTP Servers,                                         type: csv,

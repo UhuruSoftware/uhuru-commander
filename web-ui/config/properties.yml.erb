@@ -13,17 +13,17 @@
 properties:
   micro: true
   openstack:
-    auth_url: http://127.0.0.1:5000/v2.0
-    username: <username>
-    api_key: <password>
-    tenant: <tenant>
-    region: <region> # Optional
-    default_security_groups: ["ssh", "bosh"]
-    default_key_name: <microbosh_keypair>
-    private_key: <path_to_microbosh_keypar_private_key>
+    auth_url: 'http://127.0.0.1:5000/v2.0'
+    username: 'username'
+    api_key: 'api key'
+    tenant: 'tenant'
+    region: 'region'
+    default_security_groups: ['default']
+    default_key_name: 'key name'
+    private_key: 'private path'
     state_timeout: 300
     stemcell_public_visibility: false
-    endpoint_type: publicURL
+    endpoint_type: 'publicURL'
   nats:
     user: <%= nats_user %>
     password: <%= nats_password %>
