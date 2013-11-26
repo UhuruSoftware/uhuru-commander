@@ -1,6 +1,5 @@
-
 module Uhuru::BoshCommander
-
+  # monitoring class
   class Monit
 
     BOSH_APP = BOSH_APP_USER = BOSH_APP_GROUP = "vcap"
@@ -10,6 +9,7 @@ module Uhuru::BoshCommander
       @tries = 3
     end
 
+    # define de base directory
     def base_dir
       '/etc'
     end
@@ -22,12 +22,14 @@ module Uhuru::BoshCommander
       File.join(monit_dir, 'monit.user')
     end
 
+    # credentials for monitoring
     def monit_credentials
       entry = File.read(monit_user_file).lines.find { |line| line.match(/\A#{BOSH_APP_GROUP}/) }
       user, cred = entry.split(/:/)
       [user, cred.strip]
     end
 
+    # defines de logger
     def logger
       $config[:logger]
     end
@@ -53,13 +55,13 @@ module Uhuru::BoshCommander
         sleep 1
         logger.info("Monit Service Connection Refused: retrying")
         retry if (attempts -= 1) > 0
-      rescue => e
+      rescue => ex
         messages = [
             "Connection reset by peer",
             "Service Unavailable"
         ]
-        if messages.include?(e.message)
-          logger.info("Monit Service Unavailable (#{e.message}): retrying")
+        if messages.include?(ex.message)
+          logger.info("Monit Service Unavailable (#{ex.message}): retrying")
           sleep 1
           retry if (attempts -= 1) > 0
         end
@@ -68,18 +70,21 @@ module Uhuru::BoshCommander
       end
     end
 
+    # starts the services
     def start_services(attempts=20)
       retry_monit_request(attempts) do |client|
         client.start(:group => BOSH_APP_GROUP)
       end
     end
 
+    # stops the services
     def stop_services(attempts=20)
       retry_monit_request(attempts) do |client|
         client.stop(:group => BOSH_APP_GROUP)
       end
     end
 
+    # restart all services
     def restart_all_services
       restart_services(20, BOSH_APP_GROUP_BASE)
       restart_services(20, BOSH_APP_GROUP)
@@ -94,18 +99,17 @@ module Uhuru::BoshCommander
 
       #waiting for the services to be online
       service_state = ""
-      i = 0
-      for i in 0..10
+      count = 0
+      for count in 0..10
         sleep 30
         if (service_group_state == "running")
           say "Services Online"
           restart_done = true
           break
         end
-
       end
 
-      if (i == 10)
+      if (count == 10)
         @tries -= 1
       end
 
@@ -117,7 +121,6 @@ module Uhuru::BoshCommander
           restart_services
         end
       end
-
     end
 
     def service_group_state(num_retries=10, group = BOSH_APP_GROUP)
@@ -134,8 +137,8 @@ module Uhuru::BoshCommander
       end
 
       not_running.empty? ? "running" : "failing"
-    rescue => e
-      logger.info("Unable to determine job state: #{e}")
+    rescue => ex
+      logger.info("Unable to determine job state: #{ex}")
       "unknown"
     end
 

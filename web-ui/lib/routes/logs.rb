@@ -1,10 +1,12 @@
 module Uhuru::BoshCommander
+  # a class used for the logging system
   class Logs < RouteBase
 
     def self.log_url(request_id, action_on_done)
       "logs/#{request_id}?done=#{ CGI.escape Base64.encode64 action_on_done }"
     end
 
+    # get method for a specific log
     get '/logs/:stream_id' do
       screen_id = UUIDTools::UUID.random_create.to_s
       CommanderBoshRunner.status_streamer(session).create_screen(params[:stream_id], screen_id)
@@ -20,11 +22,12 @@ module Uhuru::BoshCommander
       end
     end
 
+    # get method for logs_test page
     get '/logs_test' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
 
-          50.times do |i|
+          50.times do |val|
             10.times do |word|
               say "0123456789".red
               say "0123456789\r".green
@@ -33,12 +36,12 @@ module Uhuru::BoshCommander
               say "Proposition: #{word}"
             end
 
-            say "Paragraph ##{i.to_s}"
+            say "Paragraph ##{val.to_s}"
             sleep 1
           end
 
-        rescue Exception => e
-          err e
+        rescue Exception => ex
+          err ex
         end
       end
 
@@ -46,6 +49,7 @@ module Uhuru::BoshCommander
       redirect Logs.log_url request_id, action_on_done
     end
 
+    # get method for a specific screen id
     get '/screen/:screen_id' do
       status_streamer = CommanderBoshRunner.status_streamer(session)
       screen_id = params[:screen_id]
@@ -85,6 +89,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # get method for the internal logs page
     get '/internal_logs' do
       log_file = $config[:logging][:file]
       json = File.read log_file
@@ -103,6 +108,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # get method for the vm log
     get '/vmlog/:product/:deployment/:job/:index' do
       deployment = params[:deployment]
       product = params[:product]
@@ -122,8 +128,8 @@ module Uhuru::BoshCommander
         begin
           deployment = Deployment.new(deployment, product)
           deployment.get_vm_logs(job, index, resource_id_file)
-        rescue Exception => e
-          err e
+        rescue Exception => ex
+          err ex
         end
       end
 
@@ -131,12 +137,14 @@ module Uhuru::BoshCommander
       redirect Logs.log_url(request_id, action_on_done)
     end
 
+    # get method for vm log resource
     get '/vmlog_res/:res_file_id' do
       resource_file_id = params[:res_file_id]
       resource_file = File.join(Dir.tmpdir, 'ucc_log_resources', resource_file_id)
       redirect "/vmlog-dl/#{File.read(resource_file)}"
     end
 
+    # get method for the new logs
     get '/new_logs' do
       last_log = session['last_log'] || 0
 
@@ -158,15 +166,13 @@ module Uhuru::BoshCommander
       end
 
       session['last_log'] = logs.length - 1
-
       log.to_json
     end
 
+    # get method for the download log file (returns and sends the log file for downloading)
     get '/download_log_file' do
       log_file = $config[:logging][:file]
-
       send_file log_file, :filename => "logs", :type => :log
     end
-
   end
 end

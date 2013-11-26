@@ -1,13 +1,16 @@
 module Uhuru::BoshCommander
+  # a class used for the monitoring system
   class Monitoring < RouteBase
-    get '/monitoring' do
 
+    # get method for the monitoring page
+    get '/monitoring' do
       render_erb do
         template :monitoring
         layout :layout
       end
     end
 
+    # post method for the monitoring page
     post '/monitoring' do
       params.delete("btn_update")
 

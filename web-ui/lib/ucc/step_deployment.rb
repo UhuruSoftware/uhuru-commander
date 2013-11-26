@@ -1,5 +1,5 @@
 module Uhuru::BoshCommander
-
+  # step deployment generator class
   class StepDeploymentGenerator
 
     def self.generate_step_deployment(cf_deployment_file, out_dir)
@@ -117,12 +117,12 @@ mssql_gateway uhurufs_gateway uhuru_tunnel)
 
         yml_job['networks'] = yml_job_original['networks']
 
-        for i in 1 .. yml_job_original['instances']
+        for counter in 1 .. yml_job_original['instances']
           yml_pool['size'] += 1
           yml_job['instances'] += 1
 
           file = File.join(out_dir, "step_#{step}_#{filename}")
-          File.open(file, "w") {|f| f.write(YAML.dump(cf_deployment))}
+          File.open(file, "w") {|fl| fl.write(YAML.dump(cf_deployment))}
 
           step += 1
         end
@@ -130,8 +130,8 @@ mssql_gateway uhurufs_gateway uhuru_tunnel)
       end
     end
 
-    def self.deep_copy(o)
-      Marshal.load(Marshal.dump(o))
+    def self.deep_copy(obj)
+      Marshal.load(Marshal.dump(obj))
     end
   end
 end

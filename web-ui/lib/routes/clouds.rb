@@ -1,6 +1,6 @@
 module Uhuru::BoshCommander
+  # a class used for the clouds page
   class Clouds < RouteBase
-
     def initialize(app)
       super
 
@@ -14,7 +14,7 @@ module Uhuru::BoshCommander
       @default_cloud_sub_menu = :networks
     end
 
-
+    # get method for a specific product in products
     get '/products/:product_name' do
       product_name = params[:product_name]
 
@@ -36,6 +36,7 @@ module Uhuru::BoshCommander
 
     end
 
+    # post method for the product page
     post '/products/:product_name' do
       product_name = params[:product_name]
 
@@ -93,6 +94,7 @@ module Uhuru::BoshCommander
 
     end
 
+    # get method for the cloud in product
     get '/products/:product_name/:cloud_name' do
       product_name = params[:product_name]
       cloud_name = params[:cloud_name]
@@ -155,6 +157,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # post method for cloud in product
     post '/products/:product_name/:cloud_name' do
       product_name = params[:product_name]
       cloud_name = params[:cloud_name]
@@ -256,8 +259,8 @@ module Uhuru::BoshCommander
           request_id = CommanderBoshRunner.execute_background(session) do
             begin
               form.deployment.deploy
-            rescue Exception => e
-              err e
+            rescue Exception => ex
+              err ex
             end
           end
           log_url = Logs.log_url request_id, action_on_done
@@ -329,8 +332,8 @@ module Uhuru::BoshCommander
           begin
             deployment = Deployment.new(cloud_name, product_name)
             deployment.tear_down
-          rescue Exception => e
-            err e
+          rescue Exception => ex
+            err ex
           end
         end
 
@@ -341,8 +344,8 @@ module Uhuru::BoshCommander
           begin
             deployment = Deployment.new(cloud_name, product_name)
             deployment.delete
-          rescue Exception => e
-            err e
+          rescue Exception => ex
+            err ex
           end
         end
 
@@ -379,7 +382,7 @@ module Uhuru::BoshCommander
                   if new_value
                     eval("new_manifest#{key} = manifest#{key}")
                   end
-                rescue => e
+                rescue
                   $logger.warn "Could not import value #{field['label']} for cloud #{cloud_name}"
                 end
               end
@@ -462,6 +465,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # get method for reading vms in the cloud
     get '/products/:product_name/:cloud_name/vms' do
       vms_list = {}
 

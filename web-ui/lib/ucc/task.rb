@@ -1,4 +1,5 @@
 module Bosh::Cli::Command
+  # tasks class
   class Task
     undef_method :list_recent
 
@@ -7,6 +8,7 @@ module Bosh::Cli::Command
       super
     end
 
+    # list recent task
     def list_recent(count = 30, filter = 2)
       director.list_recent_tasks(count, filter)
     end

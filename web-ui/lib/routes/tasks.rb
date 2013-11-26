@@ -1,5 +1,8 @@
 module Uhuru::BoshCommander
+  # a class used for the tasks page in the cloud commander
   class Tasks < RouteBase
+
+    #get method for the tasks page
     get '/tasks/:count/:include_all' do
       tasks_list = nil
       count = params["count"] ? params["count"].to_i : 30
@@ -19,6 +22,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # get method for a specific task with the task id
     get '/task/:id' do
       task_id = params["id"]
       request_id = CommanderBoshRunner.execute_background(session) do
@@ -31,6 +35,7 @@ module Uhuru::BoshCommander
       redirect Logs.log_url(request_id, action_on_done)
     end
 
+    # get method for the loop system
     get '/loop' do
       request_id = CommanderBoshRunner.execute_background(session) do
         start = Time.now

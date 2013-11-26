@@ -1,3 +1,4 @@
+# definitions of the deployment states
 module Uhuru::BoshCommander::DeploymentState
   DEPLOYING = "Deploying"
   ERROR = "Error"

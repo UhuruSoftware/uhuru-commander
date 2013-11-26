@@ -1,6 +1,8 @@
 module Uhuru::BoshCommander
+  # a classed used for the login screen page methods
   class LoginScreen < RouteBase
 
+    # the login method for a user
     def login
       if session['streamer'] == nil
         session['command_uuid'] = UUIDTools::UUID.random_create
@@ -36,6 +38,7 @@ module Uhuru::BoshCommander
       return command, config, cache
     end
 
+    # the get method for the login page
     get '/login' do
       path = params['path']
 
@@ -46,6 +49,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # the post method for the login page (performs the login action)
     post '/login' do
       session['user_name'] = params[:username]
       session[:new_versions] = false
@@ -85,6 +89,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # get method for the logout page (also performs the logout)
     get '/logout' do
       CommanderBoshRunner.execute(session) do
         session['user_name'] = nil
@@ -93,6 +98,7 @@ module Uhuru::BoshCommander
       redirect '/'
     end
 
+    # get method for the monit status
     get '/monit_status' do
       state = nil
       CommanderBoshRunner.execute(session) do
@@ -105,6 +111,7 @@ module Uhuru::BoshCommander
 
     private
 
+    # a method used for setting the last log
     def set_last_log
       log_file = $config[:logging][:file]
       json = File.read log_file

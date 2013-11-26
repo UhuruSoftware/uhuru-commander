@@ -1,6 +1,8 @@
 module Uhuru::BoshCommander
+  # a class used for the versions page
   class Versions < RouteBase
 
+    # downloads the specific version
     post '/download' do
       product = Uhuru::BoshCommander::Versioning::Product.get_products[params[:product]]
       Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
@@ -10,6 +12,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
+    # downloads the specific version with all its dependencies
     post '/download_with_dependencies' do
       products = Uhuru::BoshCommander::Versioning::Product.get_products
       product = Uhuru::BoshCommander::Versioning::Product.get_products[params[:product]]
@@ -18,21 +21,19 @@ module Uhuru::BoshCommander
       Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
         version.download_from_blobstore
 
-
         version.dependencies.each do |current_dependency|
-
           latest_version = current_dependency['version'].map do |dep_version|
             Uhuru::BoshCommander::Versioning::Product.get_products[current_dependency['dependency']].versions[dep_version]
           end.max
 
           latest_version.download_from_blobstore
         end
-
       end
 
       redirect '/versions'
     end
 
+    # a get method user for the javascript polling mechanism
     get '/download_state' do
 
       stemcells = nil
@@ -61,14 +62,14 @@ module Uhuru::BoshCommander
       progress.to_json
     end
 
-
+    # delete method for a stemcell (deletes the stemcell from the blobstore)
     post '/delete_stemcell_from_blobstore' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
           stemcell.delete(params[:name], params[:version])
-        rescue Exception => e
-          $logger.error "#{e.message} - #{e.backtrace}"
+        rescue Exception => ex
+          $logger.error "#{ex.message} - #{ex.backtrace}"
         end
       end
       action_on_done = "Stemcell '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to library panel."
@@ -76,6 +77,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
+    # delete method for a software (deletes the software from the blobstore)
     post '/delete_software_from_blobstore' do
       request_id = CommanderBoshRunner.execute_background(session) do
         begin
@@ -94,9 +96,8 @@ module Uhuru::BoshCommander
             end
           end
 
-
-        rescue Exception => e
-          $logger.error "#{e.message} - #{e.backtrace}"
+        rescue Exception => ex
+          $logger.error "#{ex.message} - #{ex.backtrace}"
         end
       end
       action_on_done = "Release '#{params[:name]}' - '#{params[:version]}' deleted. Click <a href='/versions'>here</a> to return to library panel."
@@ -104,7 +105,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
-
+    # delete the local stemcell (the server side stemcell)
     post '/delete_stemcell_local' do
       products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
       product_dir = File.join(products_dir, params[:name])
@@ -112,6 +113,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
+    # delete the local software (the server side software)
     post '/delete_software_local' do
       products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
       product_dir = File.join(products_dir, params[:name])
@@ -119,7 +121,7 @@ module Uhuru::BoshCommander
       redirect '/versions'
     end
 
-
+    # upload stemcell method
     post '/upload_stemcell' do
       products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
       product_dir = File.join(products_dir, params[:name])
@@ -128,8 +130,8 @@ module Uhuru::BoshCommander
         begin
           stemcell = Uhuru::BoshCommander::Stemcell.new
           stemcell.upload("#{product_dir}/#{params[:version]}/bits")
-        rescue Exception => e
-          $logger.error "#{e.message} - #{e.backtrace}"
+        rescue Exception => ex
+          $logger.error "#{ex.message} - #{ex.backtrace}"
         end
       end
 
@@ -137,6 +139,7 @@ module Uhuru::BoshCommander
       redirect Logs.log_url(request_id, action_on_done)
     end
 
+    # upload software method
     post '/upload_software' do
       products_dir = Uhuru::BoshCommander::Versioning::Product.version_directory
       product_dir = File.join(products_dir, params[:name])
@@ -150,8 +153,8 @@ module Uhuru::BoshCommander
             release.upload(release_file)
           end
 
-        rescue Exception => e
-          $logger.error "#{e.message} - #{e.backtrace}"
+        rescue Exception => ex
+          $logger.error "#{ex.message} - #{ex.backtrace}"
         end
       end
 
@@ -159,8 +162,7 @@ module Uhuru::BoshCommander
       redirect Logs.log_url(request_id, action_on_done)
     end
 
-
-
+    # get method for the versions page
     get '/versions' do
       session[:new_versions] = false
       stemcells = nil

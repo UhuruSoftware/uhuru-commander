@@ -1,4 +1,7 @@
 module Uhuru::BoshCommander
+  # a class used for mocking the bosh backend
+  # all the methods of this class are used if the cloud commander is not connected to bosh
+  # the methods return custom hardcoded data
   class MockBoshCommand
 
     def logged_in?
@@ -30,15 +33,15 @@ module Uhuru::BoshCommander
     end
 
     def add_option(name, value)
-
+      return name, value
     end
 
     def set_target(target)
-
+      return target
     end
 
     def login(user, password)
-
+      return user, password
     end
   end
 
@@ -53,12 +56,13 @@ module Uhuru::BoshCommander
     end
 
     def fetch_logs(deployment_name, job_name, index, job, filter)
-
+      return deployment_name, job_name, index, job, filter
     end
 
     def get_deployment(deployment_name)
       result = {}
       result['manifest'] = ""
+      return deployment_name
     end
 
     def list_deployments
@@ -101,17 +105,15 @@ module Uhuru::BoshCommander
     end
 
     def list_recent_tasks(count, verbose)
-      []
+      [count, verbose]
     end
 
     def list_releases
-      [
-
-      ]
+      []
     end
 
     def fetch_vm_state(deployment)
-      []
+      [deployment]
     end
   end
 end

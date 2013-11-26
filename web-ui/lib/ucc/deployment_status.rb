@@ -1,4 +1,5 @@
 module Uhuru::BoshCommander
+  # class for deployment status
   class DeploymentStatus
 
     attr_reader :deployment

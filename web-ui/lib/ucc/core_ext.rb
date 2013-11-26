@@ -86,8 +86,8 @@ module UccExtensions
     Bosh::Cli::YamlHelper.check_duplicate_keys(path)
 
     yaml
-  rescue SystemCallError => e
-    err("Cannot load YAML file at `#{path}': #{e}")
+  rescue SystemCallError => ex
+    err("Cannot load YAML file at `#{path}': #{ex}")
   end
 
   def dump_yaml_to_file(obj, file)

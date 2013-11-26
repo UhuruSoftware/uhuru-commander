@@ -1,5 +1,8 @@
 module Uhuru::BoshCommander
+  # a class used for the ssh
   class Ssh < RouteBase
+
+    # get method for the ssh connection page
     get '/ssh_connect/:product_name/:deployment/:job/:index' do
 
       ssh_data = {}
@@ -11,8 +14,8 @@ module Uhuru::BoshCommander
       redirect "/ssh/?connectionData=#{tty_js_param}"
     end
 
+    # get method for the ssh configuration page
     get '/ssh_config' do
-
       result = 403
 
       if request.ip == '127.0.0.1'

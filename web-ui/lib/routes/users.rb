@@ -1,5 +1,8 @@
 module Uhuru::BoshCommander
+  # a class used for users page
   class Users < RouteBase
+
+    # get the users page
     get '/users' do
       users = User.users
 
@@ -12,6 +15,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # post users
     post '/users' do
       message = ""
       begin

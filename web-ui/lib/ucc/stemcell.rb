@@ -1,14 +1,18 @@
 module Uhuru::BoshCommander
+  # the stemcells class definition
   class Stemcell
 
+    # upload stemcell
     def upload(tarball_path)
       stemcell_command.upload(tarball_path)
     end
 
+    # delete stemcell
     def delete(name, version)
       stemcell_command.delete(name, version)
     end
 
+    # list all stemcells
     def list_stemcells
       director.list_stemcells
     end

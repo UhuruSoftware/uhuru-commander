@@ -1,3 +1,4 @@
+# a class used for running bosh threads
 module Uhuru::BoshCommander
   class CommanderBoshRunner
 

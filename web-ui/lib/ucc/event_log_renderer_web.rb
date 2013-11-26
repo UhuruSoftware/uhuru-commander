@@ -1,8 +1,7 @@
 module Bosh::Cli
-
+  # event log reader class
   class EventLogRenderer
     undef_method :render
-
 
     def render
       @lock.synchronize do
@@ -16,6 +15,5 @@ module Bosh::Cli
         output
       end
     end
-
   end
 end

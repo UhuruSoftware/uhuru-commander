@@ -188,7 +188,7 @@ module Uhuru::BoshCommander
 
       begin
         say 'Deploying missing components ...'
-        File.open(@lock_file, 'w') {|f| f.write(@log_url) }
+        File.open(@lock_file, 'w') {|file| file.write(@log_url) }
 
         if (software_state == Uhuru::BoshCommander::Versioning::STATE_LOCAL)
           release_files = Dir["#{software.bits_full_local_path}/*release.tgz"]
@@ -211,8 +211,8 @@ module Uhuru::BoshCommander
         end
 
         say "Dependency setup complete.".green
-      rescue => e
-        $logger.error("There was an error while trying to prepare dependencies for '#{software_name} #{software_version}': #{e.to_s}")
+      rescue => ex
+        $logger.error("There was an error while trying to prepare dependencies for '#{software_name} #{software_version}': #{ex.to_s}")
         dependency_had_errors = true
 
         FileUtils.mv @lock_file, @error_file
@@ -227,8 +227,8 @@ module Uhuru::BoshCommander
           FileUtils.rm_f(@error_file)
 
           say "Deployment finished.".green
-        rescue => e
-          $logger.error("There was an error while trying to deploy '#{software_name} #{software_version}': #{e.to_s}")
+        rescue => ex
+          $logger.error("There was an error while trying to deploy '#{software_name} #{software_version}': #{ex.to_s}")
           FileUtils.mv @lock_file, @error_file
         end
       end
@@ -333,8 +333,8 @@ module Uhuru::BoshCommander
       deployment = director.get_deployment(@deployment_name)
 
       if save_as
-        File.open(save_as, "w") do |f|
-          f.write(deployment["manifest"])
+        File.open(save_as, "w") do |file|
+          file.write(deployment["manifest"])
         end
       end
 
@@ -372,8 +372,8 @@ module Uhuru::BoshCommander
       #determine if director contains the deployment
       director_deployment = false
       unless deployments.empty?
-        deployments.each do |d|
-          if d["name"] == @deployment_name
+        deployments.each do |dep|
+          if dep["name"] == @deployment_name
             director_deployment = true
             remote_manifest = director.get_deployment(@deployment_name)["manifest"]
             break
@@ -424,10 +424,12 @@ module Uhuru::BoshCommander
       total_cpu = 0
       total_ram = 0
       total_disk = 0
+
+      resource_pool_size = resource_pool["size"].to_i
       deployment_manifest["resource_pools"].each do |resource_pool|
-        total_cpu +=  resource_pool["cloud_properties"]["cpu"].to_i * resource_pool["size"].to_i
-        total_ram += resource_pool["cloud_properties"]["ram"].to_i * resource_pool["size"].to_i
-        total_disk += (get_stemcell_disk(resource_pool["stemcell"]) + resource_pool["cloud_properties"]["disk"].to_i) * resource_pool["size"].to_i
+        total_cpu +=  resource_pool["cloud_properties"]["cpu"].to_i * resource_pool_size
+        total_ram += resource_pool["cloud_properties"]["ram"].to_i * resource_pool_size
+        total_disk += (get_stemcell_disk(resource_pool["stemcell"]) + resource_pool["cloud_properties"]["disk"].to_i) * resource_pool_size
       end
       deployment_manifest["jobs"].each do |job|
         total_disk += job["persistent_disk"].to_i * job["instances"].to_i

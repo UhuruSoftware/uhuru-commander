@@ -1,5 +1,5 @@
 module Uhuru::BoshCommander
-
+  # a class used for the erb rendering
   class ErbRenderHelper
 
     def layout(set_layout)
@@ -37,11 +37,11 @@ module Uhuru::BoshCommander
         @layout = @template
       end
 
-
       [@template, @layout, @locals]
     end
   end
 
+  # the route base for the cloud commander website
   class RouteBase < Sinatra::Base
     set :root, File.expand_path("../../../", __FILE__)
     set :views, File.expand_path("../../../views", __FILE__)
@@ -51,10 +51,12 @@ module Uhuru::BoshCommander
     register Sinatra::VCAP
     use Rack::Logger
 
+    # defines the logger
     def logger
       request.logger
     end
 
+    # a method used for erb rendering
     def render_erb(&code)
       template, layout, locals = ErbRenderHelper.new.render &code
 
@@ -81,6 +83,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # the get method for the not found error
     not_found do
       ex = "404 - Sorry, page not found."
 
@@ -90,6 +93,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # the get method for other types of server errors
     error do
       $logger.error "#{request.env['sinatra.error'].message} - #{request.env['sinatra.error'].backtrace}"
 
@@ -101,6 +105,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # helpers method
     helpers do
       def first_run?
         YAML.load_file($config[:properties_file])['properties']['vcenter']['address'] == "127.0.0.1"

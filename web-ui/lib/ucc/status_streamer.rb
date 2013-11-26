@@ -3,6 +3,7 @@ require "uuidtools"
 require 'tmpdir'
 
 module Uhuru::BoshCommander
+  # the status streamer class
   class StatusStreamer
     MAX_BYTES_TO_READ = 1024 * 100
 
@@ -84,7 +85,6 @@ module Uhuru::BoshCommander
       end
 
       file_name = File.join(@streams_dir, stream_name.to_s + ".data")
-
       chunk = IO::read(file_name, MAX_BYTES_TO_READ, read_bytes)
 
       if chunk

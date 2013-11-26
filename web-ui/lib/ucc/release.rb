@@ -1,20 +1,23 @@
 module Uhuru::BoshCommander
+  # releases class
   class Release
     def initialize()
-
     end
 
+    # upload release
     def upload(release_file)
        release_command.upload(release_file)
     end
 
+    # return all releases
     def list_releases
-      releases = director.list_releases.sort do |r1, r2|
-        r1["name"] <=> r2["name"]
+      releases = director.list_releases.sort do |rel1, rel2|
+        rel1["name"] <=> rel2["name"]
       end
       releases
     end
 
+    # delete a release
     def delete(name, version)
       release_command.delete(name,version)
     end
@@ -33,6 +36,5 @@ module Uhuru::BoshCommander
     def director
       Thread.current.current_session[:command].instance_variable_get("@director")
     end
-
   end
 end

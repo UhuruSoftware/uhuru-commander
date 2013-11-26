@@ -1,7 +1,9 @@
 module Uhuru::BoshCommander
+  # a class used for the infrastructure page
   class Infrastructure < RouteBase
-    get '/infrastructure' do
 
+    # get method for the infrastructure page
+    get '/infrastructure' do
       form = InfrastructureForm.from_config(nil)
 
       render_erb do
@@ -13,6 +15,7 @@ module Uhuru::BoshCommander
       end
     end
 
+    # post method for infrastructure
     post '/infrastructure' do
       params.delete("btn_update")
 
@@ -43,8 +46,8 @@ module Uhuru::BoshCommander
               properties = YAML.load_file($config[:properties_file])
               $config[:versioning][:blobstore_provider] = properties["properties"]["compiled_package_cache"]["provider"]
               $config[:versioning][:blobstore_options] = Config.symbolize_hash properties["properties"]["compiled_package_cache"]["options"]
-            rescue Exception => e
-              err e
+            rescue Exception => ex
+              err ex
             end
           end
           action_on_done = "Infrastructure setup done. Click <a href='/infrastructure'>here</a> to return to infrastructure view."

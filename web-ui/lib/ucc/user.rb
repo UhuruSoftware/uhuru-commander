@@ -1,6 +1,7 @@
 require 'bcrypt'
 
 module Uhuru::BoshCommander
+  # the user class
   class User
     def initialize(username, system_call = false)
       @username = username
@@ -17,10 +18,12 @@ module Uhuru::BoshCommander
       end
     end
 
+    # delete user
     def delete
       @db[:users].filter(:username=>@username).delete
     end
 
+    # update user password
     def update(password)
       @db[:users].filter(:username=>@username).update(:password => BCrypt::Password.create(password))
     end
@@ -30,6 +33,7 @@ module Uhuru::BoshCommander
       db[:users].select(:username).order(:username).map(:username)
     end
 
+    # create a new user
     def self.create(username, password)
       db = get_db
       if db[:users].filter(:username => username).first()
@@ -48,12 +52,12 @@ module Uhuru::BoshCommander
         director_yaml = YAML.load_file(director_config_file)
         db_config = director_yaml["db"]
         connection_options = db_config.delete('connection_options') {{}}
-        db_config.delete_if { |_, v| v.to_s.empty? }
+        db_config.delete_if { |_, item| item.to_s.empty? }
         db_config = db_config.merge(connection_options)
 
         Sequel.connect(db_config)
-      rescue Exception => e
-        $logger.error("#{e.to_s}: #{e.backtrace}")
+      rescue Exception => ex
+        $logger.error("#{ex.to_s}: #{ex.backtrace}")
       end
     end
   end

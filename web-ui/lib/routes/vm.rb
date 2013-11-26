@@ -1,6 +1,8 @@
 module Uhuru::BoshCommander
+  # a class used for vms
   class VM < RouteBase
 
+    # get to vm page
     get '/vm/:method/:product/:deployment/:job/:index' do
       deployment = params[:deployment]
       product = params[:product]
@@ -22,15 +24,13 @@ module Uhuru::BoshCommander
               deployment_obj.recreate_vm(job, index)
           end
 
-        rescue Exception => e
-          err e
+        rescue Exception => ex
+          err ex
         end
       end
 
       action_on_done = "Job #{vm_method} '#{job}' '#{index}' finished. Click <a href='/products/:product_name/#{deployment}'>here</a> to return to current cloud."
       redirect Logs.log_url(request_id, action_on_done)
     end
-
-
   end
 end
