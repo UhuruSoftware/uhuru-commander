@@ -1,8 +1,7 @@
 require 'rbvmomi'
 
+# vsphere checker and polling class
 class VSphereChecker
-
-
   def self.check(form_data)
     vim = nil
     if ($config)
@@ -34,12 +33,12 @@ class VSphereChecker
     thr = Thread.new {
       begin
         vim = RbVmomi::VIM.connect host: address, user: user, password: password, insecure: true
-      rescue Exception => e
+      rescue
         errors["infrastructure:CPI:vcenter"] = "Could not login to '#{address}' using the provided credentials"
       end
     }
 
-    for i in 1 .. timeout
+    for counter in 1 .. timeout
       if vim
          break
       end
@@ -54,7 +53,7 @@ class VSphereChecker
 
     if vim
       rootFolder = vim.serviceInstance.content.rootFolder
-      dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).find { |x| x.name == datacenter }
+      dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).find { |obj| obj.name == datacenter }
 
       if dc == nil
         errors["infrastructure:CPI:vcenter_datacenter"] = "Datacenter '#{datacenter}' not found."
@@ -71,13 +70,13 @@ class VSphereChecker
           end
         end
 
-        dc_tf = dc.vmFolder.children.find{ |x| x.name ==  template_folder}
+        dc_tf = dc.vmFolder.children.find{ |obj| obj.name ==  template_folder}
 
         if dc_tf == nil
           errors["infrastructure:CPI:vcenter_vm_folder"] = "Could not find a folder for templates named '#{ template_folder }' in datacenter '#{ datacenter }'."
         end
 
-        dc_vmf = dc.vmFolder.children.find{ |x| x.name ==  vm_folder}
+        dc_vmf = dc.vmFolder.children.find{ |obj| obj.name ==  vm_folder}
 
         if dc_vmf == nil
           errors["infrastructure:CPI:vcenter_template_folder"] = "Could not find a folder for VMs named '#{ vm_folder }' in datacenter '#{ datacenter }'."

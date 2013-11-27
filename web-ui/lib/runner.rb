@@ -9,7 +9,7 @@ require 'yaml'
 require 'cgi'
 require "products_checker"
 
-
+# rack session pool
 class Rack::Session::Pool
   def initialize app,options={}
     super
@@ -23,6 +23,7 @@ class Rack::Session::Pool
   end
 end
 
+# authentication with rack reverse proxy
 class Rack::AuthenticatedReverseProxy < Rack::ReverseProxy
   def call(env)
     rackreq = Rack::Request.new(env)
@@ -44,26 +45,20 @@ class Rack::AuthenticatedReverseProxy < Rack::ReverseProxy
 end
 
 module Uhuru::BoshCommander
+  # the runner class for the cloud commander
   class Runner
-
     def self.init_config(file)
-
       help_file = File.expand_path("../../config/help.yml", __FILE__)
       forms_file = File.expand_path("../../config/forms.yml", __FILE__)
 
       $config = Uhuru::BoshCommander::Config.from_file(file)
-
       $config[:help] = load_help_file(help_file)
-
       $config[:blank_properties_file] = File.expand_path('../../config/properties.yml.erb', __FILE__)
       $config[:properties_file] = File.expand_path('../../config/properties.yml', __FILE__)
 
       $config[:deployments_dir] = File.expand_path('../../deployments/', __FILE__)
       $config[:configuration_file] = file
       $config[:bind_address] = $config[:bind_address]
-      #$config[:director_yml] = File.join($config[:bosh][:base_dir], 'jobs','director','config','director.yml.erb')
-      #$config[:health_monitor_yml] = File.join($config[:bosh][:base_dir], 'jobs','health_monitor','config','health_monitor.yml')
-
       $config[:nagios][:config_path] = File.join($config[:bosh][:base_dir], 'jobs', 'nagios_dashboard', 'config', 'uhuru-dashboard.yml')
 
       properties = YAML.load_file($config[:properties_file])
@@ -91,9 +86,9 @@ module Uhuru::BoshCommander
         properties = YAML.load_file($config[:properties_file])
         User.create(properties['properties']['hm']['director_account']['user'], properties['properties']['hm']['director_account']['password'])
       end
-
     end
 
+    # loads the help file for the cloud commander WebUI
     def self.load_help_file(help_file)
       help = File.open(help_file) { |file| YAML.load(file)}
 
@@ -112,18 +107,15 @@ module Uhuru::BoshCommander
 
       # default to production. this may be overridden during opts parsing
       ENV["RACK_ENV"] = "production"
-
       @config_file = File.expand_path("../../config/config.yml", __FILE__)
-
       parse_options!
-
       Runner.init_config @config_file
-
       Uhuru::BoshCommander::ProductsChecker.start_checking
 
       create_pidfile
     end
 
+    # defines de logger object
     def self.logger
       $logger ||= Steno.logger("uhuru-cloud-commander.runner")
     end
@@ -145,16 +137,17 @@ module Uhuru::BoshCommander
 
     def parse_options!
       options_parser.parse! @argv
-    rescue => e
+    rescue
       puts options_parser
       exit 1
     end
 
+    # create pidfile
     def create_pidfile
       begin
         pid_file = VCAP::PidFile.new($config[:pid_filename])
         pid_file.unlink_at_exit
-      rescue => e
+      rescue
         puts "ERROR: Can't create pid file #{$config[:pid_filename]}"
         exit 1
       end
@@ -166,6 +159,7 @@ module Uhuru::BoshCommander
       Steno.init(Steno::Config.new(steno_config))
     end
 
+    # runs the WebUI
     def run!
       config = $config.dup
 
@@ -184,7 +178,6 @@ module Uhuru::BoshCommander
 
           tty_js_location = "http://#{$config[:ttyjs][:host]}:#{$config[:ttyjs][:port]}"
           nagios_location = "http://#{$config[:nagios][:host]}:#{$config[:nagios][:port]}"
-
           director_port = YAML.load_file($config[:properties_file])['properties']['director']['port']
           director_location = "#{$config[:bosh][:target]}:#{director_port}/resources"
 

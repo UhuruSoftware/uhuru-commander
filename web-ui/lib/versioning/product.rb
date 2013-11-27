@@ -4,6 +4,7 @@ require 'yaml'
 module Uhuru
   module BoshCommander
     module Versioning
+      # the product class for the ucc product
       class Product
         BLOBSTORE_ID_PRODUCTS = "products.yml"
 
@@ -21,16 +22,17 @@ module Uhuru
 
         @@semaphore = Mutex.new
 
+        # sets de versioning directory
         def self.version_directory
           dir = $config[:versioning][:dir]
           FileUtils.mkdir_p(dir)
           dir
         end
 
+        # returns all products
         def self.get_products
           dir = Product.version_directory
           products_yaml_file = File.join(dir, 'products.yml')
-
           products_yaml = {}
           products_yaml_exists = false
 
@@ -50,13 +52,12 @@ module Uhuru
           else
             {}
           end
-
         end
 
+        # returns the blobstore client
         def self.get_blobstore_client
           bsc_provider= $config[:versioning][:blobstore_provider]
           bsc_options= $config[:versioning][:blobstore_options]
-
           Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
         end
 
@@ -64,9 +65,9 @@ module Uhuru
           @@semaphore
         end
 
+        # method for downloading manifests
         def self.download_manifests
           dir = Product.version_directory
-
           temp_dir = Dir.mktmpdir
           products_yaml_file = File.join(temp_dir, 'products.yml')
 

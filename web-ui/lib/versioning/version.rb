@@ -12,9 +12,8 @@ module Uhuru
       STATE_AVAILABLE = 5
       STATE_DEPLOYED = 6
 
+      # versioning class for the ucc
       class Version
-
-
         BITS_FILENAME = 'bits'
 
         attr_accessor :product
@@ -33,21 +32,21 @@ module Uhuru
         attr_accessor :version_location
 
         def initialize(product, version, details)
+          details_location = details['location']
           @product = product
           @version = version
-          @blob = details['location']
+          @blob = details_location
           @description = details['description']
           @dependencies = details['dependencies']
-          @location = details['location']
-          @size = details['location']['size']
-          @missing = details['location']['missing']
+          @location = details_location
+          @size = details_location['size']
+          @missing = details_location['missing']
           @deployments = nil
           get_version_identifiers
         end
 
         def get_version_identifiers
           identifiers = version.split('.')
-
           @version_major = identifiers[0]
           @version_minor = identifiers[1]
           @version_build = identifiers[2]
@@ -55,24 +54,29 @@ module Uhuru
           @version_location = identifiers[4]
         end
 
+        # sets the versioning directory
         def version_dir
           products_dir = Product.version_directory
           product_dir = File.join(products_dir, @product.name)
           File.join(product_dir, @version.to_s)
         end
 
+        # defines de full local path for the bits
         def bits_full_local_path
           File.join(version_dir, BITS_FILENAME)
         end
 
+        # defines de full local path for the unpacked bits
         def bits_full_local_path_unpacked
           "#{bits_full_local_path}.unpacked"
         end
 
+        # defines de full local path for downloading file progress
         def bits_full_local_path_dl
           "#{bits_full_local_path}.dl"
         end
 
+        # returns the state of the version
         def get_state(stemcell_list = nil, release_list = nil, deployment_list = nil)
           state = STATE_REMOTE_ONLY
 
@@ -112,9 +116,7 @@ module Uhuru
 
           elsif @product.type == 'software'
             if (state == STATE_LOCAL)
-
               bosh_releases = release_list || Uhuru::BoshCommander::Release.new().list_releases
-
               deployment_erb = File.read(File.join(bits_full_local_path, 'config', "#{@product.name}.yml.erb"))
               deployment_rendered = ERB.new(deployment_erb).result()
               deployment_yaml = YAML.load(deployment_rendered)
@@ -154,6 +156,7 @@ module Uhuru
           state
         end
 
+        # download from blobstore method
         def download_from_blobstore
           Thread.new do
             blobstore_client = Product.get_blobstore_client
@@ -170,14 +173,14 @@ module Uhuru
                 File.open(bits_full_local_path_dl, open_mode) do |file|
                   begin
                     blobstore_client.get(blobstore_id, file)
-
-                    raise "Download interruped for #{blobstore_id} at #{file.size} bytes out of #{@location['size']} bytes." if file.size < @location['size']
+                    location_size_value = @location['size']
+                    raise "Download interruped for #{blobstore_id} at #{file.size} bytes out of #{location_size_value} bytes." if file.size < location_size_value
 
                     done = true
-                  rescue => e
+                  rescue => ex
                     open_mode = "ab"
                     retry_count += 1
-                    $logger.warn "There was an error while downloading #{product.name} v#{version}. Retrying... ##{retry_count}. Error was #{e.to_s}"
+                    $logger.warn "There was an error while downloading #{product.name} v#{version}. Retrying... ##{retry_count}. Error was #{ex.to_s}"
                     sleep 5
                   end
                 end
@@ -205,7 +208,7 @@ module Uhuru
                 else
                   FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
                 end
-              rescue => e
+              rescue
                 $logger.error "Could not unpack #{product.name} v#{version}."
                 FileUtils.rm_f bits_full_local_path_unpacked
                 FileUtils.rm_f bits_full_local_path
@@ -215,6 +218,7 @@ module Uhuru
           end
         end
 
+        # download progress method used for the polling mechanism
         def download_progress
           if File.exist?(bits_full_local_path_dl)
             if Dir.exist?(bits_full_local_path_unpacked)
@@ -233,6 +237,7 @@ module Uhuru
           end
         end
 
+        # delete the bits
         def delete_bits
           if get_state == STATE_LOCAL
             FileUtils.rm_rf bits_full_local_path
@@ -241,6 +246,7 @@ module Uhuru
           end
         end
 
+        # verify the dependencies
         def dependencies_ok?
           is_ok = true
           @dependencies.each do |dependency|
@@ -262,7 +268,6 @@ module Uhuru
         #
         #   operator overloading for versioning objects
         #
-
         def <=>(other_version)
           self < other_version ? -1 : self == other_version ? 0 : 1
         end
@@ -284,24 +289,33 @@ module Uhuru
         end
 
         def <(other_version)
-          if @version_major.to_i < other_version.version_major.to_i
+          version_major_value = @version_major.to_i
+          version_minor_value = @version_minor.to_i
+          version_build_value = @version_build.to_i
+          version_type_value = version_type_to_integer(@version_type)
+          other_version_major_value = other_version.version_major.to_i
+          other_version_minor_value = other_version.version_minor.to_i
+          other_version_build_value = other_version.version_build.to_i
+          other_version_type_value = version_type_to_integer(other_version.version_type)
+
+          if version_major_value < other_version_value
             true
-          elsif (@version_major.to_i == other_version.version_major.to_i) &&
-              (@version_minor.to_i < other_version.version_minor.to_i)
+          elsif (version_major_value == other_version_major_value) &&
+              (version_major_value < other_version_minor_value)
             true
-          elsif (@version_major.to_i == other_version.version_major.to_i) &&
-              (@version_minor.to_i == other_version.version_minor.to_i) &&
-              (@version_build.to_i < other_version.version_build.to_i)
+          elsif (version_major_value == other_version_major_value) &&
+              (version_minor_value == other_version_minor_value) &&
+              (version_build_value < other_version_build_value)
             true
-          elsif (@version_major.to_i == other_version.version_major.to_i) &&
-              (@version_minor.to_i == other_version.version_minor.to_i) &&
-              (@version_build.to_i == other_version.version_build.to_i) &&
-              (version_type_to_integer(@version_type) < version_type_to_integer(other_version.version_type))
+          elsif (version_major_value == other_version_major_value) &&
+              (version_minor_value == other_version_minor_value) &&
+              (version_build_value == other_version_build_value) &&
+              (version_type_value < other_version_type_value)
             true
-          elsif (@version_major.to_i == other_version.version_major.to_i) &&
-              (@version_minor.to_i == other_version.version_minor.to_i) &&
-              (@version_build.to_i == other_version.version_build.to_i) &&
-              (version_type_to_integer(@version_type) == version_type_to_integer(other_version.version_type)) &&
+          elsif (version_major_value == other_version_major_value) &&
+              (version_minor_value == other_version_minor_value) &&
+              (version_build_value == other_version_build_value) &&
+              (version_type_value == other_version_type_value) &&
               (version_location_to_integer(@version_location) < version_location_to_integer(other_version.version_location))
             true
           else
