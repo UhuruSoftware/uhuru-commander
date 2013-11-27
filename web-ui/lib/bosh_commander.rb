@@ -67,6 +67,7 @@ require "versioning/version"
 autoload :HTTPClient, "httpclient"
 
 module Uhuru::BoshCommander
+  # Main class that contains all pages
   class BoshCommander < RouteBase
     use LoginScreen
     use Clouds
@@ -80,10 +81,13 @@ module Uhuru::BoshCommander
     use VM
     use Update
 
+    # Get method for the root page
+    #
     get '/' do
       redirect '/infrastructure'
     end
 
+    # Get method for the offline page
     get '/offline' do
       render_erb do
         template :monit_offline

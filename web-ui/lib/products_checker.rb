@@ -1,8 +1,11 @@
 module Uhuru::BoshCommander
+  # Class used to for product checking
   class ProductsChecker
 
     @@products_checker_thread = nil
 
+    # Checks for available products on every refresh rate amount of time
+    #
     def self.start_checking()
       refresh_rate = $config[:versioning][:refresh_rate] || 60
 
@@ -11,8 +14,8 @@ module Uhuru::BoshCommander
           while true do
             begin
               Uhuru::BoshCommander::Versioning::Product.download_manifests
-            rescue Exception => e
-              $logger.error "#{e.message} - #{e.backtrace}"
+            rescue Exception => ex
+              $logger.error "#{ex.message} - #{ex.backtrace}"
             end
 
             sleep(refresh_rate)

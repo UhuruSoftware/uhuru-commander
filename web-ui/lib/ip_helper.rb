@@ -1,9 +1,14 @@
 require 'ipaddr'
 
 module Uhuru::BoshCommander
+  # Helper class used to manipulate IP addresses
   class IPHelper
     IP_REGEX =  /^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/
 
+    # Returns a sublist of elements of a certain length from a IP list
+    # ips = initial list of IPs
+    # count = number of items to get from the initial list
+    #
     def self.get_ips_from_range(ips, count)
       unless ips.is_a? Array
         ips = from_string(ips)
@@ -27,6 +32,9 @@ module Uhuru::BoshCommander
       result
     end
 
+    # Counts the IPs in a range
+    # ips = ip list
+    #
     def self.ip_count_in_range(ips)
       unless ips.is_a? Array
         ips = from_string(ips)
@@ -41,6 +49,10 @@ module Uhuru::BoshCommander
       count
     end
 
+    # Search if an IP is in a given list
+    # ips = list of IPs
+    # ip = IP to search for
+    #
     def self.ip_in_range?(ips, ip)
       unless ips.is_a? Array
         ips = from_string(ips)
@@ -61,32 +73,45 @@ module Uhuru::BoshCommander
       is_in_range
     end
 
+    # Returns the integer representation of the ip
+    # ip = ip to be transformed
+    #
     def self.ip_to_int(ip)
       IPAddr.new(ip).to_i
     end
 
+    # Returns a string containing the IP address representation
+    # ip = ip to be transformed
+    #
     def self.ip_to_string(ip)
       IPAddr.new(ip, Socket::AF_INET).to_s
     end
 
-    def self.subtract_range(a, b)
-      b_first, b_last = b
+    # Subtracts an ip range from another ip range
+    # first_ip_range = ip range from where to be subtracted
+    # second_ip_range = ip range to be subtracted
+    #
+    def self.subtract_range(first_ip_range, second_ip_range)
+      b_first, b_last = second_ip_range
 
       b_first = ip_to_int b_first
       b_last = ip_to_int b_last
 
       result = []
 
-      a.each do |first, last|
+      first_ip_range.each do |first, last|
         first = ip_to_int first
         last = ip_to_int last
+
+        b_first_prev = b_first - 1
+        b_last_next = b_last + 1
 
         if b_first < first
           if b_last < first
             #nothing to subtract
             result << [first, last]
           elsif b_last < last
-            result << [b_last + 1, last]
+            result << [b_last_next, last]
           else
             #nothing left
           end
@@ -95,10 +120,10 @@ module Uhuru::BoshCommander
             #impossible
             raise "Improper IP ranges when subtracting."
           elsif b_last < last
-            result << [first, b_first - 1] if first <= b_first - 1
-            result << [b_last + 1, last] if b_last + 1 <= last
+            result << [first, b_first_prev] if first <= b_first_prev
+            result << [b_last_next, last] if b_last_next <= last
           else
-            result << [first, b_first - 1] if first <= b_first - 1
+            result << [first, b_first_prev] if first <= b_first_prev
           end
         else
           #nothing to subtract
@@ -112,6 +137,9 @@ module Uhuru::BoshCommander
       end
     end
 
+    # Checks if a list of IPs is in the proper string format
+    # ip_list = list of IPs
+    #
     def self.is_valid_string?(ip_list)
       if ip_list == nil || ip_list.strip == ''
         return false
@@ -133,6 +161,9 @@ module Uhuru::BoshCommander
       !is_wrong
     end
 
+    # Returns an array of IPs from a string
+    # ip_list = string containing ip list
+    #
     def self.from_string(ip_list)
       unless is_valid_string? ip_list
         raise "Invalid IP range '#{ip_list}'"
@@ -143,22 +174,28 @@ module Uhuru::BoshCommander
       ranges.map do |range|
         ips = range.split('-').map(&:strip).reject(&:empty?)
 
+        first_ip = ips[0]
         if ips.size == 1
-          [ips[0], ips[0]]
+          [first_ip, first_ip]
         else
-          [ips[0], ips[1]]
+          [first_ip, ips[1]]
         end
       end
     end
 
+    # Returns a string containing IPs separated by '-' from an array
+    # ip_list = list of IPs to be transformed
+    #
     def self.to_string(ip_list)
       result = nil
 
       ip_list.each do |ip_range|
-        if ip_range[0] == ip_range[1]
-          result = [result, ip_range[0]].join('; ')
+        first_ip_range = ip_range[0]
+        second_ip_range = ip_range[1]
+        if first_ip_range == second_ip_range
+          result = [result, first_ip_range].join('; ')
         else
-          result = [result, [ip_range[0], ip_range[1]].join('-')].join('; ')
+          result = [result, [first_ip_range, second_ip_range].join('-')].join('; ')
         end
       end
 
@@ -167,6 +204,9 @@ module Uhuru::BoshCommander
       result
     end
 
+    # Returns the subnet limits for an IP
+    # ip_with_subnet = ip to get limits from
+    #
     def self.get_subnet_limits(ip_with_subnet)
       ipaddr = IPAddrWithMask.new(ip_with_subnet)
       ip = ipaddr.to_i
@@ -183,27 +223,34 @@ module Uhuru::BoshCommander
       result = []
 
       [1, count - 2].each do |index|
-        newIP = ((ip & mask) | index) & 0xFFFFFFFF;
-        d = newIP & 0xFF
-        c = (newIP / 256) & 0xFF
-        b = (newIP / 65536) & 0xFF
-        a = (newIP / 16777216) & 0xFF
-        result << "#{a}.#{b}.#{c}.#{d}";
+        new_ip = ((ip & mask) | index) & 0xFFFFFFFF;
+        fourth = new_ip & 0xFF
+        third = (new_ip / 256) & 0xFF
+        second = (new_ip / 65536) & 0xFF
+        first = (new_ip / 16777216) & 0xFF
+        result << "#{first}.#{second}.#{third}.#{fourth}";
       end
 
       result
     end
 
+    # Gets the short subnet from a subnet
+    # subnet = subnet to be shortened
+    #
     def self.get_subnet_short(subnet)
       IPAdmin.unpack_ip_netmask(IPAdmin.pack_ip_netmask(subnet))
     end
 
+    # Gets IPv4 netmask in extended format
+    # ip_with_subnet = ip with subnet to be transformed
+    #
     def self.get_subnet_netmask(ip_with_subnet)
       IPAdmin::CIDR.new(ip_with_subnet).netmask_ext
     end
   end
 end
 
+# Class used to manipulate on IP address with mask
 class IPAddrWithMask < IPAddr
   def mask_to_i
     @mask_addr
