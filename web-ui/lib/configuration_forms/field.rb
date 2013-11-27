@@ -2,6 +2,7 @@ require 'net/smtp'
 require 'openssl'
 
 module Uhuru::BoshCommander
+  # Class that manages a set of fields in webui forms, and their correspondence in config files
   class Field
 
     TYPE_IP = 'ip'
@@ -39,6 +40,11 @@ module Uhuru::BoshCommander
     attr_accessor :name
     attr_accessor :error
 
+    # Initialization
+    # name = field name
+    # screen = screen name that the field belongs to
+    # form = form name that the field belongs to
+    #
     def initialize(name, screen, form)
       @screen = screen
       @form = form
@@ -50,6 +56,8 @@ module Uhuru::BoshCommander
       end
     end
 
+    # Gets the configuration of the field according to name
+    #
     def get_field_config
       fields = @screen.get_screen_config['fields'].select do |field|
         field['name'] == @name
@@ -62,22 +70,32 @@ module Uhuru::BoshCommander
       fields[0]
     end
 
+    # Gets the label of the field
+    #
     def get_label
       get_field_config['label']
     end
 
+    # Gets the description of the field
+    #
     def get_description
       get_field_config['description']
     end
 
+    # Gets field data type
+    #
     def get_data_type
       get_field_config['type']
     end
 
+    # Gets the mapped html type corresponding to forms.yml file type
+    #
     def get_html_type
       TYPE_TO_HTML_TYPE_MAP[get_data_type]
     end
 
+    # Gets the css class for the html element corresponding to field
+    #
     def get_css_class
       live_value = get_value GenericForm::VALUE_TYPE_LIVE
 
@@ -92,6 +110,8 @@ module Uhuru::BoshCommander
       ['config_field', get_data_type, get_html_type, @form.name, @screen.name, @name, changed ? 'changed' : '', @error == '' ? '' : 'error'].join(' ').strip
     end
 
+    # Gets a list of items (list of fields, list of stemcell) for specific data type
+    #
     def get_items
       if get_data_type == TYPE_LIST
         return get_list_items
@@ -104,16 +124,21 @@ module Uhuru::BoshCommander
       end
     end
 
+    # Gets the list of deployed linux stemcell with version
+    #
     def get_linux_stemcells
       products = Uhuru::BoshCommander::Versioning::Product.get_products
       current_product = products[@form.product_name]
       stemcells = {}
       current_product.versions[@form.product_version.to_s].dependencies.each do |dependency|
-        products[dependency["dependency"]].local_versions.each do |version|
-          if products[dependency["dependency"]].type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL
-            unless products[dependency["dependency"]].name.downcase.include? "windows"
-              if dependency["version"].include? version[0]
-                stemcells["#{products[dependency["dependency"]].label} v. #{version[0]}"] = "name:#{products[dependency["dependency"]].name},version:#{version[0]}"
+        products_dependency = products[dependency["dependency"]]
+        products_dependency_name = products_dependency.name
+        products_dependency.local_versions.each do |version|
+          first_version = version[0]
+          if products_dependency.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL
+            unless products_dependency_name.downcase.include? "windows"
+              if dependency["version"].include? first_version
+                stemcells["#{products_dependency.label} v. #{first_version}"] = "name:#{products_dependency_name},version:#{first_version}"
               end
             end
           end
@@ -122,16 +147,21 @@ module Uhuru::BoshCommander
       stemcells
     end
 
+    # Gets the list of deployed windows stemcell with version
+    #
     def get_windows_stemcells
       products = Uhuru::BoshCommander::Versioning::Product.get_products
       current_product = products[@form.product_name]
       stemcells = {}
       current_product.versions[@form.product_version.to_s].dependencies.each do |dependency|
-        products[dependency["dependency"]].local_versions.each do |version|
-          if products[dependency["dependency"]].type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL
-            if products[dependency["dependency"]].name.downcase.include? "windows"
-              if dependency["version"].include? version[0]
-                stemcells["#{products[dependency["dependency"]].label} v. #{version[0]}"] = "name:#{products[dependency["dependency"]].name},version:#{version[0]}"
+        products_dependency = products[dependency["dependency"]]
+        products_dependency_name = products_dependency.name
+        products_dependency.local_versions.each do |version|
+          first_version = version[0]
+          if products_dependency.type == Uhuru::BoshCommander::Versioning::Product::TYPE_STEMCELL
+            if products_dependency_name.downcase.include? "windows"
+              if dependency["version"].include? first_version
+                stemcells["#{products_dependency.label} v. #{first_version}"] = "name:#{products_dependency_name},version:#{first_version}"
               end
             end
           end
@@ -140,10 +170,14 @@ module Uhuru::BoshCommander
       stemcells
     end
 
+    # Gets the configuration of 'items' field
+    #
     def get_list_items
       get_field_config['items']
     end
 
+    # Generates volatile data for field and verify structure to be conform with config file
+    #
     def generate_volatile_data!
       value = get_value GenericForm::VALUE_TYPE_FORM
 
@@ -165,13 +199,16 @@ module Uhuru::BoshCommander
       yml_keys.each do |key|
         begin
           eval('@form.volatile_data' + key + ' = value')
-        rescue => e
-          $logger.error("Failed to evaluate key '#{key}' for generating volatile data: #{e.inspect}")
-          raise e
+        rescue => ex
+          $logger.error("Failed to evaluate key '#{key}' for generating volatile data: #{ex.inspect}")
+          raise ex
         end
       end
     end
 
+    # Gets filed value from html form
+    # value_type = type of the value field
+    #
     def get_value(value_type)
       data = @form.get_data(value_type)
       if data == nil
@@ -186,16 +223,17 @@ module Uhuru::BoshCommander
 
       if value_type == GenericForm::VALUE_TYPE_LIVE || value_type == GenericForm::VALUE_TYPE_SAVED || value_type == GenericForm::VALUE_TYPE_VOLATILE
         begin
-          if get_field_config["yml_key"].kind_of?(Array)
-            value = eval("data" + get_field_config["yml_key"][0])
+          field_config = get_field_config["yml_key"]
+          if field_config.kind_of?(Array)
+            value = eval("data" + field_config[0])
           else
-            value = eval("data" + get_field_config["yml_key"])
+            value = eval("data" + field_config)
           end
-        rescue => e
-          $logger.error("Error evaluating field '#{html_form_id}' - #{e.message}: #{e.backtrace}")
+        rescue => ex
+          $logger.error("Error evaluating field '#{html_form_id}' - #{ex.message}: #{ex.backtrace}")
           raise "Error evaluating field '#{html_form_id}'"
         end
-        exotic_value = get_exotic_value(value, value_type)
+        exotic_value = get_exotic_value(value)
         result = exotic_value != nil ? exotic_value : value
       elsif value_type == GenericForm::VALUE_TYPE_FORM
         value = data[html_form_id]
@@ -218,20 +256,29 @@ module Uhuru::BoshCommander
       result
     end
 
+    # Validate field value and displays error message if any
+    # value_type = type of the field value
+    #
     def validate?(value_type)
       @error = ''
       @error = validate_data_type(value_type)
 
-      if @error == ''
+      no_error = @error == ''
+      if no_error
         @error = validate_value(value_type)
       end
-      (@error == '')
+      no_error
     end
 
+    # Gets the html form id of the field
+    #
     def html_form_id
       "#{@form.name}:#{@screen.name}:#{@name}"
     end
 
+    # Loads help info for the field from config file
+    # use_visibility_link = help status if it's visible or not on the form
+    #
     def help(use_visibility_link)
       help_item = [get_field_config['label'], get_field_config['description']]
       if use_visibility_link
@@ -243,6 +290,9 @@ module Uhuru::BoshCommander
 
     private
 
+    # Validates data value with REGEX conform with their type
+    # value_type = type of the value to be validated
+    #
     def validate_data_type(value_type)
       type = get_data_type
       value = get_value(value_type)
@@ -299,12 +349,16 @@ module Uhuru::BoshCommander
             end
         end
         error
-      rescue Exception => e
-        $logger.error "Error validating field #{html_form_id} - #{e.to_s}: #{e.backtrace}"
+      rescue Exception => ex
+        $logger.error "Error validating field #{html_form_id} - #{ex.to_s}: #{ex.backtrace}"
         return "Server error - invalid field"
       end
     end
 
+    # Validate field value in real time for infrastructure form and returns an error message
+    # For other forms where no validation is required just returns the value
+    # value_type = type of the field value
+    #
     def validate_value(value_type)
       if value_type == GenericForm::VALUE_TYPE_FORM
         return ''
@@ -312,18 +366,18 @@ module Uhuru::BoshCommander
 
       error = ''
       value = get_value value_type
-      deployment = @form.get_data value_type
 
       if @form.name == 'infrastructure'
         if @screen.name == 'CPI'
           if @name == 'vcenter_template_folder'
-            vcenter = @screen.fields.find {|field| field.name == 'vcenter' }
-            vcenter_user = @screen.fields.find {|field| field.name == 'vcenter_user' }
-            vcenter_password = @screen.fields.find {|field| field.name == 'vcenter_password' }
-            vcenter_datacenter = @screen.fields.find {|field| field.name == 'vcenter_datacenter' }
-            vcenter_clusters = @screen.fields.find {|field| field.name == 'vcenter_clusters' }
-            vcenter_datastore = @screen.fields.find {|field| field.name == 'vcenter_datastore' }
-            vcenter_vm_folder = @screen.fields.find {|field| field.name == 'vcenter_vm_folder' }
+            # validate existence
+            vcenter = find_screen_field('vcenter')
+            vcenter_user = find_screen_field('vcenter_user')
+            vcenter_password = find_screen_field('vcenter_password')
+            vcenter_datacenter = find_screen_field('vcenter_datacenter')
+            vcenter_clusters = find_screen_field('vcenter_clusters')
+            vcenter_datastore = find_screen_field('vcenter_datastore')
+            vcenter_vm_folder = find_screen_field('vcenter_vm_folder')
 
             address = vcenter.get_value(value_type)
             user = vcenter_user.get_value(value_type)
@@ -334,12 +388,13 @@ module Uhuru::BoshCommander
             vm_folder = vcenter_vm_folder.get_value(value_type)
             template_folder = value
 
+            # validate vcenter credentials
             vim = nil
             thr = Thread.new do
               begin
                 vim = RbVmomi::VIM.connect host: address, user: user, password: password, insecure: true
-              rescue Exception => e
-                if e.message.include? 'incorrect user name or password'
+              rescue Exception => ex
+                if ex.message.include? 'incorrect user name or password'
                   vcenter_user.error = "User may be incorrect"
                   vcenter_password.error = "Password may be incorrect"
                   error = 'Please rectify incorrect settings'
@@ -361,9 +416,10 @@ module Uhuru::BoshCommander
               error = 'Please rectify incorrect settings'
             end
 
+            # validate datacenter settings
             if vim
               root_folder = vim.serviceInstance.content.rootFolder
-              dc = root_folder.childEntity.grep(RbVmomi::VIM::Datacenter).find { |x| x.name == datacenter }
+              dc = root_folder.childEntity.grep(RbVmomi::VIM::Datacenter).find { |folder| folder.name == datacenter }
               if dc == nil
                 vcenter_datacenter.error = "Datacenter '#{datacenter}' not found."
                 error = 'Please rectify incorrect settings'
@@ -381,14 +437,15 @@ module Uhuru::BoshCommander
                   end
                 end
 
-                dc_vmf = dc.vmFolder.children.find{ |x| x.name ==  vm_folder}
+                root_vm_folder = dc.vmFolder
+                dc_vmf = root_vm_folder.children.find{ |folder| folder.name ==  vm_folder}
 
                 if dc_vmf == nil
                   vcenter_vm_folder.error = "Could not find a folder for VMs named '#{ vm_folder }' in datacenter '#{ datacenter }'."
                   error = 'Please rectify incorrect settings'
                 end
 
-                dc_tf = dc.vmFolder.children.find{ |x| x.name ==  template_folder}
+                dc_tf = root_vm_folder.children.find{ |folder| folder.name ==  template_folder}
 
                 if dc_tf == nil
                   error = "Could not find a folder for templates named '#{ template_folder }' in datacenter '#{ datacenter }'."
@@ -396,9 +453,10 @@ module Uhuru::BoshCommander
               end
             end
           elsif @name == 'blobstore_location'
+            # validate blobstore credentials
 
-            blobstore_user = @screen.fields.find {|field| field.name == 'blobstore_user' }
-            blobstore_password = @screen.fields.find {|field| field.name == 'blobstore_password' }
+            blobstore_user = find_screen_field('blobstore_user')
+            blobstore_password = find_screen_field('blobstore_password')
 
             bsc_provider= "dav"
             bsc_options= {}
@@ -410,8 +468,8 @@ module Uhuru::BoshCommander
               unless client.exists?(Uhuru::BoshCommander::Versioning::Product::BLOBSTORE_ID_PRODUCTS)
                 error = 'Can not get products list'
               end
-            rescue Exception => e
-              if e.message.include? 'Could not get object existence, 401'
+            rescue Exception => ex
+              if ex.message.include? 'Could not get object existence, 401'
                 blobstore_user.error = "User may be incorrect"
                 blobstore_password.error = "Password may be incorrect"
                 error = 'Please rectify incorrect settings'
@@ -420,14 +478,16 @@ module Uhuru::BoshCommander
               end
             end
           elsif @name == 'nagios_email_server'
-            email_server =  @screen.fields.find {|field| field.name == 'nagios_email_server' }.get_value(value_type)
-            email_from =  @screen.fields.find {|field| field.name == 'nagios_email_from' }.get_value(value_type)
-            email_port = @screen.fields.find {|field| field.name == 'nagios_email_server_port' }.get_value(value_type)
-            email_server_enable_tls = @screen.fields.find {|field| field.name == 'nagios_email_server_enable_tls' }.get_value(value_type)
-            email_server_user = @screen.fields.find {|field| field.name == 'nagios_email_server_user' }.get_value(value_type)
-            email_server_secret = @screen.fields.find {|field| field.name == 'nagios_email_server_secret' }.get_value(value_type)
-            email_server_auth_method = @screen.fields.find {|field| field.name == 'nagios_email_server_auth_method' }.get_value(value_type)
+            # validate nagios settings
+            email_server = find_screen_field('nagios_email_server').get_value(value_type)
+            email_from =  find_screen_field('nagios_email_from').get_value(value_type)
+            email_port = find_screen_field('nagios_email_server_port').get_value(value_type)
+            email_server_enable_tls = find_screen_field('nagios_email_server_enable_tls').get_value(value_type)
+            email_server_user = find_screen_field('nagios_email_server_user').get_value(value_type)
+            email_server_secret = find_screen_field('nagios_email_server_secret').get_value(value_type)
+            email_server_auth_method = find_screen_field('nagios_email_server_auth_method').get_value(value_type)
 
+            #validate email settings
             client = Net::SMTP.new( email_server,email_port)
 
             if email_server_enable_tls
@@ -453,8 +513,8 @@ END_OF_MESSAGE
                 client.send_message msg, email_from, $config[:test_email]
 
               end
-            rescue Exception => e
-              error = "Cannot connect to email server, please verify settings - #{e.message}"
+            rescue Exception => ex
+              error = "Cannot connect to email server, please verify settings - #{ex.message}"
             end
 
           end
@@ -465,23 +525,8 @@ END_OF_MESSAGE
     end
 
     # This method is called when we want to show values on the form
-    def get_exotic_value(value, value_type)
-      def handle_exotic_type(value)
-        data_type = get_data_type
-        result = nil
-
-        if data_type == TYPE_CSV || data_type == TYPE_IP_LIST
-          result = value.join(';')
-        elsif data_type == TYPE_IP_RANGE
-          ip_ranges = value.map do |range|
-            range.split('-').map(&:strip).reject(&:empty?)
-          end
-          result = IPHelper.to_string ip_ranges
-        end
-
-        result
-      end
-
+    #
+    def get_exotic_value(value)
       result = nil
       begin
         if @form.name == 'infrastructure'
@@ -499,41 +544,48 @@ END_OF_MESSAGE
         end
 
         if result == nil
-          result = handle_exotic_type(value)
+          result = handle_to_get_exotic_type(value)
         end
-      rescue => e
-        $logger.warn "Could not generate exotic value for '#{html_form_id}' - #{e.message} : #{e.backtrace}"
+      rescue => ex
+        $logger.warn "Could not generate exotic value for '#{html_form_id}' - #{ex.message} : #{ex.backtrace}"
         result = ''
       end
 
       result
     end
 
-    # This method is called when we want to save data. This is where we have to manipulate values before we save them.
-    def generate_exotic_value(value)
-      def handle_exotic_type(value)
-        data_type = get_data_type
-        result = nil
+    # Transforms a exotic value for displaying it on the form
+    # value = value to be transformed
+    #
+    def handle_to_get_exotic_type(value)
+      data_type = get_data_type
+      result = nil
 
-        if data_type == TYPE_CSV || data_type == TYPE_IP_LIST
-          result = value.gsub(/,/, ';').split(';').map(&:strip).reject(&:empty?)
-        elsif data_type == TYPE_IP_RANGE
-          result = IPHelper.from_string(value).map do |range|
-            "#{range[0]}-#{range[1]}"
-          end
+      if data_type == TYPE_CSV || data_type == TYPE_IP_LIST
+        result = value.join(';')
+      elsif data_type == TYPE_IP_RANGE
+        ip_ranges = value.map do |range|
+          range.split('-').map(&:strip).reject(&:empty?)
         end
-
-        result
+        result = IPHelper.to_string ip_ranges
       end
 
+      result
+    end
+
+    # This method is called when we want to save data. This is where we have to manipulate values before we save them.
+    # value = field value from web interface
+    #
+    def generate_exotic_value(value)
       result = nil
       if @form.name == 'infrastructure'
         if @screen.name == 'CPI'
           if @name == 'net_interface'
             #replace ip address in configuration file
-            configuration = YAML.load_file($config[:configuration_file])
+            config_file = $config[:configuration_file]
+            configuration = YAML.load_file(config_file)
             configuration["bind_address"] = value
-            File.open($config[:configuration_file], "w") {|f| f.write(configuration.to_yaml)}
+            File.open(config_file, "w") {|file| file.write(configuration.to_yaml)}
           elsif @name == 'nagios_email_server_auth_method'
             result = value.to_sym
           end
@@ -541,10 +593,35 @@ END_OF_MESSAGE
       end
 
       if result == nil
-        result = handle_exotic_type(value)
+        result = handle_to_generate_exotic_type(value)
       end
 
       result
+    end
+
+    # Transforms a exotic value for saving it in config file
+    # value = value to be transformed
+    #
+    def handle_to_generate_exotic_type(value)
+      data_type = get_data_type
+      result = nil
+
+      if data_type == TYPE_CSV || data_type == TYPE_IP_LIST
+        result = value.gsub(/,/, ';').split(';').map(&:strip).reject(&:empty?)
+      elsif data_type == TYPE_IP_RANGE
+        result = IPHelper.from_string(value).map do |range|
+          "#{range[0]}-#{range[1]}"
+        end
+      end
+
+      result
+    end
+
+    # Find a field in the screen by name
+    # field_name = name of the field
+    #
+    def find_screen_field(field_name)
+      @screen.fields.find {|field| field.name == field_name }
     end
 
   end
