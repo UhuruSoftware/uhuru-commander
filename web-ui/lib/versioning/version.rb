@@ -298,7 +298,7 @@ module Uhuru
           other_version_build_value = other_version.version_build.to_i
           other_version_type_value = version_type_to_integer(other_version.version_type)
 
-          if version_major_value < other_version_value
+          if version_major_value < other_version_major_value
             true
           elsif (version_major_value == other_version_major_value) &&
               (version_major_value < other_version_minor_value)
