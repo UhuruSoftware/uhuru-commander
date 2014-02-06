@@ -301,7 +301,7 @@ module Uhuru
           if version_major_value < other_version_major_value
             true
           elsif (version_major_value == other_version_major_value) &&
-              (version_major_value < other_version_minor_value)
+              (version_minor_value < other_version_minor_value)
             true
           elsif (version_major_value == other_version_major_value) &&
               (version_minor_value == other_version_minor_value) &&
