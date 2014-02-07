@@ -1,3 +1,7 @@
+# Copyright (c) 2009-2012 VMware, Inc.
+
+require 'ucc/monit_client'
+
 module Uhuru::BoshCommander
   # monitoring class
   class Monit
@@ -22,6 +26,10 @@ module Uhuru::BoshCommander
       File.join(monit_dir, 'monit.user')
     end
 
+    def monit_alerts_file
+      File.join(monit_dir, 'alerts.monitrc')
+    end
+
     # credentials for monitoring
     def monit_credentials
       entry = File.read(monit_user_file).lines.find { |line| line.match(/\A#{BOSH_APP_GROUP}/) }
@@ -36,7 +44,7 @@ module Uhuru::BoshCommander
 
     def monit_api_client
       user, cred = monit_credentials
-      MonitApi::Client.new("http://#{user}:#{cred}@127.0.0.1:2822", :logger => logger)
+      MonitClient.new("https://#{user}:#{cred}@127.0.0.1:2822", :logger => logger)
     end
 
     def monit_bin

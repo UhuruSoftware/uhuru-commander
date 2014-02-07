@@ -17,7 +17,6 @@ gem "bosh_cli", "~> 1.1868.0", :git => 'git@github.com:UhuruSoftware/private-bos
 gem "bosh_cli_plugin_micro", "~> 1.1868.0", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => '66eec1b4b64d144288e395e734ce03e64b6d87cc' 
 gem "net-ssh-gateway", "= 1.1.0"
 gem "uuidtools"
-gem "monit_api"
 gem "sequel"
 gem "pg"
 gem "bcrypt-ruby"
