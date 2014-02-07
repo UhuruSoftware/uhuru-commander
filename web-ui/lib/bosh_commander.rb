@@ -14,7 +14,6 @@ require "net/http"
 require "cli"
 require "weakref"
 require "uuidtools"
-require "monit_api"
 require "fileutils"
 require "sequel"
 
