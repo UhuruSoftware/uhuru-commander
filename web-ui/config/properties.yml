@@ -71,6 +71,7 @@ properties:
     auto_fix_stateful_nodes: true
     enable_snapshots: false
     proxy_timeout: 900
+    max_vm_create_tries: 5
   hm:
     http:
       user: hm

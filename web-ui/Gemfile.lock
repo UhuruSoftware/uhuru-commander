@@ -104,6 +104,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     cookiejar (0.3.0)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     daemons (1.1.9)
     descendants_tracker (0.0.3)
     diff-lcs (1.2.5)
@@ -222,6 +224,7 @@ GEM
       nokogiri (~> 1.5)
       rest-client
     rubyzip (1.1.0)
+    safe_yaml (1.0.1)
     sequel (3.43.0)
     sinatra (1.4.4)
       rack (~> 1.4)
@@ -287,6 +290,7 @@ DEPENDENCIES
   bosh_cli (~> 1.1868.0)!
   bosh_cli_plugin_micro (~> 1.1868.0)!
   cfoundry
+  crack
   ip
   ipaddress
   ipadmin

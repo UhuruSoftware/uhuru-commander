@@ -1,4 +1,4 @@
-module Bosh::Cli
+module Bosh::Cli::TaskTracking
   # event log reader class
   class EventLogRenderer
     undef_method :render

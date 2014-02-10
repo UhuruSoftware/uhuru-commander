@@ -29,3 +29,4 @@ gem "blobstore_client", "~> 1.1868.0", :git => 'git@github.com:UhuruSoftware/pri
 gem "archive-tar-minitar", "~> 0.5.2"
 gem "plugin_manager", "~> 1.5"
 
+gem "crack"
