@@ -1,6 +1,5 @@
 # Copyright (c) 2009-2012 VMware, Inc.
 
-require 'ucc/monit_client'
 
 module Uhuru::BoshCommander
   # monitoring class
