@@ -139,11 +139,11 @@ EOF
 
     cd ${PATH_BOSH}
 
-    bundle exec rake all:pre_stage_latest
+#    bundle exec rake all:pre_stage_latest
 
     mkdir -p $cwd/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache
 
-    cp -f ${PATH_BOSH}/pkg/gems/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
+#    cp -f ${PATH_BOSH}/pkg/gems/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
     cp -f ${PATH_BOSH}/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
 
     cp -f $PATH_UHURU_COMMANDER/web-ui/vendor/cache/* ${cwd}/uhuru-uccui/var/vcap/store/ucc/web-ui/vendor/cache/
