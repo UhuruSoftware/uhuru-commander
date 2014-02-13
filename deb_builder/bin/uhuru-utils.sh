@@ -137,6 +137,9 @@ EOF
     rm Gemfile.bk Gemfile.lock
     rm -rf .bundle
 
+
+
+
     cd ${PATH_BOSH}
 
     #bundle exec rake release:create_dev_release

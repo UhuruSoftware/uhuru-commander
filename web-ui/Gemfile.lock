@@ -286,9 +286,9 @@ PLATFORMS
 DEPENDENCIES
   archive-tar-minitar (~> 0.5.2)
   bcrypt-ruby
-  blobstore_client (~> 1.1868.0)!
-  bosh_cli (~> 1.1868.0)!
-  bosh_cli_plugin_micro (~> 1.1868.0)!
+  blobstore_client!
+  bosh_cli!
+  bosh_cli_plugin_micro!
   cfoundry
   crack
   ip
