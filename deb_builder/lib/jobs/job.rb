@@ -153,9 +153,12 @@ module Uhuru
 
 
           FileUtils.cp_r(File.expand_path('../generate_templates.rb', __FILE__), @struct['bits_dir'], :remove_destination => true)
+          FileUtils.cp_r(File.expand_path('../Gemfile', __FILE__), @struct['bits_dir'], :remove_destination => true)
           FileUtils.cp_r(File.expand_path('../../../../web-ui/config/properties.yml', __FILE__), @struct['bits_dir'], :remove_destination => true)
           FileUtils.cp_r(File.expand_path('../../../../web-ui/config/properties.yml.erb', __FILE__), @struct['bits_dir'], :remove_destination => true)
           FileUtils.cp_r(File.expand_path('../../../../modules/private-bosh/bosh_common/lib/common/properties', __FILE__), @struct['bits_dir'], :remove_destination => true)
+
+
 
           tgz_file = File.join(@directory, "#{@job_meta['version']}.tgz")
 
