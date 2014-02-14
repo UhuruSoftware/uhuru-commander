@@ -160,7 +160,7 @@ EOF
 #!/bin/bash
 cd /var/vcap/store/ucc/web-ui
 GEM_HOME=/var/vcap/store/ucc/web-ui/gem_home
-/var/vcap/packages/ruby/bin/bundle install --local
+/var/vcap/packages/ruby/bin/bundle install --local --path /var/vcap/store/ucc/web-ui/gem_home
 
 if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
     erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
