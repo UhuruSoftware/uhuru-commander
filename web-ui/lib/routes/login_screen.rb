@@ -30,7 +30,6 @@ module Uhuru::BoshCommander
       command.add_option(:non_interactive, true)
 
       CommanderBoshRunner.execute(session) do
-        Bosh::Cli::Config.cache = Bosh::Cli::Cache.new(cache)
         command.set_target($config[:bosh][:target])
         command.login(params[:username], params[:password])
       end

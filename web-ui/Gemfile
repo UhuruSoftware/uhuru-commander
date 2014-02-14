@@ -30,3 +30,4 @@ gem "archive-tar-minitar", "~> 0.5.2"
 gem "plugin_manager", "~> 1.5"
 
 gem "crack"
+gem "nokogiri", "=1.5.5"
