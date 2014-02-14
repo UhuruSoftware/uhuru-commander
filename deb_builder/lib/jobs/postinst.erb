@@ -7,7 +7,7 @@ mkdir -p ${BOSH_INSTALL_TARGET}/uhuru_templates
 
 
 cp -Rf /<%= target_bits_dir %>/* ${BOSH_INSTALL_TARGET}/uhuru_templates/
-/var/vcap/packages/ruby/bin/bundle install
+/var/vcap/packages/ruby/bin/bundle install --path ${BOSH_INSTALL_TARGET}/local_gems
 /var/vcap/packages/ruby/bin/bundle exec /var/vcap/packages/ruby/bin/ruby generate_templates.rb "/<%= target_bits_dir %>" "${BOSH_INSTALL_TARGET}"
 
 mkdir -p /etc/monit/uhururc.d
