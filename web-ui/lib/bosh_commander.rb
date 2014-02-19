@@ -61,6 +61,7 @@ require "configuration_forms/infrastructure_form"
 require "configuration_forms/cloud_form"
 require "configuration_forms/monitoring_form"
 
+require "urm_helper"
 require "versioning/product"
 require "versioning/version"
 

@@ -118,15 +118,6 @@ properties:
     webserver:
       port: 8081
       address: 0.0.0.0
-  compiled_package_cache:
-    # For the final release make sure read_only is set to 'true'
-    # and the blobstore credentials have ONLY read permission.
-    read_only: false
-    provider: dav
-    options:
-      endpoint: http://packages.uhurusoftware.com:8000/
-      user: 'user'
-      password: 'password'
   ntp:
    - 0.pool.ntp.org
    - 1.pool.ntp.org

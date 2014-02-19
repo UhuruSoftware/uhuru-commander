@@ -56,8 +56,8 @@ module Uhuru
 
         # returns the blobstore client
         def self.get_blobstore_client
-          bsc_provider= $config[:versioning][:blobstore_provider]
-          bsc_options= $config[:versioning][:blobstore_options]
+          bsc_provider= "sftp"
+          bsc_options= {:endpoint => Uhuru::BoshCommander::URMHelper.endpoint, :user => Uhuru::BoshCommander::URMHelper.username, :blobstore_path => File.join(Dir.home, "/")}
           Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
         end
 
@@ -65,7 +65,6 @@ module Uhuru
           @@semaphore
         end
 
-        # method for downloading manifests
         def self.download_manifests
           dir = Product.version_directory
           temp_dir = Dir.mktmpdir
@@ -73,9 +72,7 @@ module Uhuru
 
           if get_blobstore_client.exists?(BLOBSTORE_ID_PRODUCTS)
             products_temp_file = "#{products_yaml_file}.tmp"
-            File.open(products_temp_file, "w") do |file|
-              get_blobstore_client.get(BLOBSTORE_ID_PRODUCTS, file)
-            end
+            Uhuru::BoshCommander::URMHelper.copy_manifest("products", "products.yml", products_temp_file)
             FileUtils.mv(products_temp_file, products_yaml_file)
           end
 
@@ -86,13 +83,9 @@ module Uhuru
             Dir.mkdir product_dir
             versions_manifest_id = product_details['blobstore_id']
             versions_manifest_yaml_file = File.join(product_dir, 'manifest.yml')
-
             if (versions_manifest_id != nil) && (get_blobstore_client.exists?(versions_manifest_id))
               versions_manifest_temp_file = "#{versions_manifest_yaml_file}.tmp"
-              File.open(versions_manifest_temp_file, "w") do |file|
-                get_blobstore_client.get(versions_manifest_id, file)
-              end
-
+              Uhuru::BoshCommander::URMHelper.copy_manifest(product_name, "#{product_name}_manifest.yml", versions_manifest_temp_file)
               versions_info = YAML.load_file(versions_manifest_temp_file)
               versions_info['versions'].each do |_, version|
                 unless get_blobstore_client.exists?(version['location']['object_id'])

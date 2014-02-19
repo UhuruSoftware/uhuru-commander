@@ -72,8 +72,8 @@ module Uhuru::BoshCommander
           sleep 1
           retry if (attempts -= 1) > 0
         end
-        err e
-        raise e
+        err ex
+        raise ex
       end
     end
 
