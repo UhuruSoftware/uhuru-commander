@@ -81,21 +81,18 @@ module Uhuru
           products_yaml['products'].each do |product_name, product_details|
             product_dir = File.join(temp_dir, product_name)
             Dir.mkdir product_dir
-            versions_manifest_id = product_details['blobstore_id']
             versions_manifest_yaml_file = File.join(product_dir, 'manifest.yml')
-            if (versions_manifest_id != nil) && (get_blobstore_client.exists?(versions_manifest_id))
-              versions_manifest_temp_file = "#{versions_manifest_yaml_file}.tmp"
-              Uhuru::BoshCommander::URMHelper.copy_manifest(product_name, "#{product_name}_manifest.yml", versions_manifest_temp_file)
-              versions_info = YAML.load_file(versions_manifest_temp_file)
-              versions_info['versions'].each do |_, version|
-                unless get_blobstore_client.exists?(version['location']['object_id'])
-                  version['location']['missing'] = true
-                end
+            versions_manifest_temp_file = "#{versions_manifest_yaml_file}.tmp"
+            Uhuru::BoshCommander::URMHelper.copy_manifest(product_name, "#{product_name}_manifest.yml", versions_manifest_temp_file)
+            versions_info = YAML.load_file(versions_manifest_temp_file)
+            versions_info['versions'].each do |_, version|
+              unless get_blobstore_client.exists?(version['location']['object_id'])
+                version['location']['missing'] = true
               end
+            end
 
-              File.open(versions_manifest_yaml_file, "w") do |file|
-                file.write versions_info.to_yaml
-              end
+            File.open(versions_manifest_yaml_file, "w") do |file|
+              file.write versions_info.to_yaml
             end
           end
 
