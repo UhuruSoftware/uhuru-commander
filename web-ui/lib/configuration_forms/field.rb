@@ -233,7 +233,7 @@ module Uhuru::BoshCommander
           $logger.error("Error evaluating field '#{html_form_id}' - #{ex.message}: #{ex.backtrace}")
           raise "Error evaluating field '#{html_form_id}'"
         end
-        exotic_value = get_exotic_value(value)
+        exotic_value = get_exotic_value(value, value_type)
         result = exotic_value != nil ? exotic_value : value
       elsif value_type == GenericForm::VALUE_TYPE_FORM
         value = data[html_form_id]
@@ -501,7 +501,7 @@ END_OF_MESSAGE
 
     # This method is called when we want to show values on the form
     #
-    def get_exotic_value(value)
+    def get_exotic_value(value, value_type)
       result = nil
       begin
         if @form.name == 'infrastructure'

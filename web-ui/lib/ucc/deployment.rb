@@ -425,8 +425,8 @@ module Uhuru::BoshCommander
       total_ram = 0
       total_disk = 0
 
-      resource_pool_size = resource_pool["size"].to_i
       deployment_manifest["resource_pools"].each do |resource_pool|
+        resource_pool_size = resource_pool["size"].to_i
         total_cpu +=  resource_pool["cloud_properties"]["cpu"].to_i * resource_pool_size
         total_ram += resource_pool["cloud_properties"]["ram"].to_i * resource_pool_size
         total_disk += (get_stemcell_disk(resource_pool["stemcell"]) + resource_pool["cloud_properties"]["disk"].to_i) * resource_pool_size
