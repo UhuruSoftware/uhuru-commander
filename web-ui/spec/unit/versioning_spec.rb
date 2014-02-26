@@ -2,55 +2,55 @@ require "rspec"
 require 'fileutils'
 require File.expand_path("../../spec_helper.rb", __FILE__)
 
-describe 'Blobstore client' do
-  before(:each) do
-    load_config
-  end
+#describe 'Blobstore client' do
+#  before(:each) do
+#    load_config
+#  end
 
-  it 'should retrieve products manifest from blobstore' do
-    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
-    FileUtils.rm_rf $config[:versioning][:dir]
-    Uhuru::BoshCommander::Versioning::Product.download_manifests
+  # it 'should retrieve products manifest from blobstore' do
+  #   $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+  #   FileUtils.rm_rf $config[:versioning][:dir]
+  #   Uhuru::BoshCommander::Versioning::Product.download_manifests
 
-    File.exist?(File.join($config[:versioning][:dir], 'products.yml')).should == true
-  end
+  #   File.exist?(File.join($config[:versioning][:dir], 'products.yml')).should == true
+  # end
 
-  it 'should download version bits locally' do
-    Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
-      $config[:versioning][:dir] = "/tmp/dummy_dir2/"
-      FileUtils.rm_rf $config[:versioning][:dir]
-      Uhuru::BoshCommander::Versioning::Product.download_manifests
-      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+  # it 'should download version bits locally' do
+  #   Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+  #     $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+  #     FileUtils.rm_rf $config[:versioning][:dir]
+  #     Uhuru::BoshCommander::Versioning::Product.download_manifests
+  #     Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
 
-      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_LOCAL
-    end
+  #     Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_LOCAL
+  #   end
 
-  end
-end
+  #end
+#end
 
-describe 'Bits Management' do
-  it 'should delete local bits for a version properly, if there are no deployments' do
-    Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
+#describe 'Bits Management' do
+  #it 'should delete local bits for a version properly, if there are no deployments' do
+    # Uhuru::BoshCommander::CommanderBoshRunner.execute(session) do
 
-      $config[:versioning][:dir] = "/tmp/dummy_dir2/"
-      FileUtils.rm_rf $config[:versioning][:dir]
-      Uhuru::BoshCommander::Versioning::Product.download_manifests
-      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
-      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits
+    #   $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+    #   FileUtils.rm_rf $config[:versioning][:dir]
+    #   Uhuru::BoshCommander::Versioning::Product.download_manifests
+    #   Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].download_from_blobstore.join
+    #   Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits
 
-      Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
-    end
+    #   Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].get_state.should == Uhuru::BoshCommander::Versioning::STATE_REMOTE_ONLY
+    # end
 
-  end
+  #end
 
-  it 'should not allow deletion of local bits for a version that is in use' do
-    $config[:versioning][:dir] = "/tmp/dummy_dir2/"
-    FileUtils.rm_rf $config[:versioning][:dir]
-    Uhuru::BoshCommander::Versioning::Product.download_manifests
+  # it 'should not allow deletion of local bits for a version that is in use' do
+  #   $config[:versioning][:dir] = "/tmp/dummy_dir2/"
+  #   FileUtils.rm_rf $config[:versioning][:dir]
+  #   Uhuru::BoshCommander::Versioning::Product.download_manifests
 
-    expect { Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits }.to raise_error
-  end
-end
+  #   expect { Uhuru::BoshCommander::Versioning::Product.get_products['ucc'].versions['0.0.1'].delete_bits }.to raise_error
+  # end
+#end
 
 describe "Product loading from configuration" do
 
