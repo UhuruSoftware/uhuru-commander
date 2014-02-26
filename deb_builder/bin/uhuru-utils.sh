@@ -163,7 +163,7 @@ GEM_HOME=/var/vcap/store/ucc/web-ui/gem_home
 /var/vcap/packages/ruby/bin/bundle install --local --path /var/vcap/store/ucc/web-ui/gem_home
 
 if [ ! -f /var/vcap/store/ucc/web-ui/config/properties.yml ]; then
-    erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
+    /var/vcap/packages/ruby/bin/erb -r securerandom /var/vcap/store/ucc/web-ui/config/properties.yml.erb > /var/vcap/store/ucc/web-ui/config/properties.yml
 fi
 
 echo -e "\nversion: ${VERSION}" > /var/vcap/store/ucc/web-ui/config/version.yml
