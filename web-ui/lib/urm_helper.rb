@@ -12,7 +12,7 @@ module Uhuru::BoshCommander
       @username, sep, @endpoint = @userhost.partition("@")
       @port = `ssh #{@userhost} "cat ~/.urm_port"`
       @urm_home_dir = `ssh #{@userhost} "echo ~"`.gsub("\n", '')
-
+      @urm_home_dir = "#{@urm_home_dir}/"
     end
 
     # ssh on urm machine, make a local http get to create the manifest and copy manifest to destination
