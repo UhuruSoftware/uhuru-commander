@@ -2,7 +2,7 @@ module Uhuru::BoshCommander
   class URMHelper
 
     class << self;
-      attr_accessor :username, :endpoint, :port
+      attr_accessor :username, :endpoint, :port, :urm_home_dir
     end
 
     def self.initialize
@@ -10,7 +10,9 @@ module Uhuru::BoshCommander
 
       @userhost = @userhost.gsub("\n",'')
       @username, sep, @endpoint = @userhost.partition("@")
-      @port = `cat ~/.urm_port`
+      @port = `ssh #{@userhost} "cat ~/.urm_port"`
+      @urm_home_dir = `ssh #{@userhost} "echo ~"`.gsub("\n", '')
+
     end
 
     # ssh on urm machine, make a local http get to create the manifest and copy manifest to destination

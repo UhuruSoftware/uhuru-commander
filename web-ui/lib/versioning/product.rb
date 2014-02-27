@@ -57,7 +57,7 @@ module Uhuru
         # returns the blobstore client
         def self.get_blobstore_client
           bsc_provider= "sftp"
-          bsc_options= {:endpoint => Uhuru::BoshCommander::URMHelper.endpoint, :user => Uhuru::BoshCommander::URMHelper.username, :blobstore_path => File.join(Dir.home, "/")}
+          bsc_options= {:endpoint => Uhuru::BoshCommander::URMHelper.endpoint, :user => Uhuru::BoshCommander::URMHelper.username, :blobstore_path => Uhuru::BoshCommander::URMHelper.urm_home_dir}
           Bosh::Blobstore::Client.create(bsc_provider, bsc_options)
         end
 
