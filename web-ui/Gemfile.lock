@@ -1,7 +1,7 @@
 GIT
   remote: git@github.com:UhuruSoftware/private-bosh.git
-  revision: 7129a197654c110727ce7b2c435d8ba4012d66ff
-  ref: 7129a197654c110727ce7b2c435d8ba4012d66ff
+  revision: 062cb925b2a14a0e4eed9ed0803bbc40dc993533
+  ref: 062cb925b2a14a0e4eed9ed0803bbc40dc993533
   specs:
     agent_client (1.1868.0)
       httpclient (= 2.2.4)
@@ -232,8 +232,8 @@ GEM
       tilt (~> 1.3, >= 1.3.4)
     sinatra-session (1.0.0)
       sinatra (>= 1.0)
-    sqlite3 (1.3.8)
-    sqlite3 (1.3.8-x86-mingw32)
+    sqlite3 (1.3.9)
+    sqlite3 (1.3.9-x86-mingw32)
     steno (1.2.2)
       fluent-logger
       grape
