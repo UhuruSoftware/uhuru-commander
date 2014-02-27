@@ -165,20 +165,18 @@ module Uhuru
             FileUtils.mkdir_p version_dir
 
             if blobstore_client.exists?(blobstore_id)
-              open_mode = "wb"
               retry_count = 0
               done = false
 
               while !done && retry_count < 5
-                File.open(bits_full_local_path_dl, open_mode) do |file|
+                File.open(bits_full_local_path_dl, "wb") do |file|
                   begin
                     blobstore_client.get(blobstore_id, file)
                     location_size_value = @location['size']
-                    raise "Download interruped for #{blobstore_id} at #{file.size} bytes out of #{location_size_value} bytes." if file.size < location_size_value
+                    raise "Download interrupted for #{blobstore_id} at #{file.size} bytes out of #{location_size_value} bytes." if file.size < location_size_value
 
                     done = true
                   rescue => ex
-                    open_mode = "ab"
                     retry_count += 1
                     $logger.warn "There was an error while downloading #{product.name} v#{version}. Retrying... ##{retry_count}. Error was #{ex.to_s}"
                     sleep 5
