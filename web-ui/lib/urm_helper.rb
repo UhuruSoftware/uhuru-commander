@@ -18,7 +18,7 @@ module Uhuru::BoshCommander
     # ssh on urm machine, make a local http get to create the manifest and copy manifest to destination
     #
     def self.copy_manifest(endpoint_name, manifest_name,destination_path)
-      `ssh #{@userhost} "curl --interface lo http://localhost:#{@port}/#{@username}/#{endpoint_name} 2>/dev/null"`
+      `ssh #{@userhost} "curl --interface lo http://127.0.0.1:#{@port}/#{@username}/#{endpoint_name} 2>/dev/null"`
 
       `rsync -avz -e ssh #{@userhost}:~/#{manifest_name} #{destination_path}`
 
