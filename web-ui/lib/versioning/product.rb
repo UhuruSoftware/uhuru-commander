@@ -68,11 +68,12 @@ module Uhuru
         def self.download_manifests
           dir = Product.version_directory
           temp_dir = Dir.mktmpdir
-          products_yaml_file = File.join(temp_dir, 'products.yml')
+          products_yaml_file = File.join(temp_dir, BLOBSTORE_ID_PRODUCTS)
+          products_temp_file = File.join(temp_dir, "#{BLOBSTORE_ID_PRODUCTS}.tmp")
+          
+          Uhuru::BoshCommander::URMHelper.copy_manifest("products", BLOBSTORE_ID_PRODUCTS, products_temp_file)
 
-          if get_blobstore_client.exists?(BLOBSTORE_ID_PRODUCTS)
-            products_temp_file = "#{products_yaml_file}.tmp"
-            Uhuru::BoshCommander::URMHelper.copy_manifest("products", "products.yml", products_temp_file)
+          if File.exists?(products_temp_file)
             FileUtils.mv(products_temp_file, products_yaml_file)
           end
 
