@@ -206,8 +206,8 @@ module Uhuru
                 else
                   FileUtils.mv bits_full_local_path_dl, bits_full_local_path, :force => true
                 end
-              rescue
-                $logger.error "Could not unpack #{product.name} v#{version}."
+              rescue => ex
+                $logger.error "Could not unpack #{product.name} v#{version}: #{ex.message} - #{ex.backtrace}."
                 FileUtils.rm_f bits_full_local_path_unpacked
                 FileUtils.rm_f bits_full_local_path
                 FileUtils.rm_f bits_full_local_path_dl
