@@ -6,17 +6,11 @@ function start()
 {
   echo "Starting UCC ..."
 
-    for session in $(screen -ls | grep -o '[0-9]*\.commander_screen'); do screen -S "${session}" -X quit; done
+  for session in $(screen -ls | grep -o '[0-9]*\.commander_screen'); do screen -S "${session}" -X quit; done
 
-  screen -dmS commander_screen -s /bin/bash
-
-  screen -S commander_screen -p 0 -X stuff "
-cd /var/vcap/store/ucc/web-ui/bin
-BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile HOME=/root PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/var/vcap/packages/ruby/bin" /var/vcap/packages/ruby/bin/bundle exec /var/vcap/packages/ruby/bin/ruby boshcommander 1>/var/vcap/store/ucc/ucc.stdout.log 2>/var/vcap/store/ucc/ucc.stderr.log
-exit
-"
-
+  screen -S commander_screen -d -m bash -c  "cd /var/vcap/store/ucc/web-ui/bin ; BUNDLE_GEMFILE=/var/vcap/store/ucc/web-ui/Gemfile HOME=/root PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/var/vcap/packages/ruby/bin /var/vcap/packages/ruby/bin/bundle exec /var/vcap/packages/ruby/bin/ruby boshcommander 1>/var/vcap/store/ucc/ucc.stdout.log 2>/var/vcap/store/ucc/ucc.stderr.log ; exit"
 }
+
 
 function stop()
 {
