@@ -6,6 +6,8 @@ function start()
 {
   echo "Starting UCC ..."
 
+    for session in $(screen -ls | grep -o '[0-9]*\.commander_screen'); do screen -S "${session}" -X quit; done
+
   screen -dmS commander_screen -s /bin/bash
 
   screen -S commander_screen -p 0 -X stuff "
@@ -18,14 +20,17 @@ exit
 
 function stop()
 {
+    echo "Stopping UCC ..."
+
+    for session in $(screen -ls | grep -o '[0-9]*\.commander_screen'); do screen -S "${session}" -X quit; done
+
   [ ! -e $pidfile ] &&
     {
     echo "Can't find pid file. Are you sure UCC is running ?"
     } ||
     {
-    echo "Stopping UCC ..."
 
-    for session in $(screen -ls | grep -o '[0-9]*\.commander_screen'); do screen -S "${session}" -X quit; done
+
 
     kill -9 `cat $pidfile`
     rm -f $pidfile
