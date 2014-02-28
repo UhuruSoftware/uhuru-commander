@@ -1,7 +1,7 @@
 GIT
   remote: git@github.com:UhuruSoftware/private-bosh.git
-  revision: 388d53aa7c443622a1b8c52be42ad5a1357aeb2c
-  ref: 388d53aa7c443622a1b8c52be42ad5a1357aeb2c
+  revision: 493df1bfb32d45b4cd75e7dd88969c1ad8070b28
+  ref: 493df1bfb32d45b4cd75e7dd88969c1ad8070b28
   specs:
     agent_client (1.1868.0)
       httpclient (= 2.2.4)
