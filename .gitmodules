@@ -1,6 +1,6 @@
 [submodule "modules/private-tty.js"]
 	path = modules/private-tty.js
-	url = git@github.com:UhuruSoftware/private-tty.js.git
+	url = git@github.com:UhuruSoftware/tty.js.git
 [submodule "modules/private-bosh"]
 	path = modules/private-bosh
-	url = git@github.com:UhuruSoftware/private-bosh.git
+	url = git@github.com:UhuruSoftware/bosh.git
