@@ -254,6 +254,7 @@ DEPENDENCIES
   ip
   ipaddress
   ipadmin
+  membrane
   net-ssh-gateway (= 1.1.0)
   netaddr
   nokogiri (= 1.5.5)

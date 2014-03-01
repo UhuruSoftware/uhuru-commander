@@ -29,5 +29,6 @@ gem "blobstore_client", :git => 'git@github.com:UhuruSoftware/private-bosh.git',
 gem "archive-tar-minitar", "~> 0.5.2"
 gem "plugin_manager", "~> 1.5"
 
+gem "membrane"
 gem "crack"
 gem "nokogiri", "=1.5.5"
