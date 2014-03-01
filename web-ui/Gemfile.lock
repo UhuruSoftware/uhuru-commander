@@ -136,7 +136,6 @@ GEM
     json (1.8.1)
     json_pure (1.8.1)
     log4r (1.1.10)
-    membrane (0.0.5)
     mime-types (2.1)
     minitar (0.5.4)
     msgpack (0.5.8)
