@@ -22,8 +22,6 @@ nagios:
 
 bosh:
   target: "https://127.0.0.1"
-  #base_dir: "/home/mitza/testing/assets/vcap"
-  #base_dir: "/home/vladi/tmp/testing/assets/vcap"
   base_dir: "/var/vcap"
   infrastructure: "vsphere"
   stemcells:

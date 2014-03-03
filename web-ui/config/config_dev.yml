@@ -7,7 +7,7 @@ dev-mode: true
 test_email: test@uhurusoftware.com
 
 versioning:
-  dir: /tmp/vlad_versions/
+  dir: /tmp/versions/
   refresh_rate: 5
 
 bosh_commander: 
