@@ -50,11 +50,13 @@ module Uhuru::BoshCommander
 
     # the post method for the login page (performs the login action)
     post '/login' do
-      session['user_name'] = params[:username]
       session[:new_versions] = false
       command, _, _ = login
 
       if command.logged_in?
+        # if session username is not nil will enable the user pages
+        session['user_name'] = params[:username]
+
         stemcell_cmd = Bosh::Cli::Command::Stemcell.new
         stemcell_cmd.instance_variable_set("@config", command.instance_variable_get("@config"))
         session['command_stemcell'] = stemcell_cmd
@@ -80,9 +82,6 @@ module Uhuru::BoshCommander
         end
       else
         message = "Cannot log in as '#{params[:username]}'"
-        # clear sessions if the login fails
-        session['user_name'] = nil
-        session[:new_versions] = nil
 
         render_erb do
           template :login
