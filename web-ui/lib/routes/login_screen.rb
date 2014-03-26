@@ -80,6 +80,9 @@ module Uhuru::BoshCommander
         end
       else
         message = "Cannot log in as '#{params[:username]}'"
+        # clear sessions if the login fails
+        session['user_name'] = nil
+        session[:new_versions] = nil
 
         render_erb do
           template :login
