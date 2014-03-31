@@ -263,11 +263,10 @@ module Uhuru::BoshCommander
       @error = ''
       @error = validate_data_type(value_type)
 
-      no_error = @error == ''
-      if no_error
+      if @error == ''
         @error = validate_value(value_type)
       end
-      no_error
+      (@error == '')
     end
 
     # Gets the html form id of the field
