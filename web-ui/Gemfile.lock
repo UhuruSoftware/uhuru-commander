@@ -1,7 +1,7 @@
 GIT
-  remote: git@github.com:UhuruSoftware/private-bosh.git
-  revision: 6c8ec249d286d40f0d7de771e1a922dada5652d6
-  ref: 6c8ec249d286d40f0d7de771e1a922dada5652d6
+  remote: https://github.com/UhuruSoftware/bosh.git
+  revision: 88c3cc7b25ec5df7098edd6de3adf74ec4750680
+  ref: 88c3cc7b25ec5df7098edd6de3adf74ec4750680
   specs:
     agent_client (1.1868.0)
       httpclient (= 2.2.4)
@@ -127,7 +127,7 @@ GEM
       nokogiri (~> 1.5)
       ruby-hmac
     formatador (0.2.4)
-    highline (1.6.20)
+    highline (1.6.21)
     http_parser.rb (0.6.0)
     httpclient (2.2.4)
     ip (0.3.1)
@@ -141,7 +141,7 @@ GEM
     minitar (0.5.4)
     msgpack (0.5.8)
     msgpack (0.5.8-x86-mingw32)
-    multi_json (1.8.4)
+    multi_json (1.10.0)
     multipart-post (2.0.0)
     nats (0.4.26)
       daemons (>= 1.1.5)

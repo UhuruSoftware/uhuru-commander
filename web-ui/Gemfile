@@ -13,8 +13,8 @@ gem "sinatra-session"
 gem "steno"
 gem "cfoundry"
 gem "yajl-ruby"
-gem "bosh_cli", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => '6c8ec249d286d40f0d7de771e1a922dada5652d6'
-gem "bosh_cli_plugin_micro", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => '6c8ec249d286d40f0d7de771e1a922dada5652d6'
+gem "bosh_cli", :git => 'https://github.com/UhuruSoftware/bosh.git', :ref => '88c3cc7b25ec5df7098edd6de3adf74ec4750680'
+gem "bosh_cli_plugin_micro", :git => 'https://github.com/UhuruSoftware/bosh.git', :ref => '88c3cc7b25ec5df7098edd6de3adf74ec4750680'
 gem "net-ssh-gateway", "= 1.1.0"
 gem "uuidtools"
 gem "sequel"
@@ -25,7 +25,7 @@ gem 'rack-test'
 gem "rack-reverse-proxy", :require => "rack/reverse_proxy"
 gem "rspec", "~>2.10"
 gem "rake"
-gem "blobstore_client", :git => 'git@github.com:UhuruSoftware/private-bosh.git', :ref => '6c8ec249d286d40f0d7de771e1a922dada5652d6'
+gem "blobstore_client", :git => 'https://github.com/UhuruSoftware/bosh.git', :ref => '88c3cc7b25ec5df7098edd6de3adf74ec4750680'
 gem "archive-tar-minitar", "~> 0.5.2"
 gem "plugin_manager", "~> 1.5"
 
